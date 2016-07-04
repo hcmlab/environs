@@ -25,6 +25,8 @@
 ## CodeBlocks
 *.depend
 *.layout
+*.save
+bin64/core
 
 ## Windows
 ## ignore thumbnails created by windows

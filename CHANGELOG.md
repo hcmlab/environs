@@ -1,3 +1,19 @@
+### v 0.9.9.1
+
+---------------------------
+
+* Fixed: Bug in configuration file parsing
+* Added: WifiObserver plugin for win32
+* Reworked: Sensor layer
+* Added: SetUseWifiObserver/GetUseWifiObserver, SetUseBtObserver/GetUseBtObserver to Environs object
+* Updated: Wifi observer (Windows, OSX)
+* Added: Android platform layer with AddObserverForSensorData / RemoveObserverForSensorData
+* Added: IsSensorAvailable to Environs object to query sensor availability before subscribing
+* Added: SetSensorEvent to Environs object to subscribe to sensor data from ourself
+* Updated: EnvironsSensorObserver
+* Fixed: Race condition in connect process
+
+
 ### v 0.9.9.0
 
 ---------------------------

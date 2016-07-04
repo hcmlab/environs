@@ -1,5 +1,5 @@
 /**
- * Interface for a portal encoder/compressor 
+ * Interface for a portal encoder/compressor
    (create transport packages)
  * ------------------------------------------------------------------
  * Copyright (c) Chi-Tai Dang
@@ -27,7 +27,7 @@
 
 
 
-namespace environs 
+namespace environs
 {
 	/**
 	*	Interface for a portal encoder/compressor (create transport packages)
@@ -40,19 +40,20 @@ namespace environs
 	DeclareEnvironsInterface ( IPortalEncoder )
 
 	public:
-		/** 
+		/**
 		* Default constructor
-		*	@comment: 
+		*	@comment:
 		*/
 		IPortalEncoder () :
 			/** Base class initialization */
 			IEnvironsBase ( InterfaceType::Encoder ),
 
 			/** Default initialization */
-			inBufferType ( EncoderBufferType::ARGB ), width ( 0 ), height ( 0 ), avContext ( 0 ), encodedType ( 0 ),
-            iFrameFPSMode ( false ), iFrameRequest ( false ), frameCounter ( 0 ), stages ( 0 ), sendID ( -1 ), requireSendID ( false )
+			inBufferType ( EncoderBufferType::ARGB ), stages ( 0 ), iFrameFPSMode ( false ), iFrameRequest ( false ),
+            width ( 0 ), height ( 0 ), frameCounter ( 0 ), avContext ( 0 ), encodedType ( 0 ),
+            requireSendID ( false ), sendID ( -1 )
             { };
-    
+
 		virtual ~IPortalEncoder () {};
 
 		virtual bool							Init ( int deviceID, int EncoderProps, int Width, int Height, int FrameRate ) = 0;
@@ -61,8 +62,8 @@ namespace environs
         virtual int								Perform ( RenderContext * context ) = 0;
         virtual int								Perform () { return 0; };
 
-		EncoderBufferType::EncoderBufferType	inBufferType;
-    
+		EncoderBufferType_t						inBufferType;
+
         void								*	stages;
 
         bool                                    iFrameFPSMode;
@@ -74,14 +75,14 @@ namespace environs
 
         void								*	avContext;
 		int                                     encodedType;
-    
+
         bool                                    requireSendID;
         int                                     sendID;
 
 		virtual int								EncodeARGB ( char * source, char * &output, RenderContext * context ) { return 0; };
 		virtual int								EncodeBGRA ( char * source, char * &output, RenderContext * context ) { return 0; };
-		virtual int								EncodeI420 ( void * yuvdata, char * &output, RenderContext * context ) { return 0; };
-		
+		virtual int								EncodeI420 ( char * yuvdata, char * &output, RenderContext * context ) { return 0; };
+
 	EndInterface
 
 		extern bool								ResizeBuffer ( RenderContext * context, unsigned int payloadSize );

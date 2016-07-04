@@ -25,6 +25,12 @@
 #define DeclareEnvironsInterface(interfacename) EnvironsInterface interfacename : implements IEnvironsBase { \
 	public:
 
+#define DeclareEnvironsIdentInterface(interfacename) EnvironsInterface interfacename : implements IEnvironsIdent { \
+	public:
+
+
+#ifdef __cplusplus
+
 
 namespace environs
 {
@@ -36,24 +42,26 @@ namespace environs
 	{
 	public:
 		/** Constructor */
-		IEnvironsBase ( InterfaceType::InterfaceType type ) : IEnvironsIdent ( type ),
+		IEnvironsBase ( InterfaceType_t type ) : IEnvironsIdent ( type ),
 			/**
 			* Initialize interface members
 			* */
-			outputType ( PortalBufferType::Unknown ), outputTypes ( 0 ), outputTypesLength ( 0 ),
+			outputType ( PortalBufferType_Unknown ), outputTypes ( 0 ), outputTypesLength ( 0 ),
 			inputType ( PortalBufferType::Unknown ), inputTypes ( 0 ), inputTypesLength ( 0 ) 
 		{};
 
 		virtual ~IEnvironsBase () {};
 
 
-		PortalBufferType::PortalBufferType		outputType;
-		PortalBufferType::PortalBufferType	*	outputTypes;
+		PortalBufferType_t		outputType;
+		PortalBufferType_t	*	outputTypes;
 		unsigned int							outputTypesLength;
+		virtual bool							ApplyOutput () { return true; };
 
-		PortalBufferType::PortalBufferType		inputType;
-		PortalBufferType::PortalBufferType	*	inputTypes;
+		PortalBufferType_t		inputType;
+		PortalBufferType_t	*	inputTypes;
 		unsigned int							inputTypesLength;
+		virtual bool							ApplyInput () { return true; };
 
 	};
 
@@ -61,6 +69,10 @@ namespace environs
 	extern bool ConnectModules ( IEnvironsBase * src, IEnvironsBase * dst );
 
 }
+
+#endif
+
+
 
 #endif	/// -> INCLUDE_HCM_ENVIRONS_BASE_INTERFACE_H
 

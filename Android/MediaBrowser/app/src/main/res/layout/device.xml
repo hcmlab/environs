@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test_layout"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+                android:background="@drawable/hcmbg">
+    
+    <TextView
+        android:id="@+id/textDeviceName"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:textColor="@color/greenText"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge" >        
+        <requestFocus />
+    </TextView>
+    
+    <RadioButton 
+        android:id="@+id/IsConnected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textDeviceName"
+        />
+    
+    <TextView
+        android:id="@+id/textIsConnected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/IsConnected"
+        android:layout_alignBaseline="@+id/IsConnected"
+        android:textColor="@color/greenText"
+        android:text="@string/isConnected"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <RadioButton 
+        android:id="@+id/IsNearby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textIsConnected"
+        android:layout_alignBaseline="@+id/IsConnected"
+        android:layout_marginLeft="16dp"
+        android:layout_below="@+id/textDeviceName"
+        />
+    
+    <TextView
+        android:id="@+id/textIsNearby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/IsNearby"
+        android:layout_alignBaseline="@+id/IsNearby"
+        android:textColor="@color/greenText"
+        android:text="@string/sameNetwork"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    
+    <TextView
+        android:id="@+id/textAppp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/IsConnected"
+        android:textColor="@color/greenText"
+        android:text="@string/App"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textAppp"
+        android:layout_alignBaseline="@+id/textAppp"
+        android:textColor="@color/greenText"
+        android:text="@string/dashes"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textAreap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textApp"
+        android:layout_alignBaseline="@+id/textAppp"
+        android:textColor="@color/greenText"
+        android:layout_marginLeft="16dp"
+        android:text="@string/Area"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textAreap"
+        android:layout_alignBaseline="@+id/textAreap"
+        android:textColor="@color/greenText"
+        android:text="@string/dashes"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textIPp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textAppp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/greenText"
+        android:text="@string/IP"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textIP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textIPp"
+        android:layout_alignBaseline="@+id/textIPp"
+        android:textColor="@color/greenText"
+        android:text="@string/emptyIP"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textIPExtp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textIP"
+        android:layout_alignBaseline="@+id/textIPp"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/greenText"
+        android:text="@string/Ext"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/textIPExt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textIPExtp"
+        android:layout_alignBaseline="@+id/textIPp"
+        android:textColor="@color/greenText"
+        android:text="@string/emptyIP"
+        android:textAppearance="?android:attr/textAppearanceMedium" />    
+
+	<ProgressBar
+	    android:id="@+id/progressBar1"
+	    style="?android:attr/progressBarStyleHorizontal"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginLeft="2dp"
+	    android:layout_marginTop="2dp"
+	    android:indeterminate="false"
+	    android:max="100"
+	    android:minHeight="10dp"
+	    android:minWidth="200dp"
+        android:layout_below="@+id/textIPp"
+	    android:progress="1" />
+
+    <LinearLayout
+        android:id="@+id/buttons1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/progressBar1"
+        android:layout_marginTop="10dp"
+        android:layout_height="72dp" >
+
+
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:layout_width="0dp"
+            android:textColor="@color/greenText"
+            android:text="@string/Connect">
+        </Button>
+
+        <Button
+            android:id="@+id/button_portal"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/greenText"
+            android:enabled="false"
+            android:text="@string/PortalIn" />
+
+        <Button
+            android:id="@+id/button_portalOut"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/greenText"
+            android:enabled="false"
+            android:text="@string/PortalOut" />
+
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/greenText"
+            android:enabled="false"
+            android:text="@string/Test" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/TextViewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/buttons1"
+        android:textColor="@color/greenText"
+        android:text="@string/Message"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <EditText
+        android:id="@+id/MessageToSend"
+        android:layout_width="wrap_content"
+        android:layout_height="128dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttons1"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="@color/greenText"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/greenText"
+        android:layout_below="@+id/MessageToSend"
+        android:text="@string/sendText" />
+    
+    
+    <Button
+        android:id="@+id/button_sendFile"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/greenText"
+        android:layout_below="@+id/button_send"
+        android:text="@string/sendFile" />
+    
+    
+    <Button
+        android:id="@+id/button_takePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/greenText"
+        android:layout_below="@+id/button_sendFile"
+        android:text="@string/takePicture" />
+   
+    <Button
+        android:id="@+id/button_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/greenText"
+        android:layout_below="@+id/button_takePicture"
+        android:text="@string/gallery" />
+
+</RelativeLayout>

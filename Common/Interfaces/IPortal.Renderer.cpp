@@ -18,6 +18,13 @@
  * --------------------------------------------------------------------
  */
 #include "stdafx.h"
+
+/// Compiler flag that enables verbose debug output
+#ifndef NDEBUG
+//#   define DEBUGVERB
+//#   define DEBUGVERBVerb
+#endif
+
 #include "Interfaces/IPortal.Renderer.h"
 
 // The TAG for prepending in log messages
@@ -25,7 +32,7 @@
 
 namespace environs
 {	
-	bool IPortalRenderer::Init ( unsigned int _deviceID, void * _parent, void * appWindow ) {
+	bool IPortalRenderer::Init ( int _deviceID, void * _parent, void * appWindow ) {
 		deviceID		= _deviceID;
 		parent			= _parent;
 		hAppWindow		= appWindow;

@@ -47,39 +47,41 @@ namespace environs
 			IEnvironsBase ( InterfaceType::Tracker ),
 
 			/** Default initialization */
-			dataSize ( 0 ), width ( 0 ), height ( 0 ), channels ( 0 ), stride ( 0 ) 
+            hEnvirons ( 0 ), trackerID ( -1 ), initialized ( false ), buffersInitialized ( false ),
+            started ( false ), tracking ( false ),
+            dataSize ( 0 ), bpP ( 1 ), width ( 0 ), height ( 0 ), channels ( 0 ), stride ( 0 )
 		{};
 
 		virtual ~ITracker ( ) {};
 
 		/** IsValid verifies whether the current platform is valid, that is the platform that this tracker is designed for. */
-		virtual bool							IsRuntimeSupported ( unsigned int platform, unsigned int sdks ) = 0;
+		virtual bool		IsRuntimeSupported ( unsigned int platform, unsigned int sdks ) = 0;
 
 		/** Interface initializer. Do not override this method. Init () is called at the end of the Interface initializer */
-		int										Init ( unsigned int Width, unsigned int Height, unsigned int Channels, unsigned int Stride ) {
-													width = Width;
-													height = Height;
-													channels = Channels;
-													stride = Stride;
+int							Init ( unsigned int Width, unsigned int Height, unsigned int Channels, unsigned int Stride ) {
+								width = Width;
+								height = Height;
+								channels = Channels;
+								stride = Stride;
 
-													return Init ();
-												}
+								return Init ();
+							}
 
-		virtual int								Init ( ) = 0;
-		virtual void							Release ( ) = 0;
+		virtual int			Init ( ) = 0;
+		virtual void		Release ( ) = 0;
 
 		/**
 		* Start is called by the framework in order to initialize the tracker and start the resources.
 		*
 		* @return	status	2 = postponed (initialization and start will be handled at a later time); 1 = success (initialized and started); 0 = failed, do not exclude this tracker now; 
 		*/
-		virtual int								Start ( ) { return 0; };
-		virtual int								Stop ( ) { return 0; };
+		virtual int			Start ( ) { return 0; };
+		virtual int			Stop ( ) { return 0; };
 
-		virtual void							ReleaseResources () = 0;
-		virtual int								AllocateResources ( ) = 0;
+		virtual void		ReleaseResources () = 0;
+		virtual int			AllocateResources ( ) = 0;
 
-		virtual bool							Execute ( int command ) { return false; };
+		virtual bool		Execute ( int command ) { return false; };
 
 		/**
 		* Tracking.
@@ -88,13 +90,21 @@ namespace environs
 		*
 		* @return	status	1 = success; 0 = failed this time, error status is recoverable, so try again with next round; -1 = failed, skip this plugin for further procesing
 		*/
-		virtual int								Perform ( void * rawImage, unsigned int size ) = 0;
+		virtual int			Perform ( void * rawImage, unsigned int size ) = 0;
 				
-		unsigned int 							dataSize;
-		unsigned int 							width;
-		unsigned int 							height;
-		unsigned int 							channels;
-		unsigned int 							stride;
+        int                 hEnvirons;
+		int					trackerID;
+		bool                initialized;
+		bool				buffersInitialized;
+        bool                started;
+        bool                tracking;
+    
+		unsigned int 		dataSize;
+		int					bpP;
+		int 				width;
+		int 				height;
+		int 				channels;
+		int 				stride;
 
 	protected:
 

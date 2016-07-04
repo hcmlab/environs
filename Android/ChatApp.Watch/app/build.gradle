@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+
+Properties envProps = null
+
+if (file("$project.rootDir/../Environs/gradle.properties").exists()) {
+    envProps = new Properties()
+    envProps.load(new FileInputStream("$project.rootDir/../Environs/gradle.properties"))
+}
+
+android {
+    compileSdkVersion 22
+
+    if (envProps == null) {
+        buildToolsVersion "22.0.1"
+    }
+    else {
+        buildToolsVersion envProps.envbuildToolsVersion
+    }
+
+    defaultConfig {
+        applicationId "environs.ChatApp.Watch"
+        minSdkVersion 21
+        targetSdkVersion 22
+
+        if (envProps == null) {
+			version project.envVersion
+            versionCode Integer.parseInt(project.envRevision)
+            versionName project.envVersion
+        }
+        else {
+			version envProps.envVersion
+            versionCode Integer.parseInt(envProps.envRevision)
+            versionName envProps.envVersion
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile(name:'libEnvirons', ext:'aar')
+
+    compile 'com.google.android.support:wearable:1.2.0'
+    compile 'com.google.android.gms:play-services-wearable:7.5.0'
+}
+
+
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Simple.Console" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Src/;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../bin64/SimpleConsole-Linux" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin64" />
+				<Option object_output="SimpleConsole/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-DLINUX" />
+					<Add directory="../../Common" />
+				</Compiler>
+				<Linker>
+					<Add library="dl" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../../bin64/SimpleConsole-Linux" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin64" />
+				<Option object_output="SimpleConsole/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add option="-DLINUX" />
+					<Add directory="../../Common" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="dl" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../../Common/Environs.Loader.cpp">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Loader.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Windows/Simple.Console.CPP/Simple.Console.CPP.cpp">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Windows/Simple.Console.CPP/Simple.Console.CPP.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

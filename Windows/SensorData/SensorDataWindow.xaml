@@ -1,0 +1,81 @@
+﻿<Window x:Class="environs.Apps.SensorDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:environs;assembly=Environs.Addon"
+        Title="SensorData" Height="900.181" Width="1024"
+        >
+
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/hcmbg.jpg"></ImageBrush>
+    </Window.Background>
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical" Margin="5px" HorizontalAlignment="Stretch">
+
+                <StackPanel Orientation="Horizontal" x:Name="panelEnvirons" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <Ellipse Name="ellipseEnvStatus" Stroke="Black" Margin="12,12,8,12" Width="20" Height="10"/>
+
+                    <Button Content="Start" Height="23" Name="buttonEnvStartStop" Width="80" Click="buttonEnvStartStop_Click" 
+                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" x:Name="panelAccel" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <local:OscilloscopeSimple x:Name="accelView1" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="accelView2" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="accelView3" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" x:Name="panelMagnetic" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <local:OscilloscopeSimple x:Name="magneticView1" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="magneticView2" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="magneticView3" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" x:Name="panelGyro" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <local:OscilloscopeSimple x:Name="gyroView1" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="gyroView2" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="gyroView3" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" x:Name="panelOrientation" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <local:OscilloscopeSimple x:Name="orientationView1" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="orientationView2" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                    <local:OscilloscopeSimple x:Name="orientationView3" Width="250" Height="150" Margin="10,10,10,10"></local:OscilloscopeSimple>
+                </StackPanel>
+                
+            </StackPanel>
+
+            <DataGrid Name="userList" DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}"  HorizontalAlignment="Right"
+                      ItemsSource="{Binding Path=userCollection}" AutoGenerateColumns="False" Width="187" Height="600" VerticalAlignment="Top"
+                      Background="Transparent" RowBackground="Transparent" AlternatingRowBackground="Transparent" 
+                      Foreground="Yellow" BorderBrush="Transparent" GridLinesVisibility="None"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectedCellsChanged="userList_SelectedCellsChanged"
+
+                      HeadersVisibility="None" Margin="5,0,5,5">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Yellow" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Yellow" />
+                        </Style.Resources>
+                    </Style>
+                </DataGrid.Resources>
+                
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="192" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Height="36">
+                                    <TextBlock Text="{Binding Path=toString}" Background="Transparent" Margin="2" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </StackPanel>
+    </Grid>
+</Window>

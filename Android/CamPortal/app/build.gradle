@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+
+Properties envProps = null
+
+if (file("$project.rootDir/../Environs/gradle.properties").exists()) {
+    envProps = new Properties()
+    envProps.load(new FileInputStream("$project.rootDir/../Environs/gradle.properties"))
+}
+
+android {
+    compileSdkVersion 22
+
+    if (envProps == null) {
+        buildToolsVersion "22.0.1"
+    }
+    else {
+        buildToolsVersion envProps.envbuildToolsVersion
+    }
+
+    defaultConfig {
+        applicationId "environs.CamPortal"
+        minSdkVersion 17
+        targetSdkVersion 22
+
+        if (envProps == null) {
+			version project.envVersion
+            versionCode Integer.parseInt(project.envRevision)
+            versionName project.envVersion
+        }
+        else {
+			version envProps.envVersion
+            versionCode Integer.parseInt(envProps.envRevision)
+            versionName envProps.envVersion
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile(name:'libEnvirons', ext:'aar')
+
+//    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.0'
+}
+
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
+}

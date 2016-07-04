@@ -18,34 +18,51 @@
  
  * --------------------------------------------------------------------
  */
-#import <Foundation/Foundation.h>
-#include "Environs.platforms.h"
+#include "Environs.Platforms.h"
 
-#ifdef ENVIRONS_IOS
-//******** iOS *************
-#import <UIKit/UIKit.h>
+#if ( defined(ENVIRONS_IOS) || defined(ENVIRONS_OSX) )
 
-#else
-//******** OSX *************
-#import <Cocoa/Cocoa.h>
+#   import <Foundation/Foundation.h>
 
-#define UIView NSView
-#define UIEvent NSEvent
-#define UIGestureRecognizer NSGestureRecognizer
-
-#endif
+#   ifdef ENVIRONS_IOS
+        //******** iOS *************
+#       import <UIKit/UIKit.h>
+#   else
+        //******** OSX *************
+#       import <Cocoa/Cocoa.h>
+#       define UIView NSView
+#       define UIEvent NSEvent
+#       define UIGestureRecognizer NSGestureRecognizer
+#   endif
 
 typedef void (^TouchesEventEntity)(NSSet * touches, UIEvent * event);
 
 
+#ifdef __cplusplus
+
+namespace environs
+{
+    class Instance;
+}
+
+#endif
+
 @interface TouchListener : UIGestureRecognizer
 {
     TouchesEventEntity      touchesBeganCallback;
-    unsigned int            deviceID;
+    
+@public
+#ifdef __cplusplus
+    environs::Instance            *   env;
+#endif
+    
+    int                     hEnvirons;
 }
 
-- (void) updateView: (UIView *)view;
+- (void) UpdateView: (UIView *)view  Portal:(id)portal;
 
 @property(copy) TouchesEventEntity touchesBeganCallback;
 
 @end
+
+#endif

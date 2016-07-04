@@ -49,19 +49,23 @@ namespace environs
 			IEnvironsBase ( InterfaceType::Decoder ),
 
 			/** Default initialization */
-			avContext ( 0 ), decodeImage ( true ), outputRGBA ( true), width ( 0 ), height ( 0 ), stride ( 0),
-			avContextType ( DECODER_AVCONTEXT_TYPE_PIXELS ), avContextSubType ( ENVIRONS_AVCONTEXT_SUBTYPE_RGB ), avContextSize ( 0 )
+            renderCallback ( 0 ), renderCallbackType ( 0 ),
+            width ( 0 ), stride ( 0), height ( 0 ),
+			avContext ( 0 ), avContextTemp ( 0 ),
+            avContextType ( DECODER_AVCONTEXT_TYPE_PIXELS ), avContextSubType ( ENVIRONS_AVCONTEXT_SUBTYPE_RGB ), avContextSize ( 0 ),
+            decodeImage ( true ), frameType ( 0 ), outputRGBA ( true)
+    
 		{};
 
 		virtual ~IPortalDecoder () { ReleaseAVContext (); };
 
 		/** Interface initializer. Do not override this method. Init () is called at the end of the Interface initializer */
-		int										Init ( unsigned int deviceID ) {
-													this->deviceID	= deviceID;
+		int										Init ( int deviceIDa ) {
+													deviceID	= deviceIDa;
 													return Init ( );
         }
 
-        virtual void                            SetWidthHeight (int width, int stride, int height ) { this->width = width; this->height = height; this->stride = stride; };
+        virtual void                            SetWidthHeight ( int widtha, int stridea, int heighta ) { width = widtha; height = heighta; stride = stridea; };
     
         virtual bool                            InitType ( int type ) = 0;
     
@@ -74,7 +78,11 @@ namespace environs
 		virtual bool							SetRenderSurface ( void * penv, void * newSurface, int width, int height ) = 0;
 
         virtual void							ReleaseRenderSurface ( bool useLock ) = 0;
-		virtual ptRenderCallback				GetRenderCallback ( int &callbackType ) { return 0; };
+    
+        ptRenderCallback                        renderCallback;
+        int                                     renderCallbackType;
+		virtual ptRenderCallback				GetRenderCallback ( int &callbackType ) { return renderCallback; };
+    
 
 		/**
 		* Decode a frame.
@@ -97,6 +105,7 @@ namespace environs
         int                                     height;
     
         void								*	avContext;
+        void								*	avContextTemp;
         int                                     avContextType;
         int                                     avContextSubType;
         int                                     avContextSize;

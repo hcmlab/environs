@@ -23,8 +23,13 @@
 #ifndef INCLUDE_HCM_ENVIRONS_INTERFACE_IDENTIFICATION_H
 #define	INCLUDE_HCM_ENVIRONS_INTERFACE_IDENTIFICATION_H
 
-namespace environs 
+#ifdef __cplusplus
+
+namespace environs
 {
+    class Instance;
+    
+    
 	/**
 	* IEnvironsIdent
 	*
@@ -33,29 +38,31 @@ namespace environs
 	{
 	public:
 		/** Constructor */
-		IEnvironsIdent ( InterfaceType::InterfaceType type ) :
+		IEnvironsIdent ( InterfaceType_t type ) :
 			/**
 			 * Initialize interface members
 			 * */
 			 interfaceType ( type ), name ( "Unknown" ), enabled ( false ), initialized ( false ), deviceID ( 0 ), 
-			 modName ( 0 ), hModLib ( 0 ), envLib ( 0 )
+			 modName ( 0 ), hModLib ( 0 ), env ( 0 )
 		{};
 
 		virtual ~IEnvironsIdent ( ) {};
 
-		InterfaceType::InterfaceType		interfaceType;
+		InterfaceType_t		interfaceType;
 
-		const char 						*	name;
-		bool								enabled;
-		bool								initialized;
+		const char 			*	name;
+		bool					enabled;
+		bool					initialized;
 
-		int                                 deviceID;
+		int                     deviceID;
 		
-		char 							*	modName;
-		void							*	hModLib;
-		void                            *	envLib;
+		char 				*	modName;
+		void				*	hModLib;
+		Instance            *	env;
 	};
 }
+
+#endif
 
 #endif	/// -> INCLUDE_HCM_ENVIRONS_INTERFACE_IDENTIFICATION_H
 

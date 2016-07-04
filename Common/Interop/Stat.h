@@ -22,13 +22,14 @@
 #define INCLUDE_HCM_ENVIRONS_INTEROP_STAT_H
 
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <sys/stat.h>
-#define stat(a,b) _stat(a,b)
+#define stat(a,b)			_stat(a,b)
+#define STAT_STRUCT(a)		struct _stat a;
 
 #include <direct.h>
-#define mkdir(dir,mode) _mkdir(dir)
-#define unlink(filepath) _unlink(filepath)
+#define mkdir(dir,mode)		_mkdir(dir)
+#define unlink(filepath)	_unlink(filepath)
 
 #else /// _WIN32
 
@@ -36,11 +37,17 @@
 #include <sys/stat.h>
 
 #ifdef ANDROID
-#include <stl/config/_android.h>
+//#include <stl/config/_android.h>
 #endif /// end->ANDROID
+
+#define STAT_STRUCT(a)		struct stat a;
 
 #endif /// end->_WIN32
 
-
+#if (!defined(_POSIX_SOURCE) && !defined(_WIN32))
+#define unixEpoch(a)		a.st_mtimespec.tv_sec
+#else
+#define unixEpoch(a)		a.st_mtime
+#endif
 
 #endif /// INCLUDE_HCM_ENVIRONS_INTEROP_STAT_H

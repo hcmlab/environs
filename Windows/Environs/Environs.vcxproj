@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{028EFA74-E95F-451E-8139-453787F1AB6C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>NativeLayer</RootNamespace>
+    <ProjectName>Environs</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs</TargetName>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs</TargetName>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NATIVELAYER_EXPORTS;DISPLAYDEVICE;ENVIRONS_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4996;4100;4127;4238</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <CLRSupportLastError>Enabled</CLRSupportLastError>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir)</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)buildOpts.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NATIVELAYER_EXPORTS;DISPLAYDEVICE;ENVIRONS_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4996;4100;4127;4238</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <CLRSupportLastError>Enabled</CLRSupportLastError>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir)</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)buildOpts.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NATIVELAYER_EXPORTS;DISPLAYDEVICE;ENVIRONS_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir)</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)buildOpts.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NATIVELAYER_EXPORTS;DISPLAYDEVICE;ENVIRONS_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir)</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)buildOpts.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\Environs.Commit.h" />
+    <ClInclude Include="..\..\Common\Environs.Platform.Decls.h" />
+    <ClInclude Include="..\..\Common\Device.Info.h" />
+    <ClInclude Include="..\..\Common\Device.Instance.h" />
+    <ClInclude Include="..\..\Common\Device.Display.Decl.h" />
+    <ClInclude Include="..\..\Common\Device.List.h" />
+    <ClInclude Include="..\..\Common\direntw.h" />
+    <ClInclude Include="..\..\Common\Environs.Build.Lnk.h" />
+    <ClInclude Include="..\..\Common\Environs.Build.Macros.h" />
+    <ClInclude Include="..\..\Common\Environs.Build.Opts.h" />
+    <ClInclude Include="..\..\Common\Environs.Crypt.h" />
+    <ClInclude Include="..\..\Common\Environs.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.Inc.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.Display.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.Mobile.h" />
+    <ClInclude Include="..\..\Common\Environs.Native.h" />
+    <ClInclude Include="..\..\Common\Environs.Platforms.h" />
+    <ClInclude Include="..\..\Common\Environs.Release.h" />
+    <ClInclude Include="..\..\Common\Environs.Revision.h" />
+    <ClInclude Include="..\..\Common\Environs.Types.h" />
+    <ClInclude Include="..\..\Common\Environs.Utils.h" />
+    <ClInclude Include="..\..\Common\File.Instance.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IArray.List.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Base.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Dispose.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Ident.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IExt.Thread.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IMessage.Instance.h" />
+    <ClInclude Include="..\..\Common\Interfaces\Interface.Exports.h" />
+    <ClInclude Include="..\..\Common\Interfaces\Interfaces.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Capture.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Decoder.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Encoder.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Renderer.h" />
+    <ClInclude Include="..\..\Common\Interfaces\ITouch.Recognizer.h" />
+    <ClInclude Include="..\..\Common\Interfaces\ITracker.h" />
+    <ClInclude Include="..\..\Common\Interfaces\ISensor.h" />
+    <ClInclude Include="..\..\Common\Interop.h" />
+    <ClInclude Include="..\..\Common\Human.Input.Decl.h" />
+    <ClInclude Include="..\..\Common\Location.Decl.h" />
+    <ClInclude Include="..\..\Common\Message.Instance.h" />
+    <ClInclude Include="..\..\Common\Notify.Context.h" />
+    <ClInclude Include="..\..\Common\Portal.Info.h" />
+    <ClInclude Include="..\..\Common\Portal.Instance.h" />
+    <ClInclude Include="..\..\Common\Queue.List.h" />
+    <ClInclude Include="..\..\Common\Queue.Vector.h" />
+    <ClInclude Include="..\..\Common\Tracer.h" />
+    <ClInclude Include="..\..\Common\unistdw.h" />
+    <ClInclude Include="..\..\Common\Wifi.Observer.h" />
+    <ClInclude Include="..\..\Native\Capture\Cam.Base.2B.h" />
+    <ClInclude Include="..\..\Native\Capture\Cam.Base.h" />
+    <ClInclude Include="..\..\Common\Mediator.h" />
+    <ClInclude Include="..\..\Common\PortalInfo.h" />
+    <ClInclude Include="..\..\Common\Render.Context.h" />
+    <ClInclude Include="..\..\Common\Render.Dimensions.h" />
+    <ClInclude Include="..\..\Common\Render.Overlay.h" />
+    <ClInclude Include="..\..\Native\Core\Array.List.h" />
+    <ClInclude Include="..\..\Native\Core\Async.Worker.h" />
+    <ClInclude Include="..\..\Native\Core\Byte.Buffer.h" />
+    <ClInclude Include="..\..\Native\Core\Callbacks.h" />
+    <ClInclude Include="..\..\Native\Codec\Decoder.Base.h" />
+    <ClInclude Include="..\..\Native\Core\Core.h" />
+    <ClInclude Include="..\..\Native\Core\Input.Handler.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.Windows.h" />
+    <ClInclude Include="..\..\Native\Core\Notifications.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Android.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Display.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Display.Win.h" />
+    <ClInclude Include="..\..\Native\Device\Device.iOS.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Mobile.h" />
+    <ClInclude Include="..\..\Native\Device\Device.OSX.h" />
+    <ClInclude Include="..\..\Native\Device\Devices.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Controller.h" />
+    <ClInclude Include="..\..\Native\DynLib\Dyn.Direct3D.11.h" />
+    <ClInclude Include="..\..\Native\DynLib\Dyn.OpenCL.h" />
+    <ClInclude Include="..\..\Native\DynLib\Dyn.WlanAPI.h" />
+    <ClInclude Include="..\..\Native\Encoder\Encoder.GDI.h" />
+    <ClInclude Include="..\..\Native\Environs.Android.h" />
+    <ClInclude Include="..\..\Native\Environs.Display.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IDevice.Instance.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IDevice.List.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IFile.Instance.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Info.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Instance.h" />
+    <ClInclude Include="..\..\Native\Environs.Obj.h" />
+    <ClInclude Include="..\..\Native\Environs.iOS.h" />
+    <ClInclude Include="..\..\Native\Environs.Mobile.h" />
+    <ClInclude Include="..\..\Native\Environs.Modules.h" />
+    <ClInclude Include="..\..\Native\Environs.Msg.Types.h" />
+    <ClInclude Include="..\..\Common\Interop\Export.h" />
+    <ClInclude Include="..\..\Common\Interop\jni.h" />
+    <ClInclude Include="..\..\Common\Interop\Sock.h" />
+    <ClInclude Include="..\..\Common\Interop\Stat.h" />
+    <ClInclude Include="..\..\Common\Interop\Threads.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.Display.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Base.h" />
+    <ClInclude Include="..\..\Native\Core\Mediator.Client.h" />
+    <ClInclude Include="..\..\Native\Core\PerformanceCount.h" />
+    <ClInclude Include="..\..\Native\Capture\Capture.Win.D3D.h" />
+    <ClInclude Include="..\..\Native\Capture\Capture.Win.GDI.h" />
+    <ClInclude Include="..\..\Native\Capture\Capture.Win.TGDI.h" />
+    <ClInclude Include="..\..\Native\Encoder\Encoder.Pictures.h" />
+    <ClInclude Include="..\..\Native\Environs.OSX.h" />
+    <ClInclude Include="..\..\Native\Environs.Sensors.h" />
+    <ClInclude Include="..\..\Native\Environs.Windows.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Device.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.Windows.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.Windows.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Stream.h" />
+    <ClInclude Include="..\..\Native\Recognizer\Mouse.Simulator.Win.h" />
+    <ClInclude Include="..\..\Native\Recognizer\Recognizers.h" />
+    <ClInclude Include="..\..\Native\Recognizer\Touch.Visualizer.h" />
+    <ClInclude Include="..\..\Native\Renderer\Render.CaptureGDI.h" />
+    <ClInclude Include="..\..\Native\Renderer\Render.GDI.h" />
+    <ClInclude Include="..\..\Native\Renderer\Render.OpenCL.h" />
+    <ClInclude Include="..\..\Native\Recognizer\Gesture.Three.Finger.h" />
+    <ClInclude Include="..\..\Native\Core\Stunt.Request.h" />
+    <ClInclude Include="..\..\Native\Utils\Login.Dialog.Win32.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Common\Environs.Commit.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Crypt.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Crypt.Lib.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Crypt.Win32.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Crypt1.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Loader.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Types.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Utils.cpp" />
+    <ClCompile Include="..\..\Common\Interfaces\IEnvirons.Base.cpp" />
+    <ClCompile Include="..\..\Common\Interfaces\IPortal.Encoder.cpp" />
+    <ClCompile Include="..\..\Common\Interop\direntw.cpp" />
+    <ClCompile Include="..\..\Common\Interop\Export.cpp" />
+    <ClCompile Include="..\..\Common\Log.cpp" />
+    <ClCompile Include="..\..\Common\Mediator.cpp" />
+    <ClCompile Include="..\..\Common\Tracer.cpp" />
+    <ClCompile Include="..\..\Native\Core\Array.List.cpp" />
+    <ClCompile Include="..\..\Native\Core\Async.Worker.cpp" />
+    <ClCompile Include="..\..\Native\Core\Byte.Buffer.cpp" />
+    <ClCompile Include="..\..\Native\Core\Callbacks.cpp" />
+    <ClCompile Include="..\..\Native\Core\Core.cpp" />
+    <ClCompile Include="..\..\Native\Core\Input.Handler.cpp" />
+    <ClCompile Include="..\..\Native\Core\File.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.Windows.cpp" />
+    <ClCompile Include="..\..\Native\Core\Message.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Core\Notifications.cpp" />
+    <ClCompile Include="..\..\Native\Core\Queue.List.cpp" />
+    <ClCompile Include="..\..\Common\Queue.Vector.cpp" />
+    <ClCompile Include="..\..\Native\Core\Wifi.Observer.cpp" />
+    <ClCompile Include="..\..\Native\Decoder\Decoder.Base.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Android.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Display.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Display.Win.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.iOS.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.List.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.OSX.cpp" />
+    <ClCompile Include="..\..\Native\Device\Devices.cpp" />
+    <ClCompile Include="..\..\Native\DynLib\Dyn.Direct3D.11.cpp" />
+    <ClCompile Include="..\..\Native\DynLib\Dyn.OpenCL.cpp" />
+    <ClCompile Include="..\..\Native\DynLib\Dyn.WlanAPI.cpp" />
+    <ClCompile Include="..\..\Native\Encoder\Encoder.GDI.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Android.cpp" />
+    <ClCompile Include="..\..\Native\Environs.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Cpp.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Obj.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Display.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.Display.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.Mobile.cpp" />
+    <ClCompile Include="..\..\Common\Interop\Threads.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.Display.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Base.cpp" />
+    <ClCompile Include="..\..\Native\Core\Mediator.Client.cpp" />
+    <ClCompile Include="..\..\Native\Core\Performance.Count.cpp" />
+    <ClCompile Include="..\..\Native\Capture\Capture.Win.D3D.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Capture\Capture.Win.GDI.cpp" />
+    <ClCompile Include="..\..\Native\Capture\Capture.Win.TGDI.cpp" />
+    <ClCompile Include="..\..\Native\Encoder\Encoder.Pictures.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interfaces\IPortal.Renderer.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Environs.OSX.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Sensors.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Windows.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Device.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Info.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.Windows.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.Windows.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Stream.cpp" />
+    <ClCompile Include="..\..\Common\Interfaces\ITouch.Recognizer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Mouse.Simulator.Win.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Recognizers.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Touch.Visualizer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Stunt.Request.cpp" />
+    <ClCompile Include="..\..\Native\Core\Utils.cpp" />
+    <ClCompile Include="..\..\Native\Renderer\Render.CaptureGDI.cpp" />
+    <ClCompile Include="dllmain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Renderer\Render.GDI.cpp" />
+    <ClCompile Include="..\..\Native\Renderer\Render.OpenCL.cpp" />
+    <ClCompile Include="..\..\Native\Recognizer\Gesture.Three.Finger.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Utils\Login.Dialog.Win32.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\CHANGELOG.md" />
+    <None Include="..\..\ReadMe.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

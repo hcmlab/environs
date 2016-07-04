@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cd Simple.Console.CPP
+make clean
+cd -
+
+cd Echo.Bot.CPP
+make clean
+cd -
+
+if [[ -e ./Plugins/ExtWifiObserver ]]; then
+	cd Plugins/ExtWifiObserver
+	make clean
+	cd -
+fi
+
+make clean
+
+

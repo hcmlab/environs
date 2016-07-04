@@ -8,69 +8,47 @@
 #
 ######################################################
 
-if [[ -z "${SCRIPTDIR}" ]]; then
+if [[ -z "${TOOLSDIR}" ]]; then
     pushd `dirname $0` > /dev/null
-    SCRIPTDIR=`pwd`
+    TOOLSDIR=`pwd`
     popd > /dev/null
 fi
 
-if [[ "${SCRIPTDIR}" != *"3rd"* ]]; then
-	SCRIPTDIR="${SCRIPTDIR}/../3rd"
-fi
+source "${TOOLSDIR}/check.build.is.ci.sh"
 
-obsolete=0
-targetDir="$SCRIPTDIR/inc"
-targetLibDir="$SCRIPTDIR/lib"
-
-if [[ -z "$tmpDir" ]]; then
-#    curDir=${PWD##*/}
-    tmpDir="$SCRIPTDIR/../../tmpEnvirons"
-fi
-
-rescueDir="$SCRIPTDIR/../../EnvironsRescued"
 tDir=
 dryrun=0
 
+source "${TOOLSDIR}"/download.tools.sh
 
-[[ $# > 0 ]] && cleanCmd=$1
-
-
-function safeMove
-{
-	smSrc="$1"
-	smDst="$2"
-	smName="$3"
-	
-    if [[ -e "${smSrc}/${smName}" ]]; then
-    	[[ -e "${smDst}/${smName}" ]] && rm -rf "${smDst}/${smName}"
-    	
-    	[[ ! -e "${smDst}" ]] && mkdir -p "${smDst}" && [[ $? != 0 ]] &&  echo "Error mkdir ${smDst}" && exit 1
-    	
-    	mv "${smSrc}/${smName}" "${smDst}"/.
-    fi
-    [[ $? != 0 ]] && echo "Error moving ${smSrc}/${smName} to ${smDst}" && exit 1
-}
-
+obsolete=0
+targetDir="$TOOLSDIR/../3rd/inc"
+targetLibDir="$TOOLSDIR/../3rd/lib"
 
 if [[ "$cleanCmd" == "1" ]]; then
-    [[ -e "$targetDir/msints" ]] && rm -rf "$targetDir/msints"
-    [[ -e "$targetDir/CL" ]] && rm -rf "$targetDir/CL"
-    [[ -e "$targetDir/TUIO" ]] && rm -rf "$targetDir/TUIO"
-    [[ -e "$targetLibDir/android/arm/libopenh264.so" ]] && rm -rf "$targetLibDir/android/arm/libopenh264.so"
-    [[ -e "$targetLibDir/android/arm/openh264.LICENSE.txt" ]] && rm -rf "$targetLibDir/android/arm/openh264.LICENSE.txt"
-    [[ -e "$targetLibDir/../../bin64/libs/openh264.LICENSE.txt" ]] && rm -rf "$targetLibDir/../../bin64/libs/openh264.LICENSE.txt"
-    [[ -e "$targetLibDir/../../bin64/libs/libopenh264.dylib" ]] && rm -rf "$targetLibDir/../../bin64/libs/libopenh264.dylib"
-    [[ -e "$targetLibDir/../../bin64/libs/libopenh264.dll" ]] && rm -rf "$targetLibDir/../../bin64/libs/libopenh264.dll"
-    [[ -e "$targetLibDir/../../bin/libs/openh264.LICENSE.txt" ]] && rm -rf "$targetLibDir/../../bin/libs/openh264.LICENSE.txt"
-    [[ -e "$targetLibDir/../../bin/libs/libopenh264.dll" ]] && rm -rf "$targetLibDir/../../bin/libs/libopenh264.dll"
+	DEL_FILES=(
+		"$targetDir/msints"
+		"$targetDir/CL"
+		"$targetDir/TUIO"
+		"$targetLibDir/android/arm/libopenh264.so"
+		"$targetLibDir/android/arm/openh264.LICENSE.txt"
+		"$targetLibDir/../../bin64/libs/libopenh264.dylib"
+		"$targetLibDir/../../bin64/libs/libopenh264.dll"
+		"$targetLibDir/../../bin/libs/openh264.LICENSE.txt"
+		"$targetLibDir/../../bin/libs/libopenh264.dll"
+	)
+	delFiles DEL_FILES[@]
     return 0
 fi
 if [[ "$cleanCmd" == "2" ]]; then
-    [[ -e "$tmpDir/msints.zip" ]] && rm -rf "$tmpDir/msints.zip"
-    [[ -e "$tmpDir/msints" ]] && rm -rf "$tmpDir/msints"
-    [[ -e "$tmpDir/TUIO.zip" ]] && rm -rf "$tmpDir/TUIO.zip"
-    [[ -e "$tmpDir/TUIO" ]] && rm -rf "$tmpDir/TUIO"
-    [[ -e "$tmpDir/openh264" ]] && rm -rf "$tmpDir/openh264"    
+	DEL_FILES=(
+		"$tmpDir/msints.zip"
+		"$tmpDir/msints"
+		"$tmpDir/TUIO.zip"
+		"$tmpDir/TUIO"
+		"$tmpDir/openh264"
+	)
+	delFiles DEL_FILES[@]
     return 0
 fi
 if [[ "$cleanCmd" == "3" ]]; then    
@@ -127,15 +105,12 @@ fi
 
 
 echo -e
-echo 'Downloading 3rd party header files and sources...'
+echo 'Verifying 3rd party header files and sources...'
 
-echo -e
-echo "Preparing tmp dir [$tmpDir]"
-#[[ "$dryrun" == "0" ]] && [[ -d "$tmpDir" ]] && rm -rf $tmpDir
 
-[[ ! -d "${tmpDir}" ]] && mkdir $tmpDir
+prepareDir "${tmpDir}"
 
-[[ ! -d "$targetDir" ]] && mkdir $targetDir
+prepareDir "${targetDir}"
 
 function copyFiles
 {
@@ -152,9 +127,15 @@ function copyFiles
 
 function dlKhronos
 {
-    if [[ ! -f "$tDir/$1" ]]; then
-		curl -L -o "$tDir/$1" "https://www.khronos.org/registry/cl/api/2.0/$1"
+    if [[ ! -f "$tmpDir/CL/$1" ]]; then
+		#curl -L -o "$tmpDir/CL/$1" "https://www.khronos.org/registry/cl/api/2.0/$1"
+		curl -L -o "$tmpDir/CL/$1" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/opencl20/$1"
 		[[ $? != 0 ]] && echo "Error downloading $1" && exit 1
+    fi
+
+    if [[ ! -f "$tDir/$1" ]]; then
+    	cp "$tmpDir/CL/$1" "$tDir/$1"
+		[[ $? != 0 ]] && echo "Error copying $1" && exit 1
     fi
     return 0
 }
@@ -162,364 +143,424 @@ function dlKhronos
 
 cd $tmpDir
 
-STAGE=openh264
-tDir="$targetDir/${STAGE}"
-echo -e
-echo "Preparing ${STAGE} directory [$tDir]..."
-echo '----------------------------------------'
-
-[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
-
-sDir="$tmpDir/${STAGE}"
-#[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
-[[ ! -d "$sDir" ]] && mkdir $sDir
-
-echo "Download ${STAGE} binary license from openh264.org ..."
-LICENSE="$sDir/${STAGE}.LICENSE.txt"
-
-if [[ ! -f "$LICENSE" ]]; then
-    echo "Download ${STAGE} binary license from openh264.org ..."
-    
-    curl -L -o "$LICENSE" "http://www.openh264.org/BINARY_LICENSE.txt"
-    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-    
-    echo "Done."
-
-    cat $LICENSE
-    echo 'Please take notice of the cisco openh264 binary license.'
-    echo 'Press any key to continue ...'
-    read response
-fi
-
-
-if [[ ! -e "$targetLibDir/android/arm/lib${STAGE}.so" ]]; then
-	item="$sDir/lib${STAGE}.so.bz2"
-	
-	if [[ ! -f "$item" ]] && [[ ! -f "$sDir/lib${STAGE}.so" ]]; then
-	    echo "Download ${STAGE} Android binary from cisco ..."
-	    
-	    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/libopenh264-1.4.0-android19.so.bz2"
-	    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	    
-	    echo "Done."
-	fi
-	
-	cd "$sDir"
-	
-	if [[ ! -f "$sDir/lib${STAGE}.so" ]]; then
-		echo "Unpacking ${STAGE} Android binary ..."
-		
-		bzip2 -d lib${STAGE}.so.bz2
-		[[ $? != 0  ]] && echo "Error" && exit 1
-		echo "Done."
-	fi
-
-
-	tDir="$targetLibDir/android/arm"
+if [[ -e "${TOOLSDIR}/../Android" ]] && [[ "${ISRASPBERYY}" == "" ]]; then
+	STAGE=openh264
+	tDir="$targetDir/${STAGE}"
 	echo -e
 	echo "Preparing ${STAGE} directory [$tDir]..."
 	echo '----------------------------------------'
-	[[ ! -d "$tDir" ]] && mkdir -p $tDir
 	
-	cp "${LICENSE}" "$tDir"/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+	#[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
 	
-	mv lib${STAGE}.so $tDir/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-fi
-
-
-if [[ ! -e "$targetLibDir/../../bin64/libs/lib${STAGE}.dylib" ]]; then
-	item="$sDir/lib${STAGE}.dylib.bz2"
+	sDir="$tmpDir/${STAGE}"
+	#[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
+	[[ ! -d "$sDir" ]] && mkdir $sDir
 	
-	if [[ ! -f "$item" ]] && [[ ! -f "lib${STAGE}.dylib" ]]; then
-	    echo "Download ${STAGE} OSX binary from cisco ..."
+	
+	echo "Preparing ${STAGE} binary license from openh264.org ..."
+	LICENSE="$sDir/${STAGE}.LICENSE.txt"
+	
+	if [[ ! -f "$LICENSE" ]]; then
+	    echo "Download ${STAGE} binary license from openh264.org ..."
 	    
-	    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/libopenh264-1.4.0-osx64.dylib.bz2"
+	    curl -L -o "$LICENSE" "http://www.openh264.org/BINARY_LICENSE.txt"
 	    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
 	    
 	    echo "Done."
+	
+	    cat $LICENSE
+	    echo 'Please take notice of the cisco openh264 binary license.'
+	    echo 'Press any key to continue ...'
+	    
+	    if [[ -z "${CI_SERVER}" ]]; then
+	    	read response
+	    fi
 	fi
 	
-	cd "$sDir"
 	
-	if [[ ! -f "$sDir/lib${STAGE}.dylib" ]]; then
-		echo "Unpacking ${STAGE} OSX binary ..."
+	if [[ ! -e "$targetLibDir/android/arm/lib${STAGE}.so" ]]; then
+		item="$sDir/lib${STAGE}.so.bz2"
 		
-		bzip2 -d lib${STAGE}.dylib.bz2
-		[[ $? != 0  ]] && echo "Error" && exit 1
-		echo "Done."
-	fi
-	
-	tDir="$targetLibDir/../../bin64/libs"
-	echo -e
-	echo "Preparing ${STAGE} directory [$tDir]..."
-	echo '----------------------------------------'
-	[[ ! -d "$tDir" ]] && mkdir -p $tDir
-	
-	cp "${LICENSE}" "$tDir"/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	
-	mv lib${STAGE}.dylib $tDir/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-fi
-
-
-if [[ ! -e "$targetLibDir/../../bin64/libs/lib${STAGE}.dll" ]]; then
-	item="$sDir/lib${STAGE}.64.dll.bz2"
-	
-	if [[ ! -f "$item" ]] && [[ ! -f "lib${STAGE}.64.dll" ]]; then
-	    echo "Download ${STAGE} Windows 64 bit binary from cisco ..."
-	    
-	    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/openh264-1.4.0-win64msvc.dll.bz2"
-	    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	    
-	    echo "Done."
-	fi
-	
-	cd "$sDir"
-	
-	if [[ ! -f "$sDir/lib${STAGE}.64.dll" ]]; then
-		echo "Unpacking ${STAGE} Windows 64 bit binary ..."
+		if [[ ! -f "$item" ]] && [[ ! -f "$sDir/lib${STAGE}.so" ]]; then
+		    echo "Download ${STAGE} Android binary from cisco ..."
+		    
+		    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/libopenh264-1.4.0-android19.so.bz2"
+		    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		    
+		    echo "Done."
+		fi
 		
-		bzip2 -d lib${STAGE}.64.dll.bz2
-		[[ $? != 0  ]] && echo "Error" && exit 1
-		echo "Done."
-	fi
-	
-	tDir="$targetLibDir/../../bin64/libs"
-	echo -e
-	echo "Preparing ${STAGE} directory [$tDir]..."
-	echo '----------------------------------------'
-	[[ ! -d "$tDir" ]] && mkdir -p $tDir
-	
-	cp "${LICENSE}" "$tDir"/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	
-	mv lib${STAGE}.64.dll $tDir/lib${STAGE}.dll
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-fi
-
-
-if [[ ! -e "$targetLibDir/../../bin/libs/lib${STAGE}.dll" ]]; then
-	item="$sDir/lib${STAGE}.32.dll.bz2"
-	
-	if [[ ! -f "$item" ]] && [[ ! -f "lib${STAGE}.32.dll" ]]; then
-	    echo "Download ${STAGE} Windows 32 bit binary from cisco ..."
-	    
-	    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/openh264-1.4.0-win32msvc.dll.bz2"
-	    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	    
-	    echo "Done."
-	fi
-	
-	cd "$sDir"
-	
-	if [[ ! -f "$sDir/lib${STAGE}.32.dll" ]]; then
-		echo "Unpacking ${STAGE} Windows 64 bit binary ..."
+		cd "$sDir"
 		
-		bzip2 -d lib${STAGE}.32.dll.bz2
-		[[ $? != 0  ]] && echo "Error" && exit 1
-		echo "Done."
+		if [[ ! -f "$sDir/lib${STAGE}.so" ]]; then
+			echo "Unpacking ${STAGE} Android binary ..."
+			
+			bzip2 -d lib${STAGE}.so.bz2
+			[[ $? != 0  ]] && echo "Error" && exit 1
+			echo "Done."
+		fi
+	
+	
+		tDir="$targetLibDir/android/arm"
+		echo -e
+		echo "Preparing ${STAGE} directory [$tDir]..."
+		echo '----------------------------------------'
+		[[ ! -d "$tDir" ]] && mkdir -p $tDir
+		
+		cp "${LICENSE}" "$tDir"/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		
+		cp lib${STAGE}.so $tDir/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
 	fi
 	
-	tDir="$targetLibDir/../../bin/libs"
-	echo -e
-	echo "Preparing ${STAGE} directory [$tDir]..."
-	echo '----------------------------------------'
-	[[ ! -d "$tDir" ]] && mkdir -p $tDir
 	
-	cp "${LICENSE}" "$tDir"/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	
-	mv lib${STAGE}.32.dll $tDir/lib${STAGE}.dll
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-fi
-
-
-
-# "Download ${STAGE} source from github ..."
-#--------------------------------------------------
-
-tDir="$targetDir/${STAGE}"
-	
-if [[ ! -e "$tDir/codec_api.h" ]]; then
-	item="$sDir/${STAGE}.tar.gz"
-	
-	if [[ ! -f "$item" ]]; then
-	    echo "Download ${STAGE} source from github ..."
-	    
-	    curl -L -o "$item" "https://github.com/cisco/openh264/archive/v1.4.0.tar.gz"
-	    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	    
-	    echo "Done."
+	if [[ ! -e "$targetLibDir/../../bin64/libs/lib${STAGE}.dylib" ]]; then
+		item="$sDir/lib${STAGE}.dylib.bz2"
+		
+		if [[ ! -f "$item" ]] && [[ ! -f "lib${STAGE}.dylib" ]]; then
+		    echo "Download ${STAGE} OSX binary from cisco ..."
+		    
+		    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/libopenh264-1.4.0-osx64.dylib.bz2"
+		    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		    
+		    echo "Done."
+		fi
+		
+		cd "$sDir"
+		
+		if [[ ! -f "$sDir/lib${STAGE}.dylib" ]]; then
+			echo "Unpacking ${STAGE} OSX binary ..."
+			
+			bzip2 -d lib${STAGE}.dylib.bz2
+			[[ $? != 0  ]] && echo "Error" && exit 1
+			echo "Done."
+		fi
+		
+		tDir="$targetLibDir/../../bin64/libs"
+		echo -e
+		echo "Preparing ${STAGE} directory [$tDir]..."
+		echo '----------------------------------------'
+		[[ ! -d "$tDir" ]] && mkdir -p $tDir
+		
+		cp "${LICENSE}" "$tDir"/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		
+		cp lib${STAGE}.dylib $tDir/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
 	fi
 	
-	echo "Unpacking files ..."
-	cd "$sDir"
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
 	
-	[[ ! -d "${STAGE}" ]] && mkdir ${STAGE}
-	tar -xzf $item -C ${STAGE} --strip-components=1
+	if [[ ! -e "$targetLibDir/../../bin64/libs/lib${STAGE}.dll" ]]; then
+		item="$sDir/lib${STAGE}.64.dll.bz2"
+		
+		if [[ ! -f "$item" ]] && [[ ! -f "lib${STAGE}.64.dll" ]]; then
+		    echo "Download ${STAGE} Windows 64 bit binary from cisco ..."
+		    
+		    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/openh264-1.4.0-win64msvc.dll.bz2"
+		    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		    
+		    echo "Done."
+		fi
+		
+		cd "$sDir"
+		
+		if [[ ! -f "$sDir/lib${STAGE}.64.dll" ]]; then
+			echo "Unpacking ${STAGE} Windows 64 bit binary ..."
+			
+			bzip2 -d lib${STAGE}.64.dll.bz2
+			[[ $? != 0  ]] && echo "Error" && exit 1
+			echo "Done."
+		fi
+		
+		tDir="$targetLibDir/../../bin64/libs"
+		echo -e
+		echo "Preparing ${STAGE} directory [$tDir]..."
+		echo '----------------------------------------'
+		[[ ! -d "$tDir" ]] && mkdir -p $tDir
+		
+		cp "${LICENSE}" "$tDir"/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		
+		cp lib${STAGE}.64.dll $tDir/lib${STAGE}.dll
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+	fi
 	
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	echo "Done."
-	cd ${STAGE}
+	
+	if [[ ! -e "$targetLibDir/../../bin/libs/lib${STAGE}.dll" ]]; then
+		item="$sDir/lib${STAGE}.32.dll.bz2"
+		
+		if [[ ! -f "$item" ]] && [[ ! -f "lib${STAGE}.32.dll" ]]; then
+		    echo "Download ${STAGE} Windows 32 bit binary from cisco ..."
+		    
+		    curl -L -o "$item" "https://github.com/cisco/openh264/releases/download/v1.4.0/openh264-1.4.0-win32msvc.dll.bz2"
+		    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		    
+		    echo "Done."
+		fi
+		
+		cd "$sDir"
+		
+		if [[ ! -f "$sDir/lib${STAGE}.32.dll" ]]; then
+			echo "Unpacking ${STAGE} Windows 64 bit binary ..."
+			
+			bzip2 -d lib${STAGE}.32.dll.bz2
+			[[ $? != 0  ]] && echo "Error" && exit 1
+			echo "Done."
+		fi
+		
+		tDir="$targetLibDir/../../bin/libs"
+		echo -e
+		echo "Preparing ${STAGE} directory [$tDir]..."
+		echo '----------------------------------------'
+		[[ ! -d "$tDir" ]] && mkdir -p $tDir
+		
+		cp "${LICENSE}" "$tDir"/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		
+		cp lib${STAGE}.32.dll $tDir/lib${STAGE}.dll
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+	fi
+	
+	
+	
+	# "Download ${STAGE} source from github ..."
+	#--------------------------------------------------
 	
 	tDir="$targetDir/${STAGE}"
-	echo "Preparing ${STAGE} include directory [$tDir]..."
-	echo '----------------------------------------'
-	[[ ! -d "$tDir" ]] && mkdir -p $tDir
-	
-	cp codec/api/svc/* "$tDir"/.
-	[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
-	
-	echo "Done."
+		
+	if [[ ! -e "$tDir/codec_api.h" ]]; then
+		item="$sDir/${STAGE}.tar.gz"
+		
+		if [[ ! -f "$item" ]]; then
+		    echo "Download ${STAGE} source from github ..."
+		    
+		    curl -L -o "$item" "https://github.com/cisco/openh264/archive/v1.4.0.tar.gz"
+		    [[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		    
+		    echo "Done."
+		fi
+		
+		echo "Unpacking files ..."
+		cd "$sDir"
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		
+		[[ ! -d "${STAGE}" ]] && mkdir ${STAGE}
+		tar -xzf $item -C ${STAGE} --strip-components=1
+		
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		echo "Done."
+		cd ${STAGE}
+		
+		tDir="$targetDir/${STAGE}"
+		echo "Preparing ${STAGE} include directory [$tDir]..."
+		echo '----------------------------------------'
+		[[ ! -d "$tDir" ]] && mkdir -p $tDir
+		
+		cp codec/api/svc/* "$tDir"/.
+		[[ $? != 0 ]] && echo "Error ${STAGE}" && exit 1
+		
+		echo "Done."
+	fi
 fi
-
 
 cd $tmpDir
 
-tDir="$targetDir/msints"
+tName=msints
+tDir="$targetDir/$tName"
 echo -e
-echo "Preparing msints directory [$tDir]..."
+echo "Verifying $tName ..."
 echo '----------------------------------------'
 #[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
-[[ ! -d "$tDir" ]] && mkdir $tDir
+prepareDir "${tDir}"
 
-sDir="$tmpDir/msints"
+sDir="$tmpDir/$tName"
 #[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
-[[ ! -d "$sDir" ]] && mkdir $sDir
+prepareDir "${sDir}"
 
-item="${tmpDir}/msints.zip"
+item="${tmpDir}/$tName.zip"
 
 if [[ ! -f "$item" ]]; then
-    echo "Download msints from googlecode ..."
+    echo "Download $tName from googlecode ..."
     
     curl -o "$item" "https://msinttypes.googlecode.com/files/msinttypes-r26.zip"
-    [[ $? != 0 ]] && echo "Error msints" && exit 1    
+    [[ $? != 0 ]] && echo "Error $tName" && exit 1    
     
     echo "Done."
+
+	cp "$item" "$sDir"/.
+	[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	
+	echo "Unpacking files ..."
+	cd "$sDir"
+	[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	
+	unzip -qo "$item"
+	[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	echo "Done."
+	cd -    
 fi
 
-cp "$item" "$sDir"/.
-[[ $? != 0 ]] && echo "Error msints" && exit 1
+if [[ ! -f "$tDir/inttypes.h" ]]; then
+	echo "Copying files to [$tDir] ..."
+	cp $sDir/*.h $tDir/.
+	[[ $? != 0 ]] && echo "Error $tName" && exit 1
+fi
+echo "Done: $tName."
 
-echo "Unpacking files ..."
-cd "$sDir"
-[[ $? != 0 ]] && echo "Error msints" && exit 1
+if [[ "${ISRASPBERYY}" == "" ]]; then
+	tName=openssl
+	tDir="$targetDir/$tName"
+	echo -e
+	echo "Preparing $tName directory [$tDir]..."
+	echo '----------------------------------------'
+	#[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
+	prepareDir "${tDir}"
 
-unzip -qo "$item"
-[[ $? != 0 ]] && echo "Error msints" && exit 1
-echo "Done."
-cd -
+	sDir="$tmpDir/$tName"
+	#[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
+	prepareDir "${sDir}"
+
+	item="${tmpDir}/$tName.zip"
+
+	if [[ ! -f "$item" ]]; then
+		echo "Download $tName ..."
+	
+		#curl -L -o "$item" "https://github.com/openssl/openssl/archive/master.zip"
+		curl -L -o "$item" "https://github.com/openssl/openssl/archive/6e3d015363ed09c4eff5c02ad41153387ffdf5af.zip"
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1    
+	
+		echo "Done."
+	
+		cp "$item" "$sDir"/.
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	
+		echo "Unpacking files ..."
+		cd "$sDir"
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	
+		unzip -qo "$item"
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+		echo "Done."
+		cd -
+	fi
+
     
-echo "Moving files to [$tDir] ..."
-cp $sDir/*.h $tDir/.
-[[ $? != 0 ]] && echo "Error msints" && exit 1
-
-echo "Done."
-
-
-tDir="$targetDir/CL"
-echo -e
-echo "Preparing OpenCL directory [$tDir]..."
-echo '----------------------------------------'
-
-#[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
-[[ ! -d "$tDir" ]] && mkdir $tDir
-
-sDir="$tmpDir/msints"
-#[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
-[[ ! -d "$sDir" ]] && mkdir $sDir
-
-echo "Download OpenCL from khronos.org ..."
-echo '----------------------------------------'
-
-dlKhronos "cl.h"
-dlKhronos "opencl.h"
-dlKhronos "cl_platform.h"
-dlKhronos "cl_ext.h"
-dlKhronos "cl_egl.h"
-dlKhronos "cl_dx9_media_sharing.h"
-dlKhronos "cl_d3d10.h"
-dlKhronos "cl_d3d11.h"
-dlKhronos "cl_gl.h"
-dlKhronos "cl_gl_ext.h"
-
-echo "Done."
-
-
-tDir="$targetDir/TUIO"
-echo -e
-echo "Preparing TUIO directory [$tDir]..."
-echo '----------------------------------------'
-
-[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
-
-sDir="$tmpDir/TUIO"
-#[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
-[[ ! -d "$sDir" ]] && mkdir $sDir
-
-echo "Download TUIO source from sourceforge.net ..."
-item="$tmpDir/tuio.zip"
-
-if [[ ! -f "$item" ]]; then
-    echo "Download TUIO source from sourceforge.net ..."
-    
-    curl -L -o "$item" "http://prdownloads.sourceforge.net/reactivision/TUIO11_CPP-1.1.5.zip?download"
-    [[ $? != 0 ]] && echo "Error TUIO" && exit 1
-    
-    echo "Done."
+	if [[ ! -f "$tDir/aes.h" ]]; then
+		echo "Copying files to [$tDir] ..."
+	
+		cp $sDir/openssl-6e3d015363ed09c4eff5c02ad41153387ffdf5af/include/openssl/* $tDir/.
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	fi
 fi
 
-echo "Unpacking files ..."
-cd "$tmpDir"
-[[ $? != 0 ]] && echo "Error TUIO" && exit 1
-
-[[ ! -d "TUIO" ]] && mkdir TUIO
-
-unzip -qo tuio.zip -d TUIO/
-[[ $? != 0 ]] && echo "Error TUIO" && exit 1
-echo "Done."
-cd TUIO
-
-TUIODir=""
-
-for entry in ./*
-do  
-  [[ -d "$entry" ]] && TUIODir="$entry" && break
-done
-[[ ! -d "${TUIODir}" ]] && echo "Error: TUIO directory is empty!" && exit 1
-#echo ${TUIODir}
-
-cd ${TUIODir}
-[[ $? != 0 ]] && echo "Error ${TUIODir}" && exit 1
-
-if [[ ! -d "$targetDir/TUIO" ]]; then
-	echo "Moving TUIO to [$tDir] ..."
-	mv TUIO $targetDir/.
-	[[ $? != 0 ]] && echo "Error TUIO" && exit 1
-fi
-
-if [[ ! -d "$targetDir/TUIO/ip" ]]; then
-	mv oscpack/* $targetDir/TUIO/.
-	[[ $? != 0 ]] && echo "Error TUIO/ip" && exit 1
-fi
-
-# Restore 
-rm -rf "$targetDir/TUIO"/LibExport.h
-git checkout -- $targetDir/TUIO/LibExport.h
-
 echo "Done."
 
-cd ../..
+
+
+
+if [[ -e "${TOOLSDIR}/../Android" ]]; then
+	tDir="$targetDir/CL"
+	echo -e
+	echo "Preparing OpenCL ..."
+	echo '----------------------------------------'
+	
+	#[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
+	prepareDir "${tDir}"
+	prepareDir "${tmpDir}/CL"
+	
+	echo "Updating OpenCL from khronos.org ..."
+	echo '----------------------------------------'
+	
+	dlKhronos "cl.h"
+	dlKhronos "opencl.h"
+	dlKhronos "cl_platform.h"
+	dlKhronos "cl_ext.h"
+	dlKhronos "cl_egl.h"
+	dlKhronos "cl_dx9_media_sharing.h"
+	dlKhronos "cl_d3d10.h"
+	dlKhronos "cl_d3d11.h"
+	dlKhronos "cl_gl.h"
+	dlKhronos "cl_gl_ext.h"
+	
+	echo "Done."
+	
+	
+	tName=TUIO
+	tDir="$targetDir/$tName"
+	echo -e
+	echo "Preparing $tName directory [$tDir]..."
+	echo '----------------------------------------'
+	
+	#[[ "$dryrun" == "0" ]] && [[ -d "$tDir" ]] && rm -rf "$tDir"
+	
+	sDir="$tmpDir/$tName"
+	#[[ "$dryrun" == "0" ]] && [[ -d "$sDir" ]] && rm -rf "$sDir"
+	prepareDir "${sDir}"
+	
+	item="$tmpDir/tuio.zip"
+	
+	if [[ ! -f "$item" ]]; then
+	    echo "Download $tName source from sourceforge.net ..."
+	    
+	    curl -L -o "$item" "http://prdownloads.sourceforge.net/reactivision/TUIO11_CPP-1.1.5.zip?download"
+	    [[ $? != 0 ]] && echo "Error $tName" && exit 1
+	    
+	    echo "Done."
+	
+		echo "Unpacking files ..."
+		cd "$tmpDir"
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+		
+		prepareDir "${tName}"
+		
+		unzip -qo tuio.zip -d $tName/
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+		echo "Done."
+	fi
+	
+	cd $tName
+	TUIODir=""
+	
+	for entry in ./*
+	do  
+	  [[ -d "$entry" ]] && TUIODir="$entry" && break
+	done
+	[[ ! -d "${TUIODir}" ]] && echo "Error: $tName directory is empty!" && exit 1
+	#echo ${TUIODir}
+	
+	cd ${TUIODir}
+	[[ $? != 0 ]] && echo "Error ${TUIODir}" && exit 1
+	
+	if [[ ! -f "$targetDir/$tName/TuioClient.h" ]]; then
+		prepareDir "${tDir}"
+		
+		echo "Copying $tName to [$tDir] ..."
+		
+		cp -R TUIO/* $targetDir/$tName/.
+		[[ $? != 0 ]] && echo "Error $tName" && exit 1
+	fi
+	
+	if [[ ! -d "$targetDir/$tName/ip" ]]; then
+		cp -R oscpack/* $targetDir/TUIO/.
+		[[ $? != 0 ]] && echo "Error $tName/ip" && exit 1
+	fi
+fi
 
 echo -e
 echo "Cleanup tmp directory..."
+#[[ -d "TUIO" ]] && rm -rf TUIO
+#[[ -d "msints" ]] && rm -rf msints
+echo "Done."
 
-[[ -d "TUIO" ]] && rm -rf TUIO
-[[ -d "msints" ]] && rm -rf msints
+cd "${TOOLSDIR}/.."
+
+# Restore 
+if [[ -e "${TOOLSDIR}/../Android" ]]; then
+    rm -rf "$targetDir/TUIO"/LibExport.h
+    git checkout -- "$targetDir/TUIO/LibExport.h"
+fi
+
 echo "Done."
 
 

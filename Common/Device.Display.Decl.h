@@ -22,8 +22,30 @@
 #define INCLUDE_HCM_ENVIRONS_DEVICE_DISPLAY_DECLARATIONS_H_
 
 
+/** Place declarations to global namespace for plain C */
+#ifdef __cplusplus
+
 namespace environs
 {
+#endif    
+    
+#ifdef CLI_CPP
+
+	public value struct DeviceDisplay
+	{
+		int		nativeID;
+		int     width;
+		int     height;
+		int     width_mm;
+		int     height_mm;
+
+		// environs::DISPLAY_ORIENTATION_* - 0 = landscape, 1 = portrait
+		int     orientation;
+		float   dpi;
+	};
+
+#else
+
 	typedef struct _DeviceDisplay
 	{
 		int     width;
@@ -35,8 +57,15 @@ namespace environs
 		int     orientation;
 		float   dpi;
 	}
-	DeviceDisplay;
+    DeviceDisplay;
+
+#endif
+    
+    
+#ifdef __cplusplus
 }
+#endif
+
 
 
 #endif /* INCLUDE_HCM_ENVIRONS_DEVICE_DISPLAY_DECLARATIONS_H_ */

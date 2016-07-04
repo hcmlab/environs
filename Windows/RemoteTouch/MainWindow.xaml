@@ -1,0 +1,50 @@
+﻿<Window x:Class="environs.Apps.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Display Toucher" Height="350" Width="525" IsVisibleChanged="Window_IsVisibleChanged">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/hcmbg.jpg"></ImageBrush>
+    </Window.Background>
+    <Grid Grid.RowSpan="2" Grid.ColumnSpan="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="188*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*" />
+            <ColumnDefinition Width="119*" />
+            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="119*" />
+            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="119*" />
+        </Grid.ColumnDefinitions>
+        <Button Content="Button" Height="23" Name="envStatusButton" Width="92" Click="envStatusButton_Click" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="9,4,0,5" />
+        
+        <Button Content="Refresh" Height="23" Name="buttonRefresh" Width="160" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="buttonRefresh_Click" Grid.ColumnSpan="2" Margin="0,4" />
+        
+        <Ellipse Name="envStatusEllipse" Stroke="Black" Margin="12,12,8,12" Grid.Row="1" />
+        <Label Content="Status" Height="28" HorizontalAlignment="Left" Name="envStatusLabel" VerticalAlignment="Center"  Foreground="Yellow"
+               Grid.Column="1" Margin="0,6,0,0" Grid.Row="1" MouseLeftButtonDown="envStatusLabel_MouseLeftButtonDown" />
+        
+        <Ellipse Name="envStatusOpenCL" Stroke="Black" Margin="12,12,8,12" Grid.Row="1" Grid.Column="2" Mouse.MouseUp="envStatusOpenCL_MouseUp" />
+        <Label Content="OpenCL" Height="28" HorizontalAlignment="Left" Name="envStatusOpenCLLabel" VerticalAlignment="Center"  
+               Foreground="Yellow" Grid.Column="3" Margin="0,6,0,0" Grid.Row="1" />
+        
+        <Ellipse Name="envStatusStream" Stroke="Black" Margin="12,12,8,12" Grid.Row="1" Grid.Column="4" Mouse.MouseUp="envStatusStream_MouseUp"/>
+        <Label Content="Stream" Height="28" HorizontalAlignment="Left" Name="envStatusStreamLabel" VerticalAlignment="Center" 
+                Foreground="Yellow" Grid.Column="5" Margin="0,6,0,0" Grid.Row="1" />
+        
+        <Label Content="0" Grid.Row="2" Height="28" HorizontalAlignment="Center" Name="labelDevicesAvailable" VerticalAlignment="Center" 
+                Foreground="Yellow"/>
+        <Label Content="Available Devices" Grid.Column="1" Grid.Row="2" Height="28" HorizontalAlignment="Left" 
+                Foreground="Yellow" Name="labelDevicesAvailableText" VerticalAlignment="Center" />
+
+        <Label Content="0" Grid.Row="3" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Foreground="Yellow" Name="labelDevicesConnected" />
+        <Label Content="Connected Devices" Grid.Column="1" Grid.Row="3" Height="28" HorizontalAlignment="Left"
+                Foreground="Yellow" Name="labelDevicesConnecteText" VerticalAlignment="Center" />
+    </Grid>
+</Window>

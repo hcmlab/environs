@@ -1,0 +1,240 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" android:background="@mipmap/hcmbg"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchAccel"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Accelerometer"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchAccelLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Accelerometer Linear"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchMagnetic"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Magnetic field"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchGyroscope"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Gyroscope"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchOrientation"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Orientation"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Location"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchLight"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Light"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchRotation"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Rotation"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Pressure"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Humidity"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchProximity"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"
+                android:text="Proximity"
+                android:textColor="@color/greenText"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </LinearLayout>
+
+
+
+        <TextView  android:id="@+id/statusText"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textColor="@color/greenText"
+            android:text="@string/status">
+
+        </TextView>
+    </LinearLayout>
+
+    <ListView android:id="@+id/deviceList"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/list_border"
+        android:layout_height="10dp"
+        android:layout_width="fill_parent"
+        android:layout_weight="0.5">
+    </ListView>
+
+</LinearLayout>

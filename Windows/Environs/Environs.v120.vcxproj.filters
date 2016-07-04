@@ -1,0 +1,818 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Interop">
+      <UniqueIdentifier>{b0d2c0e1-dfb0-4831-82b4-2f6258a0939a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environs">
+      <UniqueIdentifier>{68e9527a-59ef-4322-9bf5-87b6e9f19623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Capture">
+      <UniqueIdentifier>{b687170f-dd1f-420f-ba82-1c9a82457e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Codec">
+      <UniqueIdentifier>{bf64b77d-a97a-49bd-b837-cd89dde80f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{aadb7ce1-2f71-449f-9acb-9efe31706d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decoder">
+      <UniqueIdentifier>{906e26e1-e918-4203-8a85-ea64df0e80b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device">
+      <UniqueIdentifier>{f9a1beba-9584-4686-81c0-227ed5a287c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DynLib">
+      <UniqueIdentifier>{cfda7747-71da-4e8c-9403-c47c3fa1a571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Encoder">
+      <UniqueIdentifier>{f75d98d6-62a5-4715-b526-b0c31fb6a25f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{c2b574f4-f260-4371-bf86-ca02c5099259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Portal">
+      <UniqueIdentifier>{65d838aa-ac35-478c-8edd-3cb8a517fa46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Recognizer">
+      <UniqueIdentifier>{0b771920-2fca-4efd-bc8d-5033f6391b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{b136c071-184c-4cf8-865c-5289d7e055d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{9F925851-3EC6-4C31-9575-DBE01C9FA64F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\Interfaces.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Encoder.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Renderer.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Capture.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Recognizer\Mouse.Simulator.Win.h">
+      <Filter>Recognizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\DynLib\dyn.Direct3D.11.h">
+      <Filter>DynLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\DynLib\dyn.OpenCL.h">
+      <Filter>DynLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Byte.Buffer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Callbacks.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Capture\Capture.Win.D3D.h">
+      <Filter>Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Capture\Capture.Win.TGDI.h">
+      <Filter>Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Capture\Capture.Win.GDI.h">
+      <Filter>Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Base.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Display.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Encoder\Encoder.Pictures.h">
+      <Filter>Encoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Mediator.Client.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Stunt.Request.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Portal.Info.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Stream.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Renderer\Render.GDI.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Renderer\Render.OpenCL.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Recognizer\Recognizers.h">
+      <Filter>Recognizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Encoder\Encoder.GDI.h">
+      <Filter>Encoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Renderer\Render.CaptureGDI.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Render.Context.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Render.Dimensions.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.Display.Decl.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\Interface.Exports.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Decoder.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\export.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\jni.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\sock.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\stat.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\threads.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Obj.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Types.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Msg.Types.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Base.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Ident.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.lib.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.native.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Mediator.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.crypt.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.utils.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.modules.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Devices.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.release.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.revision.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.platforms.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\ITracker.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.Windows.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.Windows.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Kernel.Display.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Kernel.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Kernel.Windows.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Render.Overlay.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.Instance.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Recognizer\Gesture.Three.Finger.h">
+      <Filter>Recognizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Async.Worker.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Recognizer\Touch.Visualizer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Controller.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Codec\Media.Buffer.Source.h">
+      <Filter>Codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Codec\Media.Stream.Source.h">
+      <Filter>Codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Kernel.Display.OSX.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Kernel.Mobile.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Kernel.Mobile.Platform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.mobile.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.android.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.ios.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.native.jni.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.windows.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.display.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Performance.Count.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.Mobile.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.Android.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.iOS.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Human.Input.Decl.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IInput.Recognizer.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.lib.display.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.lib.inc.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.lib.mobile.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Encoder\Encoder.And.h">
+      <Filter>Encoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Capture\Cam.Base.h">
+      <Filter>Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Log.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Input.Handler.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Encoder\Encoder.Base.h">
+      <Filter>Encoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Touch.Source.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.av.context.h">
+      <Filter>Codec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Decoder\Decoder.Android.h">
+      <Filter>Decoder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Recognizer\Gesture.Bezel.Touch.h">
+      <Filter>Recognizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Recognizer\Gesture.Three.Touch.h">
+      <Filter>Recognizer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Device.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Android.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Display.Win.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.iOS.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.OSX.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Mobile.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Notifications.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Capture\Cam.Base.2B.h">
+      <Filter>Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Sensors.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Observer.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Observer.iOSX.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.Info.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.List.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\File.Instance.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Message.Instance.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\Smart.Pointer.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Portal.Instance.h">
+      <Filter>Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\direntw.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\unistdw.h">
+      <Filter>Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Linux.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Loader.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IDevice.Instance.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IDevice.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IFile.Instance.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Info.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Instance.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.OSX.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Notify.Context.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Dispose.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IArray.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Array.List.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IMessage.Instance.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IMessage.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IFile.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IDevice.Instance.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Build.Macros.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Build.Opts.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Build.Lnk.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Observer.IAPI.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Utils\Login.Dialog.Win32.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Platform.Decls.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Commit.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Queue.List.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Queue.Vector.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Tracer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\ISensor.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Wifi.Observer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IExt.Thread.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\DynLib\Dyn.WlanAPI.h">
+      <Filter>DynLib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Gesture.Three.Finger.cpp">
+      <Filter>Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Touch.Visualizer.cpp">
+      <Filter>Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Mouse.Simulator.Win.cpp">
+      <Filter>Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\DynLib\dyn.Direct3D.11.cpp">
+      <Filter>DynLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\DynLib\dyn.OpenCL.cpp">
+      <Filter>DynLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Byte.Buffer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Callbacks.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Capture\Capture.Win.D3D.cpp">
+      <Filter>Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Capture\Capture.Win.TGDI.cpp">
+      <Filter>Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Capture\Capture.Win.GDI.cpp">
+      <Filter>Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Core.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Base.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Display.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Encoder\Encoder.Pictures.cpp">
+      <Filter>Encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interfaces\IPortal.Renderer.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Performance.Count.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Mediator.Client.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Stream.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Renderer\Render.GDI.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Renderer\Render.OpenCL.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Stunt.Request.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Utils.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Recognizers.cpp">
+      <Filter>Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Encoder\Encoder.GDI.cpp">
+      <Filter>Encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Renderer\Render.CaptureGDI.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interfaces\IPortal.Encoder.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interfaces\IEnvirons.Base.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interop\export.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interop\threads.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Decoder\Decoder.Base.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Obj.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.types.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.lib.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Mediator.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.crypt.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.crypt1.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.utils.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Devices.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Log.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Async.Worker.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Display.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Windows.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.Windows.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.Windows.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Codec\Media.Buffer.Source.cpp">
+      <Filter>Codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Codec\Media.Stream.Source.cpp">
+      <Filter>Codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Display.Linux.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Display.OSX.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.Platform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.mobile.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.android.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.windows.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.display.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.Mobile.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.Android.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.lib.display.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.lib.mobile.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Encoder\Encoder.And.cpp">
+      <Filter>Encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Capture\Cam.Base.cpp">
+      <Filter>Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Input.Handler.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Encoder\Encoder.Base.cpp">
+      <Filter>Encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Touch.Source.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Decoder\Decoder.Android.cpp">
+      <Filter>Decoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Gesture.Bezel.Touch.cpp">
+      <Filter>Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Recognizer\Gesture.Three.Touch.cpp">
+      <Filter>Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Device.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Android.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Display.Win.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.iOS.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.OSX.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Notifications.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Capture\Cam.Base.2B.cpp">
+      <Filter>Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Sensors.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Instance.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.List.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\File.Instance.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Message.Instance.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Instance.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Info.cpp">
+      <Filter>Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interop\direntw.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Linux.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Loader.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.OSX.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Array.List.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cpp.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Utils\Login.Dialog.Win32.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Commit.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Queue.List.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Queue.Vector.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Crypt.CNG.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Crypt.Lib.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Crypt.Win32.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Tracer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Wifi.Observer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\DynLib\Dyn.WlanAPI.cpp">
+      <Filter>DynLib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\CHANGELOG.md" />
+    <None Include="..\..\ReadMe.md" />
+    <None Include="..\..\iOSX\Environs\Environs.ios.mm">
+      <Filter>Environs</Filter>
+    </None>
+    <None Include="..\..\Native\Portal\Portal.Receiver.iOS.mm">
+      <Filter>Portal</Filter>
+    </None>
+  </ItemGroup>
+</Project>

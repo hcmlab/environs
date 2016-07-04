@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:Environs.osx.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Plugins/Env-EncOpenH264.xcodeproj">
+   </FileRef>
+</Workspace>

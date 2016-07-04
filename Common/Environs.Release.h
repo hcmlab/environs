@@ -20,75 +20,49 @@
 #ifndef INCLUDE_HCM_ENVIRONS_RELEASE_NATIVE_COMMON_H
 #define INCLUDE_HCM_ENVIRONS_RELEASE_NATIVE_COMMON_H
 
-#define ENABLE_GPL
-
-#define	BUILD_MAJOR_VERSION		0
-#define	BUILD_MINOR_VERSION		7
-#define	BUILD_RELEASE_COUNTER	1
-
 #include "Environs.Revision.h"
+#include "Environs.Build.Macros.h"
+#include "Interop/Export.h"
+
+
+#define	BUILD_MAJOR_VERSION		0 
+#define	BUILD_MINOR_VERSION		9 
+#define	BUILD_RELEASE_COUNTER	9 
+
 
 #define BUILD_ATTR1
 
 #ifdef __APPLE__
-#include "TargetConditionals.h"
+#	include "TargetConditionals.h"
 #endif
 
 //// Declare the symbol NDEBUG for release builds (either in the project settings or as compile C_FLAGS, i.e. -DNDEBUG)
 #ifndef NDEBUG
-//#define NDEBUG
+//#	define NDEBUG
 #endif
 
 
 #ifdef NDEBUG
-#define	BUILD_TYPE	" Release"
+#	define	BUILD_TYPE	" Release"
 
-#ifdef DEBUGVERB
-#undef DEBUGVERB
-#endif
+#	ifdef DEBUGVERB
+#		undef DEBUGVERB
+#	endif
 
-#ifdef DEBUGVERBVerb
-#undef DEBUGVERBVerb
-#endif
+#	ifdef DEBUGVERBVerb
+#		undef DEBUGVERBVerb
+#	endif
 
 #else
-#define	BUILD_TYPE	" Debug"
+#	define	BUILD_TYPE	" Debug"
 
-#ifdef _WIN32
-#ifdef MEDIATORDAEMON
-#define _USE_VLD
-#endif
-//#define _USE_VLD
-//#define USE_CRT_MLC
-
-#ifdef _USE_VLD
-#define _C_X64
-#endif
-
-#ifdef _USE_VLD
-#ifdef _C_X64
-#include "C:/Program Files (x86)/Visual Leak Detector/include/vld.h"
-#else
-#include "C:/Program Files/Visual Leak Detector/include/vld.h"
-#endif
-#endif
-
-#ifdef USE_CRT_MLC
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#endif
+#	include "Environs.Build.Opts.h"
 
 #endif
-
-#endif
-
-#define ENVIRONS_TTOSTRING(t)	#t
-#define ENVIRONS_TOSTRING(val)	ENVIRONS_TTOSTRING(val)
 
 #define ENVIRONS_VERSION_STRING	ENVIRONS_TOSTRING(BUILD_MAJOR_VERSION) "." ENVIRONS_TOSTRING(BUILD_MINOR_VERSION) "." ENVIRONS_TOSTRING(BUILD_RELEASE_COUNTER) "." ENVIRONS_TOSTRING(BUILD_REVISION) BUILD_TYPE
 
-#define BUILD_VERSION_STRING	"Environs: " ENVIRONS_VERSION_STRING
+#define BUILD_VERSION_STRING	"Environs: " ENVIRONS_VERSION_STRING " (" ENVIRONS_TOSTRING(ENVIRONS_BUILD_CRT) ")"
 
 
 

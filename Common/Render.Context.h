@@ -27,7 +27,7 @@
 #include "Interop/Threads.h"
 
 #ifdef USE_ENCODER_BYTEBUFFER
-#include "Core/Byte.Buffer.h"
+#	include "Core/Byte.Buffer.h"
 #endif
 
 namespace environs
@@ -45,8 +45,12 @@ namespace environs
 		bool					hasChanged;
 		bool					hasSendLoad;
 
-		PortalBufferType::PortalBufferType	renderedDataType;
+		// This flag is true, if there is no renderer. In this case, the renderedData pointers may be used by the capturer and encoder arbitrarily.
+		bool					renderSkipped;
+
+		PortalBufferType_t		renderedDataType;
 		void				*	renderedData;
+		int						renderedDataCapacity;
 		void				*	renderedDataHandle;
 
 		// For PortalBufferType::ARGB we need to supply width/height/stride of the renderedData

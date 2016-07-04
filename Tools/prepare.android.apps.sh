@@ -22,13 +22,13 @@ echo "----------------------------------------"
 SRC="${SCRIPTDIR}"/../libs
 [[ ! -e "${SRC}" ]] && echo "Error: Build [${SRC}] not found." && exit 1
 
-DST="${SCRIPTDIR}/../Androids/MediaBrowser/app/libs"
+DST="${SCRIPTDIR}/../Android/MediaBrowser/app/libs"
 [[ ! -d "${DST}" ]] && mkdir -p "${DST}" && [[ $? != 0 ]] && echo "Error." && exit 1
 
 cp "${SRC}"/*.aar* "${DST}"/.
 [[ $? != 0 ]] && echo "Error." && exit 1
 
-DST="${SCRIPTDIR}/../Androids/SimpleEnvirons/app/libs"
+DST="${SCRIPTDIR}/../Android/SimpleEnvirons/app/libs"
 [[ ! -d "${DST}" ]] && mkdir -p "${DST}" && [[ $? != 0 ]] && echo "Error." && exit 1
 
 cp "${SRC}"/*.aar* "${DST}"/.

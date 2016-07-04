@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Environs">
+      <UniqueIdentifier>{68e9527a-59ef-4322-9bf5-87b6e9f19623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{b687170f-dd1f-420f-ba82-1c9a82457e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Native">
+      <UniqueIdentifier>{b136c071-184c-4cf8-865c-5289d7e055d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Stdafx.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\Smart.Pointer.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Log.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Native.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Platforms.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Release.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Revision.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Types.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Utils.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\Interfaces.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\Interface.Exports.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.Info.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.List.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Device.Instance.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\File.Instance.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Message.Instance.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interop\Time.Val.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Portal.Instance.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Lib.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Cli.Forwards.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Observer.Cli.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Sensors.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Cli.Base.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Cli.Utils.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Cli.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Cli.Win.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Cpp.Base.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.Instance.Cli.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Device\Device.List.Cli.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Types.h.cli.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Portal\Portal.Instance.Cli.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\File.Instance.Cli.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Message.Instance.Cli.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Input.Handler.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Environs.Platform.Decls.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Environs.Cli.Win.Common.h">
+      <Filter>Environs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="Stdafx.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\File.Instance.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Message.Instance.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interop\Threads.cpp">
+      <Filter>Native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Instance.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.List.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Instance.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Interop\direntw.cpp">
+      <Filter>Native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Info.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cli.Win.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cli.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cli.Base.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cli.Utils.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cli.Init.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.Instance.Cli.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.List.Cli.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\File.Instance.Cli.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Message.Instance.Cli.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Portal\Portal.Instance.Cli.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Input.Handler.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Cli.Win.Common.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Environs.Types.cpp">
+      <Filter>Environs</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

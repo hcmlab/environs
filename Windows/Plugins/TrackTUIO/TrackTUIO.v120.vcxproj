@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{86112FEC-709C-4660-AAA2-C1D89285896B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Environs.plugin.TrackTUIO</RootNamespace>
+    <ProjectName>Plugin.TrackTUIO</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>libEnv-TrackTUIO</TargetName>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>libEnv-TrackTUIO</TargetName>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>libEnv-TrackTUIO</TargetName>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>libEnv-TrackTUIO</TargetName>
+    <OutDir>$(ProjectDir)$(Configuration)\$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENVIRONSPLUGINMFH264_EXPORTS;DISPLAYDEVICE;ENVIRONS_NATIVE_MODULE;ENVIRONS_MODULE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Common;$(ProjectDir)..\..\..\Native;$(ProjectDir)..\..\..\3rd\inc;$(ProjectDir)..\..\..\3rd\inc\TUIO;%(AdditionalIncludeDirectories);$(ProjectDir)..\..\..\3rd</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <DisableSpecificWarnings>4996;4267;4101</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(ProjectDir)..\..\..\bin\libs\$(PlatformToolset)\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENVIRONSPLUGINMFH264_EXPORTS;DISPLAYDEVICE;ENVIRONS_NATIVE_MODULE;ENVIRONS_MODULE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Common;$(ProjectDir)..\..\..\Native;$(ProjectDir)..\..\..\3rd\inc;$(ProjectDir)..\..\..\3rd\inc\TUIO;%(AdditionalIncludeDirectories);$(ProjectDir)..\..\..\3rd</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <DisableSpecificWarnings>4996;4267;4101</DisableSpecificWarnings>
+      <BrowseInformation>true</BrowseInformation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(ProjectDir)..\..\..\bin64\libs\$(PlatformToolset)\."</Command>
+    </PostBuildEvent>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ENVIRONSPLUGINMFH264_EXPORTS;DISPLAYDEVICE;ENVIRONS_NATIVE_MODULE;ENVIRONS_MODULE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Common;$(ProjectDir)..\..\..\Native;$(ProjectDir)..\..\..\3rd\inc;$(ProjectDir)..\..\..\3rd\inc\TUIO;%(AdditionalIncludeDirectories);$(ProjectDir)..\..\..\3rd</AdditionalIncludeDirectories>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <DisableSpecificWarnings>4996;4267;4101</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(ProjectDir)..\..\..\bin\libs\$(PlatformToolset)\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ENVIRONSPLUGINMFH264_EXPORTS;DISPLAYDEVICE;ENVIRONS_NATIVE_MODULE;ENVIRONS_MODULE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Common;$(ProjectDir)..\..\..\Native;$(ProjectDir)..\..\..\3rd\inc;$(ProjectDir)..\..\..\3rd\inc\TUIO;%(AdditionalIncludeDirectories);$(ProjectDir)..\..\..\3rd</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <DisableSpecificWarnings>4996;4267;4101</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(ProjectDir)..\..\..\bin64\libs\$(PlatformToolset)\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscException.h" />
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscHostEndianness.h" />
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscReceivedElements.h" />
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscTypes.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\IpEndpointName.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\NetworkingUtils.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\PacketListener.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\TimerListener.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\UdpSocket.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\LibExport.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\OscReceiver.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscException.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscHostEndianness.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscReceivedElements.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscTypes.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioBlob.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioClient.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioContainer.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioCursor.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioDispatcher.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioObject.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioPoint.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioTime.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\UdpReceiver.h" />
+    <ClInclude Include="..\..\..\Native\Tracker\Track.TUIO.h" />
+    <ClInclude Include="..\..\..\Common\Interfaces\ITracker.h" />
+    <ClInclude Include="..\..\..\Common\Interop\export.h" />
+    <ClInclude Include="..\..\..\Common\Environs.types.h" />
+    <ClInclude Include="..\..\..\Common\Interop\threads.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TUIOListener.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\ip\IpEndpointName.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\ip\win32\NetworkingUtils.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\ip\win32\UdpSocket.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\OscReceiver.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\osc\OscReceivedElements.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\osc\OscTypes.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioBlob.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioClient.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioContainer.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioCursor.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioDispatcher.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioObject.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioPoint.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioTime.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\UdpReceiver.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Interop\threads.cpp" />
+    <ClCompile Include="..\..\..\Native\Tracker\Track.TUIO.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="Environs" InternalType="Library">
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src"/>
+  <VirtualDirectory Name="include"/>
+  <VirtualDirectory Name="Environs">
+    <File Name="../../../Native/Environs.cpp"/>
+    <File Name="../../../Native/Environs.Cpp.cpp"/>
+    <File Name="../../../Native/Environs.Display.cpp"/>
+    <File Name="../../../Native/Environs.Display.h"/>
+    <File Name="../../../Native/Environs.Lib.cpp"/>
+    <File Name="../../../Native/Environs.Lib.Display.cpp"/>
+    <File Name="../../../Native/Environs.Lib.Mobile.cpp"/>
+    <File Name="../../../Native/Environs.Linux.cpp"/>
+    <File Name="../../../Native/Environs.Linux.h"/>
+    <File Name="../../../Native/Environs.Mobile.cpp"/>
+    <File Name="../../../Native/Environs.Mobile.h"/>
+    <File Name="../../../Native/Environs.Modules.h"/>
+    <File Name="../../../Native/Environs.Obj.cpp"/>
+    <File Name="../../../Native/Environs.Obj.h"/>
+    <File Name="../../../Native/Environs.Sensors.cpp"/>
+    <File Name="../../../Native/Environs.Sensors.h"/>
+    <File Name="../../../Common/Environs.Av.Context.h"/>
+    <File Name="../../../Common/Environs.Build.Lnk.h"/>
+    <File Name="../../../Common/Environs.Build.Macros.h"/>
+    <File Name="../../../Common/Environs.Build.Opts.h"/>
+    <File Name="../../../Common/Environs.Commit.cpp"/>
+    <File Name="../../../Common/Environs.Commit.h"/>
+    <File Name="../../../Common/Environs.cpp.h"/>
+    <File Name="../../../Common/Environs.Cpp.Base.h"/>
+    <File Name="../../../Common/Environs.Crypt.cpp"/>
+    <File Name="../../../Common/Environs.Crypt.h"/>
+    <File Name="../../../Common/Environs.Crypt1.cpp"/>
+    <File Name="../../../Common/Environs.h"/>
+    <File Name="../../../Common/Environs.Lib.Display.h"/>
+    <File Name="../../../Common/Environs.Lib.h"/>
+    <File Name="../../../Common/Environs.Lib.Inc.h"/>
+    <File Name="../../../Common/Environs.Lib.Mobile.h"/>
+    <File Name="../../../Common/Environs.Loader.h"/>
+    <File Name="../../../Common/Environs.Msg.Types.h"/>
+    <File Name="../../../Common/Environs.Native.h"/>
+    <File Name="../../../Common/Environs.Native.jni.h"/>
+    <File Name="../../../Common/Environs.Observer.h"/>
+    <File Name="../../../Common/Environs.Observer.IAPI.h"/>
+    <File Name="../../../Common/Environs.Platform.Decls.h"/>
+    <File Name="../../../Common/Environs.Platforms.h"/>
+    <File Name="../../../Common/Environs.Release.h"/>
+    <File Name="../../../Common/Environs.Revision.h"/>
+    <File Name="../../../Common/Environs.Types.cpp"/>
+    <File Name="../../../Common/Environs.Types.h"/>
+    <File Name="../../../Common/Environs.Utils.cpp"/>
+    <File Name="../../../Common/Environs.Utils.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="Core">
+    <File Name="../../../Common/File.Instance.h"/>
+    <File Name="../../../Common/Location.Decl.h"/>
+    <File Name="../../../Common/Log.cpp"/>
+    <File Name="../../../Common/Log.h"/>
+    <File Name="../../../Common/Mediator.cpp"/>
+    <File Name="../../../Common/Mediator.h"/>
+    <File Name="../../../Common/Message.Instance.h"/>
+    <File Name="../../../Common/Notify.Context.h"/>
+    <File Name="../../../Common/stdafx.h"/>
+    <File Name="../../../Native/Core/Array.List.cpp"/>
+    <File Name="../../../Native/Core/Array.List.h"/>
+    <File Name="../../../Native/Core/Async.Worker.cpp"/>
+    <File Name="../../../Native/Core/Async.Worker.h"/>
+    <File Name="../../../Native/Core/Byte.Buffer.cpp"/>
+    <File Name="../../../Native/Core/Byte.Buffer.h"/>
+    <File Name="../../../Native/Core/Callbacks.cpp"/>
+    <File Name="../../../Native/Core/Callbacks.h"/>
+    <File Name="../../../Native/Core/Core.cpp"/>
+    <File Name="../../../Native/Core/Core.h"/>
+    <File Name="../../../Native/Core/File.Instance.cpp"/>
+    <File Name="../../../Native/Core/Input.Handler.cpp"/>
+    <File Name="../../../Native/Core/Input.Handler.h"/>
+    <File Name="../../../Native/Core/Kernel.cpp"/>
+    <File Name="../../../Native/Core/Kernel.Display.cpp"/>
+    <File Name="../../../Native/Core/Kernel.Display.h"/>
+    <File Name="../../../Native/Core/Kernel.Display.Linux.cpp"/>
+    <File Name="../../../Native/Core/Kernel.h"/>
+    <File Name="../../../Native/Core/Kernel.Mobile.cpp"/>
+    <File Name="../../../Native/Core/Kernel.Mobile.h"/>
+    <File Name="../../../Native/Core/Kernel.Windows.cpp"/>
+    <File Name="../../../Native/Core/Kernel.Windows.h"/>
+    <File Name="../../../Native/Core/Mediator.Client.cpp"/>
+    <File Name="../../../Native/Core/Mediator.Client.h"/>
+    <File Name="../../../Native/Core/Message.Instance.cpp"/>
+    <File Name="../../../Native/Core/Notifications.cpp"/>
+    <File Name="../../../Native/Core/Notifications.h"/>
+    <File Name="../../../Native/Core/Performance.Count.cpp"/>
+    <File Name="../../../Native/Core/Performance.Count.h"/>
+    <File Name="../../../Native/Core/Stunt.Request.cpp"/>
+    <File Name="../../../Native/Core/Stunt.Request.h"/>
+    <File Name="../../../Native/Core/Utils.cpp"/>
+    <File Name="../../../Common/Queue.List.h"/>
+    <File Name="../../../Common/Queue.Vector.h"/>
+    <File Name="../../../Native/Core/Queue.List.cpp"/>
+    <File Name="../../../Common/Queue.Vector.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="Devices">
+    <File Name="../../../Native/Device/Device.Android.cpp"/>
+    <File Name="../../../Native/Device/Device.Android.h"/>
+    <File Name="../../../Native/Device/Device.Base.cpp"/>
+    <File Name="../../../Native/Device/Device.Base.h"/>
+    <File Name="../../../Native/Device/Device.Controller.h"/>
+    <File Name="../../../Native/Device/Device.Display.cpp"/>
+    <File Name="../../../Native/Device/Device.Display.h"/>
+    <File Name="../../../Native/Device/Device.Display.Win.cpp"/>
+    <File Name="../../../Native/Device/Device.Display.Win.h"/>
+    <File Name="../../../Native/Device/Device.Instance.cpp"/>
+    <File Name="../../../Native/Device/Device.Linux.cpp"/>
+    <File Name="../../../Native/Device/Device.Linux.h"/>
+    <File Name="../../../Native/Device/Device.List.cpp"/>
+    <File Name="../../../Native/Device/Devices.cpp"/>
+    <File Name="../../../Native/Device/Devices.h"/>
+    <File Name="../../../Common/Device.Display.Decl.h"/>
+    <File Name="../../../Common/Device.Info.h"/>
+    <File Name="../../../Common/Device.Instance.h"/>
+    <File Name="../../../Common/Device.List.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="Portal">
+    <File Name="../../../Native/Portal/Portal.Device.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Device.h"/>
+    <File Name="../../../Native/Portal/Portal.Generator.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Generator.h"/>
+    <File Name="../../../Native/Portal/Portal.Generator.Mobile.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Generator.Mobile.h"/>
+    <File Name="../../../Native/Portal/Portal.Generator.Windows.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Generator.Windows.h"/>
+    <File Name="../../../Native/Portal/Portal.Info.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Instance.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Receiver.Android.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Receiver.Android.h"/>
+    <File Name="../../../Native/Portal/Portal.Receiver.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Receiver.h"/>
+    <File Name="../../../Native/Portal/Portal.Receiver.Windows.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Receiver.Windows.h"/>
+    <File Name="../../../Native/Portal/Portal.Stream.cpp"/>
+    <File Name="../../../Native/Portal/Portal.Stream.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="Interop">
+    <File Name="../../../Common/Interop/Export.cpp"/>
+    <File Name="../../../Common/Interop/Export.h"/>
+    <File Name="../../../Common/Interop/jni.h"/>
+    <File Name="../../../Common/Interop/Smart.Pointer.h"/>
+    <File Name="../../../Common/Interop/Sock.h"/>
+    <File Name="../../../Common/Interop/Stat.h"/>
+    <File Name="../../../Common/Interop/Threads.cpp"/>
+    <File Name="../../../Common/Interop/Threads.h"/>
+    <File Name="../../../Common/Interop/Time.Val.h"/>
+    <File Name="../../../Common/Interop.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="DynLib">
+    <File Name="../../../Native/DynLib/Dyn.OpenCL.cpp"/>
+    <File Name="../../../Native/DynLib/Dyn.OpenCL.h"/>
+    <File Name="../../../3rd/DynLib/Dyn.Lib.Crypto.cpp"/>
+    <File Name="../../../3rd/DynLib/Dyn.Lib.Crypto.h"/>
+  </VirtualDirectory>
+  <Settings Type="Dynamic Library">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-std=c++11;-fPIC" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <IncludePath Value="../../../Common"/>
+        <IncludePath Value="../../../3rd"/>
+        <IncludePath Value="../../../3rd/inc"/>
+        <IncludePath Value="../../../Native"/>
+        <Preprocessor Value="DEBUG"/>
+        <Preprocessor Value="ENVIRONS_CORE_LIB"/>
+        <Preprocessor Value="LINUX"/>
+        <Preprocessor Value="DISPLAYDEVICE"/>
+      </Compiler>
+      <Linker Options="-rdynamic -lm -lpthread" Required="yes">
+        <Library Value="dl"/>
+        <Library Value="uuid"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="../../../bin64/libs/lib$(ProjectName).so" IntermediateDirectory="./Debug" Command="libEnvirons.so" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="yes">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName/>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-O2" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).so" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName/>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+  <VirtualDirectory Name="Renderer">
+    <File Name="../../../Native/Renderer/Render.OpenCL.cpp"/>
+    <File Name="../../../Native/Renderer/Render.OpenCL.h"/>
+  </VirtualDirectory>
+</CodeLite_Project>

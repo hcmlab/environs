@@ -9,54 +9,40 @@
 #
 ######################################################
 
-if [[ -z "${SCRIPTDIR}" ]]; then
+if [[ -z "${TOOLSDIR}" ]]; then
     pushd `dirname $0` > /dev/null
-    SCRIPTDIR=`pwd`
+    TOOLSDIR=`pwd`
     popd > /dev/null
 fi
 
-targetDir="${SCRIPTDIR}/../Androids/MediaBrowser/library"
-
-if [[ -z "$tmpDir" ]]; then
-#    curDir=${PWD##*/}
-    tmpDir="$SCRIPTDIR/../../tmpEnvirons"
-fi
-
-rescueDir="$SCRIPTDIR/../../EnvironsRescued"
 tDir=
 dryrun=0
+cleanCmd=
 
+source "${TOOLSDIR}/check.build.is.ci.sh"
 
-[[ $# > 0 ]] && cleanCmd=$1
+source "${TOOLSDIR}"/download.tools.sh
 
+targetDir="${TOOLSDIR}/../Android/MediaBrowser/library"
 
-function safeMove
-{
-	smSrc="$1"
-	smDst="$2"
-	smName="$3"
-	
-    if [[ -e "${smSrc}/${smName}" ]]; then
-    	[[ -e "${smDst}/${smName}" ]] && rm -rf "${smDst}/${smName}"
-    	
-    	[[ ! -e "${smDst}" ]] && mkdir -p "${smDst}" && [[ $? != 0 ]] &&  echo "Error mkdir ${smDst}" && exit 1
-    	
-    	mv "${smSrc}/${smName}" "${smDst}"/.
-    fi
-    [[ $? != 0 ]] && echo "Error moving ${smSrc}/${smName} to ${smDst}" && exit 1
-}
-
+AND_DIRS=(
+	"$targetDir/ActionBarSherlock"
+	"$targetDir/aFileDialog"
+)
+AND_TARS=(
+	"$targetDir/ActionBarSherlock.tar.gz"
+	"$targetDir/aFileDialog.tar.gz"
+)
 
 if [[ "$cleanCmd" == "1" ]]; then
-	[[ -d "$targetDir/ActionBarSherlock" ]] && rm -rf "$targetDir/ActionBarSherlock"
-	[[ -d "$targetDir/aFileDialog" ]] && rm -rf "$targetDir/aFileDialog"
+
+	delFiles AND_DIRS[@]
 	return 0
 fi
+
 if [[ "$cleanCmd" == "2" ]]; then
-	[[ -f "$tmpDir/ActionBarSherlock.tar.gz" ]] && rm -rf "$tmpDir/ActionBarSherlock.tar.gz"
-	[[ -d "$tmpDir/ActionBarSherlock" ]] && rm -rf "$tmpDir/ActionBarSherlock"
-	[[ -f "$tmpDir/aFileDialog.tar.gz" ]] && rm -rf "$tmpDir/aFileDialog.tar.gz"
-	[[ -d "$tmpDir/aFileDialog" ]] && rm -rf "$tmpDir/aFileDialog"
+	delFiles AND_DIRS[@]
+	delFiles AND_TARS[@]
 	return 0
 fi
 
@@ -79,7 +65,7 @@ fi
 
 
 echo -e
-echo 'Downloading additional Android projects...'
+echo 'Verifying additional Android projects...'
 
 function patchGradle
 {
@@ -115,10 +101,8 @@ function patchGradle
 	echo "Patched gradle [$1]"	
 }
 
+prepareDir "${tmpDir}"
 
-echo -e
-echo "Preparing tmp dir [$tmpDir]"
-[[ ! -d "${tmpDir}" ]] && mkdir $tmpDir && [[ $? != 0 ]] && echo "Error" && exit 1
 
 target="ActionBarSherlock"
 
@@ -126,35 +110,41 @@ cd ${tmpDir}
 [[ $? != 0 ]] && echo "Error $target" && exit 1
 
 if [[ -d "${targetDir}/${target}" ]]; then
-	echo "The target already exists .."
-	echo "[${targetDir}/${target}]"
-else
-	if [[ ! -e "${target}.tar.gz" ]]; then
-		echo -e
-		echo "Downloading ${target} 4.4.0 ..."
-		
-	    curl -L0k -o "${target}.tar.gz" "https://api.github.com/repos/JakeWharton/ActionBarSherlock/tarball/4.4.0"
-	    [[ $? != 0 ]] && echo "Error downloading $1" && exit 1
-	fi
+	echo "The target already exists .. removing ..."
+    if [[ -d "/d/tmp" ]]; then
+	mv "${targetDir}/${target}" "/d/tmp"
+	rm -rf "/d/tmp/${target}"
+    else
+	rm -rf "${targetDir}/${target}"
+    fi
+fi
+if [[ ! -e "${target}.tar.gz" ]]; then
+	echo -e
+	echo "Downloading ${target} 4.4.0 ..."
 	
-	[[ -d "${target}" ]] && rm -rf ${target}
-	
-	mkdir -p ${target}
-	[[ $? != 0 ]] && echo "Error $target" && exit 1
+    curl -L0k -o "${target}.tar.gz" "https://api.github.com/repos/JakeWharton/ActionBarSherlock/tarball/4.4.0"
+    [[ $? != 0 ]] && echo "Error downloading $1" && exit 1
+
+	#[[ -d "${target}" ]] && rm -rf ${target}
+fi
+
+if [[ ! -e "${target}" ]]; then  		
+	prepareDir "${target}"
 	
 	echo "Unpack files ..."
 	tar -xzf ${target}.tar.gz -C ${target} --strip-components=1
 	[[ $? != 0 ]] && echo "Error $target" && exit 1
-	                      
-	echo -e
-	echo "Moving [$target] to ${targetDir}..."
-	[[ ! -d "${targetDir}" ]] && mkdir -p "${targetDir}" && [[ $? != 0 ]] && echo "Error $target" && exit 1
-	
-	mv ${target} "${targetDir}"/.
-	[[ $? != 0 ]] && echo "Error $target" && exit 1
-	
-	echo "Done."
 fi
+              
+if [[ ! -e "${targetDir}/${target}" ]]; then        
+	echo -e
+	prepareDir "${targetDir}"
+	
+	echo "Copying [$target] to ${targetDir}..."		
+	cp -R ${target} "${targetDir}"/.
+	[[ $? != 0 ]] && echo "Error $target" && exit 1
+fi
+echo "Done."
 
 patchGradle "${targetDir}/${target}/actionbarsherlock/build.gradle" "22" "22.0.1"
 [[ $? != 0 ]] && echo "Error" && exit 1
@@ -174,23 +164,26 @@ else
 		
 	    curl -L0k -o "${target}.tar.gz" "https://github.com/jfmdev/aFileDialog/archive/v1.0.5.tar.gz"
 	    [[ $? != 0 ]] && echo "Error downloading $1" && exit 1
+	
+		#[[ -d "${target}" ]] && rm -rf ${target}
 	fi
 	
-	[[ -d "${target}" ]] && rm -rf ${target}
-	
-	mkdir -p ${target}
-	[[ $? != 0 ]] && echo "Error $target" && exit 1
-	
-	echo "Unpack files ..."
-	tar -xzf ${target}.tar.gz -C ${target} --strip-components=1
-	[[ $? != 0 ]] && echo "Error $target" && exit 1
-	                      
-	echo -e
-	echo "Moving [$target] to ${targetDir}..."
-	[[ ! -d "${targetDir}" ]] && mkdir -p "${targetDir}" && [[ $? != 0 ]] && echo "Error $target" && exit 1
-
-	mv ${target} "${targetDir}"/.
-	[[ $? != 0 ]] && echo "Error $target" && exit 1
+	if [[ ! -e "${target}" ]]; then  		
+		prepareDir "${target}"
+		
+		echo "Unpack files ..."
+		tar -xzf ${target}.tar.gz -C ${target} --strip-components=1
+		[[ $? != 0 ]] && echo "Error $target" && exit 1
+	fi
+	            
+	if [[ ! -e "${targetDir}/${target}" ]]; then            
+		echo -e
+		prepareDir "${targetDir}"
+		
+		echo "Copying [$target] to ${targetDir}..."	
+		cp -R ${target} "${targetDir}"/.
+		[[ $? != 0 ]] && echo "Error $target" && exit 1
+	fi
 	
 	echo "Done."
 fi

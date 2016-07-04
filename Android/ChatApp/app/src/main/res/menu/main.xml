@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/actionSettings"
+        android:orderInCategory="100"
+        android:title="@string/appSettings"/>
+
+    <item
+        android:id="@+id/actionEnvStart"
+        android:orderInCategory="110"
+        android:title="@string/envStart"/>
+
+    <item
+        android:id="@+id/actionToggleChatTest"
+        android:orderInCategory="120"
+        android:title="@string/toggleChatText"/>
+
+    <item
+        android:id="@+id/actionNotifications"
+        android:orderInCategory="130"
+        android:title="@string/notificationStart"/>
+
+</menu>

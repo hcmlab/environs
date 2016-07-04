@@ -22,13 +22,19 @@
 #include "IEnvirons.Ident.h"
 #include "Human.Input.Decl.h"
 #include "Device.Display.Decl.h"
-#include "stdio.h"
+
+#ifndef WINDOWS_PHONE
+#	include "stdio.h"
+#endif
+
 
 #ifndef INCLUDE_HCM_ENVIRONS_IHUMAN_INPUT_RECOGNIZER_H
 #define INCLUDE_HCM_ENVIRONS_IHUMAN_INPUT_RECOGNIZER_H
 
 #define	MAX_TOUCH_VISUALS	10
 
+
+#ifdef __cplusplus
 
 namespace environs 
 {
@@ -44,7 +50,7 @@ namespace environs
 			/** Base class initialization */
 			IEnvironsIdent ( InterfaceType::InputRecognizer ),
 			/** Default initialization */
-			triggerTouchCount ( 0 ), deviceBase ( 0 )
+			deviceBase ( 0 ), triggerTouchCount ( 0 ), display ( DeviceDisplay() )
 		{};
 
 		virtual ~IInputRecognizer ( ) {};
@@ -57,15 +63,15 @@ namespace environs
 		*	@param	device_height
 		*	@return	bool
 		*/
-		bool Init ( void * deviceBase, DeviceDisplay * display )
+		bool Init ( void * deviceBasea, DeviceDisplay * displaya )
 		{
-            this->deviceBase = deviceBase;
+            deviceBase = deviceBasea;
             
-            if ( display ) {
-                this->display.width = display->width;
-                this->display.height = display->height;
-                this->display.width_mm = display->width_mm;
-                this->display.height_mm = display->height_mm;
+            if ( displaya ) {
+                display.width = displaya->width;
+                display.height = displaya->height;
+                display.width_mm = displaya->width_mm;
+                display.height_mm = displaya->height_mm;
             }
 			return Init ();
 		};
@@ -78,9 +84,9 @@ namespace environs
 		*	@return	bool
 		*/
         int                 triggerTouchCount;
-		virtual int			Trigger ( InputPackRec **	inputs, int inputCount ) = 0;
+		virtual int			Trigger ( environs::lib::InputPackRec **	inputs, int inputCount ) = 0;
 
-        virtual int			Perform ( InputPackRec **	inputs, int inputCount ) = 0;
+        virtual int			Perform ( environs::lib::InputPackRec **	inputs, int inputCount ) = 0;
         
         virtual void		Flush () {};
 
@@ -92,6 +98,7 @@ namespace environs
 
 } /* namespace environs */
 
+#endif
 
 #endif /// -> INCLUDE_HCM_ENVIRONS_IHUMAN_INPUT_RECOGNIZER_H
 

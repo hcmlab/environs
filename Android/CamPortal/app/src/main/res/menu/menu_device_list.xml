@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".DeviceListActivity">
+
+    <item
+        android:id="@+id/actionSettings"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/settings"/>
+
+    <item
+        android:id="@+id/actionEnvStart"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/startStop"/>
+
+    <item
+        android:id="@+id/actionStopPortal"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/stopPortal"/>
+
+</menu>

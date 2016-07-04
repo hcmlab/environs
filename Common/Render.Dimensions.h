@@ -22,8 +22,14 @@
 #define INCLUDE_HCM_ENVIRONS_RENDERDIMENSIONS_DECLARATIONS_H_
 
 
+/** Place declarations to global namespace for plain C */
+#ifdef __cplusplus
+
 namespace environs
 {
+#endif
+    
+    
 	typedef struct _RenderDimensions
 	{
 		int				square;
@@ -44,7 +50,12 @@ namespace environs
 		float			orientation;
 	}
 	RenderDimensions;
+
+
+#ifdef __cplusplus
 }
+#endif
+
 
 
 #endif /* INCLUDE_HCM_ENVIRONS_RENDERDIMENSIONS_DECLARATIONS_H_ */

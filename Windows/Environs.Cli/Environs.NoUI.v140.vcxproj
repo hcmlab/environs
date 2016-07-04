@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B8A704FA-F3F7-43DF-A2A0-CD97F04E27AA}</ProjectGuid>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>Environs.NoUI</RootNamespace>
+    <ProjectName>Environs.NoUI.v140</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\Win_35$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs.NoUI</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\Win_35$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs.NoUI</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\Win_35$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs.NoUI</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Configuration)\Win_35$(PROCESSOR_ARCHITECTURE)_$(PlatformArchitecture)_$(PlatformToolset)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+    <TargetName>Environs.NoUI</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;CLI_CPP;CLI_NOUI;ENVIRONS_CORE_LIB;DISPLAYDEVICE;ENVIRONS_PROJECT_CRT=$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <CallingConvention>Cdecl</CallingConvention>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir) 1</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;CLI_CPP;CLI_NOUI;ENVIRONS_CORE_LIB;DISPLAYDEVICE;ENVIRONS_PROJECT_CRT=$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <CompileAsWinRT>false</CompileAsWinRT>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir) 1</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;CLI_CPP;CLI_NOUI;ENVIRONS_CORE_LIB;DISPLAYDEVICE;ENVIRONS_PROJECT_CRT=$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <CompileAsWinRT>false</CompileAsWinRT>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir) 1</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;CLI_CPP;CLI_NOUI;ENVIRONS_CORE_LIB;DISPLAYDEVICE;ENVIRONS_PROJECT_CRT=$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\3rd\inc;$(ProjectDir)..\..\3rd;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\Native</AdditionalIncludeDirectories>
+      <CompileAsWinRT>false</CompileAsWinRT>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies />
+    </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir) 1</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System, Version=2.0.0.0" />
+    <Reference Include="System.Core, Version=3.5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\Environs.Cli.Base.h" />
+    <ClInclude Include="..\..\Common\Environs.Types.h.cli.h" />
+    <ClInclude Include="..\..\Native\Core\File.Instance.Cli.h" />
+    <ClInclude Include="..\..\Native\Core\Message.Instance.Cli.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Instance.Cli.h" />
+    <ClInclude Include="..\..\Native\Device\Device.List.Cli.h" />
+    <ClInclude Include="..\..\Native\Environs.Cli.NoUI.h" />
+    <ClInclude Include="..\..\Native\Environs.Cli.Utils.h" />
+    <ClInclude Include="..\..\Common\Environs.Cpp.Base.h" />
+    <ClInclude Include="..\..\Common\Interop\Time.Val.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Instance.Cli.h" />
+    <ClInclude Include="..\..\Native\Core\Input.Handler.h" />
+    <ClInclude Include="Stdafx.h" />
+    <ClInclude Include="..\..\Common\Environs.h" />
+    <ClInclude Include="..\..\Native\Environs.Cli.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.h" />
+    <ClInclude Include="..\..\Common\Interop.h" />
+    <ClInclude Include="..\..\Common\Device.Info.h" />
+    <ClInclude Include="..\..\Common\Interop\Smart.Pointer.h" />
+    <ClInclude Include="..\..\Common\Log.h" />
+    <ClInclude Include="..\..\Common\Environs.Cli.Forwards.h" />
+    <ClInclude Include="..\..\Common\Environs.Observer.Cli.h" />
+    <ClInclude Include="..\..\Common\Environs.Native.h" />
+    <ClInclude Include="..\..\Common\Environs.Platforms.h" />
+    <ClInclude Include="..\..\Common\Environs.Release.h" />
+    <ClInclude Include="..\..\Common\Environs.Revision.h" />
+    <ClInclude Include="..\..\Native\Environs.Sensors.h" />
+    <ClInclude Include="..\..\Common\Environs.Types.h" />
+    <ClInclude Include="..\..\Common\Environs.Utils.h" />
+    <ClInclude Include="..\..\Common\Device.List.h" />
+    <ClInclude Include="..\..\Common\Device.Instance.h" />
+    <ClInclude Include="..\..\Common\Interfaces\Interfaces.h" />
+    <ClInclude Include="..\..\Common\File.Instance.h" />
+    <ClInclude Include="..\..\Common\Portal.Instance.h" />
+    <ClInclude Include="..\..\Common\Message.Instance.h" />
+    <ClInclude Include="..\..\Common\Interfaces\Interface.Exports.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Common\Environs.Types.cpp" />
+    <ClCompile Include="..\..\Native\Core\File.Instance.Cli.cpp" />
+    <ClCompile Include="..\..\Native\Core\Message.Instance.Cli.cpp" />
+    <ClCompile Include="..\..\Native\Core\Input.Handler.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Instance.Cli.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.List.Cli.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Cli.Base.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Cli.NoUI.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Cli.Utils.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Cli.Init.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Instance.Cli.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Cli.cpp" />
+    <ClCompile Include="..\..\Native\Environs.cpp" />
+    <ClCompile Include="..\..\Common\Interop\Threads.cpp" />
+    <ClCompile Include="..\..\Native\Core\File.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Core\Message.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Instance.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.List.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Instance.cpp" />
+    <ClCompile Include="..\..\Common\Interop\direntw.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Info.cpp" />
+    <ClCompile Include="Stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

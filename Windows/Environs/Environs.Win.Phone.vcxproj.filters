@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>c409aec8-6c2d-409e-a6e2-8412882a9452</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Codec">
+      <UniqueIdentifier>{8a3a4fdc-cd52-442d-86b8-0330cdd1589b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WP">
+      <UniqueIdentifier>{83bcc198-5e94-423f-9e42-2dcb88a3f1a7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>WP</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>WP</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>WP</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>WP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\stdafx.h">
+      <Filter>WP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\stdafx.h">
+      <Filter>WP</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

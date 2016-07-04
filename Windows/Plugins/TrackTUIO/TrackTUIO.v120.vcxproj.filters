@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TUIO">
+      <UniqueIdentifier>{CEF1871C-CA9B-4B3A-92FD-0F85B3D128B9}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="osc">
+      <UniqueIdentifier>{C225C6A2-0AD7-46D9-863F-C536AE598711}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Native\Tracker\Track.TUIO.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Interfaces\ITracker.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Interop\export.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Interop\threads.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TUIOListener.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioCursor.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioObject.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioBlob.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioTime.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioContainer.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioPoint.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\LibExport.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\OscReceiver.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\UdpReceiver.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioClient.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\TuioDispatcher.h">
+      <Filter>TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscException.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscHostEndianness.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscReceivedElements.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\osc\OscTypes.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\PacketListener.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscException.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscHostEndianness.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscReceivedElements.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\osc\OscTypes.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\IpEndpointName.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\UdpSocket.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\NetworkingUtils.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\3rd\inc\TUIO\ip\TimerListener.h">
+      <Filter>osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Environs.types.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Native\Tracker\Track.TUIO.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Interop\threads.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioCursor.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioObject.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioBlob.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioTime.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioContainer.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioPoint.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\OscReceiver.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\UdpReceiver.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioClient.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\TuioDispatcher.cpp">
+      <Filter>TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\osc\OscReceivedElements.cpp">
+      <Filter>osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\osc\OscTypes.cpp">
+      <Filter>osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\ip\IpEndpointName.cpp">
+      <Filter>osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\ip\win32\NetworkingUtils.cpp">
+      <Filter>osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rd\inc\TUIO\ip\win32\UdpSocket.cpp">
+      <Filter>osc</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

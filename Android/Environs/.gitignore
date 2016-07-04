@@ -1,0 +1,14 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+#*.iml
+.classpath
+.project
+.settings
+project.properties
+build
+Environs/src/main/libs

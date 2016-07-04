@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="Environs" Database="">
+  <Project Name="Environs" Path="Environs/Environs.project" Active="No"/>
+  <Project Name="EchoBot" Path="EchoBot/EchoBot.project" Active="Yes"/>
+  <Project Name="SimpleConsolse" Path="SimpleConsolse/SimpleConsolse.project"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Project Name="Environs" ConfigName="Debug"/>
+      <Project Name="EchoBot" ConfigName="Debug"/>
+      <Project Name="SimpleConsolse" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Project Name="Environs" ConfigName="Release"/>
+      <Project Name="EchoBot" ConfigName="Release"/>
+      <Project Name="SimpleConsolse" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

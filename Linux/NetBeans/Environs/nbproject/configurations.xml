@@ -1,0 +1,1648 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="97">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f3" displayName="Core" projectFiles="true">
+      <itemPath>../../../Native/Core/Array.List.cpp</itemPath>
+      <itemPath>../../../Native/Core/Array.List.h</itemPath>
+      <itemPath>../../../Native/Core/Async.Worker.cpp</itemPath>
+      <itemPath>../../../Native/Core/Async.Worker.h</itemPath>
+      <itemPath>../../../Native/Core/Byte.Buffer.cpp</itemPath>
+      <itemPath>../../../Native/Core/Byte.Buffer.h</itemPath>
+      <itemPath>../../../Native/Core/Callbacks.cpp</itemPath>
+      <itemPath>../../../Native/Core/Callbacks.h</itemPath>
+      <itemPath>../../../Native/Core/Core.cpp</itemPath>
+      <itemPath>../../../Native/Core/Core.h</itemPath>
+      <itemPath>../../../Native/Core/File.Instance.cpp</itemPath>
+      <itemPath>../../../Common/File.Instance.h</itemPath>
+      <itemPath>../../../Common/Human.Input.Decl.h</itemPath>
+      <itemPath>../../../Native/Core/Input.Handler.cpp</itemPath>
+      <itemPath>../../../Native/Core/Input.Handler.h</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Display.Linux.cpp</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Display.cpp</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Display.h</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Mobile.Platform.cpp</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Mobile.Platform.h</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Mobile.cpp</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Mobile.h</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Windows.cpp</itemPath>
+      <itemPath>../../../Native/Core/Kernel.Windows.h</itemPath>
+      <itemPath>../../../Native/Core/Kernel.cpp</itemPath>
+      <itemPath>../../../Native/Core/Kernel.h</itemPath>
+      <itemPath>../../../Common/Location.Decl.h</itemPath>
+      <itemPath>../../../Common/Log.cpp</itemPath>
+      <itemPath>../../../Common/Log.h</itemPath>
+      <itemPath>../../../Native/Core/Mediator.Client.cpp</itemPath>
+      <itemPath>../../../Native/Core/Mediator.Client.h</itemPath>
+      <itemPath>../../../Common/Mediator.cpp</itemPath>
+      <itemPath>../../../Common/Mediator.h</itemPath>
+      <itemPath>../../../Native/Core/Message.Instance.cpp</itemPath>
+      <itemPath>../../../Common/Message.Instance.h</itemPath>
+      <itemPath>../../../Native/Core/Notifications.cpp</itemPath>
+      <itemPath>../../../Native/Core/Notifications.h</itemPath>
+      <itemPath>../../../Common/Notify.Context.h</itemPath>
+      <itemPath>../../../Native/Core/Performance.Count.cpp</itemPath>
+      <itemPath>../../../Native/Core/Performance.Count.h</itemPath>
+      <itemPath>../../../Native/Core/Queue.List.cpp</itemPath>
+      <itemPath>../../../Common/Queue.List.h</itemPath>
+      <itemPath>../../../Native/Core/Queue.Vector.cpp</itemPath>
+      <itemPath>../../../Common/Queue.Vector.h</itemPath>
+      <itemPath>../../../Native/Core/Stunt.Request.cpp</itemPath>
+      <itemPath>../../../Native/Core/Stunt.Request.h</itemPath>
+      <itemPath>../../../Native/Core/Touch.Source.cpp</itemPath>
+      <itemPath>../../../Native/Core/Touch.Source.h</itemPath>
+      <itemPath>../../../Native/Core/Utils.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f2" displayName="Devices" projectFiles="true">
+      <itemPath>../../../Native/Device/Device.Android.cpp</itemPath>
+      <itemPath>../../../Native/Device/Device.Android.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Base.cpp</itemPath>
+      <itemPath>../../../Native/Device/Device.Base.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Controller.h</itemPath>
+      <itemPath>../../../Common/Device.Display.Decl.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Display.Win.cpp</itemPath>
+      <itemPath>../../../Native/Device/Device.Display.Win.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Display.cpp</itemPath>
+      <itemPath>../../../Native/Device/Device.Display.h</itemPath>
+      <itemPath>../../../Common/Device.Info.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Instance.cpp</itemPath>
+      <itemPath>../../../Common/Device.Instance.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Linux.cpp</itemPath>
+      <itemPath>../../../Native/Device/Device.Linux.h</itemPath>
+      <itemPath>../../../Native/Device/Device.List.cpp</itemPath>
+      <itemPath>../../../Common/Device.List.h</itemPath>
+      <itemPath>../../../Native/Device/Device.Mobile.cpp</itemPath>
+      <itemPath>../../../Native/Device/Device.Mobile.h</itemPath>
+      <itemPath>../../../Native/Device/Devices.cpp</itemPath>
+      <itemPath>../../../Native/Device/Devices.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f7" displayName="DynLib" projectFiles="true">
+      <itemPath>../../../3rd/DynLib/Dyn.Lib.Crypto.cpp</itemPath>
+      <itemPath>../../../3rd/DynLib/Dyn.Lib.Crypto.h</itemPath>
+      <itemPath>../../../Native/DynLib/Dyn.OpenCL.cpp</itemPath>
+      <itemPath>../../../Native/DynLib/Dyn.OpenCL.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f1" displayName="Environs" projectFiles="true">
+      <itemPath>../../../Common/Environs.Av.Context.h</itemPath>
+      <itemPath>../../../Common/Environs.Build.Lnk.h</itemPath>
+      <itemPath>../../../Common/Environs.Build.Macros.h</itemPath>
+      <itemPath>../../../Common/Environs.Build.Opts.h</itemPath>
+      <itemPath>../../../Common/Environs.Commit.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Commit.h</itemPath>
+      <itemPath>../../../Common/Environs.Cpp.Base.h</itemPath>
+      <itemPath>../../../Native/Environs.Cpp.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Crypt.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Crypt.h</itemPath>
+      <itemPath>../../../Common/Environs.Crypt1.cpp</itemPath>
+      <itemPath>../../../Native/Environs.Display.cpp</itemPath>
+      <itemPath>../../../Native/Environs.Display.h</itemPath>
+      <itemPath>../../../Native/Environs.Lib.Display.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Lib.Display.h</itemPath>
+      <itemPath>../../../Common/Environs.Lib.Inc.h</itemPath>
+      <itemPath>../../../Native/Environs.Lib.Mobile.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Lib.Mobile.h</itemPath>
+      <itemPath>../../../Native/Environs.Lib.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Lib.h</itemPath>
+      <itemPath>../../../Native/Environs.Linux.cpp</itemPath>
+      <itemPath>../../../Native/Environs.Linux.h</itemPath>
+      <itemPath>../../../Native/Environs.Mobile.cpp</itemPath>
+      <itemPath>../../../Native/Environs.Mobile.h</itemPath>
+      <itemPath>../../../Native/Environs.Modules.h</itemPath>
+      <itemPath>../../../Common/Environs.Msg.Types.h</itemPath>
+      <itemPath>../../../Common/Environs.Native.h</itemPath>
+      <itemPath>../../../Common/Environs.Native.jni.h</itemPath>
+      <itemPath>../../../Native/Environs.Obj.cpp</itemPath>
+      <itemPath>../../../Native/Environs.Obj.h</itemPath>
+      <itemPath>../../../Common/Environs.Observer.IAPI.h</itemPath>
+      <itemPath>../../../Common/Environs.Observer.h</itemPath>
+      <itemPath>../../../Common/Environs.Platform.Decls.h</itemPath>
+      <itemPath>../../../Common/Environs.Platforms.h</itemPath>
+      <itemPath>../../../Common/Environs.Release.h</itemPath>
+      <itemPath>../../../Common/Environs.Revision.h</itemPath>
+      <itemPath>../../../Native/Environs.Sensors.cpp</itemPath>
+      <itemPath>../../../Native/Environs.Sensors.h</itemPath>
+      <itemPath>../../../Common/Environs.Types.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Types.h</itemPath>
+      <itemPath>../../../Common/Environs.Utils.cpp</itemPath>
+      <itemPath>../../../Common/Environs.Utils.h</itemPath>
+      <itemPath>../../../Native/Environs.cpp</itemPath>
+      <itemPath>../../../Common/Environs.cpp.h</itemPath>
+      <itemPath>../../../Common/Environs.h</itemPath>
+      <itemPath>../../../Native/stdafx.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="f6" displayName="Interfaces" projectFiles="true">
+      <itemPath>../../../Common/Interfaces/IArray.List.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IDevice.Instance.List.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IDevice.Instance.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IDevice.List.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IEnvirons.Base.cpp</itemPath>
+      <itemPath>../../../Common/Interfaces/IEnvirons.Base.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IEnvirons.Dispose.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IEnvirons.Ident.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IEnvirons.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IFile.Instance.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IFile.List.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IInput.Recognizer.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IMessage.Instance.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IMessage.List.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Capture.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Decoder.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Encoder.cpp</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Encoder.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Info.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Instance.h</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Renderer.cpp</itemPath>
+      <itemPath>../../../Common/Interfaces/IPortal.Renderer.h</itemPath>
+      <itemPath>../../../Common/Interfaces/ITracker.h</itemPath>
+      <itemPath>../../../Common/Interfaces/Interface.Exports.h</itemPath>
+      <itemPath>../../../Common/Interfaces/Interfaces.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f5" displayName="Interop" projectFiles="true">
+      <itemPath>../../../Common/Interop/Export.cpp</itemPath>
+      <itemPath>../../../Common/Interop/Export.h</itemPath>
+      <itemPath>../../../Common/Interop.h</itemPath>
+      <itemPath>../../../Common/Interop/Smart.Pointer.h</itemPath>
+      <itemPath>../../../Common/Interop/Sock.h</itemPath>
+      <itemPath>../../../Common/Interop/Stat.h</itemPath>
+      <itemPath>../../../Common/Interop/Threads.cpp</itemPath>
+      <itemPath>../../../Common/Interop/Threads.h</itemPath>
+      <itemPath>../../../Common/Interop/Time.Val.h</itemPath>
+      <itemPath>../../../Common/Interop/jni.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f4" displayName="Portal" projectFiles="true">
+      <itemPath>../../../Native/Portal/Portal.Device.cpp</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Device.h</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Generator.cpp</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Generator.h</itemPath>
+      <itemPath>../../../Common/Portal.Info.Base.h</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Info.cpp</itemPath>
+      <itemPath>../../../Common/Portal.Info.h</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Instance.cpp</itemPath>
+      <itemPath>../../../Common/Portal.Instance.h</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Receiver.cpp</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Receiver.h</itemPath>
+      <itemPath>../../../Common/Portal.Stream.Options.h</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Stream.cpp</itemPath>
+      <itemPath>../../../Native/Portal/Portal.Stream.h</itemPath>
+      <itemPath>../../../Common/Portal.Worker.Stages.h</itemPath>
+      <itemPath>../../../Common/Render.Context.h</itemPath>
+      <itemPath>../../../Common/Render.Dimensions.h</itemPath>
+      <itemPath>../../../Common/Render.Overlay.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f8" displayName="Render" projectFiles="true">
+      <itemPath>../../../Native/Renderer/Render.OpenCL.cpp</itemPath>
+      <itemPath>../../../Native/Renderer/Render.OpenCL.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <standard>8</standard>
+          <commandlineTool>g++</commandlineTool>
+          <incDir>
+            <pElem>../../../Common</pElem>
+            <pElem>../../../3rd/inc</pElem>
+            <pElem>../../../3rd</pElem>
+            <pElem>../../../Native</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>DEBUG</Elem>
+            <Elem>DISPLAYDEVICE</Elem>
+            <Elem>ENVIRONS_CORE_LIB</Elem>
+            <Elem>LINUX</Elem>
+          </preprocessorList>
+        </ccTool>
+        <linkerTool>
+          <output>../../../bin64/libs/libEnvirons.${CND_DLIB_EXT}</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>DynamicLinking</linkerLibStdlibItem>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerOptionItem>`pkg-config --libs uuid`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="../../../3rd/DynLib/Dyn.Lib.Crypto.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../3rd/DynLib/Dyn.Lib.Crypto.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Device.Display.Decl.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Device.Info.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Device.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Device.List.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Av.Context.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Build.Lnk.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Build.Macros.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Build.Opts.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Commit.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Commit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Cpp.Base.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Crypt.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Crypt.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Crypt1.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.Display.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.Inc.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.Mobile.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Msg.Types.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Native.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Native.jni.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Observer.IAPI.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Observer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Platform.Decls.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Platforms.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Release.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Revision.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Types.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.cpp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/File.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Human.Input.Decl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IArray.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IDevice.Instance.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IDevice.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IDevice.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Base.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Base.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Dispose.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Ident.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IFile.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IFile.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IInput.Recognizer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IMessage.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IMessage.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Capture.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Decoder.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Encoder.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Encoder.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Info.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Renderer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Renderer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/ITracker.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/Interface.Exports.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/Interfaces.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interop.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Export.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Export.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Smart.Pointer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Sock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Stat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Threads.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Threads.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Time.Val.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/jni.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Location.Decl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Log.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Log.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Mediator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Mediator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Message.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Notify.Context.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Info.Base.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Info.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Stream.Options.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Worker.Stages.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Queue.List.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Queue.Vector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Render.Context.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Render.Dimensions.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Render.Overlay.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Array.List.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Array.List.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Async.Worker.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Async.Worker.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Byte.Buffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Byte.Buffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Callbacks.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Callbacks.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Core.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Core.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/File.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Input.Handler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Input.Handler.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Display.Linux.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Display.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.Platform.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.Platform.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Windows.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Windows.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Mediator.Client.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Mediator.Client.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Message.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Notifications.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Notifications.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Performance.Count.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Performance.Count.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Queue.List.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Queue.Vector.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Stunt.Request.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Stunt.Request.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Touch.Source.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Touch.Source.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Android.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Android.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Base.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Base.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.Win.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.Win.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Linux.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Linux.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.List.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Mobile.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Devices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Devices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/DynLib/Dyn.OpenCL.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/DynLib/Dyn.OpenCL.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Cpp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Lib.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Lib.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Lib.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Linux.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Linux.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Mobile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Modules.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Obj.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Obj.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Sensors.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Sensors.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Device.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Device.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Generator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Generator.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Info.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Receiver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Receiver.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Stream.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Stream.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Renderer/Render.OpenCL.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Renderer/Render.OpenCL.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/stdafx.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="../../../3rd/DynLib/Dyn.Lib.Crypto.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../3rd/DynLib/Dyn.Lib.Crypto.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Device.Display.Decl.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Device.Info.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Device.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Device.List.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Av.Context.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Build.Lnk.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Build.Macros.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Build.Opts.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Commit.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Commit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Cpp.Base.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Crypt.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Crypt.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Crypt1.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.Display.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.Inc.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.Mobile.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Lib.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Msg.Types.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Native.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Native.jni.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Observer.IAPI.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Observer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Platform.Decls.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Platforms.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Release.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Revision.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Types.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.Utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.cpp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Environs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/File.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Human.Input.Decl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IArray.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IDevice.Instance.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IDevice.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IDevice.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Base.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Base.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Dispose.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.Ident.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IEnvirons.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IFile.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IFile.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IInput.Recognizer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IMessage.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IMessage.List.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Capture.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Decoder.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Encoder.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Encoder.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Info.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Instance.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Renderer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/IPortal.Renderer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/ITracker.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/Interface.Exports.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interfaces/Interfaces.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interop.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Export.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Export.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Smart.Pointer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Sock.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Stat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Threads.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Threads.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/Time.Val.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Interop/jni.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Location.Decl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Log.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Log.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Mediator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Common/Mediator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Message.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Notify.Context.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Info.Base.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Info.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Instance.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Stream.Options.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Portal.Worker.Stages.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Queue.List.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Queue.Vector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Render.Context.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Common/Render.Dimensions.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Common/Render.Overlay.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Array.List.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Array.List.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Async.Worker.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Async.Worker.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Byte.Buffer.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Byte.Buffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Callbacks.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Callbacks.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Core.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Core.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/File.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Input.Handler.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Input.Handler.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Display.Linux.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Display.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.Platform.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.Platform.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Mobile.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Windows.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.Windows.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Kernel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Mediator.Client.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Mediator.Client.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Message.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Notifications.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Notifications.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Performance.Count.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Performance.Count.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Queue.List.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Queue.Vector.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Stunt.Request.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Stunt.Request.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Touch.Source.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Touch.Source.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Core/Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Android.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Android.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Base.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Base.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.Win.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.Win.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Display.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Linux.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Linux.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.List.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Device.Mobile.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Devices.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Device/Devices.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/DynLib/Dyn.OpenCL.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/DynLib/Dyn.OpenCL.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Cpp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Lib.Display.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Lib.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Lib.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Linux.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Linux.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Mobile.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Mobile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Modules.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Obj.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Obj.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Sensors.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.Sensors.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../../Native/Environs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Device.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Device.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Generator.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Generator.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Info.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Instance.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Receiver.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Receiver.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Stream.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Portal/Portal.Stream.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Renderer/Render.OpenCL.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/Renderer/Render.OpenCL.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../Native/stdafx.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

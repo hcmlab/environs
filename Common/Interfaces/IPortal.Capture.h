@@ -20,7 +20,9 @@
 #include "IEnvirons.Base.h"
 #include "Interface.Exports.h"
 #include "Render.Dimensions.h"
+#include "Render.Context.h"
 #include "Render.Overlay.h"
+#include "Portal.Stream.Options.h"
 
 #ifndef INCLUDE_HCM_ENVIRONS_IPORTALCAPTURE_H
 #define INCLUDE_HCM_ENVIRONS_IPORTALCAPTURE_H
@@ -29,6 +31,9 @@
 
 namespace environs 
 {
+	class Instance;
+
+
 	/**
 	*	Interface for a capture / grabber extension
 	*
@@ -48,23 +53,30 @@ namespace environs
 			/** Default initialization */
 			captureType ( CaptureType::Unknown ),
             portalWorkerEvent ( 0 ), portalCaptureEvent ( 0 ), portalWorkerEventLock ( 0 ),
-			bufferType ( CaptureBufferType::Unknown ), width ( 0 ), height ( 0 ),
+			portalID ( 0 ), bufferType ( CaptureBufferType::Unknown ), minFPS ( 30 ), width ( 0 ), height ( 0 ),
 			squareLength ( 0 ), buffersInitialized ( false ), dataAccessed ( 1 ), data ( 0 ), dataHandle ( 0 ),
             dataSize ( 0 ), dataStride ( 0 ),
 			renderOverlayMutex ( 0 ), renderOverlays ( 0 ),
-			osLevel ( 0 ), hAppWindow ( 0 ), stages ( 0 )
+			stages ( 0 ), osLevel ( 0 ), env ( 0 ), hAppWindow ( 0 )
 		{};
 
 		virtual ~IPortalCapture () {};
 
 		/** Interface initializer. Do not override this method. Init () is called at the end of the Interface initializer */
-		int										Init ( int _deviceID, void * appWindow ) {
-													deviceID	= _deviceID;
+		int										PreInit ( int deviceIDa, void * appWindow, PortalStreamOptions * opts ) {
+													deviceID	= deviceIDa;
 													hAppWindow  = appWindow;
-													return Init ( );
+													width = opts->streamWidth;
+													height = opts->streamHeight;
+                                                    minFPS = opts->streamMinFPS;
+													return PreInit ();
 												}
 
 		virtual int								Init ( ) = 0;
+
+		// Preinit is intended to update input/output buffer types, e.g. to adapt to the actual hardware
+		virtual int								PreInit ( ) { return 1; };
+
 		virtual void							Release ( ) = 0;
 		virtual int								Start ( ) { return 0; };
 		virtual int								Stop ( ) { return 0; };
@@ -79,9 +91,9 @@ namespace environs
 		*
 		* @return	status	1 = success; 0 = failed this time, error status is recoverable, so try again with next round; -1 = failed, skip this plugin for further procesing
 		*/
-		virtual int								Perform ( RenderDimensions * dims ) = 0;
+		virtual int								Perform ( RenderDimensions * dims, RenderContext * context ) = 0;
 		
-		CaptureType::CaptureType				captureType;
+		CaptureType_t							captureType;
 
 		/// If the extension is a camera capture, then the following trigger sink may be used with the camera as a trigger source.
 		/// If they are not used, then the Init() method must clear them (set to 0), in order to instruct the PortalSource to create its own frame trigger source
@@ -89,15 +101,16 @@ namespace environs
 		void								*	portalCaptureEvent;
 		void								*	portalWorkerEventLock;
 
+		int										portalID;
+		CaptureBufferType_t						bufferType;
 
-		CaptureBufferType::CaptureBufferType	bufferType;
-
+        float                                   minFPS;
 		int										width;
 		int										height;
 		int										squareLength;
 		bool									buffersInitialized;
 
-		long									dataAccessed;
+		LONGSYNC								dataAccessed;
 		void								*	data;
 		void								*	dataHandle;
 
@@ -110,7 +123,8 @@ namespace environs
 		virtual void							ReleaseOverlayBuffers ( RenderOverlay  * overlay ) {};
     
         void								*	stages;
-		int										osLevel;
+        int										osLevel;
+        Instance							*	env;
 
 	protected:
 		void *									hAppWindow;

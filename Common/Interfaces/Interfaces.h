@@ -38,7 +38,7 @@
 #define EndInterface };
 
 #define implements public
-
+            
 
 #endif	/// -> INCLUDE_HCM_ENVIRONS_INTERFACES_H
 

@@ -21,8 +21,14 @@
 #ifndef INCLUDE_HCM_ENVIRONS_RENDEROVERLAY_DECLARATIONS_H_
 #define INCLUDE_HCM_ENVIRONS_RENDEROVERLAY_DECLARATIONS_H_
 
+/** Place declarations to global namespace for plain C */
+#ifdef __cplusplus
+
 namespace environs
 {
+#endif
+    
+    
 	typedef struct _RenderOverlay
 	{
 		int					left;
@@ -40,7 +46,11 @@ namespace environs
 		void			*	renderArg3;
 	}
 	RenderOverlay;
+
+
+#ifdef __cplusplus
 }
+#endif
 
 
 #endif /* INCLUDE_HCM_ENVIRONS_RENDEROVERLAY_DECLARATIONS_H_ */

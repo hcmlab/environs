@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Environs" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Environs/;Capture/;Codec/;Core/;Decoder/;Device/;DynLib/;Encoder/;Interfaces/;Interop/;Portal/;Recognizer/;Renderer/;Utils/;Doc/;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../bin64/libs/Environs" prefix_auto="1" extension_auto="1" />
+				<Option object_output="libEnvirons/obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-fPIC" />
+					<Add option="-fno-use-cxa-atexit" />
+					<Add option="-DDISPLAYDEVICE" />
+					<Add option="-DENVIRONS_CORE_LIB" />
+					<Add option="-DLINUX" />
+					<Add option="-DDEBUG" />
+					<Add directory="../../Common" />
+					<Add directory="../../Native" />
+					<Add directory="../../3rd" />
+					<Add directory="../../3rd/inc" />
+				</Compiler>
+				<Linker>
+					<Add option="-shared" />
+					<Add option="-rdynamic" />
+					<Add option="-Wextra" />
+					<Add library="dl" />
+					<Add library="m" />
+					<Add library="pthread" />
+					<Add library="uuid" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="../../Tools/build.commit.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release">
+				<Option output="../../bin64/libs/Environs" prefix_auto="1" extension_auto="1" />
+				<Option object_output="libEnvirons/obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add option="-fPIC" />
+					<Add option="-fno-use-cxa-atexit" />
+					<Add option="-DDISPLAYDEVICE" />
+					<Add option="-DENVIRONS_CORE_LIB" />
+					<Add option="-DLINUX" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../Common" />
+					<Add directory="../../Native" />
+					<Add directory="../../3rd" />
+					<Add directory="../../3rd/inc" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-shared" />
+					<Add option="-rdynamic" />
+					<Add option="-Wextra" />
+					<Add library="dl" />
+					<Add library="uuid" />
+					<Add library="m" />
+					<Add library="pthread" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="../../Tools/build.commit.sh" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../../3rd/DynLib/Dyn.Lib.Crypto.cpp">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../3rd/DynLib/Dyn.Lib.Crypto.h">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../3rd/DynLib/Dyn.Lib.OpenH264.cpp">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../3rd/DynLib/Dyn.Lib.OpenH264.h">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../CHANGELOG.md">
+			<Option virtualFolder="Doc/" />
+		</Unit>
+		<Unit filename="../../Common/Device.Display.Decl.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Device.Info.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Common/Device.Instance.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Device.Instance.iOSX.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Device.List.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Device.List.iOSX.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Av.Context.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Build.Lnk.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Build.Macros.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Build.Opts.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Cli.Base.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Cli.Forwards.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Commit.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Cpp.Base.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Crypt.Lib.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Crypt.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Crypt.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Crypt1.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Lib.Display.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Lib.Inc.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Lib.Mobile.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Lib.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Loader.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Msg.Types.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Native.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Native.jni.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Observer.CLI.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Observer.IAPI.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Observer.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Observer.iOSX.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Platform.Decls.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Platforms.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Release.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Revision.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Revision.txt">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Types.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Types.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Types.h.cli.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Utils.cpp">
+			<Option virtualFolder="Utils/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Utils.h">
+			<Option virtualFolder="Utils/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.cpp.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.iOSX.Log.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.iOSX.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/File.Instance.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/File.Instance.iOSX.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Human.Input.Decl.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IArray.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IDevice.Instance.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IDevice.Instance.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IDevice.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IEnvirons.Base.cpp">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IEnvirons.Base.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IEnvirons.Dispose.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IEnvirons.Ident.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IEnvirons.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IFile.Instance.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IFile.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IInput.Recognizer.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IMessage.Instance.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IMessage.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Capture.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Decoder.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Encoder.cpp">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Encoder.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Info.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Instance.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Renderer.cpp">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IPortal.Renderer.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/ITracker.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/Interface.Exports.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/Interfaces.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interop.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Export.cpp">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Export.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Smart.Pointer.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Sock.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Stat.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Stl.Exports.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Threads.cpp">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Threads.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Time.Val.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/direntw.cpp">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/jni.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/Lib.Av.Decl.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Location.Decl.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Log.cpp">
+			<Option virtualFolder="Utils/" />
+		</Unit>
+		<Unit filename="../../Common/Log.h">
+			<Option virtualFolder="Utils/" />
+		</Unit>
+		<Unit filename="../../Common/Mediator.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Mediator.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Message.Instance.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Message.Instance.iOSX.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Notify.Context.Cli.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Notify.Context.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Portal.Info.Base.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Common/Portal.Info.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Common/Portal.Instance.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Common/Portal.Instance.iOSX.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Common/Portal.Stream.Options.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Common/Portal.Worker.Stages.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Common/Queue.List.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Queue.Vector.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Queue.Vector.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Render.Context.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Render.Dimensions.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Render.Overlay.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Sensor.Frame.Cli.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Touch.Listener.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Tracer.cpp">
+			<Option virtualFolder="Utils/" />
+		</Unit>
+		<Unit filename="../../Common/Tracer.h">
+			<Option virtualFolder="Utils/" />
+		</Unit>
+		<Unit filename="../../Common/Wifi.Observer.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/direntw.h">
+			<Option virtualFolder="Interop/" />
+		</Unit>
+		<Unit filename="../../Common/stdafx.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Common/unistdw.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.2.2.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.3.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.4.1.1.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.4.3.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.4.4.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.Decls.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Android.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Base.2B.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Base.2B.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Base.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Base.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Info.Android.4.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Win.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.Win.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.iOS.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Cam.iOS.mm">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Android.Screen.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Android.Screen.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.OSX.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.OSX.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.OSX1.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Win.D3D.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Win.D3D.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Win.GDI.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Win.GDI.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Win.TGDI.cpp">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Capture/Capture.Win.TGDI.h">
+			<Option virtualFolder="Capture/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Array.List.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Array.List.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Async.Worker.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Async.Worker.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Byte.Buffer.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Byte.Buffer.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Callbacks.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Callbacks.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Core.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Core.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/File.Instance.Cli.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/File.Instance.Cli.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/File.Instance.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/File.Instance.iOSX.IAPI.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/File.Instance.iOSX.mm">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Input.Handler.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Input.Handler.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Display.Linux.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Display.OSX.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Display.OSX.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Display.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Display.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Mobile.Platform.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Mobile.Platform.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Mobile.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Mobile.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Windows.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.Windows.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Kernel.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Mediator.Client.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Mediator.Client.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Message.Instance.Cli.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Message.Instance.Cli.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Message.Instance.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Message.Instance.iOSX.IAPI.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Message.Instance.iOSX.mm">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Notifications.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Notifications.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Performance.Count.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Performance.Count.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Queue.List.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Stunt.Request.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Stunt.Request.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Touch.Listener.mm">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Touch.Source.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Touch.Source.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Utils.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Wifi.Observer.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Android.cpp">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Android.h">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Base.cpp">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Base.h">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Hw.H264.And.cpp">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Hw.H264.And.h">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Windows.cpp">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.Windows.h">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.iOSX.H264.h">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.iOSX.H264.mm">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.iOSX.h">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Decoder/Decoder.iOSX.mm">
+			<Option virtualFolder="Decoder/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Android.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Android.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Base.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Base.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Controller.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Display.Win.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Display.Win.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Display.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Display.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Instance.Cli.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Instance.Cli.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Instance.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Instance.iOSX.IAPI.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Instance.iOSX.mm">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Linux.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Linux.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.List.Cli.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.List.Cli.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.List.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.List.iOSX.IAPI.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.List.iOSX.mm">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Mobile.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.Mobile.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.OSX.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.OSX.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.iOS.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Device.iOS.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Devices.cpp">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/Device/Devices.h">
+			<Option virtualFolder="Device/" />
+		</Unit>
+		<Unit filename="../../Native/DynLib/Dyn.OpenCL.cpp">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../Native/DynLib/Dyn.OpenCL.h">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.And.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.And.h">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Base.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Base.h">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.GDI.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.GDI.h">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Hw.H264.And.2.3.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Hw.H264.And.4.2.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Hw.H264.And.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Hw.H264.And.h">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Pictures.cpp">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.Pictures.h">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.iOSX.H264.h">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Encoder/Encoder.iOSX.H264.mm">
+			<Option virtualFolder="Encoder/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Android.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Android.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Base.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Init.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.NoUI.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.NoUI.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.PixelSense.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.PixelSense.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.STT.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.STT.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Surfaces.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Surfaces.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.TouchDevice.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.TouchDevice.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Utils.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Utils.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Win.Common.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Win.Common.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Win.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.Win.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cli.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Cpp.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Display.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Display.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Lib.Display.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Lib.Mobile.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Lib.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Linux.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Linux.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Mobile.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Mobile.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Modules.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.OSX.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.OSX.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Obj.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Obj.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Sensors.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Sensors.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Windows.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.Windows.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.cpp">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.iOS.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Environs.iOSX.Imp.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Device.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Device.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.Android.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.Android.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.Mobile.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.Mobile.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.OSX.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.OSX.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.Windows.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.Windows.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.iOS.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Generator.iOS.mm">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Info.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Instance.Cli.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Instance.Cli.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Instance.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Instance.iOSX.IAPI.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Instance.iOSX.mm">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.Android.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.Android.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.Windows.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.Windows.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.iOSX.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Receiver.iOSX.mm">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Stream.cpp">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Portal/Portal.Stream.h">
+			<Option virtualFolder="Portal/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.CaptureGDI.cpp">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.CaptureGDI.h">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.GDI.cpp">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.GDI.h">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.Null.h">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.OSX.cpp">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.OSX.h">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.OpenCL.cpp">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/Renderer/Render.OpenCL.h">
+			<Option virtualFolder="Renderer/" />
+		</Unit>
+		<Unit filename="../../Native/stdafx.h">
+			<Option virtualFolder="Environs/" />
+		</Unit>
+		<Unit filename="../../ReadMe.md">
+			<Option virtualFolder="Doc/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

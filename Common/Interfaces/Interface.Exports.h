@@ -19,7 +19,6 @@
  * --------------------------------------------------------------------
  */
 #include "Interop/Export.h"
-#include "Core/Byte.Buffer.h"
 #include "Log.h"
 
 #ifndef INCLUDE_HCM_ENVIRONS_EXT_INTERFACE_EXPORTS_H
@@ -35,9 +34,9 @@
 extern "C"
 {
 #endif
-
+	
 	/**
-	* getINames
+	* GetINames
 	*
 	*	@param	size	on success, this argument is filled with the count of names available in the returned array.
 	*
@@ -45,18 +44,18 @@ extern "C"
 	*
 	*/
 	#define	MODULE_EXPORT_GETINAMES		"GetINames"
-	typedef const char ** ( *pGetINames )( unsigned int * size );
+	typedef const char ** ( CallConv *pGetINames )( int * size );
 
-	LIBEXPORT const char **	CallConv	GetINames ( unsigned int * size );
+	LIBEXPORT const char **	CallConv	GetINames ( int * size );
 
 #define BUILD_INT_GETINAMES(arr)	\
-	extern "C" const char ** CallConv GetINames ( unsigned int * size ) { \
+	extern "C" const char ** CallConv GetINames ( int * size ) { \
 		if ( size ) *size = sizeof(arr) / sizeof(arr [0]); \
 			return (const char **)arr; \
 		}
 
 	/**
-	* getITypes
+	* GetITypes
 	*
 	*	@param	size	on success, this argument is filled with the count of types available in the returned array.
 	*
@@ -64,12 +63,12 @@ extern "C"
 	*
 	*/
 	#define	MODULE_EXPORT_GETITYPES				"GetITypes"
-	typedef const unsigned int * ( *pGetITypes )( unsigned int * size );
+	typedef const unsigned int * ( CallConv *pGetITypes )( int * size );
 
-	LIBEXPORT const	unsigned int * CallConv		GetITypes ( unsigned int * size );
+	LIBEXPORT const	unsigned int * CallConv		GetITypes ( int * size );
 
 #define BUILD_INT_GETITYPES(arr)	\
-	extern "C" const unsigned int * CallConv GetITypes ( unsigned int * size ) { \
+	extern "C" const unsigned int * CallConv GetITypes ( int * size ) { \
 		if ( size ) *size = sizeof(arr) / sizeof(arr [0]); \
 			return (unsigned int *)arr; \
 		}
@@ -84,8 +83,9 @@ extern "C"
 	*
 	*/
 	#define	MODULE_EXPORT_CREATE	"CreateInstance"
-	typedef void * ( *pCreateInstance )( int index, int deviceID );
+	typedef void * ( CallConv *pCreateInstance )( int index, int deviceID );
 
+#ifndef ENVIRONS_CORE_LIB
 	LIBEXPORT void *	CallConv	CreateInstance ( int index, int deviceID );
 
 #define BUILD_INT_CREATEOBJ(objType)	\
@@ -102,6 +102,7 @@ extern "C"
 		} \
 		return 0; \
     }
+#endif
     
     
     /**
@@ -111,19 +112,24 @@ extern "C"
      *
      */
 #define	MODULE_EXPORT_ENVIRONSOBJ	"SetEnvironsObject"
-    typedef void * ( *pSetEnvironsObject )( void * envObj );
+    typedef void ( CallConv *pSetEnvironsObject )( void * envObj, void * natObj );
     
-    LIBEXPORT void 	CallConv	SetEnvironsObject ( void * envObj );
-    
-    
+	LIBEXPORT void 	CallConv	SetEnvironsObject ( void * envObj, void * natObj );
+
+
 #define BUILD_INT_SETENVIRONSOBJECT()                  \
 namespace environs {                                    \
-    void   *   pEnvirons           = 0;    \
+    void	*   pEnvirons			= 0;				\
+	void	*	pNative				= 0;				\
 }                                                       \
-    extern "C" void CallConv SetEnvironsObject ( void * envObj ) { \
+    extern "C" void CallConv SetEnvironsObject ( void * envObj, void * natObj ) { \
         environs::pEnvirons             = envObj;	\
-    }
-    //CVerbVerb ( "SetEnvironsObject: Set ByteBuffer methods" );		\
+        environs::pNative				= natObj;	\
+    }                                               \
+	void * GetEnvironsNative () { return environs::pNative; }	\
+	void * GetEnvironsInstance () { return environs::pEnvirons; }
+
+    //CVerbVerb ( "SetEnvironsObject: Set ByteBuffer methods" );		
 
 #ifdef __cplusplus
 }

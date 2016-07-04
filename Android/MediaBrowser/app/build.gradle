@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+
+Properties envProps = null
+
+if (file("$project.rootDir/../Environs/gradle.properties").exists()) {
+    envProps = new Properties()
+    envProps.load(new FileInputStream("$project.rootDir/../Environs/gradle.properties"))
+}
+
+android {
+    compileSdkVersion 22
+
+    if (envProps == null) {
+        buildToolsVersion "22.0.1"
+    }
+    else {
+        buildToolsVersion envProps.envbuildToolsVersion
+    }
+
+    defaultConfig {
+        applicationId "environs.MediaBrowser"
+        minSdkVersion 10
+        targetSdkVersion 22
+
+        if (envProps == null) {
+			version project.envVersion
+            versionCode Integer.parseInt(project.envRevision)
+            versionName project.envVersion
+        }
+        else {
+			version envProps.envVersion
+            versionCode Integer.parseInt(envProps.envRevision)
+            versionName envProps.envVersion
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    //compile files('libs/Environs-armv7.jar')
+    compile(name:'libEnvirons', ext:'aar')
+
+    //compile 'com.android.support:support-v4:22.+'
+
+    compile project(':actionbarsherlock')
+//    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+
+    compile project(':aFileDialog')
+//    compile(name:'afiledialog', ext:'aar')
+//    compile project(':library/aFileDialog/library/app')
+}
+
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
+}

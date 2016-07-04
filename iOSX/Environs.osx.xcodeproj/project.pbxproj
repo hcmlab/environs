@@ -1,0 +1,1591 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7E00281F1B71A41300AB783F /* Dyn.Lib.Crypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E00281D1B71A41300AB783F /* Dyn.Lib.Crypto.cpp */; };
+		7E0028201B71A41300AB783F /* Dyn.Lib.Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E00281E1B71A41300AB783F /* Dyn.Lib.Crypto.h */; };
+		7E0A7EF81B2B948D008B6782 /* IPortal.Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF15B371B27A34E0054A122 /* IPortal.Encoder.cpp */; };
+		7E0A7EF91B2B94B6008B6782 /* Mouse.Simulator.Win.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3E61B026D8100342B64 /* Mouse.Simulator.Win.cpp */; };
+		7E10E73B1BD3DD6D008A927D /* Notify.Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E10E73A1BD3DD6D008A927D /* Notify.Context.h */; };
+		7E13D3061BD7829C00759757 /* IArray.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E13D3051BD7829C00759757 /* IArray.List.h */; };
+		7E13D3081BD7836800759757 /* IEnvirons.Dispose.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E13D3071BD7836800759757 /* IEnvirons.Dispose.h */; };
+		7E13D30B1BD80C3100759757 /* Array.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E13D3091BD80C3100759757 /* Array.List.cpp */; };
+		7E13D30C1BD80C3100759757 /* Array.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E13D30A1BD80C3100759757 /* Array.List.h */; };
+		7E13D3141BD847B000759757 /* IMessage.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E13D3131BD847B000759757 /* IMessage.Instance.h */; };
+		7E13D3161BD847CB00759757 /* IMessage.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E13D3151BD847CB00759757 /* IMessage.List.h */; };
+		7E13D3181BD847E100759757 /* IDevice.Instance.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E13D3171BD847E100759757 /* IDevice.Instance.List.h */; };
+		7E194A49196605C900C09FFF /* Environs.Obj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A42196605C900C09FFF /* Environs.Obj.cpp */; };
+		7E194A4A196605C900C09FFF /* Environs.Obj.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A43196605C900C09FFF /* Environs.Obj.h */; };
+		7E194A4B196605C900C09FFF /* Environs.Lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A44196605C900C09FFF /* Environs.Lib.cpp */; };
+		7E194A7B1966062400C09FFF /* Callbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A681966062400C09FFF /* Callbacks.cpp */; };
+		7E194A7C1966062400C09FFF /* Callbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A691966062400C09FFF /* Callbacks.h */; };
+		7E194A7D1966062400C09FFF /* Core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A6A1966062400C09FFF /* Core.cpp */; };
+		7E194A7E1966062400C09FFF /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A6B1966062400C09FFF /* Core.h */; };
+		7E194A811966062400C09FFF /* Mediator.Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A6E1966062400C09FFF /* Mediator.Client.cpp */; };
+		7E194A821966062400C09FFF /* Mediator.Client.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A6F1966062400C09FFF /* Mediator.Client.h */; };
+		7E194A871966062400C09FFF /* Stunt.Request.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A741966062400C09FFF /* Stunt.Request.cpp */; };
+		7E194A881966062400C09FFF /* Stunt.Request.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A751966062400C09FFF /* Stunt.Request.h */; };
+		7E194A8B1966062400C09FFF /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A781966062400C09FFF /* Utils.cpp */; };
+		7E194A921966063F00C09FFF /* Device.Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A8C1966063F00C09FFF /* Device.Base.cpp */; };
+		7E194A941966063F00C09FFF /* Device.Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A8E1966063F00C09FFF /* Device.Display.cpp */; };
+		7E194A951966063F00C09FFF /* Device.Display.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A8F1966063F00C09FFF /* Device.Display.h */; };
+		7E194A961966063F00C09FFF /* Devices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194A901966063F00C09FFF /* Devices.cpp */; };
+		7E194A971966063F00C09FFF /* Devices.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A911966063F00C09FFF /* Devices.h */; };
+		7E194A991966064F00C09FFF /* Device.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194A981966064F00C09FFF /* Device.Instance.h */; };
+		7E194AA41966067B00C09FFF /* Dyn.OpenCL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194AA21966067B00C09FFF /* Dyn.OpenCL.cpp */; };
+		7E194AA51966067B00C09FFF /* Dyn.OpenCL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194AA31966067B00C09FFF /* Dyn.OpenCL.h */; };
+		7E194AA81966069600C09FFF /* Encoder.Pictures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194AA61966069600C09FFF /* Encoder.Pictures.cpp */; };
+		7E194AA91966069600C09FFF /* Encoder.Pictures.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194AA71966069600C09FFF /* Encoder.Pictures.h */; };
+		7E194AE41966070000C09FFF /* Portal.Generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194ADE1966070000C09FFF /* Portal.Generator.cpp */; };
+		7E194AE51966070000C09FFF /* Portal.Generator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194ADF1966070000C09FFF /* Portal.Generator.h */; };
+		7E194AE61966070000C09FFF /* Portal.Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194AE01966070000C09FFF /* Portal.Stream.cpp */; };
+		7E194AE71966070000C09FFF /* Portal.Stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194AE11966070000C09FFF /* Portal.Stream.h */; };
+		7E194AEB1966071500C09FFF /* Render.Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194AE81966071500C09FFF /* Render.Context.h */; };
+		7E194AEC1966071500C09FFF /* Render.Dimensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194AE91966071500C09FFF /* Render.Dimensions.h */; };
+		7E194AED1966071500C09FFF /* Render.Overlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194AEA1966071500C09FFF /* Render.Overlay.h */; };
+		7E194B061966075300C09FFF /* Render.OpenCL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194B041966075300C09FFF /* Render.OpenCL.cpp */; };
+		7E194B071966075300C09FFF /* Render.OpenCL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194B051966075300C09FFF /* Render.OpenCL.h */; };
+		7E194B0C1966084F00C09FFF /* Mediator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194B0A1966084F00C09FFF /* Mediator.cpp */; };
+		7E194B0D1966084F00C09FFF /* Mediator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194B0B1966084F00C09FFF /* Mediator.h */; };
+		7E194B22196B1A4700C09FFF /* Kernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194B1E196B1A4700C09FFF /* Kernel.cpp */; };
+		7E194B23196B1A4700C09FFF /* Kernel.Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194B1F196B1A4700C09FFF /* Kernel.Display.cpp */; };
+		7E194B24196B1A4700C09FFF /* Kernel.Display.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194B20196B1A4700C09FFF /* Kernel.Display.h */; };
+		7E194B25196B1A4700C09FFF /* Kernel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194B21196B1A4700C09FFF /* Kernel.h */; };
+		7E194B28196B1A8400C09FFF /* Kernel.Display.OSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E194B26196B1A8400C09FFF /* Kernel.Display.OSX.cpp */; };
+		7E194B29196B1A8400C09FFF /* Kernel.Display.OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E194B27196B1A8400C09FFF /* Kernel.Display.OSX.h */; };
+		7E22206B1B51744E003E2D9C /* Environs.Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220691B51744E003E2D9C /* Environs.Utils.cpp */; };
+		7E22206C1B51744E003E2D9C /* Environs.Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22206A1B51744E003E2D9C /* Environs.Utils.h */; };
+		7E22206F1B51745E003E2D9C /* Environs.Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E22206D1B51745E003E2D9C /* Environs.Types.cpp */; };
+		7E2220701B51745E003E2D9C /* Environs.Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22206E1B51745E003E2D9C /* Environs.Types.h */; };
+		7E22207E1B5174A4003E2D9C /* Environs.Av.Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220711B5174A4003E2D9C /* Environs.Av.Context.h */; };
+		7E22207F1B5174A4003E2D9C /* Environs.Crypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220721B5174A4003E2D9C /* Environs.Crypt.cpp */; };
+		7E2220801B5174A4003E2D9C /* Environs.Crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220731B5174A4003E2D9C /* Environs.Crypt.h */; };
+		7E2220811B5174A4003E2D9C /* Environs.Crypt1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220741B5174A4003E2D9C /* Environs.Crypt1.cpp */; };
+		7E2220821B5174A4003E2D9C /* Environs.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220751B5174A4003E2D9C /* Environs.iOSX.h */; };
+		7E2220831B5174A4003E2D9C /* Environs.Lib.Display.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220761B5174A4003E2D9C /* Environs.Lib.Display.h */; };
+		7E2220841B5174A4003E2D9C /* Environs.Lib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220771B5174A4003E2D9C /* Environs.Lib.h */; };
+		7E2220851B5174A4003E2D9C /* Environs.Lib.Inc.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220781B5174A4003E2D9C /* Environs.Lib.Inc.h */; };
+		7E2220861B5174A4003E2D9C /* Environs.Lib.Mobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220791B5174A4003E2D9C /* Environs.Lib.Mobile.h */; };
+		7E2220871B5174A4003E2D9C /* Environs.Native.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22207A1B5174A4003E2D9C /* Environs.Native.h */; };
+		7E2220881B5174A4003E2D9C /* Environs.Observer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22207B1B5174A4003E2D9C /* Environs.Observer.h */; };
+		7E2220891B5174A4003E2D9C /* Environs.Platforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22207C1B5174A4003E2D9C /* Environs.Platforms.h */; };
+		7E22208A1B5174A4003E2D9C /* Environs.Release.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22207D1B5174A4003E2D9C /* Environs.Release.h */; };
+		7E22209C1B517500003E2D9C /* Environs.Android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E22208B1B517500003E2D9C /* Environs.Android.cpp */; };
+		7E2220A01B517500003E2D9C /* Environs.iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22208F1B517500003E2D9C /* Environs.iOS.h */; };
+		7E2220A31B517500003E2D9C /* Environs.Lib.Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220921B517500003E2D9C /* Environs.Lib.Display.cpp */; };
+		7E2220A51B517500003E2D9C /* Environs.Mobile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220941B517500003E2D9C /* Environs.Mobile.cpp */; };
+		7E2220A61B517500003E2D9C /* Environs.Mobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220951B517500003E2D9C /* Environs.Mobile.h */; };
+		7E2220A71B517500003E2D9C /* Environs.Modules.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220961B517500003E2D9C /* Environs.Modules.h */; };
+		7E2220A91B517500003E2D9C /* Environs.OSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220981B517500003E2D9C /* Environs.OSX.cpp */; };
+		7E2220AA1B517500003E2D9C /* Environs.OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220991B517500003E2D9C /* Environs.OSX.h */; };
+		7E2220AB1B517500003E2D9C /* Environs.Windows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E22209A1B517500003E2D9C /* Environs.Windows.cpp */; };
+		7E2220AC1B517500003E2D9C /* Environs.Windows.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E22209B1B517500003E2D9C /* Environs.Windows.h */; };
+		7E2220B01B517594003E2D9C /* Environs.Lib.Mobile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220AF1B517594003E2D9C /* Environs.Lib.Mobile.cpp */; };
+		7E2220B31B517989003E2D9C /* Login.Dialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220B11B517989003E2D9C /* Login.Dialog.h */; };
+		7E2220B41B517989003E2D9C /* Login.Dialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220B21B517989003E2D9C /* Login.Dialog.mm */; };
+		7E2220B61B517AE0003E2D9C /* Portal.Receiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220B51B517AE0003E2D9C /* Portal.Receiver.cpp */; };
+		7E2220B91B517B54003E2D9C /* Environs.Display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220B71B517B54003E2D9C /* Environs.Display.cpp */; };
+		7E2220BA1B517B54003E2D9C /* Environs.Display.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220B81B517B54003E2D9C /* Environs.Display.h */; };
+		7E2220C81B533A4D003E2D9C /* Device.List.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2220C71B533A4D003E2D9C /* Device.List.iOSX.h */; };
+		7E2220CC1B533A57003E2D9C /* Device.List.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E2220CA1B533A57003E2D9C /* Device.List.iOSX.mm */; };
+		7E2811F31BFE4D9D008B5950 /* Environs.Cli.PixelSense.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2811EA1BFE4D9D008B5950 /* Environs.Cli.PixelSense.cpp */; };
+		7E2811F41BFE4D9D008B5950 /* Environs.Cli.PixelSense.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2811EB1BFE4D9D008B5950 /* Environs.Cli.PixelSense.h */; };
+		7E2811F51BFE4D9D008B5950 /* Environs.Cli.STT.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2811EC1BFE4D9D008B5950 /* Environs.Cli.STT.h */; };
+		7E2811F71BFE4D9D008B5950 /* Environs.Cli.Init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2811EE1BFE4D9D008B5950 /* Environs.Cli.Init.cpp */; };
+		7E2811F81BFE4D9D008B5950 /* Environs.Cli.TouchDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2811EF1BFE4D9D008B5950 /* Environs.Cli.TouchDevice.cpp */; };
+		7E2811FA1BFE4D9D008B5950 /* Environs.Cli.STT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2811F11BFE4D9D008B5950 /* Environs.Cli.STT.cpp */; };
+		7E2811FB1BFE4D9D008B5950 /* Environs.Cli.TouchDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2811F21BFE4D9D008B5950 /* Environs.Cli.TouchDevice.h */; };
+		7E2DEF4C1C0E440A00D8B290 /* Input.Handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DEF4A1C0E440A00D8B290 /* Input.Handler.cpp */; };
+		7E2DEF4D1C0E440A00D8B290 /* Input.Handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2DEF4B1C0E440A00D8B290 /* Input.Handler.h */; };
+		7E318F371BF67C4200A75EC0 /* Environs.Cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E318F361BF67C4200A75EC0 /* Environs.Cpp.cpp */; };
+		7E318F3D1BF67C6200A75EC0 /* Environs.Cli.Win.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E318F381BF67C6200A75EC0 /* Environs.Cli.Win.h */; };
+		7E318F3E1BF67C6200A75EC0 /* Environs.Cli.Surfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E318F391BF67C6200A75EC0 /* Environs.Cli.Surfaces.h */; };
+		7E318F3F1BF67C6200A75EC0 /* Environs.Cli.Win.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E318F3A1BF67C6200A75EC0 /* Environs.Cli.Win.cpp */; };
+		7E318F401BF67C6200A75EC0 /* Environs.Cli.Surfaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E318F3B1BF67C6200A75EC0 /* Environs.Cli.Surfaces.cpp */; };
+		7E318F411BF67C6200A75EC0 /* Environs.Cli.Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E318F3C1BF67C6200A75EC0 /* Environs.Cli.Base.cpp */; };
+		7E318F461BF67C8F00A75EC0 /* Environs.Cli.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E318F421BF67C8F00A75EC0 /* Environs.Cli.Base.h */; };
+		7E318F471BF67C8F00A75EC0 /* Environs.Cli.Forwards.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E318F431BF67C8F00A75EC0 /* Environs.Cli.Forwards.h */; };
+		7E318F481BF67C8F00A75EC0 /* Environs.Observer.CLI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E318F441BF67C8F00A75EC0 /* Environs.Observer.CLI.h */; };
+		7E318F491BF67C8F00A75EC0 /* Environs.Cpp.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E318F451BF67C8F00A75EC0 /* Environs.Cpp.Base.h */; };
+		7E33A77B1CEF623D0018AA0E /* Environs.Crypt.Win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E33A7791CEF623D0018AA0E /* Environs.Crypt.Win32.cpp */; };
+		7E33A77C1CEF623D0018AA0E /* Environs.Crypt.Lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E33A77A1CEF623D0018AA0E /* Environs.Crypt.Lib.cpp */; };
+		7E33A7831CF86E420018AA0E /* Tracer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E33A7811CF86E420018AA0E /* Tracer.h */; };
+		7E33A7841CF86E420018AA0E /* Tracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E33A7821CF86E420018AA0E /* Tracer.cpp */; };
+		7E3B0B201C54693C0064C4FB /* Location.Decl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E3B0B1F1C54693C0064C4FB /* Location.Decl.h */; };
+		7E3D029E1B546C52007BD163 /* File.Instance.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E3D029C1B546C52007BD163 /* File.Instance.iOSX.h */; };
+		7E3D029F1B546C52007BD163 /* Message.Instance.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E3D029D1B546C52007BD163 /* Message.Instance.iOSX.h */; };
+		7E3D02A21B546C5F007BD163 /* File.Instance.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D02A01B546C5F007BD163 /* File.Instance.iOSX.mm */; };
+		7E3D02A31B546C5F007BD163 /* Message.Instance.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E3D02A11B546C5F007BD163 /* Message.Instance.iOSX.mm */; };
+		7E4106AF1C3E7286009B3870 /* Environs.Commit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E4106AE1C3E7286009B3870 /* Environs.Commit.h */; };
+		7E4106B11C3E8E07009B3870 /* Environs.Commit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E4106B01C3E8E07009B3870 /* Environs.Commit.cpp */; };
+		7E51943E1B1F79ED00F5BF38 /* Encoder.OpenH264.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E51943C1B1F79ED00F5BF38 /* Encoder.OpenH264.cpp */; };
+		7E51943F1B1F79ED00F5BF38 /* Encoder.OpenH264.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E51943D1B1F79ED00F5BF38 /* Encoder.OpenH264.h */; };
+		7E5194581B1FD03000F5BF38 /* Dyn.Lib.OpenH264.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5194561B1FD03000F5BF38 /* Dyn.Lib.OpenH264.cpp */; };
+		7E5194591B1FD03000F5BF38 /* Dyn.Lib.OpenH264.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5194571B1FD03000F5BF38 /* Dyn.Lib.OpenH264.h */; };
+		7E5194A01B2104E500F5BF38 /* Encoder.Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E51949E1B2104E500F5BF38 /* Encoder.Base.cpp */; };
+		7E5194A11B2104E500F5BF38 /* Encoder.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E51949F1B2104E500F5BF38 /* Encoder.Base.h */; };
+		7E63356F1BCC28610025C9D3 /* Environs.Observer.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E63356D1BCC28610025C9D3 /* Environs.Observer.iOSX.h */; };
+		7E6335751BCC39AD0025C9D3 /* Device.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335741BCC39AD0025C9D3 /* Device.List.h */; };
+		7E6335771BCC3B240025C9D3 /* Device.Info.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335761BCC3B240025C9D3 /* Device.Info.h */; };
+		7E6335791BCC42790025C9D3 /* Device.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6335781BCC42790025C9D3 /* Device.List.cpp */; };
+		7E63357B1BCC453E0025C9D3 /* Device.Instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E63357A1BCC453E0025C9D3 /* Device.Instance.cpp */; };
+		7E63357D1BCC7FC30025C9D3 /* Device.Display.Decl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E63357C1BCC7FC30025C9D3 /* Device.Display.Decl.h */; };
+		7E6335801BCCD3970025C9D3 /* Message.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E63357E1BCCD3970025C9D3 /* Message.Instance.h */; };
+		7E6335811BCCD3970025C9D3 /* File.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E63357F1BCCD3970025C9D3 /* File.Instance.h */; };
+		7E6335871BCD78D50025C9D3 /* File.Instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6335861BCD78D50025C9D3 /* File.Instance.cpp */; };
+		7E6335891BCD78E20025C9D3 /* Message.Instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6335881BCD78E20025C9D3 /* Message.Instance.cpp */; };
+		7E63358B1BCD79080025C9D3 /* Portal.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E63358A1BCD79080025C9D3 /* Portal.Instance.h */; };
+		7E63358D1BCD79140025C9D3 /* Portal.Instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E63358C1BCD79140025C9D3 /* Portal.Instance.cpp */; };
+		7E6335901BCD7D330025C9D3 /* Environs.Sensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E63358E1BCD7D330025C9D3 /* Environs.Sensors.cpp */; };
+		7E6335911BCD7D330025C9D3 /* Environs.Sensors.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E63358F1BCD7D330025C9D3 /* Environs.Sensors.h */; };
+		7E6335971BCDC87D0025C9D3 /* Portal.Info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6335961BCDC87D0025C9D3 /* Portal.Info.cpp */; };
+		7E6335B11BD06A280025C9D3 /* Environs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6335AF1BD06A280025C9D3 /* Environs.cpp */; };
+		7E6335B31BD14A6F0025C9D3 /* Environs.Loader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335B21BD14A6F0025C9D3 /* Environs.Loader.h */; };
+		7E6335B51BD14A7B0025C9D3 /* Environs.Build.Macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335B41BD14A7B0025C9D3 /* Environs.Build.Macros.h */; };
+		7E6335B91BD16B8E0025C9D3 /* Environs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335B81BD16B8E0025C9D3 /* Environs.h */; };
+		7E6335BB1BD16C390025C9D3 /* IEnvirons.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335BA1BD16C390025C9D3 /* IEnvirons.h */; };
+		7E6335C01BD16E250025C9D3 /* IFile.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335BC1BD16E250025C9D3 /* IFile.Instance.h */; };
+		7E6335C11BD16E250025C9D3 /* IPortal.Info.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335BD1BD16E250025C9D3 /* IPortal.Info.h */; };
+		7E6335C21BD16E250025C9D3 /* IDevice.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335BE1BD16E250025C9D3 /* IDevice.List.h */; };
+		7E6335C31BD16E250025C9D3 /* IPortal.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335BF1BD16E250025C9D3 /* IPortal.Instance.h */; };
+		7E6335C51BD173390025C9D3 /* IDevice.Instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335C41BD173390025C9D3 /* IDevice.Instance.h */; };
+		7E6335D01BD2839F0025C9D3 /* Environs.Msg.Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335A81BD060A50025C9D3 /* Environs.Msg.Types.h */; };
+		7E6335D31BD2ED5A0025C9D3 /* Environs.Build.Opts.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335D21BD2ED5A0025C9D3 /* Environs.Build.Opts.h */; };
+		7E6335D51BD2EF220025C9D3 /* Environs.iOSX.Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6335D41BD2EF220025C9D3 /* Environs.iOSX.Log.h */; };
+		7E67CE001C84BED8006FA922 /* Queue.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E67CDFE1C84BED8006FA922 /* Queue.List.h */; };
+		7E67CE011C84BED8006FA922 /* Queue.Vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E67CDFF1C84BED8006FA922 /* Queue.Vector.h */; };
+		7E67CE041C84BEF3006FA922 /* Queue.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E67CE021C84BEF3006FA922 /* Queue.List.cpp */; };
+		7E67CE051C84BEF3006FA922 /* Queue.Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E67CE031C84BEF3006FA922 /* Queue.Vector.cpp */; };
+		7E689FFE1C2B4790000C6916 /* Environs.Platform.Decls.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E689FFD1C2B4790000C6916 /* Environs.Platform.Decls.h */; };
+		7E7FF9311BF5DDF20007E953 /* Environs.Cli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7FF92F1BF5DDF20007E953 /* Environs.Cli.cpp */; };
+		7E7FF9321BF5DDF20007E953 /* Environs.Cli.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7FF9301BF5DDF20007E953 /* Environs.Cli.h */; };
+		7EB29AD51BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AD41BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h */; };
+		7EB29AD71BDBF0A600B6B304 /* Device.Instance.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AD61BDBF0A500B6B304 /* Device.Instance.iOSX.IAPI.h */; };
+		7EB29ADE1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29ADD1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h */; };
+		7EB29AE01BDC2AC700B6B304 /* Message.Instance.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29ADF1BDC2AC700B6B304 /* Message.Instance.iOSX.IAPI.h */; };
+		7EB29AE21BDC2E7F00B6B304 /* File.Instance.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AE11BDC2E7F00B6B304 /* File.Instance.iOSX.IAPI.h */; };
+		7EB29AE61BDD204000B6B304 /* Environs.iOSX.Imp.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AE51BDD204000B6B304 /* Environs.iOSX.Imp.h */; };
+		7EB29AEF1BE5092C00B6B304 /* Environs.Observer.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AEE1BE5092C00B6B304 /* Environs.Observer.IAPI.h */; };
+		7EB6153E1BD84B1300545C81 /* IFile.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB6153D1BD84B1300545C81 /* IFile.List.h */; };
+		7EB871CA1B35930D00E21206 /* Encoder.iOSX.H264.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871C81B35930D00E21206 /* Encoder.iOSX.H264.h */; };
+		7EB871CB1B35930D00E21206 /* Encoder.iOSX.H264.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871C91B35930D00E21206 /* Encoder.iOSX.H264.mm */; };
+		7EB871CD1B3593AE00E21206 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EB871CC1B3593AE00E21206 /* VideoToolbox.framework */; };
+		7EB871CF1B35944A00E21206 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EB871CE1B35944A00E21206 /* CoreVideo.framework */; };
+		7EB871D11B35947100E21206 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EB871D01B35947100E21206 /* CoreMedia.framework */; };
+		7EB871DB1B35952C00E21206 /* Environs.iosx.imp.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871DA1B35952C00E21206 /* Environs.iosx.imp.h */; };
+		7EB871E01B35997D00E21206 /* Decoder.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871DC1B35997D00E21206 /* Decoder.iOSX.h */; };
+		7EB871E11B35997D00E21206 /* Decoder.iOSX.H264.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871DD1B35997D00E21206 /* Decoder.iOSX.H264.h */; };
+		7EB871E21B35997D00E21206 /* Decoder.iOSX.H264.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871DE1B35997D00E21206 /* Decoder.iOSX.H264.mm */; };
+		7EB871E31B35997D00E21206 /* Decoder.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871DF1B35997D00E21206 /* Decoder.iOSX.mm */; };
+		7EB871E91B3599A000E21206 /* Portal.Receiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871E51B3599A000E21206 /* Portal.Receiver.h */; };
+		7EB871EA1B3599A000E21206 /* Portal.Receiver.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871E61B3599A000E21206 /* Portal.Receiver.iOSX.h */; };
+		7EB871EB1B3599A000E21206 /* Portal.Receiver.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871E71B3599A000E21206 /* Portal.Receiver.iOSX.mm */; };
+		7EB871EE1B3599AD00E21206 /* Portal.Receiver.Windows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871EC1B3599AD00E21206 /* Portal.Receiver.Windows.cpp */; };
+		7EB871EF1B3599AD00E21206 /* Portal.Receiver.Windows.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871ED1B3599AD00E21206 /* Portal.Receiver.Windows.h */; };
+		7EB871FA1B3599C400E21206 /* Portal.Generator.Android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871F01B3599C400E21206 /* Portal.Generator.Android.cpp */; };
+		7EB871FB1B3599C400E21206 /* Portal.Generator.Android.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871F11B3599C400E21206 /* Portal.Generator.Android.h */; };
+		7EB871FC1B3599C400E21206 /* Portal.Generator.iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871F21B3599C400E21206 /* Portal.Generator.iOS.h */; };
+		7EB871FD1B3599C400E21206 /* Portal.Generator.iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871F31B3599C400E21206 /* Portal.Generator.iOS.mm */; };
+		7EB871FE1B3599C400E21206 /* Portal.Generator.Mobile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871F41B3599C400E21206 /* Portal.Generator.Mobile.cpp */; };
+		7EB871FF1B3599C400E21206 /* Portal.Generator.Mobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871F51B3599C400E21206 /* Portal.Generator.Mobile.h */; };
+		7EB872001B3599C400E21206 /* Portal.Generator.Windows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871F61B3599C400E21206 /* Portal.Generator.Windows.cpp */; };
+		7EB872011B3599C400E21206 /* Portal.Generator.Windows.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871F71B3599C400E21206 /* Portal.Generator.Windows.h */; };
+		7EB872021B3599C400E21206 /* Portal.Receiver.Android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB871F81B3599C400E21206 /* Portal.Receiver.Android.cpp */; };
+		7EB872031B3599C400E21206 /* Portal.Receiver.Android.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB871F91B3599C400E21206 /* Portal.Receiver.Android.h */; };
+		7EB8720F1B3864C400E21206 /* Portal.Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB8720D1B3864C400E21206 /* Portal.Device.cpp */; };
+		7EB872101B3864C400E21206 /* Portal.Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB8720E1B3864C400E21206 /* Portal.Device.h */; };
+		7ECE04DA1BB4747A002740B5 /* Kernel.Display.Linux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE04D91BB4747A002740B5 /* Kernel.Display.Linux.cpp */; };
+		7ECE04DC1BB475C3002740B5 /* Device.Linux.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ECE04DB1BB475C3002740B5 /* Device.Linux.h */; };
+		7ECE04DF1BB47AEE002740B5 /* Environs.Linux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE04DD1BB47AEE002740B5 /* Environs.Linux.cpp */; };
+		7ECE04E01BB47AEE002740B5 /* Environs.Linux.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ECE04DE1BB47AEE002740B5 /* Environs.Linux.h */; };
+		7ECE04E21BB48027002740B5 /* Device.Linux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE04E11BB48027002740B5 /* Device.Linux.cpp */; };
+		7ED0D30B1AFC1C7600342B64 /* Environs.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E81512B1AF56D59008FB6DB /* Environs.iOSX.mm */; };
+		7ED0D30D1AFC29FA00342B64 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED0D30C1AFC29FA00342B64 /* Security.framework */; };
+		7ED0D30F1AFC2A1500342B64 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED0D30E1AFC2A1500342B64 /* CoreGraphics.framework */; };
+		7ED0D3111AFC2A3000342B64 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED0D3101AFC2A3000342B64 /* AVFoundation.framework */; };
+		7ED0D3131AFC2A4900342B64 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED0D3121AFC2A4900342B64 /* SystemConfiguration.framework */; };
+		7ED0D3171AFC2AA500342B64 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED0D3161AFC2AA500342B64 /* Cocoa.framework */; };
+		7ED0D3461AFD77D600342B64 /* Decoder.Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3441AFD77D600342B64 /* Decoder.Base.cpp */; };
+		7ED0D3471AFD77D600342B64 /* Decoder.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3451AFD77D600342B64 /* Decoder.Base.h */; };
+		7ED0D34B1AFD77F400342B64 /* Device.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D34A1AFD77F400342B64 /* Device.Base.h */; };
+		7ED0D35E1AFD7B9D00342B64 /* Capture.OSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D35C1AFD7B9D00342B64 /* Capture.OSX.cpp */; };
+		7ED0D35F1AFD7B9D00342B64 /* Capture.OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D35D1AFD7B9D00342B64 /* Capture.OSX.h */; };
+		7ED0D3641AFD7BC300342B64 /* Async.Worker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3601AFD7BC300342B64 /* Async.Worker.cpp */; };
+		7ED0D3651AFD7BC300342B64 /* Async.Worker.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3611AFD7BC300342B64 /* Async.Worker.h */; };
+		7ED0D3661AFD7BC300342B64 /* Byte.Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3621AFD7BC300342B64 /* Byte.Buffer.cpp */; };
+		7ED0D3671AFD7BC300342B64 /* Byte.Buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3631AFD7BC300342B64 /* Byte.Buffer.h */; };
+		7ED0D36C1AFD7BD100342B64 /* Notifications.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3681AFD7BD100342B64 /* Notifications.cpp */; };
+		7ED0D36D1AFD7BD100342B64 /* Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3691AFD7BD100342B64 /* Notifications.h */; };
+		7ED0D36E1AFD7BD100342B64 /* Performance.Count.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D36A1AFD7BD100342B64 /* Performance.Count.cpp */; };
+		7ED0D36F1AFD7BD100342B64 /* Performance.Count.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D36B1AFD7BD100342B64 /* Performance.Count.h */; };
+		7ED0D3ED1B026D8100342B64 /* Gesture.Bezel.Touch.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3DF1B026D8100342B64 /* Gesture.Bezel.Touch.h */; };
+		7ED0D3EF1B026D8100342B64 /* Gesture.Three.Finger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3E11B026D8100342B64 /* Gesture.Three.Finger.h */; };
+		7ED0D3F11B026D8100342B64 /* Gesture.Three.Touch.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3E31B026D8100342B64 /* Gesture.Three.Touch.h */; };
+		7ED0D3F21B026D8100342B64 /* Mouse.Simulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3E41B026D8100342B64 /* Mouse.Simulator.cpp */; };
+		7ED0D3F31B026D8100342B64 /* Mouse.Simulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3E51B026D8100342B64 /* Mouse.Simulator.h */; };
+		7ED0D3F51B026D8100342B64 /* Mouse.Simulator.Win.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3E71B026D8100342B64 /* Mouse.Simulator.Win.h */; };
+		7ED0D3F71B026D8100342B64 /* Recognizers.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3E91B026D8100342B64 /* Recognizers.h */; };
+		7ED0D3F81B026D8100342B64 /* Touch.Visualizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3EA1B026D8100342B64 /* Touch.Visualizer.cpp */; };
+		7ED0D3F91B026D8100342B64 /* Touch.Visualizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3EB1B026D8100342B64 /* Touch.Visualizer.h */; };
+		7ED0D4031B026E0200342B64 /* Device.Android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3FA1B026E0200342B64 /* Device.Android.cpp */; };
+		7ED0D4041B026E0200342B64 /* Device.Android.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3FB1B026E0200342B64 /* Device.Android.h */; };
+		7ED0D4051B026E0200342B64 /* Device.Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3FC1B026E0200342B64 /* Device.Controller.h */; };
+		7ED0D4061B026E0200342B64 /* Device.iOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3FD1B026E0200342B64 /* Device.iOS.cpp */; };
+		7ED0D4071B026E0200342B64 /* Device.iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D3FE1B026E0200342B64 /* Device.iOS.h */; };
+		7ED0D4081B026E0200342B64 /* Device.Mobile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3FF1B026E0200342B64 /* Device.Mobile.cpp */; };
+		7ED0D4091B026E0200342B64 /* Device.Mobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D4001B026E0200342B64 /* Device.Mobile.h */; };
+		7ED0D4331B05D0A100342B64 /* Environs.OSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D4321B05D0A100342B64 /* Environs.OSX.mm */; };
+		7ED0D4371B05D7E400342B64 /* Human.Input.Decl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D4361B05D7E400342B64 /* Human.Input.Decl.h */; };
+		7ED0D43A1B05D7FB00342B64 /* Kernel.Mobile.Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D4381B05D7FB00342B64 /* Kernel.Mobile.Platform.cpp */; };
+		7ED0D43B1B05D7FB00342B64 /* Kernel.Mobile.Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D4391B05D7FB00342B64 /* Kernel.Mobile.Platform.h */; };
+		7ED0D4451B066FB500342B64 /* Environs.iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D4441B066FB500342B64 /* Environs.iOS.mm */; };
+		7ED0D4481B067D7200342B64 /* Kernel.Windows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D4461B067D7200342B64 /* Kernel.Windows.cpp */; };
+		7ED0D4491B067D7200342B64 /* Kernel.Windows.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D4471B067D7200342B64 /* Kernel.Windows.h */; };
+		7ED0D44D1B06D7D500342B64 /* Environs.crypt.iosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D44C1B06D7D500342B64 /* Environs.crypt.iosx.mm */; };
+		7ED0D4521B07A60F00342B64 /* Touch.Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D4501B07A60F00342B64 /* Touch.Source.cpp */; };
+		7ED0D4531B07A60F00342B64 /* Touch.Source.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ED0D4511B07A60F00342B64 /* Touch.Source.h */; };
+		7EDCA85D1B22653800A3B726 /* Encoder.GDI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EDCA85B1B22653800A3B726 /* Encoder.GDI.cpp */; };
+		7EDCA85E1B22653800A3B726 /* Encoder.GDI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EDCA85C1B22653800A3B726 /* Encoder.GDI.h */; };
+		7EE7BBE31D24A6A400F2A70B /* Wifi.Observer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE7BBE21D24A6A400F2A70B /* Wifi.Observer.h */; };
+		7EE7BBE51D24A6CF00F2A70B /* Wifi.Observer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7BBE41D24A6CF00F2A70B /* Wifi.Observer.cpp */; };
+		7EE7BBEF1D298D2100F2A70B /* Dyn.Lib.iwlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE7BBED1D298D2100F2A70B /* Dyn.Lib.iwlib.h */; };
+		7EE7BBF01D298D2100F2A70B /* Dyn.Lib.iwlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7BBEE1D298D2100F2A70B /* Dyn.Lib.iwlib.cpp */; };
+		7EEC21281B1CE66C00AE7056 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEC21271B1CE66C00AE7056 /* CoreWLAN.framework */; };
+		7EECE5DF1B18DD5400195FE3 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EECE5DE1B18DD5400195FE3 /* Log.cpp */; };
+		7EECE5E71B18FF9D00195FE3 /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EECE5E61B18FF9D00195FE3 /* Log.h */; };
+		7EEF663C1B3A13E200501FB1 /* Device.OSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EEF663A1B3A13E200501FB1 /* Device.OSX.cpp */; };
+		7EEF663D1B3A13E200501FB1 /* Device.OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEF663B1B3A13E200501FB1 /* Device.OSX.h */; };
+		7EEF66401B3A168800501FB1 /* Device.Display.Win.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EEF663E1B3A168800501FB1 /* Device.Display.Win.cpp */; };
+		7EEF66411B3A168800501FB1 /* Device.Display.Win.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEF663F1B3A168800501FB1 /* Device.Display.Win.h */; };
+		7EEF66531B3C987200501FB1 /* Device.Instance.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EEF664F1B3C987200501FB1 /* Device.Instance.iOSX.mm */; };
+		7EEF66591B3C9BCB00501FB1 /* Device.Instance.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEF66581B3C9BCB00501FB1 /* Device.Instance.iOSX.h */; };
+		7EEF66601B403D4100501FB1 /* Portal.Instance.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EEF665F1B403D4100501FB1 /* Portal.Instance.iOSX.mm */; };
+		7EEF66621B403D4C00501FB1 /* Portal.Instance.iOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEF66611B403D4C00501FB1 /* Portal.Instance.iOSX.h */; };
+		7EEF66641B446E7000501FB1 /* Portal.Info.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEF66631B446E7000501FB1 /* Portal.Info.Base.h */; };
+		7EEF666C1B44736E00501FB1 /* Portal.Info.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EEF666B1B44736E00501FB1 /* Portal.Info.h */; };
+		7EF15B261B27A3160054A122 /* Export.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF15B1F1B27A3160054A122 /* Export.cpp */; };
+		7EF15B271B27A3160054A122 /* Export.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B201B27A3160054A122 /* Export.h */; };
+		7EF15B281B27A3160054A122 /* jni.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B211B27A3160054A122 /* jni.h */; };
+		7EF15B291B27A3160054A122 /* Sock.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B221B27A3160054A122 /* Sock.h */; };
+		7EF15B2A1B27A3160054A122 /* Stat.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B231B27A3160054A122 /* Stat.h */; };
+		7EF15B2B1B27A3160054A122 /* Threads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF15B241B27A3160054A122 /* Threads.cpp */; };
+		7EF15B2C1B27A3160054A122 /* Threads.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B251B27A3160054A122 /* Threads.h */; };
+		7EF15B2E1B27A31F0054A122 /* Interop.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B2D1B27A31F0054A122 /* Interop.h */; };
+		7EF15B3E1B27A34E0054A122 /* IEnvirons.Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF15B2F1B27A34E0054A122 /* IEnvirons.Base.cpp */; };
+		7EF15B3F1B27A34E0054A122 /* IEnvirons.Base.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B301B27A34E0054A122 /* IEnvirons.Base.h */; };
+		7EF15B401B27A34E0054A122 /* IEnvirons.Ident.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B311B27A34E0054A122 /* IEnvirons.Ident.h */; };
+		7EF15B411B27A34E0054A122 /* IInput.Recognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B321B27A34E0054A122 /* IInput.Recognizer.h */; };
+		7EF15B421B27A34E0054A122 /* Interface.Exports.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B331B27A34E0054A122 /* Interface.Exports.h */; };
+		7EF15B431B27A34E0054A122 /* Interfaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B341B27A34E0054A122 /* Interfaces.h */; };
+		7EF15B441B27A34E0054A122 /* IPortal.Capture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B351B27A34E0054A122 /* IPortal.Capture.h */; };
+		7EF15B451B27A34E0054A122 /* IPortal.Decoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B361B27A34E0054A122 /* IPortal.Decoder.h */; };
+		7EF15B471B27A34E0054A122 /* IPortal.Encoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B381B27A34E0054A122 /* IPortal.Encoder.h */; };
+		7EF15B481B27A34E0054A122 /* IPortal.Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF15B391B27A34E0054A122 /* IPortal.Renderer.cpp */; };
+		7EF15B491B27A34E0054A122 /* IPortal.Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B3A1B27A34E0054A122 /* IPortal.Renderer.h */; };
+		7EF15B4C1B27A34E0054A122 /* ITracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF15B3D1B27A34E0054A122 /* ITracker.h */; };
+		7EF778CF1B504051005D2DB0 /* Portal.Generator.OSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF778CD1B504051005D2DB0 /* Portal.Generator.OSX.cpp */; };
+		7EF778D01B504051005D2DB0 /* Portal.Generator.OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF778CE1B504051005D2DB0 /* Portal.Generator.OSX.h */; };
+		7EF778D31B504377005D2DB0 /* Capture.Win.GDI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF778D11B504377005D2DB0 /* Capture.Win.GDI.cpp */; };
+		7EF778D41B504377005D2DB0 /* Capture.Win.GDI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF778D21B504377005D2DB0 /* Capture.Win.GDI.h */; };
+		7EF778D71B504C96005D2DB0 /* Render.OSX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF778D51B504C96005D2DB0 /* Render.OSX.cpp */; };
+		7EF778D81B504C96005D2DB0 /* Render.OSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EF778D61B504C96005D2DB0 /* Render.OSX.h */; };
+		7EFEB2811B1213E2009A9608 /* Portal.Stream.Options.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EFEB2801B1213E2009A9608 /* Portal.Stream.Options.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7E00281D1B71A41300AB783F /* Dyn.Lib.Crypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dyn.Lib.Crypto.cpp; path = ../3rd/DynLib/Dyn.Lib.Crypto.cpp; sourceTree = "<group>"; };
+		7E00281E1B71A41300AB783F /* Dyn.Lib.Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dyn.Lib.Crypto.h; path = ../3rd/DynLib/Dyn.Lib.Crypto.h; sourceTree = "<group>"; };
+		7E10E73A1BD3DD6D008A927D /* Notify.Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notify.Context.h; path = ../Common/Notify.Context.h; sourceTree = "<group>"; };
+		7E13D3051BD7829C00759757 /* IArray.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IArray.List.h; sourceTree = "<group>"; };
+		7E13D3071BD7836800759757 /* IEnvirons.Dispose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEnvirons.Dispose.h; sourceTree = "<group>"; };
+		7E13D3091BD80C3100759757 /* Array.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Array.List.cpp; path = ../Native/Core/Array.List.cpp; sourceTree = "<group>"; };
+		7E13D30A1BD80C3100759757 /* Array.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Array.List.h; path = ../Native/Core/Array.List.h; sourceTree = "<group>"; };
+		7E13D3131BD847B000759757 /* IMessage.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMessage.Instance.h; sourceTree = "<group>"; };
+		7E13D3151BD847CB00759757 /* IMessage.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMessage.List.h; sourceTree = "<group>"; };
+		7E13D3171BD847E100759757 /* IDevice.Instance.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevice.Instance.List.h; sourceTree = "<group>"; };
+		7E194A42196605C900C09FFF /* Environs.Obj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Obj.cpp; path = ../Native/Environs.Obj.cpp; sourceTree = "<group>"; };
+		7E194A43196605C900C09FFF /* Environs.Obj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Obj.h; path = ../Native/Environs.Obj.h; sourceTree = "<group>"; };
+		7E194A44196605C900C09FFF /* Environs.Lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Lib.cpp; path = ../Native/Environs.Lib.cpp; sourceTree = "<group>"; };
+		7E194A681966062400C09FFF /* Callbacks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Callbacks.cpp; path = ../Native/Core/Callbacks.cpp; sourceTree = "<group>"; };
+		7E194A691966062400C09FFF /* Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Callbacks.h; path = ../Native/Core/Callbacks.h; sourceTree = "<group>"; };
+		7E194A6A1966062400C09FFF /* Core.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Core.cpp; path = ../Native/Core/Core.cpp; sourceTree = "<group>"; };
+		7E194A6B1966062400C09FFF /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Core.h; path = ../Native/Core/Core.h; sourceTree = "<group>"; };
+		7E194A6E1966062400C09FFF /* Mediator.Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mediator.Client.cpp; path = ../Native/Core/Mediator.Client.cpp; sourceTree = "<group>"; };
+		7E194A6F1966062400C09FFF /* Mediator.Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mediator.Client.h; path = ../Native/Core/Mediator.Client.h; sourceTree = "<group>"; };
+		7E194A741966062400C09FFF /* Stunt.Request.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stunt.Request.cpp; path = ../Native/Core/Stunt.Request.cpp; sourceTree = "<group>"; };
+		7E194A751966062400C09FFF /* Stunt.Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stunt.Request.h; path = ../Native/Core/Stunt.Request.h; sourceTree = "<group>"; };
+		7E194A781966062400C09FFF /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = ../Native/Core/Utils.cpp; sourceTree = "<group>"; };
+		7E194A8C1966063F00C09FFF /* Device.Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Base.cpp; path = ../Native/Device/Device.Base.cpp; sourceTree = "<group>"; };
+		7E194A8E1966063F00C09FFF /* Device.Display.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Display.cpp; path = ../Native/Device/Device.Display.cpp; sourceTree = "<group>"; };
+		7E194A8F1966063F00C09FFF /* Device.Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Display.h; path = ../Native/Device/Device.Display.h; sourceTree = "<group>"; };
+		7E194A901966063F00C09FFF /* Devices.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Devices.cpp; path = ../Native/Device/Devices.cpp; sourceTree = "<group>"; };
+		7E194A911966063F00C09FFF /* Devices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Devices.h; path = ../Native/Device/Devices.h; sourceTree = "<group>"; };
+		7E194A981966064F00C09FFF /* Device.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Instance.h; path = ../Common/Device.Instance.h; sourceTree = "<group>"; };
+		7E194AA21966067B00C09FFF /* Dyn.OpenCL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dyn.OpenCL.cpp; path = ../Native/DynLib/Dyn.OpenCL.cpp; sourceTree = "<group>"; };
+		7E194AA31966067B00C09FFF /* Dyn.OpenCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dyn.OpenCL.h; path = ../Native/DynLib/Dyn.OpenCL.h; sourceTree = "<group>"; };
+		7E194AA61966069600C09FFF /* Encoder.Pictures.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Encoder.Pictures.cpp; path = ../Native/Encoder/Encoder.Pictures.cpp; sourceTree = "<group>"; };
+		7E194AA71966069600C09FFF /* Encoder.Pictures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encoder.Pictures.h; path = ../Native/Encoder/Encoder.Pictures.h; sourceTree = "<group>"; };
+		7E194ADE1966070000C09FFF /* Portal.Generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Generator.cpp; path = ../Native/Portal/Portal.Generator.cpp; sourceTree = "<group>"; };
+		7E194ADF1966070000C09FFF /* Portal.Generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Generator.h; path = ../Native/Portal/Portal.Generator.h; sourceTree = "<group>"; };
+		7E194AE01966070000C09FFF /* Portal.Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Stream.cpp; path = ../Native/Portal/Portal.Stream.cpp; sourceTree = "<group>"; };
+		7E194AE11966070000C09FFF /* Portal.Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Stream.h; path = ../Native/Portal/Portal.Stream.h; sourceTree = "<group>"; };
+		7E194AE81966071500C09FFF /* Render.Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render.Context.h; path = ../Common/Render.Context.h; sourceTree = "<group>"; };
+		7E194AE91966071500C09FFF /* Render.Dimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render.Dimensions.h; path = ../Common/Render.Dimensions.h; sourceTree = "<group>"; };
+		7E194AEA1966071500C09FFF /* Render.Overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render.Overlay.h; path = ../Common/Render.Overlay.h; sourceTree = "<group>"; };
+		7E194B041966075300C09FFF /* Render.OpenCL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.OpenCL.cpp; path = ../Native/Renderer/Render.OpenCL.cpp; sourceTree = "<group>"; };
+		7E194B051966075300C09FFF /* Render.OpenCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render.OpenCL.h; path = ../Native/Renderer/Render.OpenCL.h; sourceTree = "<group>"; };
+		7E194B0A1966084F00C09FFF /* Mediator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mediator.cpp; path = ../Common/Mediator.cpp; sourceTree = "<group>"; };
+		7E194B0B1966084F00C09FFF /* Mediator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mediator.h; path = ../Common/Mediator.h; sourceTree = "<group>"; };
+		7E194B1E196B1A4700C09FFF /* Kernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.cpp; path = ../Native/Core/Kernel.cpp; sourceTree = "<group>"; };
+		7E194B1F196B1A4700C09FFF /* Kernel.Display.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.Display.cpp; path = ../Native/Core/Kernel.Display.cpp; sourceTree = "<group>"; };
+		7E194B20196B1A4700C09FFF /* Kernel.Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kernel.Display.h; path = ../Native/Core/Kernel.Display.h; sourceTree = "<group>"; };
+		7E194B21196B1A4700C09FFF /* Kernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kernel.h; path = ../Native/Core/Kernel.h; sourceTree = "<group>"; };
+		7E194B26196B1A8400C09FFF /* Kernel.Display.OSX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.Display.OSX.cpp; path = ../Native/Core/Kernel.Display.OSX.cpp; sourceTree = "<group>"; };
+		7E194B27196B1A8400C09FFF /* Kernel.Display.OSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kernel.Display.OSX.h; path = ../Native/Core/Kernel.Display.OSX.h; sourceTree = "<group>"; };
+		7E2220691B51744E003E2D9C /* Environs.Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Utils.cpp; path = ../Common/Environs.Utils.cpp; sourceTree = "<group>"; };
+		7E22206A1B51744E003E2D9C /* Environs.Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Utils.h; path = ../Common/Environs.Utils.h; sourceTree = "<group>"; };
+		7E22206D1B51745E003E2D9C /* Environs.Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Types.cpp; path = ../Common/Environs.Types.cpp; sourceTree = "<group>"; };
+		7E22206E1B51745E003E2D9C /* Environs.Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Types.h; path = ../Common/Environs.Types.h; sourceTree = "<group>"; };
+		7E2220711B5174A4003E2D9C /* Environs.Av.Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Av.Context.h; path = ../Common/Environs.Av.Context.h; sourceTree = "<group>"; };
+		7E2220721B5174A4003E2D9C /* Environs.Crypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Crypt.cpp; path = ../Common/Environs.Crypt.cpp; sourceTree = "<group>"; };
+		7E2220731B5174A4003E2D9C /* Environs.Crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Crypt.h; path = ../Common/Environs.Crypt.h; sourceTree = "<group>"; };
+		7E2220741B5174A4003E2D9C /* Environs.Crypt1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Crypt1.cpp; path = ../Common/Environs.Crypt1.cpp; sourceTree = "<group>"; };
+		7E2220751B5174A4003E2D9C /* Environs.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.iOSX.h; path = ../Common/Environs.iOSX.h; sourceTree = "<group>"; };
+		7E2220761B5174A4003E2D9C /* Environs.Lib.Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Lib.Display.h; path = ../Common/Environs.Lib.Display.h; sourceTree = "<group>"; };
+		7E2220771B5174A4003E2D9C /* Environs.Lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Lib.h; path = ../Common/Environs.Lib.h; sourceTree = "<group>"; };
+		7E2220781B5174A4003E2D9C /* Environs.Lib.Inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Lib.Inc.h; path = ../Common/Environs.Lib.Inc.h; sourceTree = "<group>"; };
+		7E2220791B5174A4003E2D9C /* Environs.Lib.Mobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Lib.Mobile.h; path = ../Common/Environs.Lib.Mobile.h; sourceTree = "<group>"; };
+		7E22207A1B5174A4003E2D9C /* Environs.Native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Native.h; path = ../Common/Environs.Native.h; sourceTree = "<group>"; };
+		7E22207B1B5174A4003E2D9C /* Environs.Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Observer.h; path = ../Common/Environs.Observer.h; sourceTree = "<group>"; };
+		7E22207C1B5174A4003E2D9C /* Environs.Platforms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Platforms.h; path = ../Common/Environs.Platforms.h; sourceTree = "<group>"; };
+		7E22207D1B5174A4003E2D9C /* Environs.Release.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Release.h; path = ../Common/Environs.Release.h; sourceTree = "<group>"; };
+		7E22208B1B517500003E2D9C /* Environs.Android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Android.cpp; path = ../Native/Environs.Android.cpp; sourceTree = "<group>"; };
+		7E22208F1B517500003E2D9C /* Environs.iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.iOS.h; path = ../Native/Environs.iOS.h; sourceTree = "<group>"; };
+		7E2220921B517500003E2D9C /* Environs.Lib.Display.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Lib.Display.cpp; path = ../Native/Environs.Lib.Display.cpp; sourceTree = "<group>"; };
+		7E2220941B517500003E2D9C /* Environs.Mobile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Mobile.cpp; path = ../Native/Environs.Mobile.cpp; sourceTree = "<group>"; };
+		7E2220951B517500003E2D9C /* Environs.Mobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Mobile.h; path = ../Native/Environs.Mobile.h; sourceTree = "<group>"; };
+		7E2220961B517500003E2D9C /* Environs.Modules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Modules.h; path = ../Native/Environs.Modules.h; sourceTree = "<group>"; };
+		7E2220981B517500003E2D9C /* Environs.OSX.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Environs.OSX.cpp; path = ../Native/Environs.OSX.cpp; sourceTree = "<group>"; };
+		7E2220991B517500003E2D9C /* Environs.OSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.OSX.h; path = ../Native/Environs.OSX.h; sourceTree = "<group>"; };
+		7E22209A1B517500003E2D9C /* Environs.Windows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Windows.cpp; path = ../Native/Environs.Windows.cpp; sourceTree = "<group>"; };
+		7E22209B1B517500003E2D9C /* Environs.Windows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Windows.h; path = ../Native/Environs.Windows.h; sourceTree = "<group>"; };
+		7E2220AF1B517594003E2D9C /* Environs.Lib.Mobile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Lib.Mobile.cpp; path = ../Native/Environs.Lib.Mobile.cpp; sourceTree = "<group>"; };
+		7E2220B11B517989003E2D9C /* Login.Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Login.Dialog.h; path = Environs/Login.Dialog.h; sourceTree = SOURCE_ROOT; };
+		7E2220B21B517989003E2D9C /* Login.Dialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Login.Dialog.mm; path = Environs/Login.Dialog.mm; sourceTree = SOURCE_ROOT; };
+		7E2220B51B517AE0003E2D9C /* Portal.Receiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Receiver.cpp; path = ../Native/Portal/Portal.Receiver.cpp; sourceTree = SOURCE_ROOT; };
+		7E2220B71B517B54003E2D9C /* Environs.Display.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Display.cpp; path = ../Native/Environs.Display.cpp; sourceTree = "<group>"; };
+		7E2220B81B517B54003E2D9C /* Environs.Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Display.h; path = ../Native/Environs.Display.h; sourceTree = "<group>"; };
+		7E2220C71B533A4D003E2D9C /* Device.List.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.List.iOSX.h; path = ../Common/Device.List.iOSX.h; sourceTree = "<group>"; };
+		7E2220CA1B533A57003E2D9C /* Device.List.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Device.List.iOSX.mm; path = ../Native/Device/Device.List.iOSX.mm; sourceTree = SOURCE_ROOT; };
+		7E2811EA1BFE4D9D008B5950 /* Environs.Cli.PixelSense.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.PixelSense.cpp; path = ../Native/Environs.Cli.PixelSense.cpp; sourceTree = "<group>"; };
+		7E2811EB1BFE4D9D008B5950 /* Environs.Cli.PixelSense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.PixelSense.h; path = ../Native/Environs.Cli.PixelSense.h; sourceTree = "<group>"; };
+		7E2811EC1BFE4D9D008B5950 /* Environs.Cli.STT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.STT.h; path = ../Native/Environs.Cli.STT.h; sourceTree = "<group>"; };
+		7E2811EE1BFE4D9D008B5950 /* Environs.Cli.Init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.Init.cpp; path = ../Native/Environs.Cli.Init.cpp; sourceTree = "<group>"; };
+		7E2811EF1BFE4D9D008B5950 /* Environs.Cli.TouchDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.TouchDevice.cpp; path = ../Native/Environs.Cli.TouchDevice.cpp; sourceTree = "<group>"; };
+		7E2811F11BFE4D9D008B5950 /* Environs.Cli.STT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.STT.cpp; path = ../Native/Environs.Cli.STT.cpp; sourceTree = "<group>"; };
+		7E2811F21BFE4D9D008B5950 /* Environs.Cli.TouchDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.TouchDevice.h; path = ../Native/Environs.Cli.TouchDevice.h; sourceTree = "<group>"; };
+		7E2DEF4A1C0E440A00D8B290 /* Input.Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.Handler.cpp; path = ../Native/Core/Input.Handler.cpp; sourceTree = "<group>"; };
+		7E2DEF4B1C0E440A00D8B290 /* Input.Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Input.Handler.h; path = ../Native/Core/Input.Handler.h; sourceTree = "<group>"; };
+		7E318F361BF67C4200A75EC0 /* Environs.Cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cpp.cpp; path = ../Native/Environs.Cpp.cpp; sourceTree = "<group>"; };
+		7E318F381BF67C6200A75EC0 /* Environs.Cli.Win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.Win.h; path = ../Native/Environs.Cli.Win.h; sourceTree = "<group>"; };
+		7E318F391BF67C6200A75EC0 /* Environs.Cli.Surfaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.Surfaces.h; path = ../Native/Environs.Cli.Surfaces.h; sourceTree = "<group>"; };
+		7E318F3A1BF67C6200A75EC0 /* Environs.Cli.Win.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.Win.cpp; path = ../Native/Environs.Cli.Win.cpp; sourceTree = "<group>"; };
+		7E318F3B1BF67C6200A75EC0 /* Environs.Cli.Surfaces.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.Surfaces.cpp; path = ../Native/Environs.Cli.Surfaces.cpp; sourceTree = "<group>"; };
+		7E318F3C1BF67C6200A75EC0 /* Environs.Cli.Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.Base.cpp; path = ../Native/Environs.Cli.Base.cpp; sourceTree = "<group>"; };
+		7E318F421BF67C8F00A75EC0 /* Environs.Cli.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.Base.h; path = ../Common/Environs.Cli.Base.h; sourceTree = "<group>"; };
+		7E318F431BF67C8F00A75EC0 /* Environs.Cli.Forwards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.Forwards.h; path = ../Common/Environs.Cli.Forwards.h; sourceTree = "<group>"; };
+		7E318F441BF67C8F00A75EC0 /* Environs.Observer.CLI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Observer.CLI.h; path = ../Common/Environs.Observer.CLI.h; sourceTree = "<group>"; };
+		7E318F451BF67C8F00A75EC0 /* Environs.Cpp.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cpp.Base.h; path = ../Common/Environs.Cpp.Base.h; sourceTree = "<group>"; };
+		7E33A7791CEF623D0018AA0E /* Environs.Crypt.Win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Crypt.Win32.cpp; path = ../Common/Environs.Crypt.Win32.cpp; sourceTree = "<group>"; };
+		7E33A77A1CEF623D0018AA0E /* Environs.Crypt.Lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Crypt.Lib.cpp; path = ../Common/Environs.Crypt.Lib.cpp; sourceTree = "<group>"; };
+		7E33A7811CF86E420018AA0E /* Tracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tracer.h; path = ../Common/Tracer.h; sourceTree = "<group>"; };
+		7E33A7821CF86E420018AA0E /* Tracer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tracer.cpp; path = ../Common/Tracer.cpp; sourceTree = "<group>"; };
+		7E3B0B1F1C54693C0064C4FB /* Location.Decl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Location.Decl.h; path = ../Common/Location.Decl.h; sourceTree = "<group>"; };
+		7E3D029C1B546C52007BD163 /* File.Instance.iOSX.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = File.Instance.iOSX.h; path = ../Common/File.Instance.iOSX.h; sourceTree = "<group>"; };
+		7E3D029D1B546C52007BD163 /* Message.Instance.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.Instance.iOSX.h; path = ../Common/Message.Instance.iOSX.h; sourceTree = "<group>"; };
+		7E3D02A01B546C5F007BD163 /* File.Instance.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = File.Instance.iOSX.mm; path = ../Native/Core/File.Instance.iOSX.mm; sourceTree = "<group>"; };
+		7E3D02A11B546C5F007BD163 /* Message.Instance.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Message.Instance.iOSX.mm; path = ../Native/Core/Message.Instance.iOSX.mm; sourceTree = "<group>"; };
+		7E4106AE1C3E7286009B3870 /* Environs.Commit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Commit.h; path = ../Common/Environs.Commit.h; sourceTree = "<group>"; };
+		7E4106B01C3E8E07009B3870 /* Environs.Commit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Commit.cpp; path = ../Common/Environs.Commit.cpp; sourceTree = "<group>"; };
+		7E51943C1B1F79ED00F5BF38 /* Encoder.OpenH264.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Encoder.OpenH264.cpp; path = ../3rd/Encoder/Encoder.OpenH264.cpp; sourceTree = "<group>"; };
+		7E51943D1B1F79ED00F5BF38 /* Encoder.OpenH264.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encoder.OpenH264.h; path = ../3rd/Encoder/Encoder.OpenH264.h; sourceTree = "<group>"; };
+		7E5194561B1FD03000F5BF38 /* Dyn.Lib.OpenH264.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dyn.Lib.OpenH264.cpp; path = ../3rd/DynLib/Dyn.Lib.OpenH264.cpp; sourceTree = "<group>"; };
+		7E5194571B1FD03000F5BF38 /* Dyn.Lib.OpenH264.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dyn.Lib.OpenH264.h; path = ../3rd/DynLib/Dyn.Lib.OpenH264.h; sourceTree = "<group>"; };
+		7E51949E1B2104E500F5BF38 /* Encoder.Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Encoder.Base.cpp; path = ../Native/Encoder/Encoder.Base.cpp; sourceTree = "<group>"; };
+		7E51949F1B2104E500F5BF38 /* Encoder.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encoder.Base.h; path = ../Native/Encoder/Encoder.Base.h; sourceTree = "<group>"; };
+		7E63356D1BCC28610025C9D3 /* Environs.Observer.iOSX.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Environs.Observer.iOSX.h; path = ../Common/Environs.Observer.iOSX.h; sourceTree = "<group>"; };
+		7E6335741BCC39AD0025C9D3 /* Device.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.List.h; path = ../Common/Device.List.h; sourceTree = "<group>"; };
+		7E6335761BCC3B240025C9D3 /* Device.Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Info.h; path = ../Common/Device.Info.h; sourceTree = "<group>"; };
+		7E6335781BCC42790025C9D3 /* Device.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.List.cpp; path = ../Native/Device/Device.List.cpp; sourceTree = SOURCE_ROOT; };
+		7E63357A1BCC453E0025C9D3 /* Device.Instance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Instance.cpp; path = ../Native/Device/Device.Instance.cpp; sourceTree = "<group>"; };
+		7E63357C1BCC7FC30025C9D3 /* Device.Display.Decl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Display.Decl.h; path = ../Common/Device.Display.Decl.h; sourceTree = "<group>"; };
+		7E63357E1BCCD3970025C9D3 /* Message.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.Instance.h; path = ../Common/Message.Instance.h; sourceTree = "<group>"; };
+		7E63357F1BCCD3970025C9D3 /* File.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.Instance.h; path = ../Common/File.Instance.h; sourceTree = "<group>"; };
+		7E6335861BCD78D50025C9D3 /* File.Instance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = File.Instance.cpp; path = ../Native/Core/File.Instance.cpp; sourceTree = "<group>"; };
+		7E6335881BCD78E20025C9D3 /* Message.Instance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Message.Instance.cpp; path = ../Native/Core/Message.Instance.cpp; sourceTree = "<group>"; };
+		7E63358A1BCD79080025C9D3 /* Portal.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Instance.h; path = ../Common/Portal.Instance.h; sourceTree = "<group>"; };
+		7E63358C1BCD79140025C9D3 /* Portal.Instance.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Portal.Instance.cpp; path = ../Native/Portal/Portal.Instance.cpp; sourceTree = "<group>"; };
+		7E63358E1BCD7D330025C9D3 /* Environs.Sensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Sensors.cpp; path = ../Native/Environs.Sensors.cpp; sourceTree = "<group>"; };
+		7E63358F1BCD7D330025C9D3 /* Environs.Sensors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Sensors.h; path = ../Native/Environs.Sensors.h; sourceTree = "<group>"; };
+		7E6335961BCDC87D0025C9D3 /* Portal.Info.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Portal.Info.cpp; path = ../Native/Portal/Portal.Info.cpp; sourceTree = "<group>"; };
+		7E6335A81BD060A50025C9D3 /* Environs.Msg.Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Msg.Types.h; path = ../Common/Environs.Msg.Types.h; sourceTree = "<group>"; };
+		7E6335AF1BD06A280025C9D3 /* Environs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.cpp; path = ../Native/Environs.cpp; sourceTree = "<group>"; };
+		7E6335B21BD14A6F0025C9D3 /* Environs.Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Loader.h; path = ../Common/Environs.Loader.h; sourceTree = "<group>"; };
+		7E6335B41BD14A7B0025C9D3 /* Environs.Build.Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Build.Macros.h; path = ../Common/Environs.Build.Macros.h; sourceTree = "<group>"; };
+		7E6335B61BD14A910025C9D3 /* Environs.Loader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Environs.Loader.cpp; path = ../Common/Environs.Loader.cpp; sourceTree = "<group>"; };
+		7E6335B81BD16B8E0025C9D3 /* Environs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.h; path = ../Common/Environs.h; sourceTree = "<group>"; };
+		7E6335BA1BD16C390025C9D3 /* IEnvirons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEnvirons.h; sourceTree = "<group>"; };
+		7E6335BC1BD16E250025C9D3 /* IFile.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFile.Instance.h; sourceTree = "<group>"; };
+		7E6335BD1BD16E250025C9D3 /* IPortal.Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPortal.Info.h; sourceTree = "<group>"; };
+		7E6335BE1BD16E250025C9D3 /* IDevice.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevice.List.h; sourceTree = "<group>"; };
+		7E6335BF1BD16E250025C9D3 /* IPortal.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPortal.Instance.h; sourceTree = "<group>"; };
+		7E6335C41BD173390025C9D3 /* IDevice.Instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDevice.Instance.h; sourceTree = "<group>"; };
+		7E6335D21BD2ED5A0025C9D3 /* Environs.Build.Opts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Build.Opts.h; path = ../Common/Environs.Build.Opts.h; sourceTree = "<group>"; };
+		7E6335D41BD2EF220025C9D3 /* Environs.iOSX.Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.iOSX.Log.h; path = ../Common/Environs.iOSX.Log.h; sourceTree = "<group>"; };
+		7E67CDFE1C84BED8006FA922 /* Queue.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Queue.List.h; path = ../Common/Queue.List.h; sourceTree = "<group>"; };
+		7E67CDFF1C84BED8006FA922 /* Queue.Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Queue.Vector.h; path = ../Common/Queue.Vector.h; sourceTree = "<group>"; };
+		7E67CE021C84BEF3006FA922 /* Queue.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Queue.List.cpp; path = ../Native/Core/Queue.List.cpp; sourceTree = "<group>"; };
+		7E67CE031C84BEF3006FA922 /* Queue.Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Queue.Vector.cpp; path = ../Common/Queue.Vector.cpp; sourceTree = "<group>"; };
+		7E689FFD1C2B4790000C6916 /* Environs.Platform.Decls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Platform.Decls.h; path = ../Common/Environs.Platform.Decls.h; sourceTree = "<group>"; };
+		7E7FF92F1BF5DDF20007E953 /* Environs.Cli.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.cpp; path = ../Native/Environs.Cli.cpp; sourceTree = "<group>"; };
+		7E7FF9301BF5DDF20007E953 /* Environs.Cli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.h; path = ../Native/Environs.Cli.h; sourceTree = "<group>"; };
+		7E81512B1AF56D59008FB6DB /* Environs.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Environs.iOSX.mm; path = Environs/Environs.iOSX.mm; sourceTree = "<group>"; };
+		7EB29AD41BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.List.iOSX.IAPI.h; path = ../Native/Device/Device.List.iOSX.IAPI.h; sourceTree = "<group>"; };
+		7EB29AD61BDBF0A500B6B304 /* Device.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Instance.iOSX.IAPI.h; path = ../Native/Device/Device.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
+		7EB29ADD1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Instance.iOSX.IAPI.h; path = ../Native/Portal/Portal.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
+		7EB29ADF1BDC2AC700B6B304 /* Message.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.Instance.iOSX.IAPI.h; path = ../Native/Core/Message.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
+		7EB29AE11BDC2E7F00B6B304 /* File.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.Instance.iOSX.IAPI.h; path = ../Native/Core/File.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
+		7EB29AE51BDD204000B6B304 /* Environs.iOSX.Imp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.iOSX.Imp.h; path = ../Native/Environs.iOSX.Imp.h; sourceTree = "<group>"; };
+		7EB29AEE1BE5092C00B6B304 /* Environs.Observer.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Observer.IAPI.h; path = ../Common/Environs.Observer.IAPI.h; sourceTree = "<group>"; };
+		7EB6153D1BD84B1300545C81 /* IFile.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFile.List.h; sourceTree = "<group>"; };
+		7EB871C81B35930D00E21206 /* Encoder.iOSX.H264.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encoder.iOSX.H264.h; path = ../Native/Encoder/Encoder.iOSX.H264.h; sourceTree = "<group>"; };
+		7EB871C91B35930D00E21206 /* Encoder.iOSX.H264.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Encoder.iOSX.H264.mm; path = ../Native/Encoder/Encoder.iOSX.H264.mm; sourceTree = "<group>"; };
+		7EB871CC1B3593AE00E21206 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		7EB871CE1B35944A00E21206 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		7EB871D01B35947100E21206 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		7EB871DA1B35952C00E21206 /* Environs.iosx.imp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.iosx.imp.h; path = ../Native/Environs.iosx.imp.h; sourceTree = "<group>"; };
+		7EB871DC1B35997D00E21206 /* Decoder.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Decoder.iOSX.h; path = ../Native/Decoder/Decoder.iOSX.h; sourceTree = "<group>"; };
+		7EB871DD1B35997D00E21206 /* Decoder.iOSX.H264.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Decoder.iOSX.H264.h; path = ../Native/Decoder/Decoder.iOSX.H264.h; sourceTree = "<group>"; };
+		7EB871DE1B35997D00E21206 /* Decoder.iOSX.H264.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Decoder.iOSX.H264.mm; path = ../Native/Decoder/Decoder.iOSX.H264.mm; sourceTree = "<group>"; };
+		7EB871DF1B35997D00E21206 /* Decoder.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Decoder.iOSX.mm; path = ../Native/Decoder/Decoder.iOSX.mm; sourceTree = "<group>"; };
+		7EB871E51B3599A000E21206 /* Portal.Receiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Receiver.h; path = ../Native/Portal/Portal.Receiver.h; sourceTree = "<group>"; };
+		7EB871E61B3599A000E21206 /* Portal.Receiver.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Receiver.iOSX.h; path = ../Native/Portal/Portal.Receiver.iOSX.h; sourceTree = "<group>"; };
+		7EB871E71B3599A000E21206 /* Portal.Receiver.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Portal.Receiver.iOSX.mm; path = ../Native/Portal/Portal.Receiver.iOSX.mm; sourceTree = "<group>"; };
+		7EB871EC1B3599AD00E21206 /* Portal.Receiver.Windows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Receiver.Windows.cpp; path = ../Native/Portal/Portal.Receiver.Windows.cpp; sourceTree = "<group>"; };
+		7EB871ED1B3599AD00E21206 /* Portal.Receiver.Windows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Receiver.Windows.h; path = ../Native/Portal/Portal.Receiver.Windows.h; sourceTree = "<group>"; };
+		7EB871F01B3599C400E21206 /* Portal.Generator.Android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Generator.Android.cpp; path = ../Native/Portal/Portal.Generator.Android.cpp; sourceTree = "<group>"; };
+		7EB871F11B3599C400E21206 /* Portal.Generator.Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Generator.Android.h; path = ../Native/Portal/Portal.Generator.Android.h; sourceTree = "<group>"; };
+		7EB871F21B3599C400E21206 /* Portal.Generator.iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Generator.iOS.h; path = ../Native/Portal/Portal.Generator.iOS.h; sourceTree = "<group>"; };
+		7EB871F31B3599C400E21206 /* Portal.Generator.iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Portal.Generator.iOS.mm; path = ../Native/Portal/Portal.Generator.iOS.mm; sourceTree = "<group>"; };
+		7EB871F41B3599C400E21206 /* Portal.Generator.Mobile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Generator.Mobile.cpp; path = ../Native/Portal/Portal.Generator.Mobile.cpp; sourceTree = "<group>"; };
+		7EB871F51B3599C400E21206 /* Portal.Generator.Mobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Generator.Mobile.h; path = ../Native/Portal/Portal.Generator.Mobile.h; sourceTree = "<group>"; };
+		7EB871F61B3599C400E21206 /* Portal.Generator.Windows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Generator.Windows.cpp; path = ../Native/Portal/Portal.Generator.Windows.cpp; sourceTree = SOURCE_ROOT; };
+		7EB871F71B3599C400E21206 /* Portal.Generator.Windows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Generator.Windows.h; path = ../Native/Portal/Portal.Generator.Windows.h; sourceTree = "<group>"; };
+		7EB871F81B3599C400E21206 /* Portal.Receiver.Android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Receiver.Android.cpp; path = ../Native/Portal/Portal.Receiver.Android.cpp; sourceTree = "<group>"; };
+		7EB871F91B3599C400E21206 /* Portal.Receiver.Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Receiver.Android.h; path = ../Native/Portal/Portal.Receiver.Android.h; sourceTree = "<group>"; };
+		7EB872051B359AEE00E21206 /* Portal.Receiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Receiver.h; path = ../Native/Portal/Portal.Receiver.h; sourceTree = "<group>"; };
+		7EB8720D1B3864C400E21206 /* Portal.Device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Portal.Device.cpp; path = ../Native/Portal/Portal.Device.cpp; sourceTree = "<group>"; };
+		7EB8720E1B3864C400E21206 /* Portal.Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Device.h; path = ../Native/Portal/Portal.Device.h; sourceTree = "<group>"; };
+		7EBB3CD11870F96200BE8012 /* libEnvirons.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libEnvirons.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EC2FCC71AF550C800C1E992 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		7EC2FCC81AF550C800C1E992 /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = ReadMe.md; path = ../ReadMe.md; sourceTree = "<group>"; };
+		7ECE04D91BB4747A002740B5 /* Kernel.Display.Linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.Display.Linux.cpp; path = ../Native/Core/Kernel.Display.Linux.cpp; sourceTree = "<group>"; };
+		7ECE04DB1BB475C3002740B5 /* Device.Linux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Linux.h; path = ../Native/Device/Device.Linux.h; sourceTree = "<group>"; };
+		7ECE04DD1BB47AEE002740B5 /* Environs.Linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Linux.cpp; path = ../Native/Environs.Linux.cpp; sourceTree = "<group>"; };
+		7ECE04DE1BB47AEE002740B5 /* Environs.Linux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Linux.h; path = ../Native/Environs.Linux.h; sourceTree = "<group>"; };
+		7ECE04E11BB48027002740B5 /* Device.Linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Linux.cpp; path = ../Native/Device/Device.Linux.cpp; sourceTree = "<group>"; };
+		7ED0D30C1AFC29FA00342B64 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		7ED0D30E1AFC2A1500342B64 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7ED0D3101AFC2A3000342B64 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7ED0D3121AFC2A4900342B64 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7ED0D3161AFC2AA500342B64 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		7ED0D3441AFD77D600342B64 /* Decoder.Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Decoder.Base.cpp; path = ../Native/Decoder/Decoder.Base.cpp; sourceTree = "<group>"; };
+		7ED0D3451AFD77D600342B64 /* Decoder.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Decoder.Base.h; path = ../Native/Decoder/Decoder.Base.h; sourceTree = "<group>"; };
+		7ED0D34A1AFD77F400342B64 /* Device.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Base.h; path = ../Native/Device/Device.Base.h; sourceTree = "<group>"; };
+		7ED0D35C1AFD7B9D00342B64 /* Capture.OSX.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Capture.OSX.cpp; path = ../Native/Capture/Capture.OSX.cpp; sourceTree = "<group>"; };
+		7ED0D35D1AFD7B9D00342B64 /* Capture.OSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Capture.OSX.h; path = ../Native/Capture/Capture.OSX.h; sourceTree = "<group>"; };
+		7ED0D3601AFD7BC300342B64 /* Async.Worker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Async.Worker.cpp; path = ../Native/Core/Async.Worker.cpp; sourceTree = "<group>"; };
+		7ED0D3611AFD7BC300342B64 /* Async.Worker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Async.Worker.h; path = ../Native/Core/Async.Worker.h; sourceTree = "<group>"; };
+		7ED0D3621AFD7BC300342B64 /* Byte.Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Byte.Buffer.cpp; path = ../Native/Core/Byte.Buffer.cpp; sourceTree = "<group>"; };
+		7ED0D3631AFD7BC300342B64 /* Byte.Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Byte.Buffer.h; path = ../Native/Core/Byte.Buffer.h; sourceTree = "<group>"; };
+		7ED0D3681AFD7BD100342B64 /* Notifications.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Notifications.cpp; path = ../Native/Core/Notifications.cpp; sourceTree = "<group>"; };
+		7ED0D3691AFD7BD100342B64 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notifications.h; path = ../Native/Core/Notifications.h; sourceTree = "<group>"; };
+		7ED0D36A1AFD7BD100342B64 /* Performance.Count.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Performance.Count.cpp; path = ../Native/Core/Performance.Count.cpp; sourceTree = "<group>"; };
+		7ED0D36B1AFD7BD100342B64 /* Performance.Count.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Performance.Count.h; path = ../Native/Core/Performance.Count.h; sourceTree = "<group>"; };
+		7ED0D3DE1B026D8100342B64 /* Gesture.Bezel.Touch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gesture.Bezel.Touch.cpp; path = ../Native/Recognizer/Gesture.Bezel.Touch.cpp; sourceTree = "<group>"; };
+		7ED0D3DF1B026D8100342B64 /* Gesture.Bezel.Touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gesture.Bezel.Touch.h; path = ../Native/Recognizer/Gesture.Bezel.Touch.h; sourceTree = "<group>"; };
+		7ED0D3E01B026D8100342B64 /* Gesture.Three.Finger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gesture.Three.Finger.cpp; path = ../Native/Recognizer/Gesture.Three.Finger.cpp; sourceTree = "<group>"; };
+		7ED0D3E11B026D8100342B64 /* Gesture.Three.Finger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gesture.Three.Finger.h; path = ../Native/Recognizer/Gesture.Three.Finger.h; sourceTree = "<group>"; };
+		7ED0D3E21B026D8100342B64 /* Gesture.Three.Touch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gesture.Three.Touch.cpp; path = ../Native/Recognizer/Gesture.Three.Touch.cpp; sourceTree = "<group>"; };
+		7ED0D3E31B026D8100342B64 /* Gesture.Three.Touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gesture.Three.Touch.h; path = ../Native/Recognizer/Gesture.Three.Touch.h; sourceTree = "<group>"; };
+		7ED0D3E41B026D8100342B64 /* Mouse.Simulator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mouse.Simulator.cpp; path = ../Native/Recognizer/Mouse.Simulator.cpp; sourceTree = "<group>"; };
+		7ED0D3E51B026D8100342B64 /* Mouse.Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mouse.Simulator.h; path = ../Native/Recognizer/Mouse.Simulator.h; sourceTree = "<group>"; };
+		7ED0D3E61B026D8100342B64 /* Mouse.Simulator.Win.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mouse.Simulator.Win.cpp; path = ../Native/Recognizer/Mouse.Simulator.Win.cpp; sourceTree = "<group>"; };
+		7ED0D3E71B026D8100342B64 /* Mouse.Simulator.Win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mouse.Simulator.Win.h; path = ../Native/Recognizer/Mouse.Simulator.Win.h; sourceTree = "<group>"; };
+		7ED0D3E81B026D8100342B64 /* Recognizers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Recognizers.cpp; path = ../Native/Recognizer/Recognizers.cpp; sourceTree = "<group>"; };
+		7ED0D3E91B026D8100342B64 /* Recognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Recognizers.h; path = ../Native/Recognizer/Recognizers.h; sourceTree = "<group>"; };
+		7ED0D3EA1B026D8100342B64 /* Touch.Visualizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Touch.Visualizer.cpp; path = ../Native/Recognizer/Touch.Visualizer.cpp; sourceTree = "<group>"; };
+		7ED0D3EB1B026D8100342B64 /* Touch.Visualizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touch.Visualizer.h; path = ../Native/Recognizer/Touch.Visualizer.h; sourceTree = "<group>"; };
+		7ED0D3FA1B026E0200342B64 /* Device.Android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Android.cpp; path = ../Native/Device/Device.Android.cpp; sourceTree = "<group>"; };
+		7ED0D3FB1B026E0200342B64 /* Device.Android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Android.h; path = ../Native/Device/Device.Android.h; sourceTree = "<group>"; };
+		7ED0D3FC1B026E0200342B64 /* Device.Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Controller.h; path = ../Native/Device/Device.Controller.h; sourceTree = "<group>"; };
+		7ED0D3FD1B026E0200342B64 /* Device.iOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.iOS.cpp; path = ../Native/Device/Device.iOS.cpp; sourceTree = "<group>"; };
+		7ED0D3FE1B026E0200342B64 /* Device.iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.iOS.h; path = ../Native/Device/Device.iOS.h; sourceTree = "<group>"; };
+		7ED0D3FF1B026E0200342B64 /* Device.Mobile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Mobile.cpp; path = ../Native/Device/Device.Mobile.cpp; sourceTree = "<group>"; };
+		7ED0D4001B026E0200342B64 /* Device.Mobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Mobile.h; path = ../Native/Device/Device.Mobile.h; sourceTree = "<group>"; };
+		7ED0D4321B05D0A100342B64 /* Environs.OSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Environs.OSX.mm; path = Environs/Environs.OSX.mm; sourceTree = "<group>"; };
+		7ED0D4361B05D7E400342B64 /* Human.Input.Decl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Human.Input.Decl.h; path = ../Common/Human.Input.Decl.h; sourceTree = "<group>"; };
+		7ED0D4381B05D7FB00342B64 /* Kernel.Mobile.Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.Mobile.Platform.cpp; path = ../Native/Core/Kernel.Mobile.Platform.cpp; sourceTree = SOURCE_ROOT; };
+		7ED0D4391B05D7FB00342B64 /* Kernel.Mobile.Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kernel.Mobile.Platform.h; path = ../Native/Core/Kernel.Mobile.Platform.h; sourceTree = "<group>"; };
+		7ED0D4441B066FB500342B64 /* Environs.iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Environs.iOS.mm; path = Environs/Environs.iOS.mm; sourceTree = "<group>"; };
+		7ED0D4461B067D7200342B64 /* Kernel.Windows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Kernel.Windows.cpp; path = ../Native/Core/Kernel.Windows.cpp; sourceTree = "<group>"; };
+		7ED0D4471B067D7200342B64 /* Kernel.Windows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kernel.Windows.h; path = ../Native/Core/Kernel.Windows.h; sourceTree = "<group>"; };
+		7ED0D44C1B06D7D500342B64 /* Environs.crypt.iosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Environs.crypt.iosx.mm; path = Environs/Environs.crypt.iosx.mm; sourceTree = "<group>"; };
+		7ED0D4501B07A60F00342B64 /* Touch.Source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Touch.Source.cpp; path = ../Native/Core/Touch.Source.cpp; sourceTree = "<group>"; };
+		7ED0D4511B07A60F00342B64 /* Touch.Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touch.Source.h; path = ../Native/Core/Touch.Source.h; sourceTree = "<group>"; };
+		7EDCA85B1B22653800A3B726 /* Encoder.GDI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Encoder.GDI.cpp; path = ../Native/Encoder/Encoder.GDI.cpp; sourceTree = "<group>"; };
+		7EDCA85C1B22653800A3B726 /* Encoder.GDI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encoder.GDI.h; path = ../Native/Encoder/Encoder.GDI.h; sourceTree = "<group>"; };
+		7EE7BBE21D24A6A400F2A70B /* Wifi.Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Wifi.Observer.h; path = ../Common/Wifi.Observer.h; sourceTree = "<group>"; };
+		7EE7BBE41D24A6CF00F2A70B /* Wifi.Observer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Wifi.Observer.cpp; path = ../Native/Core/Wifi.Observer.cpp; sourceTree = "<group>"; };
+		7EE7BBED1D298D2100F2A70B /* Dyn.Lib.iwlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dyn.Lib.iwlib.h; path = ../3rd/DynLib/Dyn.Lib.iwlib.h; sourceTree = "<group>"; };
+		7EE7BBEE1D298D2100F2A70B /* Dyn.Lib.iwlib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dyn.Lib.iwlib.cpp; path = ../3rd/DynLib/Dyn.Lib.iwlib.cpp; sourceTree = "<group>"; };
+		7EEC21271B1CE66C00AE7056 /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
+		7EECE5DE1B18DD5400195FE3 /* Log.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Log.cpp; path = ../Common/Log.cpp; sourceTree = "<group>"; };
+		7EECE5E61B18FF9D00195FE3 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../Common/Log.h; sourceTree = "<group>"; };
+		7EEF66321B38D6FF00501FB1 /* Device.Display.Decl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Display.Decl.h; path = ../Common/Device.Display.Decl.h; sourceTree = "<group>"; };
+		7EEF663A1B3A13E200501FB1 /* Device.OSX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.OSX.cpp; path = ../Native/Device/Device.OSX.cpp; sourceTree = "<group>"; };
+		7EEF663B1B3A13E200501FB1 /* Device.OSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.OSX.h; path = ../Native/Device/Device.OSX.h; sourceTree = "<group>"; };
+		7EEF663E1B3A168800501FB1 /* Device.Display.Win.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Device.Display.Win.cpp; path = ../Native/Device/Device.Display.Win.cpp; sourceTree = "<group>"; };
+		7EEF663F1B3A168800501FB1 /* Device.Display.Win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Display.Win.h; path = ../Native/Device/Device.Display.Win.h; sourceTree = "<group>"; };
+		7EEF664F1B3C987200501FB1 /* Device.Instance.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Device.Instance.iOSX.mm; path = ../Native/Device/Device.Instance.iOSX.mm; sourceTree = "<group>"; };
+		7EEF66581B3C9BCB00501FB1 /* Device.Instance.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Instance.iOSX.h; path = ../Common/Device.Instance.iOSX.h; sourceTree = "<group>"; };
+		7EEF665F1B403D4100501FB1 /* Portal.Instance.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Portal.Instance.iOSX.mm; path = ../Native/Portal/Portal.Instance.iOSX.mm; sourceTree = "<group>"; };
+		7EEF66611B403D4C00501FB1 /* Portal.Instance.iOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Instance.iOSX.h; path = ../Common/Portal.Instance.iOSX.h; sourceTree = "<group>"; };
+		7EEF66631B446E7000501FB1 /* Portal.Info.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Info.Base.h; path = ../Common/Portal.Info.Base.h; sourceTree = "<group>"; };
+		7EEF666B1B44736E00501FB1 /* Portal.Info.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = Portal.Info.h; path = ../Common/Portal.Info.h; sourceTree = "<group>"; };
+		7EF15B1F1B27A3160054A122 /* Export.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Export.cpp; sourceTree = "<group>"; };
+		7EF15B201B27A3160054A122 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		7EF15B211B27A3160054A122 /* jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jni.h; path = ../Interop/jni.h; sourceTree = "<group>"; };
+		7EF15B221B27A3160054A122 /* Sock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sock.h; sourceTree = "<group>"; };
+		7EF15B231B27A3160054A122 /* Stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stat.h; sourceTree = "<group>"; };
+		7EF15B241B27A3160054A122 /* Threads.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Threads.cpp; sourceTree = "<group>"; };
+		7EF15B251B27A3160054A122 /* Threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Threads.h; sourceTree = "<group>"; };
+		7EF15B2D1B27A31F0054A122 /* Interop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interop.h; path = ../Interop.h; sourceTree = "<group>"; };
+		7EF15B2F1B27A34E0054A122 /* IEnvirons.Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IEnvirons.Base.cpp; path = ../Interfaces/IEnvirons.Base.cpp; sourceTree = "<group>"; };
+		7EF15B301B27A34E0054A122 /* IEnvirons.Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IEnvirons.Base.h; path = ../Interfaces/IEnvirons.Base.h; sourceTree = "<group>"; };
+		7EF15B311B27A34E0054A122 /* IEnvirons.Ident.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IEnvirons.Ident.h; path = ../Interfaces/IEnvirons.Ident.h; sourceTree = "<group>"; };
+		7EF15B321B27A34E0054A122 /* IInput.Recognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IInput.Recognizer.h; path = ../Interfaces/IInput.Recognizer.h; sourceTree = "<group>"; };
+		7EF15B331B27A34E0054A122 /* Interface.Exports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interface.Exports.h; path = ../Interfaces/Interface.Exports.h; sourceTree = "<group>"; };
+		7EF15B341B27A34E0054A122 /* Interfaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interfaces.h; path = ../Interfaces/Interfaces.h; sourceTree = "<group>"; };
+		7EF15B351B27A34E0054A122 /* IPortal.Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPortal.Capture.h; path = ../Interfaces/IPortal.Capture.h; sourceTree = "<group>"; };
+		7EF15B361B27A34E0054A122 /* IPortal.Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPortal.Decoder.h; path = ../Interfaces/IPortal.Decoder.h; sourceTree = "<group>"; };
+		7EF15B371B27A34E0054A122 /* IPortal.Encoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPortal.Encoder.cpp; path = ../Interfaces/IPortal.Encoder.cpp; sourceTree = "<group>"; };
+		7EF15B381B27A34E0054A122 /* IPortal.Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPortal.Encoder.h; path = ../Interfaces/IPortal.Encoder.h; sourceTree = "<group>"; };
+		7EF15B391B27A34E0054A122 /* IPortal.Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPortal.Renderer.cpp; path = ../Interfaces/IPortal.Renderer.cpp; sourceTree = "<group>"; };
+		7EF15B3A1B27A34E0054A122 /* IPortal.Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPortal.Renderer.h; path = ../Interfaces/IPortal.Renderer.h; sourceTree = "<group>"; };
+		7EF15B3D1B27A34E0054A122 /* ITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITracker.h; path = ../Interfaces/ITracker.h; sourceTree = "<group>"; };
+		7EF778CD1B504051005D2DB0 /* Portal.Generator.OSX.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Portal.Generator.OSX.cpp; path = ../Native/Portal/Portal.Generator.OSX.cpp; sourceTree = "<group>"; };
+		7EF778CE1B504051005D2DB0 /* Portal.Generator.OSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Generator.OSX.h; path = ../Native/Portal/Portal.Generator.OSX.h; sourceTree = "<group>"; };
+		7EF778D11B504377005D2DB0 /* Capture.Win.GDI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Capture.Win.GDI.cpp; path = ../Native/Capture/Capture.Win.GDI.cpp; sourceTree = "<group>"; };
+		7EF778D21B504377005D2DB0 /* Capture.Win.GDI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Capture.Win.GDI.h; path = ../Native/Capture/Capture.Win.GDI.h; sourceTree = "<group>"; };
+		7EF778D51B504C96005D2DB0 /* Render.OSX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.OSX.cpp; path = ../Native/Renderer/Render.OSX.cpp; sourceTree = "<group>"; };
+		7EF778D61B504C96005D2DB0 /* Render.OSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render.OSX.h; path = ../Native/Renderer/Render.OSX.h; sourceTree = "<group>"; };
+		7EFEB2801B1213E2009A9608 /* Portal.Stream.Options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Stream.Options.h; path = ../Common/Portal.Stream.Options.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7EBB3CCE1870F96200BE8012 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EB871D11B35947100E21206 /* CoreMedia.framework in Frameworks */,
+				7EB871CF1B35944A00E21206 /* CoreVideo.framework in Frameworks */,
+				7ED0D30F1AFC2A1500342B64 /* CoreGraphics.framework in Frameworks */,
+				7ED0D3111AFC2A3000342B64 /* AVFoundation.framework in Frameworks */,
+				7EB871CD1B3593AE00E21206 /* VideoToolbox.framework in Frameworks */,
+				7EEC21281B1CE66C00AE7056 /* CoreWLAN.framework in Frameworks */,
+				7ED0D3171AFC2AA500342B64 /* Cocoa.framework in Frameworks */,
+				7ED0D3131AFC2A4900342B64 /* SystemConfiguration.framework in Frameworks */,
+				7ED0D30D1AFC29FA00342B64 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7E194A37196604B100C09FFF /* Decoder */ = {
+			isa = PBXGroup;
+			children = (
+				7ED0D3441AFD77D600342B64 /* Decoder.Base.cpp */,
+				7ED0D3451AFD77D600342B64 /* Decoder.Base.h */,
+				7EB871DC1B35997D00E21206 /* Decoder.iOSX.h */,
+				7EB871DD1B35997D00E21206 /* Decoder.iOSX.H264.h */,
+				7EB871DE1B35997D00E21206 /* Decoder.iOSX.H264.mm */,
+				7EB871DF1B35997D00E21206 /* Decoder.iOSX.mm */,
+			);
+			name = Decoder;
+			sourceTree = "<group>";
+		};
+		7E318F4A1BF67C9D00A75EC0 /* Environs.other */ = {
+			isa = PBXGroup;
+			children = (
+				7E22208B1B517500003E2D9C /* Environs.Android.cpp */,
+				7E318F3C1BF67C6200A75EC0 /* Environs.Cli.Base.cpp */,
+				7E318F421BF67C8F00A75EC0 /* Environs.Cli.Base.h */,
+				7E7FF92F1BF5DDF20007E953 /* Environs.Cli.cpp */,
+				7E318F431BF67C8F00A75EC0 /* Environs.Cli.Forwards.h */,
+				7E7FF9301BF5DDF20007E953 /* Environs.Cli.h */,
+				7E2811EE1BFE4D9D008B5950 /* Environs.Cli.Init.cpp */,
+				7E2811EA1BFE4D9D008B5950 /* Environs.Cli.PixelSense.cpp */,
+				7E2811EB1BFE4D9D008B5950 /* Environs.Cli.PixelSense.h */,
+				7E2811F11BFE4D9D008B5950 /* Environs.Cli.STT.cpp */,
+				7E2811EC1BFE4D9D008B5950 /* Environs.Cli.STT.h */,
+				7E318F3B1BF67C6200A75EC0 /* Environs.Cli.Surfaces.cpp */,
+				7E318F391BF67C6200A75EC0 /* Environs.Cli.Surfaces.h */,
+				7E2811EF1BFE4D9D008B5950 /* Environs.Cli.TouchDevice.cpp */,
+				7E2811F21BFE4D9D008B5950 /* Environs.Cli.TouchDevice.h */,
+				7E318F3A1BF67C6200A75EC0 /* Environs.Cli.Win.cpp */,
+				7E318F381BF67C6200A75EC0 /* Environs.Cli.Win.h */,
+				7ECE04DD1BB47AEE002740B5 /* Environs.Linux.cpp */,
+				7ECE04DE1BB47AEE002740B5 /* Environs.Linux.h */,
+				7E318F441BF67C8F00A75EC0 /* Environs.Observer.CLI.h */,
+				7E22209A1B517500003E2D9C /* Environs.Windows.cpp */,
+				7E22209B1B517500003E2D9C /* Environs.Windows.h */,
+			);
+			name = Environs.other;
+			sourceTree = "<group>";
+		};
+		7EAB298618AD874E00D59776 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7E13D3091BD80C3100759757 /* Array.List.cpp */,
+				7E13D30A1BD80C3100759757 /* Array.List.h */,
+				7ED0D3601AFD7BC300342B64 /* Async.Worker.cpp */,
+				7ED0D3611AFD7BC300342B64 /* Async.Worker.h */,
+				7ED0D3621AFD7BC300342B64 /* Byte.Buffer.cpp */,
+				7ED0D3631AFD7BC300342B64 /* Byte.Buffer.h */,
+				7E194A681966062400C09FFF /* Callbacks.cpp */,
+				7E194A691966062400C09FFF /* Callbacks.h */,
+				7E194A6A1966062400C09FFF /* Core.cpp */,
+				7E194A6B1966062400C09FFF /* Core.h */,
+				7E6335861BCD78D50025C9D3 /* File.Instance.cpp */,
+				7E63357F1BCCD3970025C9D3 /* File.Instance.h */,
+				7E3D029C1B546C52007BD163 /* File.Instance.iOSX.h */,
+				7EB29AE11BDC2E7F00B6B304 /* File.Instance.iOSX.IAPI.h */,
+				7E3D02A01B546C5F007BD163 /* File.Instance.iOSX.mm */,
+				7ED0D4361B05D7E400342B64 /* Human.Input.Decl.h */,
+				7E2DEF4A1C0E440A00D8B290 /* Input.Handler.cpp */,
+				7E2DEF4B1C0E440A00D8B290 /* Input.Handler.h */,
+				7E194B1E196B1A4700C09FFF /* Kernel.cpp */,
+				7E194B1F196B1A4700C09FFF /* Kernel.Display.cpp */,
+				7E194B20196B1A4700C09FFF /* Kernel.Display.h */,
+				7ECE04D91BB4747A002740B5 /* Kernel.Display.Linux.cpp */,
+				7E194B26196B1A8400C09FFF /* Kernel.Display.OSX.cpp */,
+				7E194B27196B1A8400C09FFF /* Kernel.Display.OSX.h */,
+				7E194B21196B1A4700C09FFF /* Kernel.h */,
+				7ED0D4381B05D7FB00342B64 /* Kernel.Mobile.Platform.cpp */,
+				7ED0D4391B05D7FB00342B64 /* Kernel.Mobile.Platform.h */,
+				7ED0D4461B067D7200342B64 /* Kernel.Windows.cpp */,
+				7ED0D4471B067D7200342B64 /* Kernel.Windows.h */,
+				7E3B0B1F1C54693C0064C4FB /* Location.Decl.h */,
+				7EECE5DE1B18DD5400195FE3 /* Log.cpp */,
+				7EECE5E61B18FF9D00195FE3 /* Log.h */,
+				7E2220B11B517989003E2D9C /* Login.Dialog.h */,
+				7E2220B21B517989003E2D9C /* Login.Dialog.mm */,
+				7E194A6E1966062400C09FFF /* Mediator.Client.cpp */,
+				7E194A6F1966062400C09FFF /* Mediator.Client.h */,
+				7E194B0A1966084F00C09FFF /* Mediator.cpp */,
+				7E194B0B1966084F00C09FFF /* Mediator.h */,
+				7E6335881BCD78E20025C9D3 /* Message.Instance.cpp */,
+				7E63357E1BCCD3970025C9D3 /* Message.Instance.h */,
+				7E3D029D1B546C52007BD163 /* Message.Instance.iOSX.h */,
+				7EB29ADF1BDC2AC700B6B304 /* Message.Instance.iOSX.IAPI.h */,
+				7E3D02A11B546C5F007BD163 /* Message.Instance.iOSX.mm */,
+				7ED0D3681AFD7BD100342B64 /* Notifications.cpp */,
+				7ED0D3691AFD7BD100342B64 /* Notifications.h */,
+				7E10E73A1BD3DD6D008A927D /* Notify.Context.h */,
+				7ED0D36A1AFD7BD100342B64 /* Performance.Count.cpp */,
+				7ED0D36B1AFD7BD100342B64 /* Performance.Count.h */,
+				7E67CE021C84BEF3006FA922 /* Queue.List.cpp */,
+				7E67CDFE1C84BED8006FA922 /* Queue.List.h */,
+				7E67CE031C84BEF3006FA922 /* Queue.Vector.cpp */,
+				7E67CDFF1C84BED8006FA922 /* Queue.Vector.h */,
+				7E194A741966062400C09FFF /* Stunt.Request.cpp */,
+				7E194A751966062400C09FFF /* Stunt.Request.h */,
+				7ED0D4501B07A60F00342B64 /* Touch.Source.cpp */,
+				7ED0D4511B07A60F00342B64 /* Touch.Source.h */,
+				7E33A7821CF86E420018AA0E /* Tracer.cpp */,
+				7E33A7811CF86E420018AA0E /* Tracer.h */,
+				7E194A781966062400C09FFF /* Utils.cpp */,
+				7EE7BBE41D24A6CF00F2A70B /* Wifi.Observer.cpp */,
+				7EE7BBE21D24A6A400F2A70B /* Wifi.Observer.h */,
+			);
+			name = Core;
+			path = ../Core;
+			sourceTree = "<group>";
+		};
+		7EAB29B518AD876400D59776 /* Interop */ = {
+			isa = PBXGroup;
+			children = (
+				7EF15B1F1B27A3160054A122 /* Export.cpp */,
+				7EF15B201B27A3160054A122 /* Export.h */,
+				7EF15B2D1B27A31F0054A122 /* Interop.h */,
+				7EF15B211B27A3160054A122 /* jni.h */,
+				7EF15B221B27A3160054A122 /* Sock.h */,
+				7EF15B231B27A3160054A122 /* Stat.h */,
+				7EF15B241B27A3160054A122 /* Threads.cpp */,
+				7EF15B251B27A3160054A122 /* Threads.h */,
+			);
+			name = Interop;
+			path = ./../Common/Interop;
+			sourceTree = "<group>";
+		};
+		7EAB29C218AD876D00D59776 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				7E13D3051BD7829C00759757 /* IArray.List.h */,
+				7E6335C41BD173390025C9D3 /* IDevice.Instance.h */,
+				7E13D3171BD847E100759757 /* IDevice.Instance.List.h */,
+				7E6335BE1BD16E250025C9D3 /* IDevice.List.h */,
+				7EF15B2F1B27A34E0054A122 /* IEnvirons.Base.cpp */,
+				7EF15B301B27A34E0054A122 /* IEnvirons.Base.h */,
+				7E13D3071BD7836800759757 /* IEnvirons.Dispose.h */,
+				7E6335BA1BD16C390025C9D3 /* IEnvirons.h */,
+				7EF15B311B27A34E0054A122 /* IEnvirons.Ident.h */,
+				7E6335BC1BD16E250025C9D3 /* IFile.Instance.h */,
+				7EB6153D1BD84B1300545C81 /* IFile.List.h */,
+				7EF15B321B27A34E0054A122 /* IInput.Recognizer.h */,
+				7E13D3131BD847B000759757 /* IMessage.Instance.h */,
+				7E13D3151BD847CB00759757 /* IMessage.List.h */,
+				7EF15B331B27A34E0054A122 /* Interface.Exports.h */,
+				7EF15B341B27A34E0054A122 /* Interfaces.h */,
+				7EF15B351B27A34E0054A122 /* IPortal.Capture.h */,
+				7EF15B361B27A34E0054A122 /* IPortal.Decoder.h */,
+				7EF15B371B27A34E0054A122 /* IPortal.Encoder.cpp */,
+				7EF15B381B27A34E0054A122 /* IPortal.Encoder.h */,
+				7E6335BD1BD16E250025C9D3 /* IPortal.Info.h */,
+				7E6335BF1BD16E250025C9D3 /* IPortal.Instance.h */,
+				7EF15B391B27A34E0054A122 /* IPortal.Renderer.cpp */,
+				7EF15B3A1B27A34E0054A122 /* IPortal.Renderer.h */,
+				7EF15B3D1B27A34E0054A122 /* ITracker.h */,
+			);
+			name = Interfaces;
+			path = ../Common/Interfaces;
+			sourceTree = "<group>";
+		};
+		7EAB29D518AD878000D59776 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				7ED0D35C1AFD7B9D00342B64 /* Capture.OSX.cpp */,
+				7ED0D35D1AFD7B9D00342B64 /* Capture.OSX.h */,
+				7EF778D11B504377005D2DB0 /* Capture.Win.GDI.cpp */,
+				7EF778D21B504377005D2DB0 /* Capture.Win.GDI.h */,
+			);
+			name = Capture;
+			path = ../Capture;
+			sourceTree = "<group>";
+		};
+		7EAB29E618AD878E00D59776 /* Recognizer */ = {
+			isa = PBXGroup;
+			children = (
+				7ED0D3DE1B026D8100342B64 /* Gesture.Bezel.Touch.cpp */,
+				7ED0D3DF1B026D8100342B64 /* Gesture.Bezel.Touch.h */,
+				7ED0D3E01B026D8100342B64 /* Gesture.Three.Finger.cpp */,
+				7ED0D3E11B026D8100342B64 /* Gesture.Three.Finger.h */,
+				7ED0D3E21B026D8100342B64 /* Gesture.Three.Touch.cpp */,
+				7ED0D3E31B026D8100342B64 /* Gesture.Three.Touch.h */,
+				7ED0D3E41B026D8100342B64 /* Mouse.Simulator.cpp */,
+				7ED0D3E51B026D8100342B64 /* Mouse.Simulator.h */,
+				7ED0D3E61B026D8100342B64 /* Mouse.Simulator.Win.cpp */,
+				7ED0D3E71B026D8100342B64 /* Mouse.Simulator.Win.h */,
+				7ED0D3E81B026D8100342B64 /* Recognizers.cpp */,
+				7ED0D3E91B026D8100342B64 /* Recognizers.h */,
+				7ED0D3EA1B026D8100342B64 /* Touch.Visualizer.cpp */,
+				7ED0D3EB1B026D8100342B64 /* Touch.Visualizer.h */,
+			);
+			name = Recognizer;
+			path = ../Recognizer;
+			sourceTree = "<group>";
+		};
+		7EAB29FB18AD879D00D59776 /* Encoder */ = {
+			isa = PBXGroup;
+			children = (
+				7E51949E1B2104E500F5BF38 /* Encoder.Base.cpp */,
+				7E51949F1B2104E500F5BF38 /* Encoder.Base.h */,
+				7EDCA85B1B22653800A3B726 /* Encoder.GDI.cpp */,
+				7EDCA85C1B22653800A3B726 /* Encoder.GDI.h */,
+				7EB871C81B35930D00E21206 /* Encoder.iOSX.H264.h */,
+				7EB871C91B35930D00E21206 /* Encoder.iOSX.H264.mm */,
+				7E51943C1B1F79ED00F5BF38 /* Encoder.OpenH264.cpp */,
+				7E51943D1B1F79ED00F5BF38 /* Encoder.OpenH264.h */,
+				7E194AA61966069600C09FFF /* Encoder.Pictures.cpp */,
+				7E194AA71966069600C09FFF /* Encoder.Pictures.h */,
+			);
+			name = Encoder;
+			path = ../Encoder;
+			sourceTree = "<group>";
+		};
+		7EAB2A0C18AD87A800D59776 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				7E194AE81966071500C09FFF /* Render.Context.h */,
+				7E194AE91966071500C09FFF /* Render.Dimensions.h */,
+				7E194B041966075300C09FFF /* Render.OpenCL.cpp */,
+				7E194B051966075300C09FFF /* Render.OpenCL.h */,
+				7EF778D51B504C96005D2DB0 /* Render.OSX.cpp */,
+				7EF778D61B504C96005D2DB0 /* Render.OSX.h */,
+				7E194AEA1966071500C09FFF /* Render.Overlay.h */,
+			);
+			name = Renderer;
+			path = ../Renderer;
+			sourceTree = "<group>";
+		};
+		7EAB2A1518AD87C100D59776 /* Portal */ = {
+			isa = PBXGroup;
+			children = (
+				7EB8720D1B3864C400E21206 /* Portal.Device.cpp */,
+				7EB8720E1B3864C400E21206 /* Portal.Device.h */,
+				7EB871F01B3599C400E21206 /* Portal.Generator.Android.cpp */,
+				7EB871F11B3599C400E21206 /* Portal.Generator.Android.h */,
+				7E194ADE1966070000C09FFF /* Portal.Generator.cpp */,
+				7E194ADF1966070000C09FFF /* Portal.Generator.h */,
+				7EB871F21B3599C400E21206 /* Portal.Generator.iOS.h */,
+				7EB871F31B3599C400E21206 /* Portal.Generator.iOS.mm */,
+				7EB871F41B3599C400E21206 /* Portal.Generator.Mobile.cpp */,
+				7EB871F51B3599C400E21206 /* Portal.Generator.Mobile.h */,
+				7EF778CD1B504051005D2DB0 /* Portal.Generator.OSX.cpp */,
+				7EF778CE1B504051005D2DB0 /* Portal.Generator.OSX.h */,
+				7EB871F61B3599C400E21206 /* Portal.Generator.Windows.cpp */,
+				7EB871F71B3599C400E21206 /* Portal.Generator.Windows.h */,
+				7EEF66631B446E7000501FB1 /* Portal.Info.Base.h */,
+				7E6335961BCDC87D0025C9D3 /* Portal.Info.cpp */,
+				7EEF666B1B44736E00501FB1 /* Portal.Info.h */,
+				7E63358C1BCD79140025C9D3 /* Portal.Instance.cpp */,
+				7E63358A1BCD79080025C9D3 /* Portal.Instance.h */,
+				7EEF66611B403D4C00501FB1 /* Portal.Instance.iOSX.h */,
+				7EB29ADD1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h */,
+				7EEF665F1B403D4100501FB1 /* Portal.Instance.iOSX.mm */,
+				7EB871F81B3599C400E21206 /* Portal.Receiver.Android.cpp */,
+				7EB871F91B3599C400E21206 /* Portal.Receiver.Android.h */,
+				7E2220B51B517AE0003E2D9C /* Portal.Receiver.cpp */,
+				7EB872051B359AEE00E21206 /* Portal.Receiver.h */,
+				7EB871E61B3599A000E21206 /* Portal.Receiver.iOSX.h */,
+				7EB871E71B3599A000E21206 /* Portal.Receiver.iOSX.mm */,
+				7EB871EC1B3599AD00E21206 /* Portal.Receiver.Windows.cpp */,
+				7EB871ED1B3599AD00E21206 /* Portal.Receiver.Windows.h */,
+				7E194AE01966070000C09FFF /* Portal.Stream.cpp */,
+				7E194AE11966070000C09FFF /* Portal.Stream.h */,
+				7EFEB2801B1213E2009A9608 /* Portal.Stream.Options.h */,
+			);
+			name = Portal;
+			path = ../Portal;
+			sourceTree = "<group>";
+		};
+		7EAB2A2A18AD87E800D59776 /* DynLib */ = {
+			isa = PBXGroup;
+			children = (
+				7E00281D1B71A41300AB783F /* Dyn.Lib.Crypto.cpp */,
+				7E00281E1B71A41300AB783F /* Dyn.Lib.Crypto.h */,
+				7EE7BBEE1D298D2100F2A70B /* Dyn.Lib.iwlib.cpp */,
+				7EE7BBED1D298D2100F2A70B /* Dyn.Lib.iwlib.h */,
+				7E5194561B1FD03000F5BF38 /* Dyn.Lib.OpenH264.cpp */,
+				7E5194571B1FD03000F5BF38 /* Dyn.Lib.OpenH264.h */,
+				7E194AA21966067B00C09FFF /* Dyn.OpenCL.cpp */,
+				7E194AA31966067B00C09FFF /* Dyn.OpenCL.h */,
+			);
+			name = DynLib;
+			path = ../DynLib;
+			sourceTree = "<group>";
+		};
+		7EAB2A3718AD87F000D59776 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				7ED0D3FA1B026E0200342B64 /* Device.Android.cpp */,
+				7ED0D3FB1B026E0200342B64 /* Device.Android.h */,
+				7E194A8C1966063F00C09FFF /* Device.Base.cpp */,
+				7ED0D34A1AFD77F400342B64 /* Device.Base.h */,
+				7ED0D3FC1B026E0200342B64 /* Device.Controller.h */,
+				7E194A8E1966063F00C09FFF /* Device.Display.cpp */,
+				7E63357C1BCC7FC30025C9D3 /* Device.Display.Decl.h */,
+				7E194A8F1966063F00C09FFF /* Device.Display.h */,
+				7EEF663E1B3A168800501FB1 /* Device.Display.Win.cpp */,
+				7EEF663F1B3A168800501FB1 /* Device.Display.Win.h */,
+				7E6335761BCC3B240025C9D3 /* Device.Info.h */,
+				7E63357A1BCC453E0025C9D3 /* Device.Instance.cpp */,
+				7E194A981966064F00C09FFF /* Device.Instance.h */,
+				7EEF66581B3C9BCB00501FB1 /* Device.Instance.iOSX.h */,
+				7EB29AD61BDBF0A500B6B304 /* Device.Instance.iOSX.IAPI.h */,
+				7EEF664F1B3C987200501FB1 /* Device.Instance.iOSX.mm */,
+				7ED0D3FD1B026E0200342B64 /* Device.iOS.cpp */,
+				7ED0D3FE1B026E0200342B64 /* Device.iOS.h */,
+				7ECE04E11BB48027002740B5 /* Device.Linux.cpp */,
+				7ECE04DB1BB475C3002740B5 /* Device.Linux.h */,
+				7E6335781BCC42790025C9D3 /* Device.List.cpp */,
+				7E6335741BCC39AD0025C9D3 /* Device.List.h */,
+				7E2220C71B533A4D003E2D9C /* Device.List.iOSX.h */,
+				7EB29AD41BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h */,
+				7E2220CA1B533A57003E2D9C /* Device.List.iOSX.mm */,
+				7ED0D3FF1B026E0200342B64 /* Device.Mobile.cpp */,
+				7ED0D4001B026E0200342B64 /* Device.Mobile.h */,
+				7EEF663A1B3A13E200501FB1 /* Device.OSX.cpp */,
+				7EEF663B1B3A13E200501FB1 /* Device.OSX.h */,
+				7E194A901966063F00C09FFF /* Devices.cpp */,
+				7E194A911966063F00C09FFF /* Devices.h */,
+				7EEF66321B38D6FF00501FB1 /* Device.Display.Decl.h */,
+			);
+			name = Device;
+			path = ../Device;
+			sourceTree = "<group>";
+		};
+		7EAB2A4418AD87FD00D59776 /* Codec */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Codec;
+			sourceTree = "<group>";
+		};
+		7EBB3CC81870F96200BE8012 = {
+			isa = PBXGroup;
+			children = (
+				7EAB29D518AD878000D59776 /* Capture */,
+				7EC2FCC71AF550C800C1E992 /* CHANGELOG.md */,
+				7EAB2A4418AD87FD00D59776 /* Codec */,
+				7EAB298618AD874E00D59776 /* Core */,
+				7E194A37196604B100C09FFF /* Decoder */,
+				7EAB2A3718AD87F000D59776 /* Device */,
+				7EAB2A2A18AD87E800D59776 /* DynLib */,
+				7EAB29FB18AD879D00D59776 /* Encoder */,
+				7EBC05FC18EE0B46007BE84E /* Environs */,
+				7E318F4A1BF67C9D00A75EC0 /* Environs.other */,
+				7ED0D31C1AFC2F9600342B64 /* frameworks */,
+				7EAB29C218AD876D00D59776 /* Interfaces */,
+				7EAB29B518AD876400D59776 /* Interop */,
+				7EAB2A1518AD87C100D59776 /* Portal */,
+				7EBB3CD21870F96200BE8012 /* Products */,
+				7EC2FCC81AF550C800C1E992 /* ReadMe.md */,
+				7EAB29E618AD878E00D59776 /* Recognizer */,
+				7EAB2A0C18AD87A800D59776 /* Renderer */,
+			);
+			sourceTree = "<group>";
+		};
+		7EBB3CD21870F96200BE8012 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7EBB3CD11870F96200BE8012 /* libEnvirons.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7EBC05FC18EE0B46007BE84E /* Environs */ = {
+			isa = PBXGroup;
+			children = (
+				7E2220711B5174A4003E2D9C /* Environs.Av.Context.h */,
+				7E6335B41BD14A7B0025C9D3 /* Environs.Build.Macros.h */,
+				7E6335D21BD2ED5A0025C9D3 /* Environs.Build.Opts.h */,
+				7E4106B01C3E8E07009B3870 /* Environs.Commit.cpp */,
+				7E4106AE1C3E7286009B3870 /* Environs.Commit.h */,
+				7E6335AF1BD06A280025C9D3 /* Environs.cpp */,
+				7E318F451BF67C8F00A75EC0 /* Environs.Cpp.Base.h */,
+				7E318F361BF67C4200A75EC0 /* Environs.Cpp.cpp */,
+				7E2220721B5174A4003E2D9C /* Environs.Crypt.cpp */,
+				7E2220731B5174A4003E2D9C /* Environs.Crypt.h */,
+				7ED0D44C1B06D7D500342B64 /* Environs.crypt.iosx.mm */,
+				7E33A77A1CEF623D0018AA0E /* Environs.Crypt.Lib.cpp */,
+				7E33A7791CEF623D0018AA0E /* Environs.Crypt.Win32.cpp */,
+				7E2220741B5174A4003E2D9C /* Environs.Crypt1.cpp */,
+				7E2220B71B517B54003E2D9C /* Environs.Display.cpp */,
+				7E2220B81B517B54003E2D9C /* Environs.Display.h */,
+				7E6335B81BD16B8E0025C9D3 /* Environs.h */,
+				7E22208F1B517500003E2D9C /* Environs.iOS.h */,
+				7ED0D4441B066FB500342B64 /* Environs.iOS.mm */,
+				7E2220751B5174A4003E2D9C /* Environs.iOSX.h */,
+				7EB29AE51BDD204000B6B304 /* Environs.iOSX.Imp.h */,
+				7E6335D41BD2EF220025C9D3 /* Environs.iOSX.Log.h */,
+				7E81512B1AF56D59008FB6DB /* Environs.iOSX.mm */,
+				7E194A44196605C900C09FFF /* Environs.Lib.cpp */,
+				7E2220921B517500003E2D9C /* Environs.Lib.Display.cpp */,
+				7E2220761B5174A4003E2D9C /* Environs.Lib.Display.h */,
+				7E2220771B5174A4003E2D9C /* Environs.Lib.h */,
+				7E2220781B5174A4003E2D9C /* Environs.Lib.Inc.h */,
+				7E2220AF1B517594003E2D9C /* Environs.Lib.Mobile.cpp */,
+				7E2220791B5174A4003E2D9C /* Environs.Lib.Mobile.h */,
+				7E6335B61BD14A910025C9D3 /* Environs.Loader.cpp */,
+				7E6335B21BD14A6F0025C9D3 /* Environs.Loader.h */,
+				7E2220941B517500003E2D9C /* Environs.Mobile.cpp */,
+				7E2220951B517500003E2D9C /* Environs.Mobile.h */,
+				7E2220961B517500003E2D9C /* Environs.Modules.h */,
+				7E6335A81BD060A50025C9D3 /* Environs.Msg.Types.h */,
+				7E22207A1B5174A4003E2D9C /* Environs.Native.h */,
+				7E194A42196605C900C09FFF /* Environs.Obj.cpp */,
+				7E194A43196605C900C09FFF /* Environs.Obj.h */,
+				7E22207B1B5174A4003E2D9C /* Environs.Observer.h */,
+				7EB29AEE1BE5092C00B6B304 /* Environs.Observer.IAPI.h */,
+				7E63356D1BCC28610025C9D3 /* Environs.Observer.iOSX.h */,
+				7E2220981B517500003E2D9C /* Environs.OSX.cpp */,
+				7E2220991B517500003E2D9C /* Environs.OSX.h */,
+				7ED0D4321B05D0A100342B64 /* Environs.OSX.mm */,
+				7E689FFD1C2B4790000C6916 /* Environs.Platform.Decls.h */,
+				7E22207C1B5174A4003E2D9C /* Environs.Platforms.h */,
+				7E22207D1B5174A4003E2D9C /* Environs.Release.h */,
+				7E63358E1BCD7D330025C9D3 /* Environs.Sensors.cpp */,
+				7E63358F1BCD7D330025C9D3 /* Environs.Sensors.h */,
+				7E22206D1B51745E003E2D9C /* Environs.Types.cpp */,
+				7E22206E1B51745E003E2D9C /* Environs.Types.h */,
+				7E2220691B51744E003E2D9C /* Environs.Utils.cpp */,
+				7E22206A1B51744E003E2D9C /* Environs.Utils.h */,
+			);
+			name = Environs;
+			sourceTree = "<group>";
+		};
+		7ED0D31C1AFC2F9600342B64 /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7EB871D01B35947100E21206 /* CoreMedia.framework */,
+				7EB871CE1B35944A00E21206 /* CoreVideo.framework */,
+				7EB871CC1B3593AE00E21206 /* VideoToolbox.framework */,
+				7EEC21271B1CE66C00AE7056 /* CoreWLAN.framework */,
+				7ED0D3161AFC2AA500342B64 /* Cocoa.framework */,
+				7ED0D3121AFC2A4900342B64 /* SystemConfiguration.framework */,
+				7ED0D3101AFC2A3000342B64 /* AVFoundation.framework */,
+				7ED0D30E1AFC2A1500342B64 /* CoreGraphics.framework */,
+				7ED0D30C1AFC29FA00342B64 /* Security.framework */,
+			);
+			name = frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7EBB3CCF1870F96200BE8012 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EF15B491B27A34E0054A122 /* IPortal.Renderer.h in Headers */,
+				7E13D3161BD847CB00759757 /* IMessage.List.h in Headers */,
+				7E194AED1966071500C09FFF /* Render.Overlay.h in Headers */,
+				7EB871E11B35997D00E21206 /* Decoder.iOSX.H264.h in Headers */,
+				7E6335911BCD7D330025C9D3 /* Environs.Sensors.h in Headers */,
+				7E194B0D1966084F00C09FFF /* Mediator.h in Headers */,
+				7E318F461BF67C8F00A75EC0 /* Environs.Cli.Base.h in Headers */,
+				7EF15B291B27A3160054A122 /* Sock.h in Headers */,
+				7E2220891B5174A4003E2D9C /* Environs.Platforms.h in Headers */,
+				7E6335C51BD173390025C9D3 /* IDevice.Instance.h in Headers */,
+				7E6335B91BD16B8E0025C9D3 /* Environs.h in Headers */,
+				7EFEB2811B1213E2009A9608 /* Portal.Stream.Options.h in Headers */,
+				7EF15B421B27A34E0054A122 /* Interface.Exports.h in Headers */,
+				7E2220B31B517989003E2D9C /* Login.Dialog.h in Headers */,
+				7EEF66591B3C9BCB00501FB1 /* Device.Instance.iOSX.h in Headers */,
+				7EB872031B3599C400E21206 /* Portal.Receiver.Android.h in Headers */,
+				7EB6153E1BD84B1300545C81 /* IFile.List.h in Headers */,
+				7ED0D3EF1B026D8100342B64 /* Gesture.Three.Finger.h in Headers */,
+				7E6335801BCCD3970025C9D3 /* Message.Instance.h in Headers */,
+				7E6335C11BD16E250025C9D3 /* IPortal.Info.h in Headers */,
+				7E318F471BF67C8F00A75EC0 /* Environs.Cli.Forwards.h in Headers */,
+				7EB29ADE1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h in Headers */,
+				7E13D30C1BD80C3100759757 /* Array.List.h in Headers */,
+				7EB29AEF1BE5092C00B6B304 /* Environs.Observer.IAPI.h in Headers */,
+				7E6335BB1BD16C390025C9D3 /* IEnvirons.h in Headers */,
+				7ED0D3F91B026D8100342B64 /* Touch.Visualizer.h in Headers */,
+				7E67CE011C84BED8006FA922 /* Queue.Vector.h in Headers */,
+				7E6335B51BD14A7B0025C9D3 /* Environs.Build.Macros.h in Headers */,
+				7EF15B271B27A3160054A122 /* Export.h in Headers */,
+				7ED0D4491B067D7200342B64 /* Kernel.Windows.h in Headers */,
+				7E2220A01B517500003E2D9C /* Environs.iOS.h in Headers */,
+				7E2220AC1B517500003E2D9C /* Environs.Windows.h in Headers */,
+				7E2220A71B517500003E2D9C /* Environs.Modules.h in Headers */,
+				7E194A951966063F00C09FFF /* Device.Display.h in Headers */,
+				7E2DEF4D1C0E440A00D8B290 /* Input.Handler.h in Headers */,
+				7E318F481BF67C8F00A75EC0 /* Environs.Observer.CLI.h in Headers */,
+				7ED0D3ED1B026D8100342B64 /* Gesture.Bezel.Touch.h in Headers */,
+				7E2220801B5174A4003E2D9C /* Environs.Crypt.h in Headers */,
+				7E2220871B5174A4003E2D9C /* Environs.Native.h in Headers */,
+				7EB871EF1B3599AD00E21206 /* Portal.Receiver.Windows.h in Headers */,
+				7E13D3181BD847E100759757 /* IDevice.Instance.List.h in Headers */,
+				7EB871EA1B3599A000E21206 /* Portal.Receiver.iOSX.h in Headers */,
+				7E6335D51BD2EF220025C9D3 /* Environs.iOSX.Log.h in Headers */,
+				7E2811FB1BFE4D9D008B5950 /* Environs.Cli.TouchDevice.h in Headers */,
+				7EF15B451B27A34E0054A122 /* IPortal.Decoder.h in Headers */,
+				7E6335811BCCD3970025C9D3 /* File.Instance.h in Headers */,
+				7ED0D4531B07A60F00342B64 /* Touch.Source.h in Headers */,
+				7E33A7831CF86E420018AA0E /* Tracer.h in Headers */,
+				7E3D029F1B546C52007BD163 /* Message.Instance.iOSX.h in Headers */,
+				7ED0D34B1AFD77F400342B64 /* Device.Base.h in Headers */,
+				7E6335B31BD14A6F0025C9D3 /* Environs.Loader.h in Headers */,
+				7E4106AF1C3E7286009B3870 /* Environs.Commit.h in Headers */,
+				7E5194591B1FD03000F5BF38 /* Dyn.Lib.OpenH264.h in Headers */,
+				7EF778D81B504C96005D2DB0 /* Render.OSX.h in Headers */,
+				7E194A881966062400C09FFF /* Stunt.Request.h in Headers */,
+				7E67CE001C84BED8006FA922 /* Queue.List.h in Headers */,
+				7E194AE51966070000C09FFF /* Portal.Generator.h in Headers */,
+				7E63357D1BCC7FC30025C9D3 /* Device.Display.Decl.h in Headers */,
+				7ED0D3F51B026D8100342B64 /* Mouse.Simulator.Win.h in Headers */,
+				7EB872011B3599C400E21206 /* Portal.Generator.Windows.h in Headers */,
+				7EF15B2E1B27A31F0054A122 /* Interop.h in Headers */,
+				7E22206C1B51744E003E2D9C /* Environs.Utils.h in Headers */,
+				7E194AE71966070000C09FFF /* Portal.Stream.h in Headers */,
+				7ED0D4091B026E0200342B64 /* Device.Mobile.h in Headers */,
+				7E2220881B5174A4003E2D9C /* Environs.Observer.h in Headers */,
+				7E194B29196B1A8400C09FFF /* Kernel.Display.OSX.h in Headers */,
+				7E194AA91966069600C09FFF /* Encoder.Pictures.h in Headers */,
+				7EF15B3F1B27A34E0054A122 /* IEnvirons.Base.h in Headers */,
+				7E10E73B1BD3DD6D008A927D /* Notify.Context.h in Headers */,
+				7EB871DB1B35952C00E21206 /* Environs.iosx.imp.h in Headers */,
+				7ECE04DC1BB475C3002740B5 /* Device.Linux.h in Headers */,
+				7ED0D4371B05D7E400342B64 /* Human.Input.Decl.h in Headers */,
+				7E13D3081BD7836800759757 /* IEnvirons.Dispose.h in Headers */,
+				7EB29AE61BDD204000B6B304 /* Environs.iOSX.Imp.h in Headers */,
+				7EB29AE01BDC2AC700B6B304 /* Message.Instance.iOSX.IAPI.h in Headers */,
+				7E3B0B201C54693C0064C4FB /* Location.Decl.h in Headers */,
+				7EB871FC1B3599C400E21206 /* Portal.Generator.iOS.h in Headers */,
+				7E2811F51BFE4D9D008B5950 /* Environs.Cli.STT.h in Headers */,
+				7ED0D3F11B026D8100342B64 /* Gesture.Three.Touch.h in Headers */,
+				7E3D029E1B546C52007BD163 /* File.Instance.iOSX.h in Headers */,
+				7ED0D3F71B026D8100342B64 /* Recognizers.h in Headers */,
+				7ED0D3F31B026D8100342B64 /* Mouse.Simulator.h in Headers */,
+				7EB872101B3864C400E21206 /* Portal.Device.h in Headers */,
+				7E2220A61B517500003E2D9C /* Environs.Mobile.h in Headers */,
+				7E6335751BCC39AD0025C9D3 /* Device.List.h in Headers */,
+				7ED0D43B1B05D7FB00342B64 /* Kernel.Mobile.Platform.h in Headers */,
+				7EF15B471B27A34E0054A122 /* IPortal.Encoder.h in Headers */,
+				7E194A7E1966062400C09FFF /* Core.h in Headers */,
+				7E6335C31BD16E250025C9D3 /* IPortal.Instance.h in Headers */,
+				7EB29AE21BDC2E7F00B6B304 /* File.Instance.iOSX.IAPI.h in Headers */,
+				7EE7BBE31D24A6A400F2A70B /* Wifi.Observer.h in Headers */,
+				7EF15B411B27A34E0054A122 /* IInput.Recognizer.h in Headers */,
+				7E51943F1B1F79ED00F5BF38 /* Encoder.OpenH264.h in Headers */,
+				7E194A971966063F00C09FFF /* Devices.h in Headers */,
+				7ED0D3471AFD77D600342B64 /* Decoder.Base.h in Headers */,
+				7EEF663D1B3A13E200501FB1 /* Device.OSX.h in Headers */,
+				7E194AEC1966071500C09FFF /* Render.Dimensions.h in Headers */,
+				7E2220C81B533A4D003E2D9C /* Device.List.iOSX.h in Headers */,
+				7EEF66621B403D4C00501FB1 /* Portal.Instance.iOSX.h in Headers */,
+				7ED0D4051B026E0200342B64 /* Device.Controller.h in Headers */,
+				7E13D3061BD7829C00759757 /* IArray.List.h in Headers */,
+				7EF15B2A1B27A3160054A122 /* Stat.h in Headers */,
+				7E2220831B5174A4003E2D9C /* Environs.Lib.Display.h in Headers */,
+				7EB29AD51BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h in Headers */,
+				7E2220AA1B517500003E2D9C /* Environs.OSX.h in Headers */,
+				7E6335771BCC3B240025C9D3 /* Device.Info.h in Headers */,
+				7E2220821B5174A4003E2D9C /* Environs.iOSX.h in Headers */,
+				7E13D3141BD847B000759757 /* IMessage.Instance.h in Headers */,
+				7ED0D3671AFD7BC300342B64 /* Byte.Buffer.h in Headers */,
+				7ED0D36D1AFD7BD100342B64 /* Notifications.h in Headers */,
+				7E2811F41BFE4D9D008B5950 /* Environs.Cli.PixelSense.h in Headers */,
+				7E6335D01BD2839F0025C9D3 /* Environs.Msg.Types.h in Headers */,
+				7EF778D01B504051005D2DB0 /* Portal.Generator.OSX.h in Headers */,
+				7E194B071966075300C09FFF /* Render.OpenCL.h in Headers */,
+				7EB29AD71BDBF0A600B6B304 /* Device.Instance.iOSX.IAPI.h in Headers */,
+				7E22208A1B5174A4003E2D9C /* Environs.Release.h in Headers */,
+				7E689FFE1C2B4790000C6916 /* Environs.Platform.Decls.h in Headers */,
+				7EF15B401B27A34E0054A122 /* IEnvirons.Ident.h in Headers */,
+				7E194B24196B1A4700C09FFF /* Kernel.Display.h in Headers */,
+				7ECE04E01BB47AEE002740B5 /* Environs.Linux.h in Headers */,
+				7E194A4A196605C900C09FFF /* Environs.Obj.h in Headers */,
+				7EB871E91B3599A000E21206 /* Portal.Receiver.h in Headers */,
+				7E194AEB1966071500C09FFF /* Render.Context.h in Headers */,
+				7ED0D36F1AFD7BD100342B64 /* Performance.Count.h in Headers */,
+				7E63358B1BCD79080025C9D3 /* Portal.Instance.h in Headers */,
+				7E194A991966064F00C09FFF /* Device.Instance.h in Headers */,
+				7ED0D4071B026E0200342B64 /* Device.iOS.h in Headers */,
+				7E2220701B51745E003E2D9C /* Environs.Types.h in Headers */,
+				7EEF666C1B44736E00501FB1 /* Portal.Info.h in Headers */,
+				7E22207E1B5174A4003E2D9C /* Environs.Av.Context.h in Headers */,
+				7E6335C01BD16E250025C9D3 /* IFile.Instance.h in Headers */,
+				7ED0D35F1AFD7B9D00342B64 /* Capture.OSX.h in Headers */,
+				7EB871FF1B3599C400E21206 /* Portal.Generator.Mobile.h in Headers */,
+				7EB871E01B35997D00E21206 /* Decoder.iOSX.h in Headers */,
+				7E5194A11B2104E500F5BF38 /* Encoder.Base.h in Headers */,
+				7EF15B441B27A34E0054A122 /* IPortal.Capture.h in Headers */,
+				7E318F491BF67C8F00A75EC0 /* Environs.Cpp.Base.h in Headers */,
+				7E318F3D1BF67C6200A75EC0 /* Environs.Cli.Win.h in Headers */,
+				7EE7BBEF1D298D2100F2A70B /* Dyn.Lib.iwlib.h in Headers */,
+				7E2220861B5174A4003E2D9C /* Environs.Lib.Mobile.h in Headers */,
+				7EB871CA1B35930D00E21206 /* Encoder.iOSX.H264.h in Headers */,
+				7E6335C21BD16E250025C9D3 /* IDevice.List.h in Headers */,
+				7EF15B281B27A3160054A122 /* jni.h in Headers */,
+				7EF15B4C1B27A34E0054A122 /* ITracker.h in Headers */,
+				7E194A7C1966062400C09FFF /* Callbacks.h in Headers */,
+				7E6335D31BD2ED5A0025C9D3 /* Environs.Build.Opts.h in Headers */,
+				7EF15B431B27A34E0054A122 /* Interfaces.h in Headers */,
+				7E194B25196B1A4700C09FFF /* Kernel.h in Headers */,
+				7EDCA85E1B22653800A3B726 /* Encoder.GDI.h in Headers */,
+				7E63356F1BCC28610025C9D3 /* Environs.Observer.iOSX.h in Headers */,
+				7E194AA51966067B00C09FFF /* Dyn.OpenCL.h in Headers */,
+				7EEF66641B446E7000501FB1 /* Portal.Info.Base.h in Headers */,
+				7EF778D41B504377005D2DB0 /* Capture.Win.GDI.h in Headers */,
+				7EECE5E71B18FF9D00195FE3 /* Log.h in Headers */,
+				7E2220BA1B517B54003E2D9C /* Environs.Display.h in Headers */,
+				7E2220841B5174A4003E2D9C /* Environs.Lib.h in Headers */,
+				7E194A821966062400C09FFF /* Mediator.Client.h in Headers */,
+				7EF15B2C1B27A3160054A122 /* Threads.h in Headers */,
+				7EB871FB1B3599C400E21206 /* Portal.Generator.Android.h in Headers */,
+				7E318F3E1BF67C6200A75EC0 /* Environs.Cli.Surfaces.h in Headers */,
+				7E7FF9321BF5DDF20007E953 /* Environs.Cli.h in Headers */,
+				7EEF66411B3A168800501FB1 /* Device.Display.Win.h in Headers */,
+				7E2220851B5174A4003E2D9C /* Environs.Lib.Inc.h in Headers */,
+				7E0028201B71A41300AB783F /* Dyn.Lib.Crypto.h in Headers */,
+				7ED0D3651AFD7BC300342B64 /* Async.Worker.h in Headers */,
+				7ED0D4041B026E0200342B64 /* Device.Android.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7EBB3CD01870F96200BE8012 /* Environs.osx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EBB3CD51870F96200BE8012 /* Build configuration list for PBXNativeTarget "Environs.osx" */;
+			buildPhases = (
+				7E4106B61C3E9DA0009B3870 /* ShellScript */,
+				7EBB3CCD1870F96200BE8012 /* Sources */,
+				7EBB3CCE1870F96200BE8012 /* Frameworks */,
+				7EBB3CCF1870F96200BE8012 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Environs.osx;
+			productName = Environs.osx;
+			productReference = 7EBB3CD11870F96200BE8012 /* libEnvirons.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7EBB3CC91870F96200BE8012 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "University of Augsburg";
+			};
+			buildConfigurationList = 7EBB3CCC1870F96200BE8012 /* Build configuration list for PBXProject "Environs.osx" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7EBB3CC81870F96200BE8012;
+			productRefGroup = 7EBB3CD21870F96200BE8012 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7EBB3CD01870F96200BE8012 /* Environs.osx */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7E4106B61C3E9DA0009B3870 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$(SRCROOT)../Tools/build.commit.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7EBB3CCD1870F96200BE8012 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E6335791BCC42790025C9D3 /* Device.List.cpp in Sources */,
+				7E22209C1B517500003E2D9C /* Environs.Android.cpp in Sources */,
+				7ED0D43A1B05D7FB00342B64 /* Kernel.Mobile.Platform.cpp in Sources */,
+				7E2220B61B517AE0003E2D9C /* Portal.Receiver.cpp in Sources */,
+				7E2220B41B517989003E2D9C /* Login.Dialog.mm in Sources */,
+				7EB872001B3599C400E21206 /* Portal.Generator.Windows.cpp in Sources */,
+				7E2220CC1B533A57003E2D9C /* Device.List.iOSX.mm in Sources */,
+				7EF15B261B27A3160054A122 /* Export.cpp in Sources */,
+				7EF15B2B1B27A3160054A122 /* Threads.cpp in Sources */,
+				7E194AA81966069600C09FFF /* Encoder.Pictures.cpp in Sources */,
+				7E3D02A21B546C5F007BD163 /* File.Instance.iOSX.mm in Sources */,
+				7EB871EB1B3599A000E21206 /* Portal.Receiver.iOSX.mm in Sources */,
+				7ED0D4031B026E0200342B64 /* Device.Android.cpp in Sources */,
+				7E6335871BCD78D50025C9D3 /* File.Instance.cpp in Sources */,
+				7E33A77C1CEF623D0018AA0E /* Environs.Crypt.Lib.cpp in Sources */,
+				7ED0D3641AFD7BC300342B64 /* Async.Worker.cpp in Sources */,
+				7EB871FD1B3599C400E21206 /* Portal.Generator.iOS.mm in Sources */,
+				7E194A7B1966062400C09FFF /* Callbacks.cpp in Sources */,
+				7ED0D3F81B026D8100342B64 /* Touch.Visualizer.cpp in Sources */,
+				7E5194581B1FD03000F5BF38 /* Dyn.Lib.OpenH264.cpp in Sources */,
+				7E194B22196B1A4700C09FFF /* Kernel.cpp in Sources */,
+				7E6335901BCD7D330025C9D3 /* Environs.Sensors.cpp in Sources */,
+				7E63357B1BCC453E0025C9D3 /* Device.Instance.cpp in Sources */,
+				7E2220AB1B517500003E2D9C /* Environs.Windows.cpp in Sources */,
+				7E194A4B196605C900C09FFF /* Environs.Lib.cpp in Sources */,
+				7ED0D36E1AFD7BD100342B64 /* Performance.Count.cpp in Sources */,
+				7E22206F1B51745E003E2D9C /* Environs.Types.cpp in Sources */,
+				7EE7BBF01D298D2100F2A70B /* Dyn.Lib.iwlib.cpp in Sources */,
+				7E194AE61966070000C09FFF /* Portal.Stream.cpp in Sources */,
+				7E2220A31B517500003E2D9C /* Environs.Lib.Display.cpp in Sources */,
+				7EF778CF1B504051005D2DB0 /* Portal.Generator.OSX.cpp in Sources */,
+				7E318F411BF67C6200A75EC0 /* Environs.Cli.Base.cpp in Sources */,
+				7E194B0C1966084F00C09FFF /* Mediator.cpp in Sources */,
+				7E2220811B5174A4003E2D9C /* Environs.Crypt1.cpp in Sources */,
+				7EB871FE1B3599C400E21206 /* Portal.Generator.Mobile.cpp in Sources */,
+				7ED0D4331B05D0A100342B64 /* Environs.OSX.mm in Sources */,
+				7EEF66601B403D4100501FB1 /* Portal.Instance.iOSX.mm in Sources */,
+				7E4106B11C3E8E07009B3870 /* Environs.Commit.cpp in Sources */,
+				7E7FF9311BF5DDF20007E953 /* Environs.Cli.cpp in Sources */,
+				7EF15B3E1B27A34E0054A122 /* IEnvirons.Base.cpp in Sources */,
+				7ED0D4451B066FB500342B64 /* Environs.iOS.mm in Sources */,
+				7ED0D35E1AFD7B9D00342B64 /* Capture.OSX.cpp in Sources */,
+				7E2DEF4C1C0E440A00D8B290 /* Input.Handler.cpp in Sources */,
+				7E67CE051C84BEF3006FA922 /* Queue.Vector.cpp in Sources */,
+				7E194B23196B1A4700C09FFF /* Kernel.Display.cpp in Sources */,
+				7E22206B1B51744E003E2D9C /* Environs.Utils.cpp in Sources */,
+				7E51943E1B1F79ED00F5BF38 /* Encoder.OpenH264.cpp in Sources */,
+				7E2811F31BFE4D9D008B5950 /* Environs.Cli.PixelSense.cpp in Sources */,
+				7EB871E21B35997D00E21206 /* Decoder.iOSX.H264.mm in Sources */,
+				7E318F3F1BF67C6200A75EC0 /* Environs.Cli.Win.cpp in Sources */,
+				7ED0D4061B026E0200342B64 /* Device.iOS.cpp in Sources */,
+				7E2811FA1BFE4D9D008B5950 /* Environs.Cli.STT.cpp in Sources */,
+				7E2220B91B517B54003E2D9C /* Environs.Display.cpp in Sources */,
+				7E6335971BCDC87D0025C9D3 /* Portal.Info.cpp in Sources */,
+				7EF15B481B27A34E0054A122 /* IPortal.Renderer.cpp in Sources */,
+				7ED0D4081B026E0200342B64 /* Device.Mobile.cpp in Sources */,
+				7EE7BBE51D24A6CF00F2A70B /* Wifi.Observer.cpp in Sources */,
+				7E194A49196605C900C09FFF /* Environs.Obj.cpp in Sources */,
+				7E318F401BF67C6200A75EC0 /* Environs.Cli.Surfaces.cpp in Sources */,
+				7EB871EE1B3599AD00E21206 /* Portal.Receiver.Windows.cpp in Sources */,
+				7E3D02A31B546C5F007BD163 /* Message.Instance.iOSX.mm in Sources */,
+				7EB872021B3599C400E21206 /* Portal.Receiver.Android.cpp in Sources */,
+				7E67CE041C84BEF3006FA922 /* Queue.List.cpp in Sources */,
+				7ED0D4521B07A60F00342B64 /* Touch.Source.cpp in Sources */,
+				7E194A921966063F00C09FFF /* Device.Base.cpp in Sources */,
+				7E194AE41966070000C09FFF /* Portal.Generator.cpp in Sources */,
+				7E6335B11BD06A280025C9D3 /* Environs.cpp in Sources */,
+				7EF778D31B504377005D2DB0 /* Capture.Win.GDI.cpp in Sources */,
+				7E194A811966062400C09FFF /* Mediator.Client.cpp in Sources */,
+				7E2220A51B517500003E2D9C /* Environs.Mobile.cpp in Sources */,
+				7EB871CB1B35930D00E21206 /* Encoder.iOSX.H264.mm in Sources */,
+				7ECE04E21BB48027002740B5 /* Device.Linux.cpp in Sources */,
+				7ED0D3F21B026D8100342B64 /* Mouse.Simulator.cpp in Sources */,
+				7ECE04DA1BB4747A002740B5 /* Kernel.Display.Linux.cpp in Sources */,
+				7ED0D3461AFD77D600342B64 /* Decoder.Base.cpp in Sources */,
+				7EB8720F1B3864C400E21206 /* Portal.Device.cpp in Sources */,
+				7E00281F1B71A41300AB783F /* Dyn.Lib.Crypto.cpp in Sources */,
+				7ED0D36C1AFD7BD100342B64 /* Notifications.cpp in Sources */,
+				7EECE5DF1B18DD5400195FE3 /* Log.cpp in Sources */,
+				7ED0D44D1B06D7D500342B64 /* Environs.crypt.iosx.mm in Sources */,
+				7ECE04DF1BB47AEE002740B5 /* Environs.Linux.cpp in Sources */,
+				7E33A77B1CEF623D0018AA0E /* Environs.Crypt.Win32.cpp in Sources */,
+				7EB871E31B35997D00E21206 /* Decoder.iOSX.mm in Sources */,
+				7E0A7EF91B2B94B6008B6782 /* Mouse.Simulator.Win.cpp in Sources */,
+				7ED0D3661AFD7BC300342B64 /* Byte.Buffer.cpp in Sources */,
+				7E63358D1BCD79140025C9D3 /* Portal.Instance.cpp in Sources */,
+				7EEF663C1B3A13E200501FB1 /* Device.OSX.cpp in Sources */,
+				7E194A941966063F00C09FFF /* Device.Display.cpp in Sources */,
+				7EB871FA1B3599C400E21206 /* Portal.Generator.Android.cpp in Sources */,
+				7E2220A91B517500003E2D9C /* Environs.OSX.cpp in Sources */,
+				7E2811F81BFE4D9D008B5950 /* Environs.Cli.TouchDevice.cpp in Sources */,
+				7EDCA85D1B22653800A3B726 /* Encoder.GDI.cpp in Sources */,
+				7EEF66531B3C987200501FB1 /* Device.Instance.iOSX.mm in Sources */,
+				7E194AA41966067B00C09FFF /* Dyn.OpenCL.cpp in Sources */,
+				7ED0D4481B067D7200342B64 /* Kernel.Windows.cpp in Sources */,
+				7E22207F1B5174A4003E2D9C /* Environs.Crypt.cpp in Sources */,
+				7E194A961966063F00C09FFF /* Devices.cpp in Sources */,
+				7E194A7D1966062400C09FFF /* Core.cpp in Sources */,
+				7E194B061966075300C09FFF /* Render.OpenCL.cpp in Sources */,
+				7E6335891BCD78E20025C9D3 /* Message.Instance.cpp in Sources */,
+				7E13D30B1BD80C3100759757 /* Array.List.cpp in Sources */,
+				7E33A7841CF86E420018AA0E /* Tracer.cpp in Sources */,
+				7E318F371BF67C4200A75EC0 /* Environs.Cpp.cpp in Sources */,
+				7E0A7EF81B2B948D008B6782 /* IPortal.Encoder.cpp in Sources */,
+				7E194B28196B1A8400C09FFF /* Kernel.Display.OSX.cpp in Sources */,
+				7E5194A01B2104E500F5BF38 /* Encoder.Base.cpp in Sources */,
+				7E2220B01B517594003E2D9C /* Environs.Lib.Mobile.cpp in Sources */,
+				7ED0D30B1AFC1C7600342B64 /* Environs.iOSX.mm in Sources */,
+				7EF778D71B504C96005D2DB0 /* Render.OSX.cpp in Sources */,
+				7E194A8B1966062400C09FFF /* Utils.cpp in Sources */,
+				7EEF66401B3A168800501FB1 /* Device.Display.Win.cpp in Sources */,
+				7E194A871966062400C09FFF /* Stunt.Request.cpp in Sources */,
+				7E2811F71BFE4D9D008B5950 /* Environs.Cli.Init.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7EBB3CD31870F96200BE8012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = ENVIRONS_OSX;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7EBB3CD41870F96200BE8012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = ENVIRONS_OSX;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7EBB3CD61870F96200BE8012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_OBJCPP_ARC_ABI = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = $PROJECT_DIR/../bin64;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_RTTI = YES;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "DISPLAYDEVICE=1";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Common",
+					/opt/local/include,
+					"$(SRCROOT)/../Native",
+					"$(SRCROOT)/../3rd/inc",
+					"$(SRCROOT)/../3rd",
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-Wno-deprecated",
+					"-DTARGET_OS_MAC",
+					"-DDISPLAYDEVICE",
+					"-DENVIRONS_CORE_LIB",
+					"-DOPENSSL",
+					"-DENVIRONS_OSX",
+				);
+				PRODUCT_NAME = Environs;
+				SYMROOT = $PROJECT_DIR/../bin64;
+			};
+			name = Debug;
+		};
+		7EBB3CD71870F96200BE8012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_OBJCPP_ARC_ABI = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = $PROJECT_DIR/../bin64;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "DISPLAYDEVICE=1";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../Common",
+					/opt/local/include,
+					"$(SRCROOT)/../Native",
+					"$(SRCROOT)/../3rd/inc",
+					"$(SRCROOT)/../3rd",
+				);
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_CFLAGS = (
+					"-Wno-deprecated",
+					"-DTARGET_OS_MAC",
+					"-DDISPLAYDEVICE",
+					"-DNDEBUG",
+					"-DENVIRONS_CORE_LIB",
+					"-DOPENSSL",
+					"-DENVIRONS_OSX",
+				);
+				PRODUCT_NAME = Environs;
+				SYMROOT = $PROJECT_DIR/../bin64;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7EBB3CCC1870F96200BE8012 /* Build configuration list for PBXProject "Environs.osx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EBB3CD31870F96200BE8012 /* Debug */,
+				7EBB3CD41870F96200BE8012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7EBB3CD51870F96200BE8012 /* Build configuration list for PBXNativeTarget "Environs.osx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EBB3CD61870F96200BE8012 /* Debug */,
+				7EBB3CD71870F96200BE8012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7EBB3CC91870F96200BE8012 /* Project object */;
+}

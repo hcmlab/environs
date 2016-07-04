@@ -1,0 +1,4 @@
+
+-keep class com.actionbarsherlock.** {*;}
+-keep class environs.** {*;}
+-keep class ar.com.daidalos.afiledialog.** {*;}

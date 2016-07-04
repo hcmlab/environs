@@ -157,6 +157,9 @@ fi
 
 echo -e "\nget merger tools..."
 
+#echo rm -rf "${MERGE_HELPER_TOOLS_REPO}/src"
+rm -rf "${MERGE_HELPER_TOOLS_REPO}/src"
+
 execheck "cp '${MERGE_HELPER_TOOLS_REPO}'/* '${SCRIPTPATH}'/."
 chmod ogu+x "${SCRIPTPATH}"/*
 

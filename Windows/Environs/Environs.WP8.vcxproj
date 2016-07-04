@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{da96e7d5-df0a-4b97-ab45-43fe469e2902}</ProjectGuid>
+    <Keyword>DynamicLibrary</Keyword>
+    <ProjectName>Environs.WP8</ProjectName>
+    <RootNamespace>Environs_WP8</RootNamespace>
+    <DefaultLanguage>de-DE</DefaultLanguage>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <AppContainerApplication>true</AppContainerApplication>
+    <ApplicationType>Windows Phone</ApplicationType>
+    <ApplicationTypeRevision>8.1</ApplicationTypeRevision>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <IgnoreImportLibrary>false</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WINDOWS_PHONE;ENVIRONS_CORE_LIB;PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../Common;../../Native;../../3rd;../../3rd/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WINDOWS_PHONE;ENVIRONS_CORE_LIB;PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../Common;../../Native;../../3rd;../../3rd/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WINDOWS_PHONE;ENVIRONS_CORE_LIB;PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../Common;../../Native;../../3rd;../../3rd/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WINDOWS_PHONE;ENVIRONS_CORE_LIB;PSAPI_VERSION=2;WINAPI_FAMILY=WINAPI_FAMILY_PHONE_APP;_UITHREADCTXT_SUPPORT=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../../Common;../../Native;../../3rd;../../3rd/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\Device.Display.Decl.h" />
+    <ClInclude Include="..\..\Common\Device.Info.h" />
+    <ClInclude Include="..\..\Common\direntw.h" />
+    <ClInclude Include="..\..\Common\Environs.Av.Context.h" />
+    <ClInclude Include="..\..\Common\Environs.Build.Lnk.h" />
+    <ClInclude Include="..\..\Common\Environs.Build.Macros.h" />
+    <ClInclude Include="..\..\Common\Environs.Build.Opts.h" />
+    <ClInclude Include="..\..\Common\Environs.Crypt.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.Display.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.Inc.h" />
+    <ClInclude Include="..\..\Common\Environs.Lib.Mobile.h" />
+    <ClInclude Include="..\..\Common\Environs.Loader.h" />
+    <ClInclude Include="..\..\Common\Environs.Msg.Types.h" />
+    <ClInclude Include="..\..\Common\Environs.Native.h" />
+    <ClInclude Include="..\..\Common\Environs.Native.jni.h" />
+    <ClInclude Include="..\..\Common\Environs.Platform.Decls.h" />
+    <ClInclude Include="..\..\Common\Environs.Platforms.h" />
+    <ClInclude Include="..\..\Common\Environs.Release.h" />
+    <ClInclude Include="..\..\Common\Environs.Revision.h" />
+    <ClInclude Include="..\..\Common\Environs.Types.h" />
+    <ClInclude Include="..\..\Common\Environs.Utils.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Base.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Ident.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IInput.Recognizer.h" />
+    <ClInclude Include="..\..\Common\Interfaces\Interface.Exports.h" />
+    <ClInclude Include="..\..\Common\Interfaces\Interfaces.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Capture.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Decoder.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Encoder.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Info.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IPortal.Renderer.h" />
+    <ClInclude Include="..\..\Common\Interfaces\ITracker.h" />
+    <ClInclude Include="..\..\Common\Interop.h" />
+    <ClInclude Include="..\..\Common\Interop\Export.h" />
+    <ClInclude Include="..\..\Common\Interop\jni.h" />
+    <ClInclude Include="..\..\Common\Interop\Smart.Pointer.h" />
+    <ClInclude Include="..\..\Common\Interop\Sock.h" />
+    <ClInclude Include="..\..\Common\Interop\Stat.h" />
+    <ClInclude Include="..\..\Common\Interop\Threads.h" />
+    <ClInclude Include="..\..\Common\Interop\Time.Val.h" />
+    <ClInclude Include="..\..\Common\Lib.Av.Decl.h" />
+    <ClInclude Include="..\..\Common\Location.Decl.h" />
+    <ClInclude Include="..\..\Common\Log.h" />
+    <ClInclude Include="..\..\Common\Mediator.h" />
+    <ClInclude Include="..\..\Common\Notify.Context.h" />
+    <ClInclude Include="..\..\Common\Portal.Info.Base.h" />
+    <ClInclude Include="..\..\Common\Portal.Info.h" />
+    <ClInclude Include="..\..\Common\Portal.Stream.Options.h" />
+    <ClInclude Include="..\..\Common\Portal.Worker.Stages.h" />
+    <ClInclude Include="..\..\Common\Queue.List.h" />
+    <ClInclude Include="..\..\Common\Queue.Vector.h" />
+    <ClInclude Include="..\..\Common\Render.Context.h" />
+    <ClInclude Include="..\..\Common\Render.Dimensions.h" />
+    <ClInclude Include="..\..\Common\Render.Overlay.h" />
+    <ClInclude Include="..\..\Common\unistdw.h" />
+    <ClInclude Include="..\..\Native\Capture\Cam.Base.h" />
+    <ClInclude Include="..\..\Native\Core\Async.Worker.h" />
+    <ClInclude Include="..\..\Native\Core\Byte.Buffer.h" />
+    <ClInclude Include="..\..\Native\Core\Callbacks.h" />
+    <ClInclude Include="..\..\Native\Core\Core.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.Mobile.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.Mobile.Platform.h" />
+    <ClInclude Include="..\..\Native\Core\Kernel.Windows.h" />
+    <ClInclude Include="..\..\Native\Core\Mediator.Client.h" />
+    <ClInclude Include="..\..\Native\Core\Notifications.h" />
+    <ClInclude Include="..\..\Native\Core\Performance.Count.h" />
+    <ClInclude Include="..\..\Native\Core\Stunt.Request.h" />
+    <ClInclude Include="..\..\Native\Decoder\Decoder.Base.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Base.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Controller.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Mobile.h" />
+    <ClInclude Include="..\..\Native\Device\Device.Win.Phone.h" />
+    <ClInclude Include="..\..\Native\Device\Devices.h" />
+    <ClInclude Include="..\..\Native\DynLib\Dyn.OpenCL.h" />
+    <ClInclude Include="..\..\Native\Encoder\Encoder.Base.h" />
+    <ClInclude Include="..\..\Native\Environs.Mobile.h" />
+    <ClInclude Include="..\..\Native\Environs.Modules.h" />
+    <ClInclude Include="..\..\Native\Environs.Obj.h" />
+    <ClInclude Include="..\..\Native\Environs.Sensors.h" />
+    <ClInclude Include="..\..\Native\Environs.Win.Phone.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Device.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.Mobile.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Generator.WP.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Receiver.h" />
+    <ClInclude Include="..\..\Native\Portal\Portal.Stream.h" />
+    <ClInclude Include="..\..\Native\Renderer\Render.OpenCL.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Common\Environs.Crypt.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Crypt1.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Types.cpp" />
+    <ClCompile Include="..\..\Common\Environs.Utils.cpp" />
+    <ClCompile Include="..\..\Common\Interfaces\IEnvirons.Base.cpp" />
+    <ClCompile Include="..\..\Common\Interfaces\IPortal.Encoder.cpp" />
+    <ClCompile Include="..\..\Common\Interfaces\IPortal.Renderer.cpp" />
+    <ClCompile Include="..\..\Common\Interop\direntw.cpp" />
+    <ClCompile Include="..\..\Common\Interop\Export.cpp" />
+    <ClCompile Include="..\..\Common\Interop\Threads.cpp" />
+    <ClCompile Include="..\..\Common\Log.cpp" />
+    <ClCompile Include="..\..\Common\Mediator.cpp" />
+    <ClCompile Include="..\..\Native\Capture\Cam.Base.cpp" />
+    <ClCompile Include="..\..\Native\Core\Async.Worker.cpp" />
+    <ClCompile Include="..\..\Native\Core\Byte.Buffer.cpp" />
+    <ClCompile Include="..\..\Native\Core\Callbacks.cpp" />
+    <ClCompile Include="..\..\Native\Core\Core.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.Platform.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.Windows.cpp" />
+    <ClCompile Include="..\..\Native\Core\Mediator.Client.cpp" />
+    <ClCompile Include="..\..\Native\Core\Notifications.cpp" />
+    <ClCompile Include="..\..\Native\Core\Performance.Count.cpp" />
+    <ClCompile Include="..\..\Native\Core\Queue.List.cpp" />
+    <ClCompile Include="..\..\Common\Queue.Vector.cpp" />
+    <ClCompile Include="..\..\Native\Core\Stunt.Request.cpp" />
+    <ClCompile Include="..\..\Native\Core\Utils.cpp" />
+    <ClCompile Include="..\..\Native\Decoder\Decoder.Base.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Base.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Win.Phone.cpp" />
+    <ClCompile Include="..\..\Native\Device\Devices.cpp" />
+    <ClCompile Include="..\..\Native\DynLib\Dyn.OpenCL.cpp" />
+    <ClCompile Include="..\..\Native\Encoder\Encoder.Base.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Obj.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Sensors.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Win.Phone.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Device.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.WP.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Info.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Stream.cpp" />
+    <ClCompile Include="..\..\Native\Renderer\Render.OpenCL.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

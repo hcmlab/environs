@@ -19,10 +19,10 @@
  */
 #include "stdafx.h"
 /// Compiler flag that enables verbose debug output
-//#define DEBUGVERB
-//#define DEBUGVERBVerb
+//#   define DEBUGVERB
+//#   define DEBUGVERBVerb
 
-#include "Environs.h"
+#include "Environs.Obj.h"
 #include "Environs.Native.h"
 #include "Interop.h"
 #include "Interfaces/IEnvirons.Base.h"
@@ -34,7 +34,7 @@ namespace environs
 {
 	bool ConnectModules ( IEnvironsBase * src, IEnvironsBase * dst )
 	{
-		unsigned int deviceID = src->deviceID;
+		int deviceID = src->deviceID;
 
 		CVerbID ( "Connect" );
 
@@ -49,6 +49,12 @@ namespace environs
 				{
 					src->outputType = src->outputTypes [j];
 					dst->inputType = src->outputType;
+
+					if ( !src->ApplyOutput () )
+						continue;
+
+					if ( !dst->ApplyInput () )
+						continue;
 
 					CVerbID ( "Connect: successfully connected." );
 					return true;

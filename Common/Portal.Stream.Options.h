@@ -22,23 +22,33 @@
 #define INCLUDE_HCM_ENVIRONS_PORTAL_STREAM_OPTIONS_DECLARATIONS_H_
 
 
+/** Place declarations to global namespace for plain C */
+#ifdef __cplusplus
+
 namespace environs
 {
+#endif
+    
 	typedef struct _PortalStreamOptions
 	{
-		bool			usePNG;
-		bool			useOpenCL;
-		bool			useStream;
-		bool			useNativeResolution;
-		bool			streamOverCom;
-		bool			limitMaxResolution;
+		bool	usePNG;
+		bool	useOpenCL;
+		bool	useStream;
+		bool	useNativeResolution;
+		bool	streamOverCom;
+		bool	limitMaxResolution;
 
-		unsigned int	streamWidth;
-		unsigned int	streamHeight;
-        int             streamType;
+		int		streamWidth;
+		int		streamHeight;
+        float   streamMinFPS;
+        int     streamType;
 	}
 	PortalStreamOptions;
+
+    
+#ifdef __cplusplus
 }
+#endif
 
 
 #endif /* INCLUDE_HCM_ENVIRONS_PORTAL_STREAM_OPTIONS_DECLARATIONS_H_ */

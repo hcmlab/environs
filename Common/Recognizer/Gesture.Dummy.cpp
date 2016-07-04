@@ -27,8 +27,8 @@
 
 #define ENVIRONS_NATIVE_MODULE
 
-#include "Environs.h"
-#include "Environs.native.h"
+#include "Environs.Obj.h"
+#include "Environs.Native.h"
 #include "Gesture.Dummy.h"
 #include "Device/Device.Base.h"
 using namespace environs;

@@ -1,0 +1,378 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7E10E7451BD4D456008A927D /* ChatUser.CPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E10E7441BD4D456008A927D /* ChatUser.CPP.mm */; };
+		7E10E74D1BD6B28B008A927D /* Environs.Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E10E74C1BD6B28B008A927D /* Environs.Loader.cpp */; };
+		7E190B551CE2A3D500E3187E /* Threads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E190B541CE2A3D500E3187E /* Threads.cpp */; };
+		7E5EDA991B59A47200061B5A /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5EDA981B59A47200061B5A /* user.png */; };
+		7EAC82101C6554B8009E4DA7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EAC820D1C6554B8009E4DA7 /* AppDelegate.mm */; };
+		7EAC82111C6554B8009E4DA7 /* ChatAppView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EAC820F1C6554B8009E4DA7 /* ChatAppView.mm */; };
+		7EAC82131C6554D8009E4DA7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EAC82121C6554D8009E4DA7 /* Images.xcassets */; };
+		7EAC82191C6554F1009E4DA7 /* LogWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EAC82161C6554F1009E4DA7 /* LogWindow.mm */; };
+		7EAC821A1C6554F1009E4DA7 /* LogView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EAC82171C6554F1009E4DA7 /* LogView.mm */; };
+		7ED0D2EC1AFC13CD00342B64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D2EB1AFC13CD00342B64 /* main.m */; };
+		7ED0D2F41AFC13CD00342B64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ED0D2F21AFC13CD00342B64 /* Main.storyboard */; };
+		7EE0EE961B55EE890036CA0E /* hcmbg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7EE0EE951B55EE890036CA0E /* hcmbg.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7E10E7422BD4729A008A927D /* ChatUser.CPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatUser.CPP.h; path = Common/ChatUser.CPP.h; sourceTree = SOURCE_ROOT; };
+		7E10E7441BD4D456008A927D /* ChatUser.CPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ChatUser.CPP.mm; path = Common/ChatUser.CPP.mm; sourceTree = SOURCE_ROOT; };
+		7E10E74B1BD6B28B008A927D /* Environs.Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Loader.h; path = ../../Common/Environs.Loader.h; sourceTree = "<group>"; };
+		7E10E74C1BD6B28B008A927D /* Environs.Loader.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Environs.Loader.cpp; path = ../../Common/Environs.Loader.cpp; sourceTree = "<group>"; };
+		7E190B531CE2A3D500E3187E /* Threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Threads.h; path = ../../Common/Interop/Threads.h; sourceTree = "<group>"; };
+		7E190B541CE2A3D500E3187E /* Threads.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Threads.cpp; path = ../../Common/Interop/Threads.cpp; sourceTree = "<group>"; };
+		7E5EDA981B59A47200061B5A /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = user.png; path = ../../Common/hcm/user.png; sourceTree = "<group>"; };
+		7EAC820C1C6554B8009E4DA7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ChatApp.OSX.CPP/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		7EAC820D1C6554B8009E4DA7 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ChatApp.OSX.CPP/AppDelegate.mm; sourceTree = SOURCE_ROOT; };
+		7EAC820E1C6554B8009E4DA7 /* ChatAppView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatAppView.h; path = ChatApp.OSX.CPP/ChatAppView.h; sourceTree = SOURCE_ROOT; };
+		7EAC820F1C6554B8009E4DA7 /* ChatAppView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ChatAppView.mm; path = ChatApp.OSX.CPP/ChatAppView.mm; sourceTree = SOURCE_ROOT; };
+		7EAC82121C6554D8009E4DA7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ChatApp.OSX.CPP/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		7EAC82141C6554F1009E4DA7 /* LogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogView.h; path = ChatApp.OSX.CPP/LogView.h; sourceTree = SOURCE_ROOT; };
+		7EAC82151C6554F1009E4DA7 /* LogWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogWindow.h; path = ChatApp.OSX.CPP/LogWindow.h; sourceTree = SOURCE_ROOT; };
+		7EAC82161C6554F1009E4DA7 /* LogWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LogWindow.mm; path = ChatApp.OSX.CPP/LogWindow.mm; sourceTree = SOURCE_ROOT; };
+		7EAC82171C6554F1009E4DA7 /* LogView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LogView.mm; path = ChatApp.OSX.CPP/LogView.mm; sourceTree = SOURCE_ROOT; };
+		7EAC82181C6554F1009E4DA7 /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Observer.h; path = ChatApp.OSX.CPP/Observer.h; sourceTree = SOURCE_ROOT; };
+		7ED0D2E31AFC13CD00342B64 /* ChatApp2.OSX.CPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp2.OSX.CPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED0D2E71AFC13CD00342B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7ED0D2EB1AFC13CD00342B64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7ED0D2F31AFC13CD00342B64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ../ChatApp.OSX.CPP/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7EE0EE951B55EE890036CA0E /* hcmbg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpg; name = hcmbg.jpg; path = ../../Common/hcm/hcmbg.jpg; sourceTree = "<group>"; };
+		7EE0EE9D1B5706260036CA0E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7ED0D2E01AFC13CD00342B64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7ED0D2DA1AFC13CD00342B64 = {
+			isa = PBXGroup;
+			children = (
+				7ED0D2E51AFC13CD00342B64 /* ChatApp2.OSX.CPP */,
+				7ED0D2E41AFC13CD00342B64 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7ED0D2E41AFC13CD00342B64 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7ED0D2E31AFC13CD00342B64 /* ChatApp2.OSX.CPP.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7ED0D2E51AFC13CD00342B64 /* ChatApp2.OSX.CPP */ = {
+			isa = PBXGroup;
+			children = (
+				7EAC820C1C6554B8009E4DA7 /* AppDelegate.h */,
+				7EAC820D1C6554B8009E4DA7 /* AppDelegate.mm */,
+				7EAC820E1C6554B8009E4DA7 /* ChatAppView.h */,
+				7EAC820F1C6554B8009E4DA7 /* ChatAppView.mm */,
+				7E10E7422BD4729A008A927D /* ChatUser.CPP.h */,
+				7E10E7441BD4D456008A927D /* ChatUser.CPP.mm */,
+				7E10E74C1BD6B28B008A927D /* Environs.Loader.cpp */,
+				7E10E74B1BD6B28B008A927D /* Environs.Loader.h */,
+				7EE0EE951B55EE890036CA0E /* hcmbg.jpg */,
+				7EAC82121C6554D8009E4DA7 /* Images.xcassets */,
+				7EAC82141C6554F1009E4DA7 /* LogView.h */,
+				7EAC82171C6554F1009E4DA7 /* LogView.mm */,
+				7EAC82151C6554F1009E4DA7 /* LogWindow.h */,
+				7EAC82161C6554F1009E4DA7 /* LogWindow.mm */,
+				7EE0EE9D1B5706260036CA0E /* main.m */,
+				7ED0D2F21AFC13CD00342B64 /* Main.storyboard */,
+				7EAC82181C6554F1009E4DA7 /* Observer.h */,
+				7ED0D2E61AFC13CD00342B64 /* Supporting Files */,
+				7E190B541CE2A3D500E3187E /* Threads.cpp */,
+				7E190B531CE2A3D500E3187E /* Threads.h */,
+				7E5EDA981B59A47200061B5A /* user.png */,
+			);
+			path = ChatApp2.OSX.CPP;
+			sourceTree = "<group>";
+		};
+		7ED0D2E61AFC13CD00342B64 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7ED0D2E71AFC13CD00342B64 /* Info.plist */,
+				7ED0D2EB1AFC13CD00342B64 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7ED0D2E21AFC13CD00342B64 /* ChatApp2.OSX.CPP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7ED0D3031AFC13CD00342B64 /* Build configuration list for PBXNativeTarget "ChatApp2.OSX.CPP" */;
+			buildPhases = (
+				7ED0D2DF1AFC13CD00342B64 /* Sources */,
+				7ED0D2E01AFC13CD00342B64 /* Frameworks */,
+				7ED0D2E11AFC13CD00342B64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChatApp2.OSX.CPP;
+			productName = ChatApp2.OSX.CPP;
+			productReference = 7ED0D2E31AFC13CD00342B64 /* ChatApp2.OSX.CPP.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7ED0D2DB1AFC13CD00342B64 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = HCMLab;
+				TargetAttributes = {
+					7ED0D2E21AFC13CD00342B64 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+				};
+			};
+			buildConfigurationList = 7ED0D2DE1AFC13CD00342B64 /* Build configuration list for PBXProject "ChatApp2.OSX.CPP" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7ED0D2DA1AFC13CD00342B64;
+			productRefGroup = 7ED0D2E41AFC13CD00342B64 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7ED0D2E21AFC13CD00342B64 /* ChatApp2.OSX.CPP */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7ED0D2E11AFC13CD00342B64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7ED0D2F41AFC13CD00342B64 /* Main.storyboard in Resources */,
+				7EAC82131C6554D8009E4DA7 /* Images.xcassets in Resources */,
+				7E5EDA991B59A47200061B5A /* user.png in Resources */,
+				7EE0EE961B55EE890036CA0E /* hcmbg.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7ED0D2DF1AFC13CD00342B64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E10E74D1BD6B28B008A927D /* Environs.Loader.cpp in Sources */,
+				7EAC82101C6554B8009E4DA7 /* AppDelegate.mm in Sources */,
+				7EAC82191C6554F1009E4DA7 /* LogWindow.mm in Sources */,
+				7EAC82111C6554B8009E4DA7 /* ChatAppView.mm in Sources */,
+				7EAC821A1C6554F1009E4DA7 /* LogView.mm in Sources */,
+				7ED0D2EC1AFC13CD00342B64 /* main.m in Sources */,
+				7E10E7451BD4D456008A927D /* ChatUser.CPP.mm in Sources */,
+				7E190B551CE2A3D500E3187E /* Threads.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7ED0D2F21AFC13CD00342B64 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7ED0D2F31AFC13CD00342B64 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7ED0D3011AFC13CD00342B64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ENVIRONS_OSX;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../Native\"",
+					"\"$(SRCROOT)/../Common\"",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../bin64";
+				LLVM_LTO = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SYMROOT = "$(SRCROOT)/../bin64";
+			};
+			name = Debug;
+		};
+		7ED0D3021AFC13CD00342B64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = ENVIRONS_OSX;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../Native\"",
+					"\"$(SRCROOT)/../Common\"",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../bin64";
+				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				"OTHER_CFLAGS[arch=*]" = "-DNDEBUG";
+				SDKROOT = macosx;
+				SEPARATE_STRIP = YES;
+				SYMROOT = "$(SRCROOT)/../bin64";
+			};
+			name = Release;
+		};
+		7ED0D3041AFC13CD00342B64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = $PROJECT_DIR/../bin64;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				INFOPLIST_FILE = ChatApp2.OSX.CPP/Info.plist;
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "-DENVIRONS_OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.hcm-lab.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ChatApp2.OSX.CPP;
+				SEPARATE_STRIP = NO;
+				SYMROOT = $PROJECT_DIR/../bin64;
+			};
+			name = Debug;
+		};
+		7ED0D3051AFC13CD00342B64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = $PROJECT_DIR/../bin64;
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				INFOPLIST_FILE = ChatApp2.OSX.CPP/Info.plist;
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DENVIRONS_OSX",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "de.hcm-lab.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ChatApp2.OSX.CPP;
+				SEPARATE_STRIP = NO;
+				SYMROOT = $PROJECT_DIR/../bin64;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7ED0D2DE1AFC13CD00342B64 /* Build configuration list for PBXProject "ChatApp2.OSX.CPP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7ED0D3011AFC13CD00342B64 /* Debug */,
+				7ED0D3021AFC13CD00342B64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7ED0D3031AFC13CD00342B64 /* Build configuration list for PBXNativeTarget "ChatApp2.OSX.CPP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7ED0D3041AFC13CD00342B64 /* Debug */,
+				7ED0D3051AFC13CD00342B64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7ED0D2DB1AFC13CD00342B64 /* Project object */;
+}

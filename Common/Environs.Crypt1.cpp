@@ -22,8 +22,8 @@
 
 /// Compiler flag that enables verbose debug output
 #ifndef NDEBUG
-//#define DEBUGVERB
-//#define DEBUGVERBVerb
+//#   define DEBUGVERB
+//#   define DEBUGVERBVerb
 #endif
 
 
@@ -33,7 +33,7 @@
 namespace environs
 {
     
-#if (defined(ANDROID) || defined(_WIN32) )
+#if ( defined(ANDROID) )
     bool UpdateKeyAndCert ( char * priv, char * cert )
     {
         return true;

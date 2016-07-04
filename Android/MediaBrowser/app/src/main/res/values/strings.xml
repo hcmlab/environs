@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MediaBrowser</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="device_act">Device</string>
+    <string name="settingUseDefaultMediator">Use default mediator</string>
+    <string name="settingUseCustomMediator">Use custom mediator</string>
+    <string name="settingMediatorIP">Mediator IP:</string>
+    <string name="settingMediatorPort">Port:</string>
+    <string name="settingSensors">Compas / Accel</string>
+    <string name="settingPush">Push notifications</string>
+    <string name="settingVideo">Video streaming</string>
+    <string name="settingNativeVideo">Native decoder (openh264)</string>
+    <string name="settingAutoportal">Start portal on connect</string>
+    <string name="settingNativeResolution">Portal with display resolution</string>
+    <string name="settingTCPPortal">Use TCP portal</string>
+    <string name="settingNaviButtons">Show navigation buttons</string>
+    <string name="settingTLSDevices">Secure Socket Devices</string>
+    <string name="settingHardwareDecoder">Hardware Accel. Encoding</string>
+    <string name="settingDebugStatus">Show Debug Messages</string>
+    <string name="settingLogfile">Create Logfile</string>
+
+    <string name="settingMediatorCredentials">Mediator Credentials</string>
+    <string name="settingMediatorUserName">UserName:</string>
+    <string name="settingMediatorPassword">Password:</string>
+    
+    <string name="Start">Start</string>
+    <string name="myDeviceID">My device ID:</string>
+    <string name="hexx">0x</string>
+    <string name="Reload">Reload list</string>
+    <string name="Menu">Menu</string>
+    
+    <string name="isConnected">is connected</string>
+    <string name="sameNetwork">is same network</string>
+    <string name="App">App: </string>
+    <string name="dashes">---</string>
+    <string name="Area">Area: </string>
+    <string name="IP">IP: </string>
+    <string name="emptyIP">000.000.000.000</string>
+    <string name="Ext">Ext: </string>
+    <string name="PortalIn">Portal in</string>
+    <string name="PortalOut">Portal out</string>
+    <string name="Connect">Connect</string>
+    <string name="Test">Test</string>
+    <string name="Message">Message:</string>
+    <string name="sendText">Send text message</string>
+    <string name="sendFile">Send file</string>
+    <string name="takePicture">Take picture</string>
+    <string name="gallery">Gallery</string>
+
+</resources>

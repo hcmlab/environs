@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="appName">ChatApp</string>
+    <string name="appSettings">Settings</string>
+    <string name="envStart">Start</string>
+    <string name="sendText">Send</string>
+    <string name="deleteText">Clear History</string>
+	<color name="greenText">#DD00FF00</color>
+</resources>

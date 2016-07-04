@@ -22,15 +22,15 @@
 
 /// Compiler flag that enables verbose debug output
 #ifndef NDEBUG
-//#define DEBUGVERB
-//#define ENCODERDEBUGVERB
+//#   define ENCODERDEBUGVERB
+//#   define DEBUGVERB
 #endif
 
-#include "Environs.h"
+#include "Environs.Obj.h"
 #include "Environs.Native.h"
 #include "Interfaces/IPortal.Encoder.h"
 
-#define CLASS_NAME	"IPortalEncoder"
+#define CLASS_NAME	"IPortal.Encoder. . . . ."
 
 
 namespace environs

@@ -36,38 +36,48 @@
 
 #if defined(ANDROID)
 // Include automatically generated API exports for Android.
-#include "Environs.Native.jni.h"
+#	include "Environs.Native.jni.h"
 
-#define	EnvironsAndroidNullEnv()			JNIEnv * jenv = 0; jclass jcls = 0;
-#define Environs(name, ...)					Java_hcm_environs_Environs_##name(jenv, jcls, __VA_ARGS__)
-#define Environss(name)						Java_hcm_environs_Environs_##name(jenv, jcls)
+#define ANDROID_ASSERT(check,exp)               if (check) { exp; }
+#define ANDROID_ASSERT_ErRrtf(check,msg)        if (check) { CErr ( msg ); return false; }
+#define ANDROID_ASSERT_ErRrtv(check,msg)        if (check) { CErr ( msg ); return; }
 
-#define INIT_PCHAR(name,ref)				const char * name = 0; if (ref) name = jenv->GetStringUTFChars ( ref, NULL );
-#define RELEASE_PCHAR(name,ref)				if (ref && name) jenv->ReleaseStringUTFChars ( ref, name ); \
-											name = NULL;
+#	define EnvironsAndroidNullEnv()             JNIEnv * jenv = 0; jclass jcls = 0;
+#	define EnvironsCallArg(name, ...)			Java_environs_Environs_##name(jenv, jcls, __VA_ARGS__)
+#	define EnvironsCall(name)					Java_environs_Environs_##name(jenv, jcls)
 
-#define INIT_BYTEARR(name,ref)				char * name = 0; if (ref) name = (char *)jenv->GetByteArrayElements ( ref, NULL );
-#define RELEASE_BYTEARR(name,ref,mode)		if (ref && name) jenv->ReleaseByteArrayElements ( ref, (jbyte *)name, mode ); \
-											name = NULL;
+#	define INIT_PCHAR(szname,ref)				const char * szname = 0; if (ref) szname = jenv->GetStringUTFChars ( ref, NULL );
+#	define RELEASE_PCHAR(szname,ref)			if (ref && szname) jenv->ReleaseStringUTFChars ( ref, szname ); \
+													szname = NULL;
+
+#	define INIT_BYTEARR(name,ref)				char * name = 0; if (ref) name = (char *)jenv->GetByteArrayElements ( ref, NULL );
+#	define RELEASE_BYTEARR(name,ref,mode)		if (ref && name) jenv->ReleaseByteArrayElements ( ref, (jbyte *)name, mode ); \
+													name = NULL;
 #else
-#define	EnvironsAndroidNullEnv()
+#	define	EnvironsAndroidNullEnv()
 
 /**
-*	API exports for all platforms but Android
-*
-* */
+ *	API exports for all platforms but Android
+ *
+ * */
+#   define ANDROID_ASSERT(check,exp)
+#   define ANDROID_ASSERT_ErRrtf(check,msg)
+#   define ANDROID_ASSERT_ErRrtv(check,msg)
 
-#define Environs(name, ...)					name(__VA_ARGS__)
-#define Environss(name)						name()
+#	define EnvironsCallArg(name, ...)			name(__VA_ARGS__)
+#	define EnvironsCall(name)					name()
 
-#define INIT_PCHAR(name,ref)				const char * name = ref;
-#define RELEASE_PCHAR(name,ref)				name = NULL;
+#	define INIT_PCHAR(szname,ref)				const char * szname = (const char *) ref;
+#	define RELEASE_PCHAR(szname,ref)			
+//szname = NULL;
 
-#define INIT_BYTEARR(name,ref)				char * name = ref;
-#define RELEASE_BYTEARR(name,ref,mode)		name = NULL;
+#	define INIT_BYTEARR(name,ref)				char * name = (char *) ref;
+#	define RELEASE_BYTEARR(name,ref,mode)		
+//name = NULL;
 
-#define INIT_VOIDARR(name,ref)				void * name = ref;
-#define RELEASE_VOIDARR(name,ref,mode)		name = NULL;				
+#	define INIT_VOIDARR(name,ref)				void * name = (void *) ref;
+#	define RELEASE_VOIDARR(name,ref,mode)		
+// name = NULL;
 
 #endif // ANDROID - include only the jni-exports
 

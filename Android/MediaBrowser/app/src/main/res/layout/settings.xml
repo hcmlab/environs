@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+
+    <TextView
+        android:id="@+id/TextViewVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="36dp"
+        android:paddingBottom="6dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/TextViewCredentials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewVersion"
+        android:paddingBottom="5dp"
+        android:layout_alignLeft="@+id/TextViewVersion"
+        android:text="@string/settingMediatorCredentials"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/TextViewUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/CheckBoxUseMediator"
+        android:layout_alignRight="@+id/CheckBoxSensor"
+        android:layout_below="@+id/TextViewCredentials"
+        android:layout_marginLeft="36dp"
+        android:text="@string/settingMediatorUserName"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/MediatorUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/TextViewUserName"
+        android:layout_toRightOf="@id/TextViewUserName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/TextViewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/CheckBoxUseMediator"
+        android:layout_alignRight="@+id/CheckBoxSensor"
+        android:layout_below="@+id/TextViewUserName"
+        android:layout_marginLeft="36dp"
+        android:paddingBottom="8dp"
+        android:text="@string/settingMediatorPassword"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/MediatorPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/TextViewPassword"
+        android:layout_toRightOf="@id/TextViewPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="12dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <CheckBox
+        android:id="@+id/CheckBoxHCMMediator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/TextViewPassword"
+        android:layout_marginLeft="36dp"
+        android:text="@string/settingUseDefaultMediator"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <CheckBox
+        android:id="@+id/CheckBoxUseMediator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="36dp"
+        android:layout_below="@+id/CheckBoxHCMMediator"
+        android:text="@string/settingUseCustomMediator"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/TextViewMediator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/CheckBoxUseMediator"
+        android:layout_alignRight="@+id/CheckBoxSensor"
+        android:layout_below="@+id/CheckBoxUseMediator"
+        android:layout_marginLeft="36dp"
+        android:text="@string/settingMediatorIP"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/MediatorIP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/TextViewMediator"
+        android:layout_toRightOf="@id/TextViewMediator"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="12dp"
+        android:digits="0123456789."
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/TextViewMediatorPort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/CheckBoxUseMediator"
+        android:layout_alignRight="@+id/CheckBoxSensor"
+        android:layout_below="@+id/TextViewMediator"
+        android:layout_marginLeft="36dp"
+        android:paddingBottom="8dp"
+        android:text="@string/settingMediatorPort"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/MediatorPort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/TextViewMediatorPort"
+        android:layout_toRightOf="@id/TextViewMediatorPort"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="12dp"
+        android:digits="0123456789"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/CheckBoxSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/TextViewMediatorPort"
+        android:layout_marginLeft="36dp"
+        android:text="@string/settingSensors" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPush"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/CheckBoxSensor"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingPush" />
+
+    <CheckBox
+        android:id="@+id/checkBoxVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/checkBoxPush"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingVideo" />
+
+    <CheckBox
+        android:id="@+id/checkBoxNativeVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/checkBoxVideo"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingNativeVideo" />
+
+    <CheckBox
+        android:id="@+id/CheckBoxAutoPortal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBoxNativeVideo"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="36dp"
+        android:text="@string/settingAutoportal"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/CheckBoxNativeResolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/CheckBoxAutoPortal"
+        android:layout_below="@+id/CheckBoxAutoPortal"
+        android:checked="false"
+        android:text="@string/settingNativeResolution"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/CheckBoxTcpPortal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_alignLeft="@+id/CheckBoxNativeResolution"
+        android:layout_below="@+id/CheckBoxNativeResolution"
+        android:text="@string/settingTCPPortal"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/CheckBoxNavigationButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_alignLeft="@+id/CheckBoxTcpPortal"
+        android:layout_below="@+id/CheckBoxTcpPortal"
+        android:text="@string/settingNaviButtons"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/checkBoxTLSDevices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/CheckBoxNavigationButtons"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingTLSDevices" />
+
+    <CheckBox
+        android:id="@+id/checkBoxHardwareDecoder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/checkBoxTLSDevices"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingHardwareDecoder" />
+
+    <CheckBox
+        android:id="@+id/checkBoxShowDebugStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/checkBoxHardwareDecoder"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingDebugStatus" />
+
+    <CheckBox
+        android:id="@+id/checkBoxLogfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/checkBoxShowDebugStatus"
+        android:layout_marginLeft="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/settingLogfile" />
+</RelativeLayout>

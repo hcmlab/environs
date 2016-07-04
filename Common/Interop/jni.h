@@ -22,48 +22,58 @@
 #define ENVIRONS_NANDROID_JNI_INTEROP_H
 
 #if defined(ANDROID)
-#include <jni.h>
+#   include <jni.h>
 
-#define jintp           jint
-#define juint           jint
-#define juintp          jint
-#define jvoidArray      jbyteArray
-#define jtstring        jstring
+#   define jintp           jint
+#   define juint           jint
+#   define juintp          jint
+#   define jvoidArray      jbyteArray
+#   define jtstring        jstring
+#   define jsstring        jstring
 
-#define	DUMBJENV()
-#define	DUMBJCLASS()
+#   define	DUMBJENV()
+#   define	DUMBJCLASS()
 
-#define FAKEJNI()		JNIEnv * jenv; jclass jcls;
+#   define FAKEJNI()		JNIEnv * jenv; jclass jcls;
 //#define	DUMBJCLASS()	jclass jcls = 0;
 #else
 
 //#define JNIEXPORT
-#define jboolean        bool
-#define jint            int
-#define jintp           int *
+#   define jboolean        bool
+#   define jint            int
+#   define jintp           int *
 /// The reason for intruducing juint is that java does not support unsigned. Hence, we take it as signed and cast the value to unsigned within the native layer.
-#define juint           unsigned int
-#define juintp          unsigned int *
-#define jlong           long
-#define jfloat          float
-#define jshort          unsigned short
-#define jbyte           unsigned char
-#define jstring         const char *
-#define jtstring        TCHAR	*
-#define jbyteArray      char	*
-#define jvoidArray      void	*
-#define jintArray       int		*
-#define jfloatArray     float	*
-#define JNIEnv          void
-#define jobject         void	*
-#define jchar           char
-#define jclass          void	*
+#   define juint           unsigned int
+#   define juintp          unsigned int *
+#   define jlong           long
+#   define jfloat          float
+#   define jdouble         double
+#   define jshort          unsigned short
+#   define jbyte           unsigned char
+#   define jsstring        char *
+#   define jstring         const char *
+#   define jtstring        TCHAR	*
+#   define jbyteArray      unsigned char	*
+#   define jintArray       int		*
+#   define jfloatArray     float	*
+#   define JNIEnv          void
+#   define jobject         void	*
+#   define jchar           char
+#   define jclass          void	*
+
+#   ifdef CLI_CPP
+#       define jstring_ptr  IntPtr
+#       define jvoidArray   void	*
+#   else
+#       define jstring_ptr  const void *
+#       define jvoidArray   void	*
+#   endif
 //#define JNICALL
 
-#define	DUMBJENV()		void * jenv = 0;
-#define	DUMBJCLASS()	jclass jcls = 0;
+#   define	DUMBJENV()		void * jenv = 0;
+#   define	DUMBJCLASS()	jclass jcls = 0;
 
-#define FAKEJNI()
+#   define FAKEJNI()
 #endif
 
 

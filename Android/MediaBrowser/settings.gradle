@@ -1,0 +1,8 @@
+include ':MediaBrowserAndroid'
+project(':MediaBrowserAndroid').projectDir = new File('app')
+
+include ':actionbarsherlock'
+project(':actionbarsherlock').projectDir = new File('library/ActionBarSherlock/actionbarsherlock')
+
+include ':aFileDialog'
+project(':aFileDialog').projectDir = new File('library/aFileDialog/library/app')

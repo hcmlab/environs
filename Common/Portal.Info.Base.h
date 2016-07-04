@@ -22,9 +22,13 @@
 #define INCLUDE_HCM_ENVIRONS_PORTALINFO_BASE_H
 
 
+/** Place declarations to global namespace for plain C */
+#ifdef __cplusplus
+
 /* Namespace: environs -> */
 namespace environs
 {
+#endif
 	/**
 	*	A PortalInfoBase object serves as container for raw portal information.
     *   Environs makes use of such objects to get/set portal details.
@@ -34,6 +38,8 @@ namespace environs
 	*	@remarks	current size is (4 + 4 + 4 + 4 + 4) = 20 bytes
 	* ****************************************************************************************
 	*/
+#ifndef CLI_CPP
+
 	typedef struct _PortalInfoBase
 	{
 		int portalID;
@@ -47,7 +53,26 @@ namespace environs
 	}
 	PortalInfoBase;
 
-} /* namepace Environs */
+#else
 
+	PUBLIC_CLASS PortalInfoBase
+	{
+	public:
+		int portalID;
+		int flags;
+
+		int centerX;
+		int centerY;
+		int width;
+		int height;
+		float orientation;
+	};
+
+#endif
+
+    
+#ifdef __cplusplus
+} /* namepace Environs */
+#endif
 
 #endif // INCLUDE_HCM_ENVIRONS_PORTALINFO_BASE_H

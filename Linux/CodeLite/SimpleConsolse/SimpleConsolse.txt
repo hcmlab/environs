@@ -1,0 +1,1 @@
+./Debug/Common_Environs.Loader.cpp.o ./Debug/Simple.Console.CPP_Simple.Console.CPP.cpp.o

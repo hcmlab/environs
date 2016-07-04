@@ -1,0 +1,179 @@
+apply plugin: 'com.android.library'
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+Properties envProps = null
+
+if (file("$project.rootDir/gradle.properties").exists()) {
+    envProps = new Properties()
+    envProps.load(new FileInputStream("$project.rootDir/gradle.properties"))
+}
+
+//String ndkDir = plugins.getPlugin('com.android.library').sdkHandler.getNdkFolder()
+String ndkDir = android.ndkDirectory
+String ndkScript = "$ndkDir/ndk-build" + (Os.isFamily(Os.FAMILY_WINDOWS) ? '.cmd' : '')
+
+android {
+    compileSdkVersion 22
+    publishNonDefault true
+
+    if (envProps == null) {
+        buildToolsVersion "22.0.1"
+    }
+    else {
+        buildToolsVersion envProps.envbuildToolsVersion
+    }
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 22
+
+        if (envProps == null) {
+			version project.envVersion
+            versionCode Integer.parseInt(project.envRevision)
+            versionName project.envVersion
+        }
+        else {
+			version envProps.envVersion
+            versionCode Integer.parseInt(envProps.envRevision)
+            versionName envProps.envVersion
+        }
+
+        ndk {
+            moduleName "Environs"
+
+            String envDir = "${project.buildDir}/../../../"
+            String stlDir = "${ndkDir}/sources/cxx-stl/stlport/stlport"
+            cFlags "-I${envDir}Common -I${envDir}Native -I${envDir}Native/Codec -I${envDir}Commoin/3rd/inc -I${stlDir}  -I${envDir}Native/Backup -DV=1"
+        }
+    }
+
+    buildTypes {
+        release {
+            //minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            //debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.txt'
+        }
+        debug {
+            //minifyEnabled false
+            //minifyEnabled true
+            //shrinkResources true
+            //debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.txt'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs 'src/main/java'
+        //main.java.srcDirs += '../../Common'
+
+        //main.jni.srcDirs = []
+        main.jni.srcDir '../../Native'
+        main.jni.srcDir '../../Common'
+        main.jniLibs.srcDir 'src/main/libs'
+    }
+
+    productFlavors {
+        def verPre = "0"
+
+        armv7 {
+            versionCode Integer.parseInt("2${verPre}" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+            versionName android.defaultConfig.versionName
+            targetSdkVersion 22
+        }
+        arm {
+            ndk {
+                abiFilter "armeabi"
+            }
+            versionName android.defaultConfig.versionName
+            targetSdkVersion 22
+        }
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+            versionName android.defaultConfig.versionName
+            targetSdkVersion 22
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        //    compileTask -> compileTask.dependsOn buildNative
+        doFirst {
+            //android.sourceSets.main.jni.srcDirs = []
+        }
+    }
+
+    task("build-Native-Release", type: Exec, description: 'Build libEnvirons.so') {
+        android.sourceSets.main.jni.srcDirs = []
+
+        commandLine "$ndkScript", '-C', file('src/main/jni').absolutePath,
+                "APP_ABI=armeabi armeabi-v7a x86" //, 'V=1'
+    }
+
+    task("build-Native-Debug", type: Exec, description: 'Build libEnvirons.so') {
+        commandLine "$ndkScript", '-C', file('src/main/jni').absolutePath, 'NDK_DEBUG=1',
+                "APP_ABI=armeabi armeabi-v7a x86" //, 'V=1'
+    }
+
+    task('clean-Native', type: Exec, description: 'Clean native') {
+        commandLine "$ndkScript", '-C', file('src/main/jni').absolutePath, 'clean'
+    }
+
+    if (new File((String) "$ndkScript").exists()) {
+        clean.dependsOn 'clean-Native'
+    }
+}
+
+
+android.libraryVariants.all {
+    variant ->
+        def modName = 'Environs'
+        def varType = variant.buildType.name.capitalize()
+        def varFlavor = variant.properties.get('flavorName')
+
+        def outName = 'Environs-'
+        if (variant.buildType.name.capitalize() == "Debug")
+            outName += 'debug-'
+        outName += "${variant.properties.get('flavorName')}-${version}.jar"
+
+        task("build-Native-${varType}-${varFlavor}", type: Exec, description: 'Build libEnvirons.so') {
+            //def flavorFlag = "APP_ABI=armeabi armeabi-v7a"
+            def flavorFlag = 'armeabi' //'armv7'
+            if ("$varFlavor" == 'armv7') {
+                flavorFlag = 'armeabi-v7a'
+            }
+
+            if ("$varType" == 'Debug') {
+                commandLine "$ndkScript", '-C', file('src/main/jni').absolutePath,
+                        "APP_ABI=$flavorFlag", 'NDK_DEBUG=1' //, 'V=1'
+            } else {
+                commandLine "$ndkScript", '-C', file('src/main/jni').absolutePath,
+                        "APP_ABI=$flavorFlag" //, 'V=1'
+            }
+        }
+}
+
+
+dependencies {
+    compile files('libs/gcm.jar')
+    compile files('libs/jbzip.jar')
+//    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+//    compile 'com.google.android.gms:play-services-ads:8.4.0'
+//    compile 'com.google.android.gms:play-services-identity:8.4.0'
+}
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Echo.Bot" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Src/;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../bin64/EchoBot-Linux" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin64" />
+				<Option object_output="EchoBot/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-DLINUX" />
+					<Add option="-DDEBUG" />
+					<Add option="-DDISPLAYDEVICE" />
+					<Add directory="../../Common" />
+				</Compiler>
+				<Linker>
+					<Add library="dl" />
+					<Add library="pthread" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../../bin64/EchoBot-Linux" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin64" />
+				<Option object_output="EchoBot/obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DLINUX" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DDISPLAYDEVICE" />
+					<Add directory="../../Common" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="dl" />
+					<Add library="pthread" />
+				</Linker>
+			</Target>
+			<Target title="wifitest">
+				<Option output="bin/wifitest/Echo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/wifitest/" />
+				<Option object_output="obj/wifitest/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../../Common/Environs.Loader.cpp">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Common/Environs.Loader.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Common/Interop/Threads.cpp">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Windows/Echo.Bot.CPP/Echo.Bot.CPP.cpp">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Unit filename="../../Windows/Echo.Bot.CPP/Echo.Bot.CPP.h">
+			<Option virtualFolder="Src/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

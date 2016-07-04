@@ -1,0 +1,381 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7E0028231B725AB900AB783F /* Dyn.Lib.Crypto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0028211B725AB900AB783F /* Dyn.Lib.Crypto.cpp */; };
+		7E0028261B725C5500AB783F /* Export.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E0028241B725C5500AB783F /* Export.cpp */; };
+		7E33A77E1CEF890F0018AA0E /* Environs.Crypt.Lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E33A77D1CEF890F0018AA0E /* Environs.Crypt.Lib.cpp */; };
+		7E33A78A1CF8710F0018AA0E /* Tracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E33A7891CF8710F0018AA0E /* Tracer.cpp */; };
+		7E3A885118DDAB2D0063BAED /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A884C18DDAB2D0063BAED /* main.cpp */; };
+		7E3A885318DDAB2D0063BAED /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A884F18DDAB2D0063BAED /* stdafx.cpp */; };
+		7E3A885D18DDAB640063BAED /* Environs.Crypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A885518DDAB640063BAED /* Environs.Crypt.cpp */; };
+		7E3A885E18DDAB640063BAED /* Environs.Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A885818DDAB640063BAED /* Environs.Utils.cpp */; };
+		7E3A885F18DDAB640063BAED /* Mediator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A885B18DDAB640063BAED /* Mediator.cpp */; };
+		7E3A886218DDAEB60063BAED /* Threads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A886018DDAEB50063BAED /* Threads.cpp */; };
+		7E3A886718DDAF290063BAED /* Environs.Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3A886518DDAF290063BAED /* Environs.Types.cpp */; };
+		7E3A886918DDAF3B0063BAED /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3A886818DDAF3B0063BAED /* libcurl.dylib */; };
+		7E6100541CB6DEC30000076B /* Queue.Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6100531CB6DEC30000076B /* Queue.Vector.cpp */; };
+		7ED0D37A1AFDAEAA00342B64 /* Mediator.Daemon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED0D3781AFDAEAA00342B64 /* Mediator.Daemon.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7E3A883E18DDAAB60063BAED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7E0028211B725AB900AB783F /* Dyn.Lib.Crypto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dyn.Lib.Crypto.cpp; path = ../../3rd/DynLib/Dyn.Lib.Crypto.cpp; sourceTree = "<group>"; };
+		7E0028221B725AB900AB783F /* Dyn.Lib.Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dyn.Lib.Crypto.h; path = ../../3rd/DynLib/Dyn.Lib.Crypto.h; sourceTree = "<group>"; };
+		7E0028241B725C5500AB783F /* Export.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Export.cpp; path = ../../Common/Interop/Export.cpp; sourceTree = "<group>"; };
+		7E0028251B725C5500AB783F /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Export.h; path = ../../Common/Interop/Export.h; sourceTree = "<group>"; };
+		7E2220BB1B517D66003E2D9C /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../../Common/Log.h; sourceTree = "<group>"; };
+		7E33A77D1CEF890F0018AA0E /* Environs.Crypt.Lib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Crypt.Lib.cpp; path = ../../Common/Environs.Crypt.Lib.cpp; sourceTree = "<group>"; };
+		7E33A7881CF8710F0018AA0E /* Tracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tracer.h; path = ../../Common/Tracer.h; sourceTree = "<group>"; };
+		7E33A7891CF8710F0018AA0E /* Tracer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tracer.cpp; path = ../../Common/Tracer.cpp; sourceTree = "<group>"; };
+		7E33A78B1CF8C7890018AA0E /* Environs.Build.Opts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Environs.Build.Opts.h; path = ../../Common/Environs.Build.Opts.h; sourceTree = "<group>"; };
+		7E3A884018DDAAB60063BAED /* MediatorOSX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MediatorOSX; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E3A884C18DDAB2D0063BAED /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
+		7E3A884F18DDAB2D0063BAED /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = SOURCE_ROOT; };
+		7E3A885018DDAB2D0063BAED /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = SOURCE_ROOT; };
+		7E3A885518DDAB640063BAED /* Environs.Crypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Crypt.cpp; path = ../../Common/Environs.Crypt.cpp; sourceTree = "<group>"; };
+		7E3A885618DDAB640063BAED /* Environs.Crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Crypt.h; path = ../../Common/Environs.Crypt.h; sourceTree = "<group>"; };
+		7E3A885718DDAB640063BAED /* Environs.Native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Native.h; path = ../../Common/Environs.Native.h; sourceTree = "<group>"; };
+		7E3A885818DDAB640063BAED /* Environs.Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Utils.cpp; path = ../../Common/Environs.Utils.cpp; sourceTree = "<group>"; };
+		7E3A885918DDAB640063BAED /* Environs.Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Utils.h; path = ../../Common/Environs.Utils.h; sourceTree = "<group>"; };
+		7E3A885A18DDAB640063BAED /* Interop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interop.h; path = ../../Common/Interop.h; sourceTree = "<group>"; };
+		7E3A885B18DDAB640063BAED /* Mediator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mediator.cpp; path = ../../Common/Mediator.cpp; sourceTree = "<group>"; };
+		7E3A885C18DDAB640063BAED /* Mediator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mediator.h; path = ../../Common/Mediator.h; sourceTree = "<group>"; };
+		7E3A886018DDAEB50063BAED /* Threads.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Threads.cpp; path = ../../Common/Interop/Threads.cpp; sourceTree = "<group>"; };
+		7E3A886118DDAEB60063BAED /* Threads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Threads.h; path = ../../Common/Interop/Threads.h; sourceTree = "<group>"; };
+		7E3A886518DDAF290063BAED /* Environs.Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Types.cpp; path = ../../Common/Environs.Types.cpp; sourceTree = "<group>"; };
+		7E3A886618DDAF290063BAED /* Environs.Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Types.h; path = ../../Common/Environs.Types.h; sourceTree = "<group>"; };
+		7E3A886818DDAF3B0063BAED /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
+		7E4846111AEC04AC00758163 /* Environs.Release.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Environs.Release.h; path = ../../Common/Environs.Release.h; sourceTree = "<group>"; };
+		7E4846121AEC04AC00758163 /* Environs.Revision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Environs.Revision.h; path = ../../Common/Environs.Revision.h; sourceTree = "<group>"; };
+		7E6100531CB6DEC30000076B /* Queue.Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Queue.Vector.cpp; path = ../../Common/Queue.Vector.cpp; sourceTree = "<group>"; };
+		7E6100551CB6F1600000076B /* Queue.Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Queue.Vector.h; path = ../../Common/Queue.Vector.h; sourceTree = "<group>"; };
+		7E68A0001C2B539E000C6916 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
+		7ED0D3781AFDAEAA00342B64 /* Mediator.Daemon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mediator.Daemon.cpp; sourceTree = SOURCE_ROOT; };
+		7ED0D3791AFDAEAA00342B64 /* Mediator.Daemon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mediator.Daemon.h; sourceTree = SOURCE_ROOT; };
+		7ED0D37B1AFDAEBA00342B64 /* Device.Instance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Device.Instance.h; path = ../../Common/Device.Instance.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7E3A883D18DDAAB60063BAED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E3A886918DDAF3B0063BAED /* libcurl.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7E3A883718DDAAB60063BAED = {
+			isa = PBXGroup;
+			children = (
+				7E3A886818DDAF3B0063BAED /* libcurl.dylib */,
+				7E3A884218DDAAB60063BAED /* MediatorOSX */,
+				7E3A884118DDAAB60063BAED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7E3A884118DDAAB60063BAED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7E3A884018DDAAB60063BAED /* MediatorOSX */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7E3A884218DDAAB60063BAED /* MediatorOSX */ = {
+			isa = PBXGroup;
+			children = (
+				7E68A0001C2B539E000C6916 /* CHANGELOG.md */,
+				7E33A78B1CF8C7890018AA0E /* Environs.Build.Opts.h */,
+				7ED0D37B1AFDAEBA00342B64 /* Device.Instance.h */,
+				7E0028211B725AB900AB783F /* Dyn.Lib.Crypto.cpp */,
+				7E0028221B725AB900AB783F /* Dyn.Lib.Crypto.h */,
+				7E3A885518DDAB640063BAED /* Environs.Crypt.cpp */,
+				7E3A885618DDAB640063BAED /* Environs.Crypt.h */,
+				7E33A77D1CEF890F0018AA0E /* Environs.Crypt.Lib.cpp */,
+				7E3A885718DDAB640063BAED /* Environs.Native.h */,
+				7E4846111AEC04AC00758163 /* Environs.Release.h */,
+				7E4846121AEC04AC00758163 /* Environs.Revision.h */,
+				7E3A886518DDAF290063BAED /* Environs.Types.cpp */,
+				7E3A886618DDAF290063BAED /* Environs.Types.h */,
+				7E3A885818DDAB640063BAED /* Environs.Utils.cpp */,
+				7E3A885918DDAB640063BAED /* Environs.Utils.h */,
+				7E0028241B725C5500AB783F /* Export.cpp */,
+				7E0028251B725C5500AB783F /* Export.h */,
+				7E3A885A18DDAB640063BAED /* Interop.h */,
+				7E2220BB1B517D66003E2D9C /* Log.h */,
+				7E3A884C18DDAB2D0063BAED /* main.cpp */,
+				7E3A885B18DDAB640063BAED /* Mediator.cpp */,
+				7ED0D3781AFDAEAA00342B64 /* Mediator.Daemon.cpp */,
+				7ED0D3791AFDAEAA00342B64 /* Mediator.Daemon.h */,
+				7E3A885C18DDAB640063BAED /* Mediator.h */,
+				7E6100531CB6DEC30000076B /* Queue.Vector.cpp */,
+				7E6100551CB6F1600000076B /* Queue.Vector.h */,
+				7E3A884F18DDAB2D0063BAED /* stdafx.cpp */,
+				7E3A885018DDAB2D0063BAED /* stdafx.h */,
+				7E3A886018DDAEB50063BAED /* Threads.cpp */,
+				7E3A886118DDAEB60063BAED /* Threads.h */,
+				7E33A7891CF8710F0018AA0E /* Tracer.cpp */,
+				7E33A7881CF8710F0018AA0E /* Tracer.h */,
+			);
+			path = MediatorOSX;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7E3A883F18DDAAB60063BAED /* MediatorOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E3A884918DDAAB60063BAED /* Build configuration list for PBXNativeTarget "MediatorOSX" */;
+			buildPhases = (
+				7E3A883C18DDAAB60063BAED /* Sources */,
+				7E3A883D18DDAAB60063BAED /* Frameworks */,
+				7E3A883E18DDAAB60063BAED /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MediatorOSX;
+			productName = MediatorOSX;
+			productReference = 7E3A884018DDAAB60063BAED /* MediatorOSX */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7E3A883818DDAAB60063BAED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "University of Augsburg";
+			};
+			buildConfigurationList = 7E3A883B18DDAAB60063BAED /* Build configuration list for PBXProject "MediatorOSX" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7E3A883718DDAAB60063BAED;
+			productRefGroup = 7E3A884118DDAAB60063BAED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7E3A883F18DDAAB60063BAED /* MediatorOSX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7E3A883C18DDAAB60063BAED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E33A77E1CEF890F0018AA0E /* Environs.Crypt.Lib.cpp in Sources */,
+				7E3A885F18DDAB640063BAED /* Mediator.cpp in Sources */,
+				7E3A885E18DDAB640063BAED /* Environs.Utils.cpp in Sources */,
+				7E6100541CB6DEC30000076B /* Queue.Vector.cpp in Sources */,
+				7ED0D37A1AFDAEAA00342B64 /* Mediator.Daemon.cpp in Sources */,
+				7E3A886718DDAF290063BAED /* Environs.Types.cpp in Sources */,
+				7E3A885318DDAB2D0063BAED /* stdafx.cpp in Sources */,
+				7E0028261B725C5500AB783F /* Export.cpp in Sources */,
+				7E3A886218DDAEB60063BAED /* Threads.cpp in Sources */,
+				7E0028231B725AB900AB783F /* Dyn.Lib.Crypto.cpp in Sources */,
+				7E3A885118DDAB2D0063BAED /* main.cpp in Sources */,
+				7E33A78A1CF8710F0018AA0E /* Tracer.cpp in Sources */,
+				7E3A885D18DDAB640063BAED /* Environs.Crypt.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7E3A884718DDAAB60063BAED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-DMEDIATORDAEMON",
+					"-Wno-deprecated",
+				);
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7E3A884818DDAAB60063BAED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = (
+					"-DMEDIATORDAEMON",
+					"-Wno-deprecated",
+					"-DNDEBUG",
+				);
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7E3A884A18DDAAB60063BAED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_USE_OPTIMIZATION_PROFILE = NO;
+				CODE_SIGN_IDENTITY = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+					"$(SRCROOT)/../3rd/inc",
+					"$(SRCROOT)/../3rd",
+					"$(SRCROOT)/../Common",
+					"$(SRCROOT)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				LLVM_LTO = YES;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E3A884B18DDAAB60063BAED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_USE_OPTIMIZATION_PROFILE = NO;
+				CODE_SIGN_IDENTITY = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+					"$(SRCROOT)/../3rd/inc",
+					"$(SRCROOT)/../3rd",
+					"$(SRCROOT)/../Common",
+					"$(SRCROOT)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				LLVM_LTO = YES;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7E3A883B18DDAAB60063BAED /* Build configuration list for PBXProject "MediatorOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E3A884718DDAAB60063BAED /* Debug */,
+				7E3A884818DDAAB60063BAED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E3A884918DDAAB60063BAED /* Build configuration list for PBXNativeTarget "MediatorOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E3A884A18DDAAB60063BAED /* Debug */,
+				7E3A884B18DDAAB60063BAED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7E3A883818DDAAB60063BAED /* Project object */;
+}

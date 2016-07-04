@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">Environs</string>
+
+    <string name="UserName">UserName</string>
+    <string name="Password">Password</string>
+</resources>

@@ -1,7 +1,6 @@
 .DS_Store
 .svn
-#ignore thumbnails created by windows
-Thumbs.db
+
 #Ignore files build by Visual Studio
 *.obj
 *.exe
@@ -22,6 +21,15 @@ Thumbs.db
 *.dll
 *.lib
 *.sbr
+
+## CodeBlocks
+*.depend
+*.layout
+
+## Windows
+## ignore thumbnails created by windows
+Thumbs.db
+
 #Custom hcm ignores
 .svn
 *.o
@@ -119,5 +127,9 @@ Androids/Environs/src/main/jniLibs
 #Androids/MediaBrowser/app/libs
 Androids/ActionBarSherlock*
 Androids/aFileDialog*
-
-
+Environs.Build.Opts.VLD.h
+*.DHL.manifest
+Common/Environs.Commit.h
+Common/ORIG_HEAD
+Windows/Environs/nul
+Windows/Environs/null

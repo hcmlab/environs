@@ -1,0 +1,328 @@
+LinuxMediatorRelease:
+  tags:
+    - linux
+  stage: build
+  script: 
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.mediator.linux.sh"
+    - "./Tools/build.mediator.linux.sh"
+    - "rm -rf ./Tools"
+
+LinuxMediatorDebug:
+  tags:
+    - linux
+  stage: build
+  script: 
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.mediator.linux.sh"
+    - "export DEBUG=1 && ./Tools/build.mediator.linux.sh"
+    - "rm -rf ./Tools"
+
+  
+OSXMakeMediatorRelease:
+  tags:
+    - osx
+  stage: build
+  script: 
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x 3rd/download.sh"
+    - "3rd/download.sh"    
+    - "chmod ogu+x Tools/build.mediator.linux.sh"
+    - "./Tools/build.mediator.linux.sh"
+    - "rm -rf ./Tools"
+
+OSXMakeMediatorDebug:
+  tags:
+    - osx
+  stage: build
+  script: 
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x 3rd/download.sh"
+    - "3rd/download.sh" 
+    - "chmod ogu+x Tools/build.mediator.linux.sh"
+    - "export DEBUG=1 && ./Tools/build.mediator.linux.sh"
+    - "rm -rf ./Tools"
+
+     
+WindowsMediatorDebug:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.mediator.win32.sh d p"
+    - "rm -rf ./Tools"
+    
+WindowsMediatorRelease:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.mediator.win32.sh r p"
+    - "rm -rf ./Tools"
+
+LinuxEnvironsDebug:
+  tags:
+    - linux
+  stage: build
+  script:
+    - "3rd/download.sh"
+    - "chmod ogu+x ./Tools/check.build.is.ci.sh"
+    - "export CIRETURN=1 && ./Tools/check.build.is.ci.sh && [ $? == 0 ] && cd Linux && export DEBUG=1 && make clean && make new"
+    - "rm -rf ./Tools"
+
+LinuxEnvironsRelease:
+  tags:
+    - linux
+  stage: build
+  script:
+    - "3rd/download.sh"
+    - "chmod ogu+x ./Tools/check.build.is.ci.sh"
+    - "export CIRETURN=1 && ./Tools/check.build.is.ci.sh && [ $? == 0 ] && cd Linux && make clean && make new"
+    - "rm -rf ./Tools"
+
+LinuxExamplesDebug:
+  only:
+    - master
+  tags:
+    - linux
+  stage: build
+  script: 
+    - "chmod ogu+x ./Tools/check.build.is.ci.sh"
+    - "export CIRETURN=1 && ./Tools/check.build.is.ci.sh && [ $? == 0 ] && cd Linux/Simple.Console.CPP && export DEBUG=1 && make clean && make all"
+    - "rm -rf ./Tools"
+
+LinuxExamplesRelease:
+  only:
+    - master
+  tags:
+    - linux
+  stage: build
+  script: 
+    - "chmod ogu+x ./Tools/check.build.is.ci.sh"
+    - "export CIRETURN=1 && ./Tools/check.build.is.ci.sh && [ $? == 0 ] && cd Linux/Simple.Console.CPP && make clean && make all"
+    - "rm -rf ./Tools"
+  
+RaspberryJessieMediatorRelease:
+  only:
+    - master
+  tags:
+    - raspberry-jessie
+  stage: build
+  script:    
+    - "chmod ogu+x ./Tools/check.build.is.ci.sh"
+    - "export CIRETURN=1 && ./Tools/check.build.is.ci.sh && [ $? == 0 ] && cd Mediator && make clean && make all"
+    - "rm -rf ./Tools"
+
+#RaspberryJessieEnvironsDebug:
+#  only:
+#    - master
+#  tags:
+#    - raspberry-jessie
+#  stage: build
+#  script: 
+#    - "cd Linux && export DEBUG=1 && make clean && make all"
+#    - "rm -rf ./Tools"
+
+#RaspberryJessieEnvironsRelease:
+#  only:
+#    - master
+#  tags:
+#    - raspberry-jessie
+#  stage: build
+#  script: 
+#    - "cd Linux && make clean && make all"
+#    - "rm -rf ./Tools"
+        
+WindowsEnvironsDebug:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.environs.win32.sh d p"
+    - "rm -rf ./Tools"
+    
+WindowsEnvironsRelease:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.environs.win32.sh r p"
+    - "rm -rf ./Tools"
+        
+WindowsBuildDebug:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.release.win32.sh d p"
+    - "rm -rf ./Tools"
+    
+WindowsBuildRelease:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.release.win32.sh r p"
+    - "rm -rf ./Tools"
+    
+WindowsAndroidDebug:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.tools.ci.sh prepareAndroidWindows"
+    - "bash ./Tools/build.environs.android.sh 2"
+    - "rm -rf ./Tools"
+    
+WindowsAndroidRelease:
+  tags:
+    - windows
+  stage: build
+  script: 
+    - "bash ./3rd/download.sh"
+    - "bash ./Tools/download.tools.upd.sh"
+    - "bash ./Tools/build.tools.ci.sh prepareAndroidWindows"
+    - "bash ./Tools/build.environs.android.sh"
+    - "rm -rf ./Tools"
+    
+LinuxAndroidRelease:
+  tags:
+    - linux
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.tools.ci.sh"
+    - "./Tools/build.tools.ci.sh prepare"
+    - "chmod ogu+x Tools/build.environs.android.sh"
+    - "./Tools/build.environs.android.sh"
+    - "rm -rf ./Tools"
+    
+LinuxAndroidDebug:
+  tags:
+    - linux
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.tools.ci.sh"
+    - "./Tools/build.tools.ci.sh prepare"
+    - "chmod ogu+x Tools/build.environs.android.sh"
+    - "./Tools/build.environs.android.sh 2"
+    - "rm -rf ./Tools"
+
+OSXMediatorRelease:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.mediator.osx.sh"
+    - "./Tools/build.mediator.osx.sh unattended"
+    - "rm -rf ./Tools"
+
+OSXMediatorDebug:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.mediator.osx.sh"
+    - "./Tools/build.mediator.osx.sh unattended d"
+    - "rm -rf ./Tools"
+    
+OSXEnvironsRelease:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.environs.osx.sh"
+    - "./Tools/build.environs.osx.sh unattended"
+    - "rm -rf ./Tools"
+
+OSXEnvironsDebug:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"  
+    - "chmod ogu+x Tools/build.environs.osx.sh"
+    - "./Tools/build.environs.osx.sh unattended d"
+    - "rm -rf ./Tools"
+
+iOSEnvironsRelease:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"  
+    - "chmod ogu+x Tools/build.environs.ios.sh"
+    - "./Tools/build.environs.ios.sh unattended"
+    - "rm -rf ./Tools"
+
+iOSEnvironsDebug:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"  
+    - "chmod ogu+x Tools/build.environs.ios.sh"
+    - "./Tools/build.environs.ios.sh unattended d"
+    - "rm -rf ./Tools"
+
+iOSBuildEnvirons:
+  tags:
+    - osx
+  stage: build
+  script:
+    - "chmod ogu+x 3rd/download.sh"
+    - "./3rd/download.sh"
+    - "chmod ogu+x Tools/download.tools.upd.sh"
+    - "./Tools/download.tools.upd.sh"
+    - "chmod ogu+x Tools/build.release.iosx.sh"
+    - "./Tools/build.release.iosx.sh"
+    - "rm -rf ./Tools"
+    
+
+    

@@ -253,8 +253,6 @@
 		7EDCA85E1B22653800A3B726 /* Encoder.GDI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EDCA85C1B22653800A3B726 /* Encoder.GDI.h */; };
 		7EE7BBE31D24A6A400F2A70B /* Wifi.Observer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE7BBE21D24A6A400F2A70B /* Wifi.Observer.h */; };
 		7EE7BBE51D24A6CF00F2A70B /* Wifi.Observer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7BBE41D24A6CF00F2A70B /* Wifi.Observer.cpp */; };
-		7EE7BBEF1D298D2100F2A70B /* Dyn.Lib.iwlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EE7BBED1D298D2100F2A70B /* Dyn.Lib.iwlib.h */; };
-		7EE7BBF01D298D2100F2A70B /* Dyn.Lib.iwlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7BBEE1D298D2100F2A70B /* Dyn.Lib.iwlib.cpp */; };
 		7EEC21281B1CE66C00AE7056 /* CoreWLAN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EEC21271B1CE66C00AE7056 /* CoreWLAN.framework */; };
 		7EECE5DF1B18DD5400195FE3 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EECE5DE1B18DD5400195FE3 /* Log.cpp */; };
 		7EECE5E71B18FF9D00195FE3 /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EECE5E61B18FF9D00195FE3 /* Log.h */; };
@@ -552,8 +550,6 @@
 		7EDCA85C1B22653800A3B726 /* Encoder.GDI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Encoder.GDI.h; path = ../Native/Encoder/Encoder.GDI.h; sourceTree = "<group>"; };
 		7EE7BBE21D24A6A400F2A70B /* Wifi.Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Wifi.Observer.h; path = ../Common/Wifi.Observer.h; sourceTree = "<group>"; };
 		7EE7BBE41D24A6CF00F2A70B /* Wifi.Observer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Wifi.Observer.cpp; path = ../Native/Core/Wifi.Observer.cpp; sourceTree = "<group>"; };
-		7EE7BBED1D298D2100F2A70B /* Dyn.Lib.iwlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dyn.Lib.iwlib.h; path = ../3rd/DynLib/Dyn.Lib.iwlib.h; sourceTree = "<group>"; };
-		7EE7BBEE1D298D2100F2A70B /* Dyn.Lib.iwlib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Dyn.Lib.iwlib.cpp; path = ../3rd/DynLib/Dyn.Lib.iwlib.cpp; sourceTree = "<group>"; };
 		7EEC21271B1CE66C00AE7056 /* CoreWLAN.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreWLAN.framework; path = System/Library/Frameworks/CoreWLAN.framework; sourceTree = SDKROOT; };
 		7EECE5DE1B18DD5400195FE3 /* Log.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Log.cpp; path = ../Common/Log.cpp; sourceTree = "<group>"; };
 		7EECE5E61B18FF9D00195FE3 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../Common/Log.h; sourceTree = "<group>"; };
@@ -891,8 +887,6 @@
 			children = (
 				7E00281D1B71A41300AB783F /* Dyn.Lib.Crypto.cpp */,
 				7E00281E1B71A41300AB783F /* Dyn.Lib.Crypto.h */,
-				7EE7BBEE1D298D2100F2A70B /* Dyn.Lib.iwlib.cpp */,
-				7EE7BBED1D298D2100F2A70B /* Dyn.Lib.iwlib.h */,
 				7E5194561B1FD03000F5BF38 /* Dyn.Lib.OpenH264.cpp */,
 				7E5194571B1FD03000F5BF38 /* Dyn.Lib.OpenH264.h */,
 				7E194AA21966067B00C09FFF /* Dyn.OpenCL.cpp */,
@@ -1203,7 +1197,6 @@
 				7EF15B441B27A34E0054A122 /* IPortal.Capture.h in Headers */,
 				7E318F491BF67C8F00A75EC0 /* Environs.Cpp.Base.h in Headers */,
 				7E318F3D1BF67C6200A75EC0 /* Environs.Cli.Win.h in Headers */,
-				7EE7BBEF1D298D2100F2A70B /* Dyn.Lib.iwlib.h in Headers */,
 				7E2220861B5174A4003E2D9C /* Environs.Lib.Mobile.h in Headers */,
 				7EB871CA1B35930D00E21206 /* Encoder.iOSX.H264.h in Headers */,
 				7E6335C21BD16E250025C9D3 /* IDevice.List.h in Headers */,
@@ -1329,7 +1322,6 @@
 				7E194A4B196605C900C09FFF /* Environs.Lib.cpp in Sources */,
 				7ED0D36E1AFD7BD100342B64 /* Performance.Count.cpp in Sources */,
 				7E22206F1B51745E003E2D9C /* Environs.Types.cpp in Sources */,
-				7EE7BBF01D298D2100F2A70B /* Dyn.Lib.iwlib.cpp in Sources */,
 				7E194AE61966070000C09FFF /* Portal.Stream.cpp in Sources */,
 				7E2220A31B517500003E2D9C /* Environs.Lib.Display.cpp in Sources */,
 				7EF778CF1B504051005D2DB0 /* Portal.Generator.OSX.cpp in Sources */,

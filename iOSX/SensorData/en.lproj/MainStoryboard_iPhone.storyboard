@@ -128,18 +128,18 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y9a-JG-c3R" userLabel="Connect only encrypted">
-                                                <rect key="frame" x="20" y="475" width="51" height="31"/>
+                                                <rect key="frame" x="20" y="518" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="switchMotionGravAcc:" destination="lzo-5e-01j" eventType="valueChanged" id="Mh4-55-gpL"/>
+                                                    <action selector="switchMotionGrav:" destination="lzo-5e-01j" eventType="valueChanged" id="014-pm-ao5"/>
                                                 </connections>
                                             </switch>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Grav Acc" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdu-fq-HXX">
-                                                <rect key="frame" x="111" y="478" width="203" height="21"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Gravity" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdu-fq-HXX">
+                                                <rect key="frame" x="111" y="521" width="203" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Att Rot" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="old-kn-4cD">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Attitude" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="old-kn-4cD">
                                                 <rect key="frame" x="111" y="440" width="189" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -158,13 +158,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dkV-eo-t9i" userLabel="Encrypt all traffic">
-                                                <rect key="frame" x="20" y="516" width="51" height="31"/>
+                                                <rect key="frame" x="20" y="594" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="switchMotionMagneticField:" destination="lzo-5e-01j" eventType="valueChanged" id="GBR-kf-phy"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Magnetic" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSd-EU-qv3">
-                                                <rect key="frame" x="111" y="519" width="189" height="21"/>
+                                                <rect key="frame" x="111" y="597" width="189" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -172,9 +172,33 @@
                                             <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDn-tb-tUF" userLabel="Encrypt device message">
                                                 <rect key="frame" x="20" y="436" width="51" height="31"/>
                                                 <connections>
-                                                    <action selector="switchMotionAttRot:" destination="lzo-5e-01j" eventType="valueChanged" id="aR8-KL-Va6"/>
+                                                    <action selector="switchMotionAtt:" destination="lzo-5e-01j" eventType="valueChanged" id="HRI-1O-6fy"/>
                                                 </connections>
                                             </switch>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Rotation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64f-HL-XzR">
+                                                <rect key="frame" x="111" y="479" width="189" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TWP-1T-ova" userLabel="Encrypt device message">
+                                                <rect key="frame" x="20" y="475" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="switchMotionRot:" destination="lzo-5e-01j" eventType="valueChanged" id="5Uv-Lk-4Wa"/>
+                                                </connections>
+                                            </switch>
+                                            <switch opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6dF-Qs-orD" userLabel="Connect only encrypted">
+                                                <rect key="frame" x="20" y="555" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="switchMotionAcc:" destination="lzo-5e-01j" eventType="valueChanged" id="55g-Vl-VVq"/>
+                                                </connections>
+                                            </switch>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Motion Accellerometer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1YU-ra-dZw">
+                                                <rect key="frame" x="111" y="558" width="203" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="334" id="3gM-Hc-Uoo"/>
@@ -211,9 +235,11 @@
                         <outlet property="switchHeading" destination="IgO-93-AcV" id="iiN-fZ-6cD"/>
                         <outlet property="switchLight" destination="Qet-m9-qCw" id="esH-yp-HzM"/>
                         <outlet property="switchLocation" destination="Y2s-h8-Oae" id="3Ce-lp-MMv"/>
-                        <outlet property="switchMotionAttRot" destination="UDn-tb-tUF" id="vVu-SM-f9y"/>
-                        <outlet property="switchMotionGravAcc" destination="Y9a-JG-c3R" id="fhF-bj-wPA"/>
+                        <outlet property="switchMotionAcc" destination="6dF-Qs-orD" id="b3f-Fa-h3R"/>
+                        <outlet property="switchMotionAtt" destination="UDn-tb-tUF" id="HW1-C9-yIZ"/>
+                        <outlet property="switchMotionGrav" destination="Y9a-JG-c3R" id="HDR-oC-d3a"/>
                         <outlet property="switchMotionMagneticField" destination="dkV-eo-t9i" id="kns-DE-4i2"/>
+                        <outlet property="switchMotionRot" destination="TWP-1T-ova" id="IRY-Fg-qku"/>
                         <outlet property="switchOrientation" destination="YDH-bs-4Db" id="UBh-Op-e3a"/>
                         <outlet property="switchParticipate" destination="7xw-Sv-jv1" id="8hl-iy-9qA"/>
                     </connections>

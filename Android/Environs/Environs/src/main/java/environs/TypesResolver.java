@@ -799,9 +799,27 @@ public class TypesResolver extends environs.Types
 
 		switch ( constToResolve ) {
 			case ( 17 ):
-				return "ENVIRONS_SENSOR_TYPE_CUSTOM";
+				return "ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC";
 			case ( 18 ):
-				return "ENVIRONS_SENSOR_TYPE_MAX";
+				return "ENVIRONS_SENSOR_TYPE_GRAVITY";
+			case ( 21 ):
+				return "ENVIRONS_SENSOR_TYPE_TILT";
+			case ( 22 ):
+				return "ENVIRONS_SENSOR_TYPE_HEARTRATE";
+			case ( 23 ):
+				return "ENVIRONS_SENSOR_TYPE_PROXIMITY";
+			case ( 25 ):
+				return "ENVIRONS_SENSOR_TYPE_CO2";
+			case ( 26 ):
+				return "ENVIRONS_SENSOR_TYPE_HUMIDITY";
+			case ( 27 ):
+				return "ENVIRONS_SENSOR_TYPE_CUSTOM";
+			case ( 0x2000000 ):
+				return "ENVIRONS_SENSOR_FLAG_CO2";
+			case ( 0x4000000 ):
+				return "ENVIRONS_SENSOR_FLAG_HUMIDITY";
+			case ( 0x8000000 ):
+				return "ENVIRONS_SENSOR_FLAG_CUSTOM";
 		} /// -> switch
 		if ( constToResolve == ( ENVIRONS_SENSOR_FLAG_CUSTOM ) )
 			return "MAX_ENVIRONS_SENSOR_TYPE_VALUE";
@@ -810,10 +828,10 @@ public class TypesResolver extends environs.Types
 		switch ( constToResolve ) {
 			case ( 2000 ):
 				return "ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN";
-			case ( 5000 ):
+			case ( 20000 ):
 				return "ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN";
-			case ( 1000 ):
-				return "ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN";
+			case ( 10000 ):
+				return "ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN";
 		} /// -> switch
 
 

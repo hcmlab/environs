@@ -129,7 +129,7 @@ BUILD_INT_CREATEOBJ ( CaptureCamWin );
 
 namespace environs
 {
-	PortalBufferType_t	CaptureCamWin_outputTypeSupport[] = { PortalBufferType::YUV420 };
+	PortalBufferType_t	CaptureCamWin_outputTypeSupport [ ] = { PortalBufferType::YUV420 };
 
 	static HRESULT		QueryInterfaces ( IGraphBuilder *pGraph, IMediaControl **ppControl = NULL, IMediaEvent **ppEvent = NULL, IVideoWindow **ppVidWin = NULL );
 
@@ -153,7 +153,7 @@ namespace environs
 		dataSize			= 0;
 
 		outputTypes			= CaptureCamWin_outputTypeSupport;
-		outputTypesLength	= sizeof ( CaptureCamWin_outputTypeSupport ) / sizeof ( CaptureCamWin_outputTypeSupport [0] );
+		outputTypesLength	= sizeof ( CaptureCamWin_outputTypeSupport ) / sizeof ( CaptureCamWin_outputTypeSupport [ 0 ] );
 
 		*camIdentifier			= 0;
 		initialized				= false;
@@ -211,13 +211,13 @@ namespace environs
 			return false;
 		}
 
-		hr = DetectCameras ( );
+		hr = DetectCameras ();
 		if ( FAILED ( hr ) ) {
 			CErrID ( "PreInit: DetectCameras" );
 			return false;
 		}
 
-		hr = SelectCamera ( );
+		hr = SelectCamera ();
 		if ( FAILED ( hr ) ) {
 			CErrID ( "PreInit: SelectCamera" );
 			return false;
@@ -235,23 +235,23 @@ namespace environs
 
 		hr = SelectMediaTypeOfCam ( 30, MEDIASUBTYPE_I420 );
 		if ( SUCCEEDED ( hr ) ) {
-			CaptureCamWin_outputTypeSupport [0] = PortalBufferType::YUV420;
+			CaptureCamWin_outputTypeSupport [ 0 ] = PortalBufferType::YUV420;
 		}
 		else {
 			CErrID ( "PreInit: SelectMediaTypeOfCam" );
 
 			hr = SelectMediaTypeOfCam ( 30, MEDIASUBTYPE_YUY2 );
 			if ( SUCCEEDED ( hr ) ) {
-				CaptureCamWin_outputTypeSupport [0] = PortalBufferType::YUY2;
+				CaptureCamWin_outputTypeSupport [ 0 ] = PortalBufferType::YUY2;
 			}
 			else {
 				hr = SelectMediaTypeOfCam ( 30, MEDIASUBTYPE_RGB24 );
 				if ( SUCCEEDED ( hr ) ) {
-					CaptureCamWin_outputTypeSupport [0] = PortalBufferType::BGR;
+					CaptureCamWin_outputTypeSupport [ 0 ] = PortalBufferType::BGR;
 				}
 				else {
 					CErrID ( "PreInit: SelectMediaTypeOfCam" );
-					CaptureCamWin_outputTypeSupport [0] = PortalBufferType::Unknown;
+					CaptureCamWin_outputTypeSupport [ 0 ] = PortalBufferType::Unknown;
 					return false;
 					//hr = SelectMediaTypeOfCam ( 30, MEDIASUBTYPE_RGB24, true );
 				}
@@ -315,7 +315,7 @@ namespace environs
 		// ******************************************************
 		CVerbID ( "Init: Try to Grabber-Interface..." );
 
-		hr = grabberFilter->QueryInterface ( IID_IEnvironsGrabber, (LPVOID *) &grabberInterface );
+		hr = grabberFilter->QueryInterface ( IID_IEnvironsGrabber, ( LPVOID * ) &grabberInterface );
 		if ( FAILED ( hr ) )
 		{
 			CErrID ( "Init: IID_IEnvironsGrabber" );
@@ -355,7 +355,7 @@ namespace environs
 		// ******************************************************
 		CVerbID ( "Init: Query Interface for adjusting quality props of Capture Device..." );
 
-		hr = captureDevice->QueryInterface ( IID_IAMVideoProcAmp, (void**) &camQualInterface );
+		hr = captureDevice->QueryInterface ( IID_IAMVideoProcAmp, ( void** ) &camQualInterface );
 		if ( FAILED ( hr ) )
 		{
 			camQualInterface = NULL;
@@ -408,13 +408,13 @@ namespace environs
 			NULL,
 			CLSCTX_INPROC_SERVER,
 			IID_ICaptureGraphBuilder2,
-			(void**) &pCapBuild );
+			( void** ) &pCapBuild );
 
 		if ( SUCCEEDED ( hr ) )
 		{
 			CVerbID ( "InitCaptureGraphBuilder: Creating FilterGraph ..." );
 
-			hr = CoCreateInstance ( CLSID_FilterGraph, 0, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void**) &pGraph );
+			hr = CoCreateInstance ( CLSID_FilterGraph, 0, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, ( void** ) &pGraph );
 			if ( SUCCEEDED ( hr ) )
 			{
 				CVerbID ( "InitCaptureGraphBuilder: Initializing Graph with CaptureGraph..." );
@@ -456,7 +456,7 @@ namespace environs
 		{
 			CVerb ( "QueryInterfaces: Getting mediaControl Interface... " );
 
-			hr = pGraph->QueryInterface ( IID_IMediaControl, (void**) &pControl );
+			hr = pGraph->QueryInterface ( IID_IMediaControl, ( void** ) &pControl );
 			if ( FAILED ( hr ) )
 			{
 				CErr ( "QueryInterfaces: IID_IMediaControl" );
@@ -468,7 +468,7 @@ namespace environs
 		{
 			CVerb ( "QueryInterfaces: Getting VideoWindow Interface... " );
 
-			hr = pGraph->QueryInterface ( IID_IVideoWindow, (void**) &pVidWin );
+			hr = pGraph->QueryInterface ( IID_IVideoWindow, ( void** ) &pVidWin );
 			if ( FAILED ( hr ) )
 			{
 				CErr ( "QueryInterfaces: IID_IVideoWindow" );
@@ -481,7 +481,7 @@ namespace environs
 		{
 			CVerb ( "QueryInterfaces: Getting MediaEvent Interface... " );
 
-			hr = pGraph->QueryInterface ( IID_IMediaEvent, (void**) &pEvent );
+			hr = pGraph->QueryInterface ( IID_IMediaEvent, ( void** ) &pEvent );
 			if ( FAILED ( hr ) )
 			{
 				CErr ( "QueryInterfaces: IID_IMediaEvent" );
@@ -503,7 +503,7 @@ namespace environs
 	}
 
 
-	HRESULT CaptureCamWin::DetectCameras ( )
+	HRESULT CaptureCamWin::DetectCameras ()
 	{
 		CVerbID ( "DetectCameras" );
 
@@ -521,7 +521,7 @@ namespace environs
 		CVerbID ( "DetectCameras: Creating DeviceEnumerator..." );
 
 		hr = CoCreateInstance ( CLSID_SystemDeviceEnum, NULL, CLSCTX_INPROC_SERVER,
-			IID_ICreateDevEnum, reinterpret_cast<void**>(&pDevEnum) );
+			IID_ICreateDevEnum, reinterpret_cast<void**>( &pDevEnum ) );
 
 		if ( FAILED ( hr ) ) {
 			CErrID ( "DetectCameras: CoCreateInstance " );
@@ -547,17 +547,17 @@ namespace environs
 			CVerbID ( "DetectCameras: Camera" );
 			pPropBag = NULL;
 
-			hr = pMoniker->BindToStorage ( 0, 0, IID_IPropertyBag, (void**) (&pPropBag) );
+			hr = pMoniker->BindToStorage ( 0, 0, IID_IPropertyBag, ( void** ) ( &pPropBag ) );
 			if ( FAILED ( hr ) ) {
 				CErrID ( "DetectCameras: BindToStorage" );
 
-				pMoniker->Release ( );
+				pMoniker->Release ();
 				continue;
 			}
 
 			// Retrieve description or friendly name of camera.
 			VARIANT		varName;
-			wchar_t		buffer [IDENTIFIER_LENGTH];
+			wchar_t		buffer [ IDENTIFIER_LENGTH ];
 			*buffer = 0;
 
 			VariantInit ( &varName );
@@ -579,8 +579,8 @@ namespace environs
 			}
 			VariantClear ( &varName );
 
-			pPropBag->Release ( );
-			pMoniker->Release ( );
+			pPropBag->Release ();
+			pMoniker->Release ();
 		}
 
 	End:
@@ -589,11 +589,10 @@ namespace environs
 
 		CVerbID ( "DetectCameras: done." );
 		return returnCode;
-
 	}
 
 
-	HRESULT CaptureCamWin::SelectCamera ( )
+	HRESULT CaptureCamWin::SelectCamera ()
 	{
 		CVerbID ( "SelectCamera" );
 
@@ -610,7 +609,7 @@ namespace environs
 		CVerbID ( "SelectCamera: Creating DeviceEnumerator..." );
 
 		hr = CoCreateInstance ( CLSID_SystemDeviceEnum, NULL, CLSCTX_INPROC_SERVER,
-			IID_ICreateDevEnum, reinterpret_cast<void**>(&pDevEnum) );
+			IID_ICreateDevEnum, reinterpret_cast<void**>( &pDevEnum ) );
 
 		if ( FAILED ( hr ) ) {
 			CErrID ( "SelectCamera: CoCreateInstance " );
@@ -630,7 +629,7 @@ namespace environs
 
 		CVerbID ( "SelectCamera: Iterating through available cameras..." );
 
-		int camType = (portalID & PORTAL_TYPE_MASK) >> 12;
+		int camType = ( portalID & PORTAL_TYPE_MASK ) >> 12;
 		if ( camType >= countOfCameras )
 			camType = countOfCameras;
 
@@ -646,7 +645,7 @@ namespace environs
 			CVerbID ( "SelectCamera: Camera" );
 			pPropBag = NULL;
 
-			hr = pMoniker->BindToStorage ( 0, 0, IID_IPropertyBag, (void**) (&pPropBag) );
+			hr = pMoniker->BindToStorage ( 0, 0, IID_IPropertyBag, ( void** ) ( &pPropBag ) );
 			if ( FAILED ( hr ) ) {
 				CErrID ( "SelectCamera: BindToStorage" );
 
@@ -656,7 +655,7 @@ namespace environs
 
 			// Retrieve description or friendly name of camera.
 			VARIANT		varName;
-			wchar_t		buffer [IDENTIFIER_LENGTH];
+			wchar_t		buffer [ IDENTIFIER_LENGTH ];
 			*buffer = 0;
 
 			VariantInit ( &varName );
@@ -677,7 +676,7 @@ namespace environs
 			size_t length = wcslen ( buffer );
 			if ( length > 0 )
 			{
-				hr = pMoniker->BindToObject ( 0, 0, IID_IBaseFilter, (void**) &pCap );
+				hr = pMoniker->BindToObject ( 0, 0, IID_IBaseFilter, ( void** ) &pCap );
 				if ( SUCCEEDED ( hr ) )
 				{
 					CVerbID ( "SelectCamera: Adding capture filter to graph..." );
@@ -705,7 +704,6 @@ namespace environs
 
 		CVerbID ( "SelectCamera: done." );
 		return returnCode;
-
 	}
 
 

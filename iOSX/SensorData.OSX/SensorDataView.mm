@@ -306,7 +306,15 @@ extern AppDelegate * appDelegate;
     if ( !sensorFrame ) return;
     
     environs::lib::SensorFrame * frame = (environs::lib::SensorFrame *) sensorFrame;
-    
+    environs::lib::SensorFrameDoubles * doubles = 0;
+
+    if ( frame->type & ENVIRONS_SENSOR_PACK_TYPE_DOUBLES )
+    {
+        frame->type &= ~ENVIRONS_SENSOR_PACK_TYPE_DOUBLES;
+
+        doubles = (environs::lib::SensorFrameDoubles *) sensorFrame;
+    }
+
     switch ( frame->type ) {
         case environs::SensorType::Accelerometer :
             [self.accelView1 UpdateValue:frame->data.floats.f1];
@@ -335,9 +343,16 @@ extern AppDelegate * appDelegate;
                 [self.orientationView3 UpdateValue:frameExt->doubles.d3]; // altitude
                 break;
             }
-            [self.orientationView1 UpdateValue:frame->data.floats.f1]; // Light: in Lux
-            [self.orientationView2 UpdateValue:frame->data.floats.f2];
-            [self.orientationView3 UpdateValue:frame->data.floats.f3];
+            if ( doubles ) {
+                [self.orientationView1 UpdateValue:doubles->data.doubles.d1]; // Light: in Lux
+                [self.orientationView2 UpdateValue:doubles->data.doubles.d2];
+                [self.orientationView3 UpdateValue:doubles->data.doubles.d3];
+            }
+            else {
+                [self.orientationView1 UpdateValue:frame->data.floats.f1]; // Light: in Lux
+                [self.orientationView2 UpdateValue:frame->data.floats.f2];
+                [self.orientationView3 UpdateValue:frame->data.floats.f3];
+            }
             break;
     }
 }

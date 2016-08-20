@@ -52,6 +52,32 @@ using namespace System::Text;
 
 namespace environs
 {
+	public ref class WifiEntry
+	{
+	public:
+		unsigned long long  bssid;			// 8
+		short               rssi;			// 2
+		short				signal;			// 2
+		short				channel;		// 1
+		short				encrypt;		// 1
+		bool                isConnected;	// 1
+		short				sizeOfssid;		// 1
+		String ^			ssid;
+	};
+
+	public ref class BtEntry
+	{
+	public:
+		unsigned long long  bssid;			// 8
+		short               rssi;			// 2
+		bool                isConnected;	// 1
+		short				sizeOfssid;		// 1
+		unsigned long long  uuid1;			// 8
+		unsigned long long  uuid2;			// 8
+		String ^			ssid;
+	};
+
+
 #if !WINDOWS_PHONE
 	[System::Security::SuppressUnmanagedCodeSecurityAttribute ()]
 #endif
@@ -490,6 +516,23 @@ namespace environs
 		
 		bool disposeOnClose;
 
+
+		/**
+		* Get a collection that holds all available wifi APs. This list is NOT updated dynamically.
+		*
+		* @return WifiList with WifiItem objects
+		*/
+		cli::array<WifiEntry ^> ^ GetWifis ();
+
+
+		/**
+		* Get a collection that holds all available Bluetooth devices. This list is NOT updated dynamically.
+		*
+		* @return BtList with BtItem objects
+		*/
+		cli::array<BtEntry ^> ^ GetBts ();
+
+
 	internal:
 		/**
 		* This handler type is called (by the native layer) when data from devices or environs is available.
@@ -626,6 +669,7 @@ namespace environs
 
 		EnvironsUdpDataHandlerRaw ^ onUdpData;
 		IntPtr onUdpData_ptr;
+
 
 	internal:
 		Environs ();

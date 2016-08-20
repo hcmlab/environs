@@ -140,8 +140,10 @@ extern SensorDataView   *   sensorDataView;
         
         [self.switchHeading setOn:enableSensorHeading];
         [self.switchAltimeter setOn:enableSensorAltimeter];
-        [self.switchMotionAttRot setOn:enableSensorMotionAttRot];
-        [self.switchMotionGravAcc setOn:enableSensorMotionGravAcc];
+        [self.switchMotionAtt setOn:enableSensorMotionAtt];
+        [self.switchMotionRot setOn:enableSensorMotionRot];
+        [self.switchMotionGrav setOn:enableSensorMotionGrav];
+        [self.switchMotionAcc setOn:enableSensorMotionAcc];
         [self.switchMotionMagneticField setOn:enableSensorMotionMagnetic];
     });    
 }
@@ -222,28 +224,42 @@ extern SensorDataView   *   sensorDataView;
 - (IBAction) switchAltimeter:(id)sender
 {
     UISwitch * sw = (UISwitch *)sender;
-    enableSensorAltimeter = [self ChangeSensorEventState : environs::SensorType::Altimeter state:[sw isOn]];
+    enableSensorAltimeter = [self ChangeSensorEventState : environs::SensorType::Pressure state:[sw isOn]];
 }
 
 
-- (IBAction) switchMotionAttRot:(id)sender
+- (IBAction) switchMotionAtt:(id)sender
 {
     UISwitch * sw = (UISwitch *)sender;
-    enableSensorMotionAttRot = [self ChangeSensorEventState : environs::SensorType::MotionAttitudeRotation state:[sw isOn]];
+    enableSensorMotionAtt = [self ChangeSensorEventState : environs::SensorType::Attitude state:[sw isOn]];
 }
 
 
-- (IBAction) switchMotionGravAcc:(id)sender
+- (IBAction) switchMotionRot:(id)sender
 {
     UISwitch * sw = (UISwitch *)sender;
-    enableSensorMotionGravAcc = [self ChangeSensorEventState : environs::SensorType::MotionGravityAcceleration state:[sw isOn]];
+    enableSensorMotionRot = [self ChangeSensorEventState : environs::SensorType::Rotation state:[sw isOn]];
+}
+
+
+- (IBAction) switchMotionGrav:(id)sender
+{
+    UISwitch * sw = (UISwitch *)sender;
+    enableSensorMotionGrav = [self ChangeSensorEventState : environs::SensorType::Gravity state:[sw isOn]];
+}
+
+
+- (IBAction) switchMotionAcc:(id)sender
+{
+    UISwitch * sw = (UISwitch *)sender;
+    enableSensorMotionAcc = [self ChangeSensorEventState : environs::SensorType::Acceleration state:[sw isOn]];
 }
 
 
 - (IBAction) switchMotionMagneticField:(id)sender
 {
     UISwitch * sw = (UISwitch *)sender;
-    enableSensorMotionMagnetic = [self ChangeSensorEventState : environs::SensorType::MotionMagneticField state:[sw isOn]];
+    enableSensorMotionMagnetic = [self ChangeSensorEventState : environs::SensorType::MagneticFieldMotion state:[sw isOn]];
 }
 
 @end

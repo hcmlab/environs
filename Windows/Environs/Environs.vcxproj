@@ -211,6 +211,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\Bt.Observer.h" />
     <ClInclude Include="..\..\Common\Environs.Commit.h" />
     <ClInclude Include="..\..\Common\Environs.Platform.Decls.h" />
     <ClInclude Include="..\..\Common\Device.Info.h" />
@@ -235,6 +236,7 @@
     <ClInclude Include="..\..\Common\Environs.Utils.h" />
     <ClInclude Include="..\..\Common\File.Instance.h" />
     <ClInclude Include="..\..\Common\Interfaces\IArray.List.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IBt.List.h" />
     <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Base.h" />
     <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Dispose.h" />
     <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Ident.h" />
@@ -249,6 +251,7 @@
     <ClInclude Include="..\..\Common\Interfaces\ITouch.Recognizer.h" />
     <ClInclude Include="..\..\Common\Interfaces\ITracker.h" />
     <ClInclude Include="..\..\Common\Interfaces\ISensor.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IWifi.List.h" />
     <ClInclude Include="..\..\Common\Interop.h" />
     <ClInclude Include="..\..\Common\Human.Input.Decl.h" />
     <ClInclude Include="..\..\Common\Location.Decl.h" />
@@ -270,6 +273,7 @@
     <ClInclude Include="..\..\Common\Render.Overlay.h" />
     <ClInclude Include="..\..\Native\Core\Array.List.h" />
     <ClInclude Include="..\..\Native\Core\Async.Worker.h" />
+    <ClInclude Include="..\..\Native\Core\Bt.List.h" />
     <ClInclude Include="..\..\Native\Core\Byte.Buffer.h" />
     <ClInclude Include="..\..\Native\Core\Callbacks.h" />
     <ClInclude Include="..\..\Native\Codec\Decoder.Base.h" />
@@ -278,6 +282,7 @@
     <ClInclude Include="..\..\Native\Core\Kernel.h" />
     <ClInclude Include="..\..\Native\Core\Kernel.Windows.h" />
     <ClInclude Include="..\..\Native\Core\Notifications.h" />
+    <ClInclude Include="..\..\Native\Core\Wifi.List.h" />
     <ClInclude Include="..\..\Native\Device\Device.Android.h" />
     <ClInclude Include="..\..\Native\Device\Device.Display.h" />
     <ClInclude Include="..\..\Native\Device\Device.Display.Win.h" />
@@ -357,6 +362,8 @@
     <ClCompile Include="..\..\Common\Tracer.cpp" />
     <ClCompile Include="..\..\Native\Core\Array.List.cpp" />
     <ClCompile Include="..\..\Native\Core\Async.Worker.cpp" />
+    <ClCompile Include="..\..\Native\Core\Bt.List.cpp" />
+    <ClCompile Include="..\..\Native\Core\Bt.Observer.cpp" />
     <ClCompile Include="..\..\Native\Core\Byte.Buffer.cpp" />
     <ClCompile Include="..\..\Native\Core\Callbacks.cpp" />
     <ClCompile Include="..\..\Native\Core\Core.cpp" />
@@ -368,31 +375,44 @@
     <ClCompile Include="..\..\Native\Core\Notifications.cpp" />
     <ClCompile Include="..\..\Native\Core\Queue.List.cpp" />
     <ClCompile Include="..\..\Common\Queue.Vector.cpp" />
+    <ClCompile Include="..\..\Native\Core\Wifi.List.cpp" />
     <ClCompile Include="..\..\Native\Core\Wifi.Observer.cpp" />
     <ClCompile Include="..\..\Native\Decoder\Decoder.Base.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Native\Device\Device.Android.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Android.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Device\Device.Display.cpp" />
     <ClCompile Include="..\..\Native\Device\Device.Display.Win.cpp" />
     <ClCompile Include="..\..\Native\Device\Device.Instance.cpp" />
-    <ClCompile Include="..\..\Native\Device\Device.iOS.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.iOS.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Device\Device.List.cpp" />
-    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp" />
-    <ClCompile Include="..\..\Native\Device\Device.OSX.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.OSX.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Device\Devices.cpp" />
     <ClCompile Include="..\..\Native\DynLib\Dyn.Direct3D.11.cpp" />
     <ClCompile Include="..\..\Native\DynLib\Dyn.OpenCL.cpp" />
     <ClCompile Include="..\..\Native\DynLib\Dyn.WlanAPI.cpp" />
     <ClCompile Include="..\..\Native\Encoder\Encoder.GDI.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Android.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Android.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Environs.cpp" />
     <ClCompile Include="..\..\Native\Environs.Cpp.cpp" />
     <ClCompile Include="..\..\Native\Environs.Obj.cpp" />
     <ClCompile Include="..\..\Native\Environs.Display.cpp" />
     <ClCompile Include="..\..\Native\Environs.Lib.cpp" />
     <ClCompile Include="..\..\Native\Environs.Lib.Display.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Lib.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Common\Interop\Threads.cpp" />
     <ClCompile Include="..\..\Native\Core\Kernel.Display.cpp" />
     <ClCompile Include="..\..\Native\Device\Device.Base.cpp" />
@@ -407,8 +427,12 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Common\Interfaces\IPortal.Renderer.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Mobile.cpp" />
-    <ClCompile Include="..\..\Native\Environs.OSX.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.OSX.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Environs.Sensors.cpp" />
     <ClCompile Include="..\..\Native\Environs.Windows.cpp" />
     <ClCompile Include="..\..\Native\Portal\Portal.Device.cpp" />

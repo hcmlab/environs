@@ -148,7 +148,7 @@ namespace environs
 		
 		INTERNAL:
 
-			ENVIRONS_OUTPUT_ALLOC_SP_RESOURCE ( PortalInstance );
+			ENVIRONS_OUTPUT_ALLOC_WP_RESOURCE ( PortalInstance );
                         
             static bool             globalsInit		INIT_to_false_in_cli;
             static bool				GlobalsInit ();

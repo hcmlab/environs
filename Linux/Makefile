@@ -54,9 +54,7 @@ endif
 #LDFLAGS	= -Wextra -nostartfiles -shared -rdynamic -lm -lpthread -L/opt/local/lib -ldl $(EXLDF)
 LDFLAGS	= -shared -rdynamic -lm -lpthread -ldl $(EXLDF)
 #-llibstdc++ -lcurl -lcrypto -L/opt/local/lib 
-ifeq ($(UNAME_S),Linux)
-   LDFLAGS += -luuid 
-endif
+
 
 OTHER_C_FLAGS = -isystem /opt/local/include 
 
@@ -81,7 +79,8 @@ SRC	+= $(NATDEC)Decoder.Base.cpp $(NATDEV)Device.Linux.cpp $(NATCORE)Input.Handl
 
 SRC	+= $(NATDEV)Device.Base.cpp $(NATDEV)Devices.cpp $(NATDEV)Device.Display.cpp 
 
-SRC	+= $(NATDYL)Dyn.OpenCL.cpp $(NATCORE)Wifi.Observer.cpp
+SRC	+= $(NATDYL)Dyn.OpenCL.cpp $(NATDYL)Dyn.Lib.UUID.cpp $(NATCORE)Wifi.Observer.cpp
+SRC	+= $(NATCORE)Wifi.List.cpp $(NATCORE)Bt.Observer.cpp $(NATCORE)Bt.List.cpp
 
 SRC	+= $(NATENC)Encoder.Pictures.cpp 
 

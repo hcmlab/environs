@@ -90,7 +90,6 @@ namespace environs.Apps
                 messages = null;
                 profileBitmapImage = null;
             }
-
         }
 
         bool IsChatCommand(String msg)
@@ -396,6 +395,7 @@ namespace environs.Apps
             }
         }
 
+        static int gcRunCount = 0;
 
         public static void DisposeChatUsers()
         {
@@ -418,8 +418,15 @@ namespace environs.Apps
                 }
             }
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            gcRunCount++;
+
+            if (gcRunCount >= 10)
+            {
+                gcRunCount = 0;
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
 
 

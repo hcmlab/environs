@@ -39,6 +39,7 @@
 #	define		EnvironsOBJInst		instancesAPI
 
 #	define		GetSensorInputPack(f)	(environs::SensorFrame *) f
+#	define		GetSensorInputPackDoubles(f)	(environs::SensorFrameDoubles *) f
 #endif
 
 /**

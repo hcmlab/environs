@@ -49,7 +49,7 @@ public class WifiObserver
 
     public boolean Init ( Context ctx )
     {
-        if (Utils.isDebug) Utils.Log ( 1, className, "Init");
+        if (Utils.isDebug) Utils.Log ( 3, className, "Init");
 
         if (ctx == null) {
             Utils.LogE ( className, "Init: Invalid context!" );
@@ -70,13 +70,13 @@ public class WifiObserver
 
     public boolean Start ()
     {
-        if (Utils.isDebug) Utils.Log ( 1, className, "Start");
+        if (Utils.isDebug) Utils.Log ( 3, className, "Start");
 
         try
         {
             if ( !wifi.isWifiEnabled () )
             {
-                if (Utils.isDebug) Utils.Log ( 1, className, "Start: Trying to turn on Wifi ...");
+                if (Utils.isDebug) Utils.Log ( 2, className, "Start: Trying to turn on Wifi ...");
 
                 wifi.setWifiEnabled ( true );
             }
@@ -108,7 +108,7 @@ public class WifiObserver
                     }
                 };
 
-                if (Utils.isDebug) Utils.Log ( 1, className, "Start: Registering broadcast receiver ...");
+                if (Utils.isDebug) Utils.Log ( 4, className, "Start: Registering broadcast receiver ...");
 
                 ctx.registerReceiver ( scanResultsReceiver, new IntentFilter ( WifiManager.SCAN_RESULTS_AVAILABLE_ACTION ) );
             }
@@ -126,7 +126,7 @@ public class WifiObserver
 
     public void Stop ()
     {
-        if (Utils.isDebug) Utils.Log ( 1, className, "Stop");
+        if (Utils.isDebug) Utils.Log ( 3, className, "Stop");
 
         wifiThreadRun = false;
 
@@ -153,7 +153,7 @@ public class WifiObserver
             wifiThread = null;
 
             if ( scanResultsReceiver != null ) {
-                if (Utils.isDebug) Utils.Log ( 1, className, "Start: Unregistering broadcast receiver ...");
+                if (Utils.isDebug) Utils.Log ( 3, className, "Start: Unregistering broadcast receiver ...");
 
                 ctx.unregisterReceiver ( scanResultsReceiver );
                 scanResultsReceiver = null;
@@ -172,7 +172,9 @@ public class WifiObserver
     void Thread_WifiObserver ()
     {
         long lastCheck = 0;
-        boolean doScan = true;
+        boolean doScan = false;
+
+        Environs.WiFiUpdateWithColonMacN ( wifi.getConnectionInfo ().getBSSID () , wifi.getConnectionInfo ().getSSID (), 42, 0, 2, 1 );
 
         while ( wifiThreadRun )
         {
@@ -181,6 +183,7 @@ public class WifiObserver
             if ( doScan ) {
                 wifi.startScan();
                 doScan = false;
+                lastScan = SystemClock.uptimeMillis();
             }
 
             networks = wifi.getScanResults();
@@ -214,6 +217,9 @@ public class WifiObserver
             long waitTime = Environs.ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN;
 
             while ( wifiThreadRun ) {
+
+                //Environs.GetWifis ();
+
                 synchronized ( this ) {
                     try {
                         this.wait ( waitTime );
@@ -232,14 +238,13 @@ public class WifiObserver
 
                 if ( ( now - lastScan ) > Environs.ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN )
                 {
-                    lastScan = SystemClock.uptimeMillis();
                     doScan = true;
                 }
                 break;
             }
         }
 
-        if (Utils.isDebug) Utils.Log ( 6, className, "Thread_WifiObserver: done" );
+        if (Utils.isDebug) Utils.Log ( 6, className, "Thread_BtObserver: done" );
 
         synchronized ( this ) {
             wifiThread = null;

@@ -71,15 +71,19 @@
 #   define ___sync_val_set(dest,val)        System::Threading::Interlocked::Exchange(dest, val)
 
 #elif (defined(_WIN32))
-#	define	___sync_val_compare_and_swap(dest,comp,valset) InterlockedCompareExchange(dest,valset,comp)
+//
+// Note: It's fine to cast from singed to unsigned type as the memory size is the same, 
+//		 but semantically we can better see whether some lock counts are unbalanced
+//
+#	define	___sync_val_compare_and_swap(dest,comp,valset) InterlockedCompareExchange (  (unsigned long volatile *) dest, valset, comp )
 
-#	define __sync_add_and_fetch(dest,inc)	InterlockedIncrement(dest)
+#	define __sync_add_and_fetch(dest,inc)	InterlockedIncrement ( (unsigned long volatile *) dest )
 
-#	define __sync_sub_and_fetch(dest,inc)	InterlockedDecrement(dest)
+#	define __sync_sub_and_fetch(dest,inc)	InterlockedDecrement ( (unsigned long volatile *) dest )
 
-#	define ___sync_test_and_set(dest,val)	InterlockedExchange(dest,val)
+#	define ___sync_test_and_set(dest,val)	InterlockedExchange ( (unsigned long volatile *) dest, val )
 
-#	define ___sync_val_set(dest,val)        InterlockedExchange(dest,val)
+#	define ___sync_val_set(dest,val)        InterlockedExchange ( (unsigned long volatile *) dest, val )
 
 #else
 #	define ___sync_test_and_set(dest,val) \
@@ -522,5 +526,30 @@
 #define GetStructPointerFromBuffer(type, var, buf)		type _##var; memcpy ( &_##var, buf, sizeof ( type ) ); type* var = &_##var;
 #endif
 
+
+#if !defined(_WIN32) || _MSC_VER < 1800
+#	define _Acquires_lock_(a)
+#	define _Acquires_exclusive_lock_(a)
+#	define _Acquires_nonreentrant_lock_(a)
+#	define _Releases_lock_(a)
+#	define _Releases_exclusive_lock_(a)
+#	define _Releases_nonreentrant_lock_(a)
+#	define _Requires_lock_not_held_(a)
+#	define _Requires_lock_held_(a)
+#	define _When_(a,b)
+
+#	if !defined(_WIN32)
+#		define _In_
+#		define _In_opt_
+#		define _In_z_
+#		define _In_opt_z_
+#		define _Out_
+#		define _Out_opt_
+#		define _Inout_
+#		define _Inout_opt_
+#		define _Outptr_
+#		define _Outptr_opt_
+#	endif
+#endif
 
 #endif // INCLUDE_HCM_ENVIRONS_INTEROP_H

@@ -1,3 +1,21 @@
+### v 0.9.9.2
+
+---------------------------
+
+* Updated: TouchInput struct for gesture recognizers
+* Fixed: Bug in DeviceInstance management (Mediator layer)
+* Fixed: Bug in DeviceInstance SendBufferInParts
+* Fixed: Bug in Android FileInstance init
+* Fixed: DeviceInstance CPP weak_ptr reset bug
+* Added: Limitation of concurrent TcpHandler in Core
+* Added: GetWifis() to Environs instance (only Android)
+* Fixed: Android Sensor layer flag usage
+* Fixed: Bug in Android sensor log output
+* Fixed: Bug in MediatorClient device management
+* Updated: MediatorClient device lock usage
+* Updated: iOS LocationMap / Tagger
+
+
 ### v 0.9.9.1
 
 ---------------------------

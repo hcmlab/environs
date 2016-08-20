@@ -569,7 +569,7 @@ namespace environs
          * @param sensorType A value of type environs::SensorType.
          *
          */
-		bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+		bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
 		{
 			switch ( sensorType )
             {
@@ -590,7 +590,7 @@ namespace environs
 		* @param sensorType A value of type environs::SensorType.
 		*
          */
-        void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+        void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
 		{
 			if ( sensorType == -1 ) {
 				sensorRegistered = 0;

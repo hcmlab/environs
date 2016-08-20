@@ -63,42 +63,50 @@ namespace environs
 	{
 		ENVIRONSAPI void EnvironsFunc ( TouchDispatchN, jint hInst, jint portalID, jobject buffer, jint count, jboolean init )
 		{
-            Instance * env = instances[hInst];
-            
+			Instance * env = instances [ hInst ];
+
 			if ( env->environsState < environs::Status::Connected )
 				return;
-            
-            PortalDevice * portal = GetLockedPortalDevice ( portalID );
-            if ( !portal ) {
-                CErr ( "TouchDispatch: No portal resource found." );
-                return;
-            }
+
+			PortalDevice * portal = GetLockedPortalDevice ( portalID );
+			if ( !portal ) {
+				CErr ( "TouchDispatch: No portal resource found." );
+				return;
+			}
 #ifdef ANDROID
-            InputPackRaw * touches;
+			InputPackRaw * touches;
 #endif
-            
+
 			if ( !buffer ) {
 				CVerbVerb ( "TouchDispatch: called with NULL buffer argument!" );
-                if ( portal->receiver )
-                    portal->receiver->touchSource->Flush();
+				if ( portal->receiver )
+					portal->receiver->touchSource->Flush ();
 				goto Finish;
 			}
 
 #ifdef ANDROID
-			touches = (InputPackRaw *) jenv->GetDirectBufferAddress ( buffer );
-			if ( !touches ){
-                CErr ( "TouchDispatch: Failed to get reference to memory of the shared buffer!" );
-                goto Finish;
+			touches = ( InputPackRaw * ) jenv->GetDirectBufferAddress ( buffer );
+			if ( !touches ) {
+				CErr ( "TouchDispatch: Failed to get reference to memory of the shared buffer!" );
+				goto Finish;
 			}
 			portal->receiver->touchSource->Handle ( touches, count, init );
 #else
-			portal->receiver->touchSource->Handle ( (environs::lib::InputPackRaw *)buffer, count, init );
+			portal->receiver->touchSource->Handle ( ( environs::lib::InputPackRaw * ) buffer, count, init );
 #endif
-        Finish:
-            ReleasePortalDevice ( portal );
+		Finish:
+			ReleasePortalDevice ( portal );
+		}
+
+
+		ENVIRONSAPI void EnvironsFunc ( SetUseTouchRecognizerEnableN, jint hInst, jboolean enable )
+		{
+			TouchSource::recognizersEnabled = ( bool ) enable;
 		}
 	}
 
+
+	bool TouchSource::recognizersEnabled = true;
 
 	/*
 	* Each Frame consists of a state: Init, Added, Moved, Dropped, Flush
@@ -112,7 +120,7 @@ namespace environs
 	*/
 	TouchSource::TouchSource ( int deviceID, unsigned int capacity )
 	{
-		CVerbArgID ( "Construct: Capacity [%u]", capacity );
+		CVerbArgID ( "Construct: Capacity [ %u ]", capacity );
 
         allocated           = false;
         
@@ -134,7 +142,10 @@ namespace environs
 		xScale				= 1;
 		yScale				= 1;
 
-        recognizers        = 0;
+		xOffset				= 0;
+		yOffset				= 0;
+
+        recognizers			= 0;
 
         t1_delta = INTEROPTIMEMS ( 1000 );
 	}
@@ -248,20 +259,20 @@ namespace environs
 	bool TouchSource::Start ()
 	{
 		CVerbID ( "Start" );
-        
+
 		if ( !LockAcquire ( &accessMutex, "Start" ) )
 			return false;
-        
-        bool success = false;
-        
+
+		bool success = false;
+
 		alive = true;
-        
-        DeviceBase * dev = (DeviceBase *)device;
-        
-        if ( dev->portalReceivers[0] ) {
-            lib::InputFrame * frame	= (lib::InputFrame *) sendBuffer;
-            frame->appOrPortalID = portalID;
-        }
+
+		DeviceBase * dev = ( DeviceBase * ) device;
+
+		if ( dev->portalReceivers [ 0 ] ) {
+			lib::InputFrame * frame	= ( lib::InputFrame * ) sendBuffer;
+			frame->appOrPortalID = portalID;
+		}
         
 		//
 		// Create alive thread for sending heart-beat and updates
@@ -340,8 +351,8 @@ namespace environs
     
 	void TouchSource::Handle ( InputPackRaw * touchPacks, unsigned int count, bool init )
     {
-		CVerbArgID ( "Handle: count [%i] [%s]", count, init ? "init" : "update" );
-		//CLogArgID ( "Init: id [%i]   x [%i]  y [%i]", id, x, y );
+		CVerbArgID ( "Handle: count [ %i ] [ %s ]", count, init ? "init" : "update" );
+		//CLogArgID ( "Init: id [ %i ]   x [ %i ]  y [ %i ]", id, x, y );
         
         if ( init ) {
             Flush ( );
@@ -353,21 +364,21 @@ namespace environs
             return;
         }
 
-		if ( (touchesSize + count) >= capacity ) {
+		if ( ( touchesSize + count ) >= capacity ) {
 			// Increase capacity
-			CInfoArgID ( "Handle: increasing capacity [%i] to [%i]", capacity, touchesSize + count );
-            
+			CInfoArgID ( "Handle: increasing capacity [ %i ] to [ %i ]", capacity, touchesSize + count );
+
 			int capacity_old = capacity;
 			capacity = touchesSize + count;
-            
-			InputPackRec ** touches_new = new InputPackRec * [capacity];
-            if ( !touches_new ) {
-                CErrArg ( "Handle: Failed to increase capacity to [%i]", capacity );
-                return;
-            }
-            
-			memset ( touches_new, 0, capacity * sizeof(InputPackRec *) );
-			memcpy ( touches_new, touches, capacity_old * sizeof(InputPackRec *) );
+
+			InputPackRec ** touches_new = new InputPackRec * [ capacity ];
+			if ( !touches_new ) {
+				CErrArg ( "Handle: Failed to increase capacity to [ %i ]", capacity );
+				return;
+			}
+
+			memset ( touches_new, 0, capacity * sizeof ( InputPackRec * ) );
+			memcpy ( touches_new, touches, capacity_old * sizeof ( InputPackRec * ) );
 			delete touches;
 			touches = touches_new;
 		}
@@ -380,123 +391,149 @@ namespace environs
             
             switch ( touch->state )
             {
-                case INPUT_STATE_ADD:
-                {
-                    /// Look whether we already have this touch
-                    for ( unsigned int j = 0; j < touchesSize; j++ )
-                    {
-                        if ( touches [j]->raw.id == touch->id )
-                        {
-                            CVerbArgID ( "Handle: Add but found already added.. Alter to a Change id [%i]   x [%i]  y [%i]", touch->id, touch->x, touch->y );
-                            touch->state = INPUT_STATE_CHANGE;
-                            
-                            if ( viewAdapt ) {
-                                touch->x	*= xScale;
-                                touch->y	*= yScale;
-                            }
-                            memcpy ( &touches[j]->raw.x, &touch->x, INPUTPACK_X_TO_END_SIZE );
-                            
-                            CVerbArgID ( "Handle: Added id [%i]   x [%i]  y [%i]", touches[j]->raw.id, touches[j]->raw.x, touches[j]->raw.y );
-                            break;
-                        }
-                    }
-                    
-                    if ( touch->state == INPUT_STATE_ADD )
-                    {
-                        InputPackRec * ntouch = AllocTouch ( touch );
-                        if ( ntouch )
+				case INPUT_STATE_ADD:
+				{
+					/// Look whether we already have this touch
+					for ( unsigned int j = 0; j < touchesSize; j++ )
+					{
+						InputPackRec * ntouch = touches [ j ];
+
+						if ( ntouch->raw.id == touch->id )
 						{
+							CVerbArgID ( "Handle: Add but found already added.. Alter Add to a Change id [ %i ]   x [ %i ]  y [ %i ]", touch->id, touch->x, touch->y );
+							touch->state = INPUT_STATE_CHANGE;
+
+							ntouch->org_x = touch->x;
+							ntouch->org_y = touch->y;
+
+							touch->x	+= xOffset;
+							touch->y	+= yOffset;
+							
 							if ( viewAdapt ) {
-								ntouch->raw.x	*= xScale;
-								ntouch->raw.y	*= yScale;
+								touch->x	= ( int ) ( ( ( double ) touch->x ) * xScale );
+								touch->y	= ( int ) ( ( ( double ) touch->y ) * yScale );
+							}
+							memcpy ( &ntouch->raw.x, &touch->x, INPUTPACK_X_TO_END_SIZE );
+
+							CVerbArgID ( "Handle: Added id [ %i ]   x [ %i ]  y [ %i ]", ntouch->raw.id, ntouch->raw.x, ntouch->raw.y );
+							break;
+						}
+					}
+
+					if ( touch->state == INPUT_STATE_ADD )
+					{
+						InputPackRec * ntouch = AllocTouch ( touch );
+						if ( ntouch )
+						{
+							ntouch->org_x = touch->x;
+							ntouch->org_y = touch->y;
+
+							CVerbVerbArgID ( "Handle: Add id [ %i ]   x [ %i ]  y [ %i ] RAW", touch->id, touch->x, touch->y );
+
+							ntouch->raw.x	+= xOffset;
+							ntouch->raw.y	+= yOffset;
+
+							if ( viewAdapt ) {
+								ntouch->raw.x	= ( int ) ( ( ( double ) ntouch->raw.x ) * xScale );
+								ntouch->raw.y	= ( int ) ( ( ( double ) ntouch->raw.y ) * yScale );
 							}
 
-                            CVerbArgID ( "Handle: Add id [%i]   x [%i]  y [%i]", ntouch->raw.id, ntouch->raw.x, ntouch->raw.y );
-                            touches [touchesSize] = ntouch;
-                            touchesSize++;
-                        }
-                    }
-                    break;
-                }
+							CVerbArgID ( "Handle: Add id [ %i ]   x [ %i ]  y [ %i ]", ntouch->raw.id, ntouch->raw.x, ntouch->raw.y );
+							touches [ touchesSize ] = ntouch;
+							touchesSize++;
+						}
+					}
+					break;
+				}
 
 				case INPUT_STATE_DROP:
 				{
-					CVerbArgID ( "Handle: Drop id [%i]   x [%i]  y [%i]", touch->id, touch->x, touch->y );
+					CVerbArgID ( "Handle: Drop id [ %i ]   x [ %i ]  y [ %i ]", touch->id, touch->x, touch->y );
 					dropped++;
 				}
 
-                case INPUT_STATE_CHANGE:
-                {
-                    for ( unsigned int j = 0; j < touchesSize; j++ )
-                    {
-						if ( touches [j]->raw.id == touch->id ) {
-                            if ( viewAdapt ) {
-                                touch->x	*= xScale;
-                                touch->y	*= yScale;
-                            }
-							CVerbArgID ( "Handle: %s id [%i]   x [%i]  y [%i]", touch->state == INPUT_STATE_DROP ? "Drop" : "Change" , touch->id, touch->x, touch->y );
-                            
-                            memcpy ( &touches[j]->raw.state, &touch->state, INPUTPACK_STATE_TO_END_SIZE );
-                            CVerbArgID ( "Handle: Updated to id [%i]   x [%i]  y [%i]", touch->id, touch->x, touch->y );
-                            break;
-                        }
-                    }
-                    break;
-                }
+				case INPUT_STATE_CHANGE:
+				{
+					for ( unsigned int j = 0; j < touchesSize; j++ )
+					{
+						InputPackRec * ntouch = touches [ j ];
+
+						if ( ntouch->raw.id == touch->id )
+						{
+							CVerbVerbArgID ( "Handle: %s id [ %i ]   x [ %i ]  y [ %i ] RAW", touch->state == INPUT_STATE_DROP ? "Drop" : "Change", touch->id, touch->x, touch->y );
+
+							ntouch->org_x = touch->x;
+							ntouch->org_y = touch->y;
+
+							touch->x	+= xOffset;
+							touch->y	+= yOffset;
+
+							if ( viewAdapt ) {
+								touch->x	= ( int ) ( ( ( double ) touch->x ) * xScale );
+								touch->y	= ( int ) ( ( ( double ) touch->y ) * yScale );
+							}
+							CVerbArgID ( "Handle: %s id [ %i ]   x [ %i ]  y [ %i ]", touch->state == INPUT_STATE_DROP ? "Drop" : "Change", touch->id, touch->x, touch->y );
+
+							memcpy ( &ntouch->raw.state, &touch->state, INPUTPACK_STATE_TO_END_SIZE );
+							CVerbArgID ( "Handle: Updated to id [ %i ]   x [ %i ]  y [ %i ]", touch->id, touch->x, touch->y );
+							break;
+						}
+					}
+					break;
+				}
 
 #ifndef DEBUGVERB
 				default:
-					CErrArgID ( "Handle: Invalid state [%i] for id [%i]   x [%i]  y [%i]", touch->state, touch->id, touch->x, touch->y );
+					CErrArgID ( "Handle: Invalid state [ %i ] for id [ %i ]   x [ %i ]  y [ %i ]", touch->state, touch->id, touch->x, touch->y );
 					break;
 #endif
             }
         }
-        
-        bool send = true;
-        
-        if ( dropped >= touchesSize ) {
-            // All touches have been dropped
-            // -> we reset active recognizers and send the dropped frame
-            if ( recognizers )
-                recognizers->Flush ();
-        }
-        else {
-            // If a drop event happend and no recognizer has taken over the touches, then send a frame
-            if ( dropped && (recognizers && recognizers->activeRecognizer < 0) )
-                SendFrame ( false );
-            
-            // Remove the dropped touches
-            for ( unsigned int i = 0; i < touchesSize; i++ ) {
-                if ( touches [i]->raw.state == INPUT_STATE_DROP ) {
-                    CVerbArgID ( "Handle: Dropping id [%i]   x [%i]  y [%i]", touches [i]->raw.id, touches [i]->raw.x, touches [i]->raw.y );
-                    
-                    int remaining = touchesSize - i - 1;
-                    if ( remaining > 0 )
-                        memcpy ( touches + i, touches + i + 1, remaining * sizeof(InputPack *) );
-                    touchesSize--;
-                }
-            }
-            
-            if ( recognizers ) {
-                int res = recognizers->Perform ( touches, touchesSize );
-                
-                if ( res >= RECOGNIZER_HANDLED ) {
-                    if ( res >= RECOGNIZER_TAKEN_OVER_INPUTS ) {
-                        SendFrame ( false );
-                        
-                        recognizers->Finish ( touches, touchesSize );
-                    }
-                    send = false;
-                }
-                else if ( res == RECOGNIZER_GIVE_BACK_INPUTS ) {
-                    // Recognizer gave up responsibility for the touches
-                    for (  int j = 0; j < touchesSize; j++ ) {
-                        touches [j]->raw.state = INPUT_STATE_ADD;
-                    }
-                }
-            }
-            
-        }
+
+		bool send = true;
+
+		if ( dropped >= touchesSize ) {
+			// All touches have been dropped
+			// -> we reset active recognizers and send the dropped frame
+			if ( recognizersEnabled && recognizers )
+				recognizers->Flush ();
+		}
+		else {
+			// If a drop event happend and no recognizer has taken over the touches, then send a frame
+			if ( dropped && ( recognizers && recognizers->activeRecognizer < 0 ) )
+				SendFrame ( false );
+
+			// Remove the dropped touches
+			for ( unsigned int i = 0; i < touchesSize; i++ ) {
+				if ( touches [ i ]->raw.state == INPUT_STATE_DROP ) {
+					CVerbArgID ( "Handle: Dropping id [ %i ]   x [ %i ]  y [ %i ]", touches [ i ]->raw.id, touches [ i ]->raw.x, touches [ i ]->raw.y );
+
+					int remaining = touchesSize - i - 1;
+					if ( remaining > 0 )
+						memcpy ( touches + i, touches + i + 1, remaining * sizeof ( InputPack * ) );
+					touchesSize--;
+				}
+			}
+
+			if ( recognizersEnabled && recognizers ) {
+				int res = recognizers->Perform ( touches, touchesSize );
+
+				if ( res >= RECOGNIZER_HANDLED ) {
+					if ( res >= RECOGNIZER_TAKEN_OVER_INPUTS ) {
+						SendFrame ( false );
+
+						recognizers->Finish ( touches, touchesSize );
+					}
+					send = false;
+				}
+				else if ( res == RECOGNIZER_GIVE_BACK_INPUTS ) {
+					// Recognizer gave up responsibility for the touches
+					for ( int j = 0; j < touchesSize; j++ ) {
+						touches [ j ]->raw.state = INPUT_STATE_ADD;
+					}
+				}
+			}
+		}
         
         if ( pthread_mutex_unlock ( &accessMutex ) ) {
             CErr ( "Handle: Failed to unlock mutex." );
@@ -514,11 +551,11 @@ namespace environs
 
 		if ( !LockAcquire ( &accessMutex, "Flush" ) )
 			return;
-        
-        if ( recognizers )
-            recognizers->Flush ();
 
-		Clear ( );
+		if ( recognizersEnabled && recognizers )
+			recognizers->Flush ();
+
+		Clear ();
 
 		// Send flush event to TouchSink
         SendFrame ( false );
@@ -534,7 +571,7 @@ namespace environs
 		if ( !LockAcquire ( &accessMutex, "Cancel" ) )
 			return;
         
-        if ( recognizers )
+        if ( recognizersEnabled && recognizers )
             recognizers->activeRecognizer = -1;
 
 		if ( !LockRelease ( &accessMutex, "Cancel" ) )
@@ -553,64 +590,64 @@ namespace environs
 	void TouchSource::SendFrame ( bool useLock )
 	{
 		CVerbVerbID ( "SendFrame" );
-        
+
 		int count = 0;
-		InputFrame * frame = (InputFrame *) sendBuffer;
-        
-        if ( useLock && pthread_mutex_lock ( &accessMutex ) ) {
-            CErr ( "SendFrame: Failed to lock mutex." );
-            return;
-        }
-        
-        frame->frameNumber = frameNumber; frameNumber++;
+		InputFrame * frame = ( InputFrame * ) sendBuffer;
+
+		if ( useLock && pthread_mutex_lock ( &accessMutex ) ) {
+			CErr ( "SendFrame: Failed to lock mutex." );
+			return;
+		}
+
+		frame->frameNumber = frameNumber; frameNumber++;
 
 		// Set framestate
 
-		//CLogArg ( "SendFrame: size of touchpack is [%u], count of touches [%i]", touchPackSize, touchesSize );
+		//CLogArg ( "SendFrame: size of touchpack is [%u], count of touches [ %i ]", touchPackSize, touchesSize );
 
 		if ( touchesSize > 0 )
-        {
-            char * touchSegment = (sendBuffer + sizeof(InputFrame));
+		{
+			char * touchSegment = ( sendBuffer + sizeof ( InputFrame ) );
 			for ( int i=0; i<touchesSize; i++ )
-            {
-				InputPackRec * touch = touches [i];
+			{
+				InputPackRec * touch = touches [ i ];
 				if ( touch ) {
-					//CLogArg ( "SendFrame: copy [%i]", i );
+					//CLogArg ( "SendFrame: copy [ %i ]", i );
 					memcpy ( touchSegment, &touch->raw, INPUTPACK_V3_SIZE );
 
 					count++;
 				}
-                touchSegment += INPUTPACK_V3_SIZE;
-            }
-        }
+				touchSegment += INPUTPACK_V3_SIZE;
+			}
+		}
 
-		//CLogArg ( "SendFrame: done copying [%i]", count );
-		frame->count = (char) count;
+		//CLogArg ( "SendFrame: done copying [ %i ]", count );
+		frame->count = ( char ) count;
 
-		int length = sizeof(InputFrame) + (int)(count * INPUTPACK_V3_SIZE);
+		int length = sizeof ( InputFrame ) + ( int ) ( count * INPUTPACK_V3_SIZE );
 		frame->size = length;
 
-        // Send to TouchSink
-        CVerbVerbArgID ( "SendFrame: frames [%i] size[%i]", frame->count, length );
-        
-		if ( device && ((DeviceBase *)device)->SendDataPacket ( sendBuffer, length ) )
-        {
+		// Send to TouchSink
+		CVerbVerbArgID ( "SendFrame: frames [ %i ] size [ %i ]", frame->count, length );
+
+		if ( device && ( ( DeviceBase * ) device )->SendDataPacket ( sendBuffer, length ) )
+		{
 			// Update heartbeat indicator
-            last_heartBeat = GetEnvironsTickCount ();
-        }
-        
-        if ( useLock && pthread_mutex_unlock ( &accessMutex ) ) {
-            CErr ( "SendFrame: Failed to unlock mutex." );
-            return;
-        }
+			last_heartBeat = GetEnvironsTickCount ();
+		}
+
+		if ( useLock && pthread_mutex_unlock ( &accessMutex ) ) {
+			CErr ( "SendFrame: Failed to unlock mutex." );
+			return;
+		}
 	}
 
 
 	InputPackRec * TouchSource::AllocTouch ( InputPackRaw * touchPack )
 	{
-		InputPackRec * touch = new InputPackRec ( );
+		InputPackRec * touch = new InputPackRec ();
 		if ( touch ) {
-            memcpy ( &touch->raw, touchPack, sizeof(InputPackRaw) );
+			memcpy ( &touch->raw, touchPack, sizeof ( InputPackRaw ) );
 		}
 		return touch;
     }
@@ -618,7 +655,7 @@ namespace environs
 
 	void * TouchSource::AliveThread ( void * object )
 	{
-		TouchSource * source = (TouchSource *) object;
+		TouchSource * source = ( TouchSource * ) object;
 		if ( !source ) {
 			CErr ( "AliveThread: called with (NULL) argument!" );
 			return 0;
@@ -635,14 +672,14 @@ namespace environs
 
 		while ( alive )
 		{
-			if ( !recognizers || (recognizers->activeRecognizer < 0) )
+			if ( !recognizers || ( recognizers->activeRecognizer < 0 ) )
 			{
-                INTEROPTIMEVAL now = GetEnvironsTickCount ();
-                
-                if ( (now - last_heartBeat) > t1_delta )
-                {
-                    SendFrame ( );
-                }
+				INTEROPTIMEVAL now = GetEnvironsTickCount ();
+
+				if ( ( now - last_heartBeat ) > t1_delta )
+				{
+					SendFrame ();
+				}
 			}
 
 			sleep ( 1 );

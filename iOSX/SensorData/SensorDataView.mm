@@ -52,8 +52,10 @@ bool enableSensorLight          = false;
 
 bool enableSensorHeading        = true;
 bool enableSensorAltimeter      = false;
-bool enableSensorMotionAttRot   = false;
-bool enableSensorMotionGravAcc  = false;
+bool enableSensorMotionAtt      = false;
+bool enableSensorMotionRot      = false;
+bool enableSensorMotionGrav     = false;
+bool enableSensorMotionAcc      = false;
 bool enableSensorMotionMagnetic = false;
 
 
@@ -188,13 +190,17 @@ bool enableSensorMotionMagnetic = false;
         
         [device SetSensorEventSending : environs::SensorType::Heading enable:enableSensorHeading];
         
-        [device SetSensorEventSending : environs::SensorType::Altimeter enable:enableSensorAltimeter];
+        [device SetSensorEventSending : environs::SensorType::Pressure enable:enableSensorAltimeter];
         
-        [device SetSensorEventSending : environs::SensorType::MotionAttitudeRotation enable:enableSensorMotionAttRot];
+        [device SetSensorEventSending : environs::SensorType::Attitude enable:enableSensorMotionAtt];
+
+        [device SetSensorEventSending : environs::SensorType::Rotation enable:enableSensorMotionRot];
         
-        [device SetSensorEventSending : environs::SensorType::MotionGravityAcceleration enable:enableSensorMotionGravAcc];
+        [device SetSensorEventSending : environs::SensorType::Gravity enable:enableSensorMotionGrav];
+
+        [device SetSensorEventSending : environs::SensorType::Acceleration enable:enableSensorMotionAcc];
         
-        [device SetSensorEventSending : environs::SensorType::MotionMagneticField enable:enableSensorMotionMagnetic];
+        [device SetSensorEventSending : environs::SensorType::MagneticFieldMotion enable:enableSensorMotionMagnetic];
     }
     
     [self ReloadRow:sender];

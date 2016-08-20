@@ -123,6 +123,9 @@ namespace environs
 		{
 			int             uniqueID;
 			InputPackRaw    raw;
+
+			int				org_x;		// orignal x/y of sensor for recognizers
+			int				org_y; 
 			char            cache [ 24 ]; // additional memory reserved for gesture recognizers
 		}
 		InputPackRec;

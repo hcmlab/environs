@@ -21,8 +21,8 @@
 
 /// Compiler flag that enables verbose debug output
 #ifndef NDEBUG
-#   define DEBUGVERB
-#   define DEBUGVERBVerb
+//#   define DEBUGVERB
+//#   define DEBUGVERBVerb
 #endif
 
 
@@ -149,16 +149,15 @@ bool GestureThreeFinger::Init ()
 
 bool IntersectionPoint ( double yintercept1, double mx1, double my1, double yintercept2, double mx2, double my2, int &x3, int &y3 )
 {
+	double mipy = ( my1 * mx2 ) - ( my2 * mx1 );
+	double mipx = mx1 * mx2;
 
-    double mipy = (my1 * mx2) - (my2 * mx1);
-    double mipx = mx1 * mx2;
+	//double mip = mipy / mipx;
 
-    //double mip = mipy / mipx;
+	x3 = ( int ) ( ( ( yintercept2 - yintercept1 ) * mipx ) / mipy );
+	y3 = ( int ) ( ( ( ( ( my1 * yintercept2 ) / mx1 ) - ( ( my2 * yintercept1 ) / mx2 ) ) * mipx ) / mipy );
 
-    x3 = (int)(((yintercept2 - yintercept1) * mipx) / mipy);
-    y3 = (int)(((((my1 * yintercept2) / mx1) - ((my2 * yintercept1) / mx2)) * mipx) / mipy);
-
-    return true;
+	return true;
 }
 
 
@@ -175,7 +174,7 @@ void GestureThreeFinger::Finish ( InputPackRec **	inputs, int inputCount )
 
 int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 {
-	Input * inputContainer = (Input *)inputs;
+	Input * inputContainer = ( Input * ) inputs;
 
 	Input * t = 0;
 
@@ -192,16 +191,16 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 
 			/*for ( unsigned int i = 0; i < count; i++ )
 			{
-				t = (*touches)[i];
+			t = (*touches)[i];
 
-				if (inject_touch) {
-					InjectedTouchAdd t ( 0, t->id, t->x, t->y, t->angle );
-					InjectTouch ( (InjectedTouch *)&t );
-				}
-				else
-					onEnvironsTouch ( t->id, deviceID, 0, t->x, t->y, t->angle );
+			if (inject_touch) {
+			InjectedTouchAdd t ( 0, t->id, t->x, t->y, t->angle );
+			InjectTouch ( (InjectedTouch *)&t );
+			}
+			else
+			onEnvironsTouch ( t->id, deviceID, 0, t->x, t->y, t->angle );
 
-				CLogArg ( "RecognizeGestures: Touch id [%i] reAdded as new", t->id );
+			CLogArg ( "RecognizeGestures: Touch id [%i] reAdded as new", t->id );
 			}*/
 		}
 		return false;
@@ -210,7 +209,7 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 	if ( !mode )
 	{
 		mode = 1;
-		
+
 		t = inputContainer;
 		MoveXInit = t->pack.raw.x;
 		MoveYInit = t->pack.raw.y;
@@ -219,7 +218,7 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 		MoveID	 = t->pack.raw.id;
 		MoveXDiff = 0;
 		MoveYDiff = 0;
-		
+
 		t = inputContainer + 1;
 		Referece2X = t->x_raw;
 		Referece2Y = t->y_raw;
@@ -230,7 +229,7 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 			t->pack.raw.state = INPUT_STATE_DROP;
 
 			if ( deviceBase ) {
-				((DeviceBase *)deviceBase)->PerformEnvironsTouch ( t );
+				( ( DeviceBase * ) deviceBase )->PerformEnvironsTouch ( t );
 			}
 
 			CVerbArgID ( "RecognizeGestures: Touch id [%i] dropped touch and switched to gesture recognizer", t->pack.raw.id );
@@ -250,24 +249,24 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 		Input * t3 = inputContainer + 2;
 
 		// Determine middle point (M12X / M12Y) between t1 and t2
-		double M12X = (t1->x_raw + t2->x_raw) / 2;
-		double M12Y = (t1->y_raw + t2->y_raw) / 2;
+		double M12X = ( t1->x_raw + t2->x_raw ) / 2;
+		double M12Y = ( t1->y_raw + t2->y_raw ) / 2;
 		double c = t3->x_raw - M12X;
 
 		if ( c == 0 )
 			c += 0.25f;
-		double yintercept123 = M12Y - (((t3->y_raw - M12Y) * M12X) / c);
-		
+		double yintercept123 = M12Y - ( ( ( t3->y_raw - M12Y ) * M12X ) / c );
+
 		// Determine middle point (M23X / M23Y) between t2 and t3
-		double M23X = (t3->x_raw + t2->x_raw) / 2;
-		double M23Y = (t3->y_raw + t2->y_raw) / 2;
+		double M23X = ( t3->x_raw + t2->x_raw ) / 2;
+		double M23Y = ( t3->y_raw + t2->y_raw ) / 2;
 		c = t1->x_raw - M23X;
 
 		if ( c == 0 )
 			c += 0.25f;
-		double yintercept231 = M23Y - (((t1->y_raw - M23Y) * M23X) / c);
-		
-		IntersectionPoint ( yintercept123, (t3->x_raw - M12X), (t3->y_raw - M12Y), yintercept231, (t1->x_raw - M23X), (t1->y_raw - M23Y), MiddleX, MiddleY );
+		double yintercept231 = M23Y - ( ( ( t1->y_raw - M23Y ) * M23X ) / c );
+
+		IntersectionPoint ( yintercept123, ( t3->x_raw - M12X ), ( t3->y_raw - M12Y ), yintercept231, ( t1->x_raw - M23X ), ( t1->y_raw - M23Y ), MiddleX, MiddleY );
 
 		CVerbArgID ( "RecognizeGestures: P1[%i, %i] - P2[%i, %i] - P3[%i, %i] - Intersect[%i, %i]",
 			t1->x_raw, t1->y_raw, t2->x_raw, t2->y_raw, t3->x_raw, t3->y_raw, MiddleX, MiddleY );
@@ -278,12 +277,12 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 
 		// Calculate the distances to the middle point
 
-		double distM1 = sqrt ( pow ( (double)(t1->x_raw - MiddleX), 2 ) + pow ( (double)(t1->y_raw - MiddleY), 2 ) );
-		double distM2 = sqrt ( pow ( (double)(t2->x_raw - MiddleX), 2 ) + pow ( (double)(t2->y_raw - MiddleY), 2 ) );
-		double distM3 = sqrt ( pow ( (double)(t3->x_raw - MiddleX), 2 ) + pow ( (double)(t3->y_raw - MiddleY), 2 ) );
+		double distM1 = sqrt ( pow ( ( double ) ( t1->x_raw - MiddleX ), 2 ) + pow ( ( double ) ( t1->y_raw - MiddleY ), 2 ) );
+		double distM2 = sqrt ( pow ( ( double ) ( t2->x_raw - MiddleX ), 2 ) + pow ( ( double ) ( t2->y_raw - MiddleY ), 2 ) );
+		double distM3 = sqrt ( pow ( ( double ) ( t3->x_raw - MiddleX ), 2 ) + pow ( ( double ) ( t3->y_raw - MiddleY ), 2 ) );
 		CVerbArgID ( "RecognizeGestures: distM1[%f] - distM1[%f]  - distM1[%f]", distM1, distM2, distM3 );
-		
-		double distMax =  fmax ( fmax (distM1, distM2), distM3);
+
+		double distMax =  fmax ( fmax ( distM1, distM2 ), distM3 );
 		double distThreshold = distMax / 2;
 
 		if ( std::abs ( distM1 - distMax ) < distThreshold && std::abs ( distM2 - distMax ) < distThreshold && std::abs ( distM3 - distMax ) < distThreshold )
@@ -330,19 +329,19 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 			{
 				int diffX = t->x_raw - Referece1X;
 				int diffY = t->y_raw - Referece1Y;
-			
+
 				if ( diffX != MoveXDiff || diffY != MoveYDiff ) {
 					MoveXDiff = diffX;
 					MoveYDiff = diffY;
-           
+
 					/*CVerbArg ( "RecognizeGestures: left:[%i] StartX:[%i] NowX:[%i] diffX[%i] - diffY [%i] NowY:[%i] StartY:[%i] - Moving to [%i : %i]",
-						left, Referece1X, t->x, diffX, diffY, t->y, Referece1Y, MoveXInit - diffX, MoveYInit - diffY );*/
+					left, Referece1X, t->x, diffX, diffY, t->y, Referece1Y, MoveXInit - diffX, MoveYInit - diffY );*/
 
 					// Move the portal
 					if ( deviceBase ) {
-						((DeviceBase *)deviceBase)->UpdatePosition ( 0, MoveXInit - diffX, MoveYInit - diffY, -1 );
+						( ( DeviceBase * ) deviceBase )->UpdatePosition ( 0, MoveXInit - diffX, MoveYInit - diffY, -1 );
 					}
-					
+
 					return true;
 				}
 			}
@@ -359,29 +358,29 @@ int GestureThreeFinger::Perform ( InputPackRec **	inputs, int inputCount )
 			if ( t->pack.raw.id == MoveID )
 			{
 				// Calculate length of initial point to middle point
-				double lenRef = sqrt ( pow ((double) (MiddleX - Referece1X), 2) + pow ((double) (MiddleY - Referece1Y), 2) );
+				double lenRef = sqrt ( pow ( ( double ) ( MiddleX - Referece1X ), 2 ) + pow ( ( double ) ( MiddleY - Referece1Y ), 2 ) );
 
 				// Calculate length of reference point to middle point
-				double lenNow = sqrt ( pow ((double) (MiddleX - t->x_raw), 2) + pow ((double) (MiddleY - t->y_raw), 2) );
+				double lenNow = sqrt ( pow ( ( double ) ( MiddleX - t->x_raw ), 2 ) + pow ( ( double ) ( MiddleY - t->y_raw ), 2 ) );
 
 				// Determine the scale and apply this to the portal size
 
-				int diffX = (int) lenNow;
-			
+				int diffX = ( int ) lenNow;
+
 				if ( diffX != MoveXDiff ) {
 					MoveXDiff = diffX;
 
-					double scale = (lenRef / lenNow);
-					int width_new = (int)(scale * InitWidth);
+					double scale = ( lenRef / lenNow );
+					int width_new = ( int ) ( scale * InitWidth );
 
-					int height_new = (int)(scale * InitHeight);
-           
+					int height_new = ( int ) ( scale * InitHeight );
+
 					CVerbArgID ( "RecognizeGestures: Length of Ref:[%i] - Length now:[%i] - Scale:[%4.2f] - Width:[%i] - Height[%i]",
-						(int)lenRef, diffX, scale, width_new, height_new );
+						( int ) lenRef, diffX, scale, width_new, height_new );
 
 					// Scale the portal
 					if ( deviceBase ) {
-						((DeviceBase *)deviceBase)->UpdatePortalSize ( 0, width_new, height_new );
+						( ( DeviceBase * ) deviceBase )->UpdatePortalSize ( 0, width_new, height_new );
 					}
 					return true;
 				}

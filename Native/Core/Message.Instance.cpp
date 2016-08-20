@@ -50,7 +50,7 @@ namespace environs
 	namespace lib
 	{
 
-        ENVIRONS_OUTPUT_WP_ALLOC ( MessageInstance );
+		ENVIRONS_OUTPUT_ALLOC_WP ( MessageInstance );
 
 
 		MessageInstance::MessageInstance ()
@@ -101,14 +101,15 @@ namespace environs
 		{
 			CVerbVerbArg1 ( "DisposeInstance", "", "i", objID_ );
 			
-			bool resetSP = ( ___sync_val_compare_and_swap ( c_Addr_of ( disposed_ ), 0, 1 ) == 0 );
+			//bool resetSP = ( ___sync_val_compare_and_swap ( c_Addr_of ( disposed_ ), 0, 1 ) == 0 );
 
 			PlatformDispose ();
             
-            if ( resetSP ) {
+            /*if ( resetSP ) {
                 CVerbVerbArg1 ( "DisposeInstance: Reseting SP", "", "i", objID_ );
-				sp_reset ( myself );
-			}
+                
+                Cli_Only ( myself = nill );
+			}*/
 		}
 
 
@@ -289,7 +290,7 @@ namespace environs
 #else
 				char buffer [ 340 ];
 
-				if ( snprintf ( buffer, 256, "MessageInstance %s on [%llu]  text [%s]", ( sent_ ? "sent" : "received" ), created_, StringToCChar ( shortText () ) ) < 0 )
+				if ( snprintf ( buffer, 256, "MessageInstance %s on [ %llu ]  text [ %s ]", ( sent_ ? "sent" : "received" ), created_, StringToCChar ( shortText () ) ) < 0 )
 					*buffer = 0;
 
 				toString_ = CCharToString ( buffer );

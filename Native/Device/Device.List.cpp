@@ -1735,7 +1735,7 @@ namespace environs
                 {
 					if ( ctx->device != nill ) {
                         device->Update ( info );
-                        CVerbArg1 ( "UpdateDevice:", "", "s", CPP_CLI ( device->toString(), device->ToString () ) );
+                        CVerbArg1 ( "UpdateDevice:", "", "s", CPP_CLI ( device->toString().c_str(), device->ToString () ) );
 					}
 				}
 				else {

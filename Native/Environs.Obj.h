@@ -33,6 +33,7 @@
 #include "Core/Callbacks.h"
 #include "Log.h"
 #include "Wifi.Observer.h"
+#include "Bt.Observer.h"
 
 #include "Environs.Display.h"
 #include "Environs.Mobile.h"
@@ -52,8 +53,6 @@
 #define	DEFAULT_NO_PORTAL_POSITION_WIDTH	20
 #define	DEFAULT_NO_PORTAL_POSITION_HEIGHT	20
 
-#define NATIVE_WIFI_OBSERVER_INTERVAL_MIN		30000
-#define NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN	2000
 
 #define MEDIATOR_SP
 #define MEDIATOR_WP
@@ -132,6 +131,10 @@ namespace environs
 
 #ifdef NATIVE_WIFI_OBSERVER
         WifiObserver                wifiObserver;
+#endif
+
+#ifdef NATIVE_BT_OBSERVER
+		BtObserver					btObserver;
 #endif
         bool                        useStdout;
         bool                        useLogFile;

@@ -1,11 +1,12 @@
+#if DEBUG
 #define TEST1
-
+#define TESTCONNECT
+#define TESTCONNECTENV
+#endif
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using environs;
+using System.Threading;
 
 
 namespace environs.Apps
@@ -17,7 +18,11 @@ namespace environs.Apps
         DeviceList deviceList = null;
 
         bool resetAuth = false;
+#if TEST1
         String appNameCur = "ChatApp";
+#else
+        String appNameCur = "ChatApp";
+#endif
         String areaNameCur = "Environs";
 
         public bool Init()
@@ -55,11 +60,42 @@ namespace environs.Apps
 
                 deviceList.AddObserver(ListObserver);
             }
+#if TEST1
+            for (int i = 0; i < testListenerCount; ++i)
+            {
+                ThreadData td = new ThreadData ();
+                td.Nr = i;
+
+                testListerThreads[i] = new Thread(delegate() { TestListerThread(td); });
+                testListerThreads[i].Start();
+                testListerEvents[i] = new ManualResetEvent(false);
+            }
+#endif
+
+#if TESTCONNECT
+#if TESTCONNECTENV
+            EnvironsTester.TestStartStopConnectSend(env, deviceList);
+#else
+            testThread = new Thread(TestThread);
+            testThread.Start();
+#endif
+#endif
             return true;
         }
 
         public void Stop()
         {
+#if TESTCONNECT
+#if TESTCONNECTENV
+            EnvironsTester.enableThread = false;
+            EnvironsTester.testEvent.Set();
+#else
+            testRun = false;
+
+            testThreadEvent.Set();
+            testThreadEvent.WaitOne();
+#endif
+#endif
             if (deviceList != null)
             {
                 deviceList.RemoveObserver(ListObserver);
@@ -108,7 +144,12 @@ namespace environs.Apps
                 }
             }
 #if TEST1
-            PrintDevices(null);
+            int i = ++testListenerCur;
+
+            if (i >= testListenerCount)
+                i = testListenerCur = 0;
+
+            testListerEvents[i].Set();
 #endif
         }
 
@@ -121,7 +162,12 @@ namespace environs.Apps
 #if TEST1
             if ((flags & DeviceInfoFlag.IsConnected) == DeviceInfoFlag.IsConnected)
             {
-                PrintDevices(null);
+                int i = ++testListenerCur;
+
+                if (i >= testListenerCount)
+                    i = testListenerCur = 0;
+
+                testListerEvents[i].Set();
             }
 #endif
         }
@@ -281,6 +327,27 @@ namespace environs.Apps
                 }
             }
             while (isRunning);
+#if TEST1
+            testListerRun = false;
+
+            for (int i = 0; i < testListenerCount; ++i)
+            {
+                testListerEvents[i].Set();
+                testListerEvents[i].WaitOne();
+            }
+#endif
+
+#if TESTCONNECT
+#if TESTCONNECTENV
+            EnvironsTester.enableThread = false;
+            EnvironsTester.testEvent.Set();
+#else
+            testRun = false;
+
+            testThreadEvent.Set();
+            testThreadEvent.WaitOne();
+#endif
+#endif
         }
 
 
@@ -376,5 +443,104 @@ namespace environs.Apps
 
             Init();
         }
+
+#if TEST1
+        struct ThreadData
+        {
+            public int Nr;
+        }
+
+        bool testListerRun = true;
+
+        int testListenerCur = 0;
+        const int testListenerCount = 20;
+        Thread[] testListerThreads = new Thread[testListenerCount];
+        ManualResetEvent[] testListerEvents = new ManualResetEvent[testListenerCount];
+
+        void TestListerThread(ThreadData data)
+        {
+            try
+            {
+                int t = data.Nr;
+
+                while (testListerRun)
+                {
+                    PrintDevices(null);
+
+                    WifiEntry[] list = env.GetWifis();
+
+                    BtEntry[] list1 = env.GetBts();
+                    if (list1 != null)
+                    {
+                        for (int i = 0; i < list1.Length; i++)
+                        {
+                            BtEntry e = list1[i];
+                            System.Console.WriteLine(e.ToString());
+                        }
+                    }
+
+                    if (testListerEvents[t] != null)
+                    {
+                        testListerEvents[t].WaitOne();
+                        testListerEvents[t].Reset();
+                    }
+                    else
+                    {
+                        Thread.Sleep(1000);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex != null && ex.Message != null)
+                    System.Console.WriteLine(ex.Message);
+            }
+        }
+#endif
+
+#if TESTCONNECT
+
+        bool testRun = true;
+#if !TESTCONNECTENV
+        Thread testThread;
+#endif
+        ManualResetEvent testThreadEvent = new ManualResetEvent(false);
+
+        void TestThread()
+        {
+            int min = 500;
+            int max = 10000;
+            Random rand = new Random();
+
+            try
+            {
+                while (testRun)
+                {
+                    if (env.GetStatus() >= Status.Started)
+                    {
+                        env.Stop();
+                        min = 500;
+                        max = 2000;
+                    }
+                    else if (env.GetStatus() == Status.Stopped)
+                    {
+                        env.ClearStorage();
+
+                        env.Start();
+                        min = 20000;
+                        max = 30000;
+                        //max = 60000;
+                    }
+
+                    testThreadEvent.WaitOne(500 + min + (rand.Next(max)));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex != null && ex.Message != null)
+                    System.Console.WriteLine(ex.Message);
+            }
+        }
+#endif
     }
 }

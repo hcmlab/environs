@@ -353,6 +353,14 @@ JNIEXPORT jboolean JNICALL Java_environs_Environs_SetUseTouchRecognizerN
 
 /*
  * Class:     environs_Environs
+ * Method:    SetUseTouchRecognizerEnableN
+ * Signature: (IZ)V
+ */
+JNIEXPORT void JNICALL Java_environs_Environs_SetUseTouchRecognizerEnableN
+  (JNIEnv *, jclass, jint, jboolean);
+
+/*
+ * Class:     environs_Environs
  * Method:    AllocPlatformN
  * Signature: ()Z
  */
@@ -385,11 +393,51 @@ JNIEXPORT void JNICALL Java_environs_Environs_PushSensorDataN
 
 /*
  * Class:     environs_Environs
+ * Method:    PushSensorDataDoublesN
+ * Signature: (IDDD)V
+ */
+JNIEXPORT void JNICALL Java_environs_Environs_PushSensorDataDoublesN
+  (JNIEnv *, jclass, jint, jdouble, jdouble, jdouble);
+
+/*
+ * Class:     environs_Environs
  * Method:    PushSensorDataExtN
- * Signature: (ZIDDDFFF)V
+ * Signature: (IDDDFFF)V
  */
 JNIEXPORT void JNICALL Java_environs_Environs_PushSensorDataExtN
-  (JNIEnv *, jclass, jboolean, jint, jdouble, jdouble, jdouble, jfloat, jfloat, jfloat);
+  (JNIEnv *, jclass, jint, jdouble, jdouble, jdouble, jfloat, jfloat, jfloat);
+
+/*
+ * Class:     environs_Environs
+ * Method:    SetUseSensorChannelTcpN
+ * Signature: (IIZ)V
+ */
+JNIEXPORT void JNICALL Java_environs_Environs_SetUseSensorChannelTcpN
+  (JNIEnv *, jclass, jint, jint, jboolean);
+
+/*
+ * Class:     environs_Environs
+ * Method:    GetUseSensorChannelTcpN
+ * Signature: (II)I
+ */
+JNIEXPORT jint JNICALL Java_environs_Environs_GetUseSensorChannelTcpN
+  (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     environs_Environs
+ * Method:    SetUseSensorRateN
+ * Signature: (III)V
+ */
+JNIEXPORT void JNICALL Java_environs_Environs_SetUseSensorRateN
+  (JNIEnv *, jclass, jint, jint, jint);
+
+/*
+ * Class:     environs_Environs
+ * Method:    GetUseSensorRateN
+ * Signature: (II)I
+ */
+JNIEXPORT jint JNICALL Java_environs_Environs_GetUseSensorRateN
+  (JNIEnv *, jclass, jint, jint);
 
 /*
  * Class:     environs_Environs
@@ -402,17 +450,17 @@ JNIEXPORT jboolean JNICALL Java_environs_Environs_SetSensorEventSenderN
 /*
  * Class:     environs_Environs
  * Method:    StartSensorListeningN
- * Signature: (II)V
+ * Signature: (II)I
  */
-JNIEXPORT void JNICALL Java_environs_Environs_StartSensorListeningN
+JNIEXPORT jint JNICALL Java_environs_Environs_StartSensorListeningN
   (JNIEnv *, jclass, jint, jint);
 
 /*
  * Class:     environs_Environs
  * Method:    StopSensorListeningN
- * Signature: (II)V
+ * Signature: (II)I
  */
-JNIEXPORT void JNICALL Java_environs_Environs_StopSensorListeningN
+JNIEXPORT jint JNICALL Java_environs_Environs_StopSensorListeningN
   (JNIEnv *, jclass, jint, jint);
 
 /*
@@ -446,6 +494,22 @@ JNIEXPORT jint JNICALL Java_environs_Environs_GetSensorEventSenderCountN
  */
 JNIEXPORT jint JNICALL Java_environs_Environs_IsSensorAvailableN
   (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     environs_Environs
+ * Method:    IsSensorEnabledN
+ * Signature: (II)I
+ */
+JNIEXPORT jint JNICALL Java_environs_Environs_IsSensorEnabledN
+  (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     environs_Environs
+ * Method:    SetSensorEventSenderFlagsN
+ * Signature: (IIIII)I
+ */
+JNIEXPORT jint JNICALL Java_environs_Environs_SetSensorEventSenderFlagsN
+  (JNIEnv *, jclass, jint, jint, jint, jint, jint);
 
 /*
  * Class:     environs_Environs
@@ -969,6 +1033,14 @@ JNIEXPORT jstring JNICALL Java_environs_Environs_GetMediatorIPN
 
 /*
  * Class:     environs_Environs
+ * Method:    WiFiUpdateWithColonMacN
+ * Signature: (Ljava/lang/String;Ljava/lang/String;IIII)V
+ */
+JNIEXPORT void JNICALL Java_environs_Environs_WiFiUpdateWithColonMacN
+  (JNIEnv *, jclass, jstring, jstring, jint, jint, jint, jint);
+
+/*
+ * Class:     environs_Environs
  * Method:    SetUseWifiObserverN
  * Signature: (Z)V
  */
@@ -1001,6 +1073,22 @@ JNIEXPORT jint JNICALL Java_environs_Environs_GetUseWifiIntervalN
 
 /*
  * Class:     environs_Environs
+ * Method:    GetWifisN
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_environs_Environs_GetWifisN
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     environs_Environs
+ * Method:    BtUpdateWithColonMacN
+ * Signature: (Ljava/lang/String;Ljava/lang/String;IIJJI)V
+ */
+JNIEXPORT void JNICALL Java_environs_Environs_BtUpdateWithColonMacN
+  (JNIEnv *, jclass, jstring, jstring, jint, jint, jlong, jlong, jint);
+
+/*
+ * Class:     environs_Environs
  * Method:    SetUseBtObserverN
  * Signature: (Z)V
  */
@@ -1029,6 +1117,14 @@ JNIEXPORT void JNICALL Java_environs_Environs_SetUseBtIntervalN
  * Signature: ()I
  */
 JNIEXPORT jint JNICALL Java_environs_Environs_GetUseBtIntervalN
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     environs_Environs
+ * Method:    GetBtsN
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_environs_Environs_GetBtsN
   (JNIEnv *, jclass);
 
 /*
@@ -1470,14 +1566,6 @@ JNIEXPORT jobject JNICALL Java_environs_Environs_GetDeviceDisplayPropsN
  */
 JNIEXPORT jint JNICALL Java_environs_Environs_GetNetworkStatusN
   (JNIEnv *, jclass);
-
-/*
- * Class:     environs_Environs
- * Method:    WiFiUpdateWithColonMacN
- * Signature: (Ljava/lang/String;Ljava/lang/String;IIII)V
- */
-JNIEXPORT void JNICALL Java_environs_Environs_WiFiUpdateWithColonMacN
-  (JNIEnv *, jclass, jstring, jstring, jint, jint, jint, jint);
 
 #ifdef __cplusplus
 }

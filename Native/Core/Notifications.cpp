@@ -1087,23 +1087,23 @@ namespace environs
          struct timeval    timeNow;*/
         //int rc;
         
-        unsigned int ret = 0;
-        unsigned int responses [2];
-        unsigned int length = sizeof(unsigned int);
+		unsigned int ret = 0;
+		unsigned int responses [ 2 ];
+		unsigned int length = sizeof ( unsigned int );
+
+		EnvironsRepsonse * response = ( EnvironsRepsonse * ) calloc ( 1, sizeof ( EnvironsRepsonse ) );
+		if ( !response ) {
+			return 0;
+		}
+
+		response->deviceID		= nativeID;
+		response->response		= resultBuffer;
+		response->responseBytes = resultCapacity;
+
+		if ( !CondInit ( &response->responseEvent ) )
+			goto Finish;
         
-        EnvironsRepsonse * response = (EnvironsRepsonse *) calloc ( 1, sizeof(EnvironsRepsonse) );
-        if ( !response ) {
-            return 0;
-        }
-        
-        response->deviceID		= nativeID;
-        response->response		= resultBuffer;
-        response->responseBytes = resultCapacity;
-        
-        if ( !CondInit ( &response->responseEvent ) )
-            goto Finish;
-        
-        CVerbArg ( "GetResponse: resultCapacity [%i]", resultCapacity );
+        CVerbArg ( "GetResponse: resultCapacity [ %i ]", resultCapacity );
 
 		LockAcquireVA ( responseLock, "GetResponse" );
         
@@ -1139,7 +1139,7 @@ namespace environs
             response = 0;
             goto Finish;
         }
-        CVerbArg ( "GetResponse: response size [%i]", response->responseBytes );
+        CVerbArg ( "GetResponse: response size [ %i ]", response->responseBytes );
         
         /*if ( ETIMEDOUT == rc )
          goto Finish;*/

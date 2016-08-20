@@ -114,8 +114,8 @@ public class MessageInstance
     @Override
     public String toString()
     {
-        return "MessageInstance " + (sent ? "sent" : "received") + " on [" + new java.util.Date(created*1000) + "]  text ["
-                + ShortText()  + "]";
+        return "MessageInstance " + (sent ? "sent" : "received") + " on [ " + new java.util.Date(created*1000) + " ]  text [ "
+                + ShortText()  + " ]";
     }
 
     public String ToString() {

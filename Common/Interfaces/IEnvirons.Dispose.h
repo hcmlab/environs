@@ -35,7 +35,8 @@ namespace environs
 
     
 #define DERIVE_DISPOSABLE
-#define DERIVE_TYPES		
+#define DERIVE_TYPES	
+//#define DISPOSER_ATOMIC_COUNTER
 
 	namespace lib
 	{
@@ -125,11 +126,11 @@ namespace environs
 
 #define ENVIRONS_OUTPUT_ALLOC(type)				extern LONGSYNC objectIdentifiers; \
 bool type::Retain () { \
-	CVerbVerbArg ( "Retain [%i]: [%i]", objID_, refCountSP );  \
+	CVerbVerbArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
 	\
 	LONGSYNC localRefCount = __sync_add_and_fetch ( &refCountSP, 1 ); \
 	\
-	CVerbVerbArg ( "Retain [%i]: -> [%i] ", objID_, localRefCount );  \
+	CVerbVerbArg ( "Retain [ %i ]: -> [ %i ] ", objID_, localRefCount );  \
 	\
 	return ( localRefCount > 0 ); \
 }
@@ -138,14 +139,14 @@ bool type::Retain () { \
 
 #define ENVIRONS_OUTPUT_ALLOC_SP(type)				extern LONGSYNC objectIdentifiers; \
 bool type::Retain () { \
-	CVerbVerbArg ( "Retain [%i]: [%i]", objID_, refCountSP );  \
+	CVerbVerbArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
 	\
 	LONGSYNC localRefCount = __sync_add_and_fetch ( &refCountSP, 1 ); \
 	\
     if ( localRefCount == 1 ) { \
         pthread_mutex_lock ( &objLock ); \
         if ( myself ) { \
-            CVerbVerbArg ( "Retain [%i]: -> Allocating SP", objID_ ); \
+            CVerbVerbArg ( "Retain [ %i ]: -> Allocating SP", objID_ ); \
             myselfAtClients = myself; \
 		} \
         if ( !myselfAtClients ) { \
@@ -161,15 +162,15 @@ bool type::Retain () { \
         } \
         pthread_mutex_unlock ( &objLock ); \
 	} \
-	CVerbVerbArg ( "Retain [%i]: -> [%i] ", objID_, localRefCount );  \
+	CVerbVerbArg ( "Retain [ %i ]: -> [ %i ] ", objID_, localRefCount );  \
 	\
 	return ( localRefCount > 0 ); \
 }
 
 
-#define ENVIRONS_OUTPUT_WP_ALLOC(type)				extern LONGSYNC objectIdentifiers; \
+#define ENVIRONS_OUTPUT_ALLOC_WP(type)				extern LONGSYNC objectIdentifiers; \
 bool type::Retain () { \
-    CLogArg ( "Retain [%i]: [%i]", objID_, refCountSP );  \
+    CLogArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
     \
     LONGSYNC refCount = refCountSP; LONGSYNC localRefCount = __sync_add_and_fetch ( &refCountSP, 1 ); \
     \
@@ -177,11 +178,11 @@ bool type::Retain () { \
 		\
         pthread_mutex_lock ( &objLock ); \
         if ( myself.use_count () > 0 ) { \
-            CLogArg ( "Retain [%i]: -> Allocating SP", objID_ ); \
+            CLogArg ( "Retain [ %i ]: -> Allocating SP", objID_ ); \
             myselfAtClients = myself.lock (); \
         } \
         if ( !myselfAtClients ) { \
-			CLogArg ( "Retain [%i]: Failed -> [%i] [%i]", objID_, localRefCount, refCountSP ); \
+			CLogArg ( "Retain [ %i ]: Failed -> [ %i ] [ %i ]", objID_, localRefCount, refCountSP ); \
 			__sync_sub_and_fetch ( &refCountSP, 1 ); localRefCount = 0; \
         } \
         pthread_mutex_unlock ( &objLock ); \
@@ -194,7 +195,7 @@ bool type::Retain () { \
         } \
         pthread_mutex_unlock ( &objLock ); \
 	} \
-    CLogArg ( "Retain [%i]: -> [%i] [%i]", objID_, localRefCount, refCountSP );  \
+    CLogArg ( "Retain [ %i ]: -> [ %i ] [ %i ]", objID_, localRefCount, refCountSP );  \
     \
     return ( localRefCount > 0 ); \
 }
@@ -202,9 +203,11 @@ bool type::Retain () { \
 
 #else
 
+#	ifdef DISPOSER_ATOMIC_COUNTER
+
 #define ENVIRONS_OUTPUT_ALLOC_SP(type)				extern LONGSYNC objectIdentifiers; \
 bool type::Retain () { \
-	CVerbVerbArg ( "Retain [%i]: [%i]", objID_, refCountSP );  \
+	CVerbVerbArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
 	\
 	LONGSYNC localRefCount = __sync_add_and_fetch ( &refCountSP, 1 ); \
 	\
@@ -212,10 +215,8 @@ bool type::Retain () { \
         pthread_mutex_lock ( &objLock ); \
 		\
         if ( !myselfAtClients ) { \
-			if ( myself ) { \
-				CVerbVerbArg ( "Retain [%i]: -> Allocating SP", objID_ ); \
-				myselfAtClients = myself; \
-			} \
+            CVerbVerbArg ( "Retain [ %i ]: -> Allocating SP", objID_ ); \
+            myselfAtClients = myself; \
 			if ( !myselfAtClients ) { \
 				__sync_sub_and_fetch ( &refCountSP, 1 ); localRefCount = 0; \
 				checkSP = true; \
@@ -229,15 +230,15 @@ bool type::Retain () { \
 		} \
         pthread_mutex_unlock ( &objLock ); \
     } \
-	CVerbVerbArg ( "Retain [%i]: -> [%i] ", objID_, localRefCount );  \
+	CVerbVerbArg ( "Retain [ %i ]: -> [ %i ] ", objID_, localRefCount );  \
 	\
 	return ( localRefCount > 0 ); \
 }
 
 
-#define ENVIRONS_OUTPUT_WP_ALLOC(type)				extern LONGSYNC objectIdentifiers; \
+#define ENVIRONS_OUTPUT_ALLOC_WP(type)				extern LONGSYNC objectIdentifiers; \
 bool type::Retain () { \
-    CVerbVerbArg ( "Retain [%i]: [%i]", objID_, refCountSP );  \
+    CVerbVerbArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
     \
     LONGSYNC localRefCount	= __sync_add_and_fetch ( &refCountSP, 1 ); \
     \
@@ -245,10 +246,8 @@ bool type::Retain () { \
         pthread_mutex_lock ( &objLock ); \
 		\
         if ( !myselfAtClients ) { \
-			if ( myself.use_count () > 0 ) { \
-				CVerbVerbArg ( "Retain [%i]: -> Allocating SP", objID_ ); \
-				myselfAtClients = myself.lock (); \
-			} \
+            CVerbVerbArg ( "Retain [ %i ]: -> Allocating SP", objID_ ); \
+            myselfAtClients = myself.lock (); \
 			\
 			if ( !myselfAtClients ) { \
 				__sync_sub_and_fetch ( &refCountSP, 1 ); localRefCount = 0; \
@@ -263,10 +262,85 @@ bool type::Retain () { \
 		} \
         pthread_mutex_unlock ( &objLock ); \
     } \
-    CVerbVerbArg ( "Retain [%i]: -> [%i] ", objID_, localRefCount );  \
+    CVerbVerbArg ( "Retain [ %i ]: -> [ %i ] ", objID_, localRefCount );  \
     \
     return ( localRefCount > 0 ); \
 }
+
+#	else // NOT DISPOSER_ATOMIC_COUNTER follows
+
+#define ENVIRONS_OUTPUT_ALLOC_SP(type)				extern LONGSYNC objectIdentifiers; \
+bool type::Retain () { \
+	\
+    pthread_mutex_lock ( &objLock ); \
+	\
+	CVerbVerbArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
+	\
+	LONGSYNC localRefCount = 0; \
+	\
+	if ( checkSP ) { \
+	\
+		localRefCount = ++refCountSP; \
+		\
+		if ( localRefCount == 1 ) { \
+			\
+			if ( !myselfAtClients ) { \
+				CVerbVerbArg ( "Retain [ %i ]: -> Allocating SP", objID_ ); \
+				\
+				myselfAtClients = myself; \
+				\
+				if ( !myselfAtClients ) { \
+					--refCountSP; localRefCount = 0; \
+					checkSP = false; \
+				} \
+			} \
+		} \
+    } \
+	\
+	pthread_mutex_unlock ( &objLock ); \
+	\
+	CVerbVerbArg ( "Retain [ %i ]: -> [ %i ] ", objID_, localRefCount );  \
+	\
+	return ( localRefCount > 0 ); \
+}
+
+
+#define ENVIRONS_OUTPUT_ALLOC_WP(type)				extern LONGSYNC objectIdentifiers; \
+bool type::Retain () { \
+	\
+    pthread_mutex_lock ( &objLock ); \
+	\
+	CVerbVerbArg ( "Retain [ %i ]: [ %i ]", objID_, refCountSP );  \
+	\
+	LONGSYNC localRefCount = 0; \
+	\
+	if ( checkSP ) { \
+	\
+		localRefCount = ++refCountSP; \
+		\
+		if ( localRefCount == 1 ) { \
+			\
+			if ( !myselfAtClients ) { \
+				CVerbVerbArg ( "Retain [ %i ]: -> Allocating SP", objID_ ); \
+				\
+				myselfAtClients = myself.lock (); \
+				\
+				if ( !myselfAtClients ) { \
+					--refCountSP; localRefCount = 0; \
+					checkSP = false; \
+				} \
+			} \
+		} \
+    } \
+	\
+	pthread_mutex_unlock ( &objLock ); \
+	\
+	CVerbVerbArg ( "Retain [ %i ]: -> [ %i ] ", objID_, localRefCount );  \
+	\
+	return ( localRefCount > 0 ); \
+}
+
+#	endif
 
 #endif
 
@@ -277,23 +351,25 @@ bool type::Retain () { \
  *
  * setting localRefCount = -1 means prohibit further reference allocations and signal custom deletion of the container
  */
-#define ENVIRONS_OUTPUT_RELEASE()				 CVerbVerbArg ( "Release  [%i]: [%i]", objID_, refCountSP ); \
+#define ENVIRONS_OUTPUT_RELEASE()				 CVerbVerbArg ( "Release  [ %i ]: [ %i ]", objID_, refCountSP ); \
 \
     LONGSYNC localRefCount = __sync_sub_and_fetch ( &refCountSP, 1 ); \
     \
     if ( localRefCount == 0 )  { \
-        CVerbVerbArg ( "Release  [%i]: -> Disposing SP", objID_ );  \
+        CVerbVerbArg ( "Release  [ %i ]: -> Disposing SP", objID_ );  \
         \
         ReleaseLocked (); \
     }
 
 
-#define ENVIRONS_OUTPUT_RELEASE_SP(type)			CVerbVerbArg ( "Release  [%i]: [%i]", objID_, refCountSP ); \
+#	ifdef DISPOSER_ATOMIC_COUNTER
+
+#define ENVIRONS_OUTPUT_RELEASE_SP(type)			CVerbVerbArg ( "Release  [ %i ]: [ %i ]", objID_, refCountSP ); \
 \
     LONGSYNC localRefCount = __sync_sub_and_fetch ( &refCountSP, 1 ); \
     \
     if ( localRefCount == 0 )  { \
-        CVerbVerbArg ( "Release  [%i]: -> Disposing SP", objID_ );  \
+        CVerbVerbArg ( "Release  [ %i ]: -> Disposing SP", objID_ );  \
         \
         sp ( type ) toDispose; bool doRelease = false; \
         \
@@ -302,7 +378,7 @@ bool type::Retain () { \
 		if ( refCountSP == 0 ) { \
 			checkSP = true; \
 			\
-			CVerbVerbArg ( "Release  [%i]: -> [%i]", objID_, localRefCount ); \
+			CVerbVerbArg ( "Release  [ %i ]: -> [ %i ]", objID_, localRefCount ); \
 			\
 			toDispose = myselfAtClients; doRelease = true; \
 			\
@@ -313,7 +389,38 @@ bool type::Retain () { \
         if ( doRelease ) { ReleaseLocked (); } \
     } 
 
-//else { CVerbArg ( "Release: Somebody has retained while we were trying to release [%i]: 0 -> [%i]", objID_, refCountSP ); }
+//else { CVerbArg ( "Release: Somebody has retained while we were trying to release [ %i ]: 0 -> [ %i ]", objID_, refCountSP ); }
+
+#	else // NOT DISPOSER_ATOMIC_COUNTER follows
+
+#define ENVIRONS_OUTPUT_RELEASE_SP(type)			\
+	CVerbVerbArg ( "Release  [ %i ]: [ %i ]", objID_, refCountSP ); \
+    \
+    sp ( type ) toDispose; bool doRelease = false; \
+	\
+	pthread_mutex_lock ( &objLock ); \
+	\
+    LONGSYNC localRefCount = --refCountSP; \
+    \
+    if ( localRefCount == 0 )  { \
+		\
+        CVerbVerbArg ( "Release  [ %i ]: -> Disposing SP", objID_ );  \
+        \
+		CVerbVerbArg ( "Release  [ %i ]: -> [ %i ]", objID_, localRefCount ); \
+		\
+		toDispose = myselfAtClients; doRelease = true; \
+		\
+		myselfAtClients = 0; \
+		\
+		if ( myself.use_count () <= 0 ) checkSP = false; \
+    } \
+	\
+	pthread_mutex_unlock ( &objLock ); \
+    \
+    if ( doRelease ) { ReleaseLocked (); }  
+
+#	endif
+
 
 #if ((defined(ENVIRONS_IOS) || defined(ENVIRONS_OSX)))
 
@@ -398,7 +505,7 @@ bool type::Retain () { \
 #	define ENVIRONS_OUTPUT_ALLOC_INIT_WSP()				ENVIRONS_OUTPUT_ALLOC_INIT()
 
 #	define ENVIRONS_OUTPUT_ALLOC(type)					extern LONGSYNC objectIdentifiers;
-#	define ENVIRONS_OUTPUT_WP_ALLOC(type)				extern LONGSYNC objectIdentifiers;
+#	define ENVIRONS_OUTPUT_ALLOC_WP(type)				extern LONGSYNC objectIdentifiers;
 
 #	define ENVIRONS_OUTPUT_RELEASE()
 #	define ENVIRONS_OUTPUT_RELEASE_SP(type)						 

@@ -31,6 +31,7 @@ namespace environs
 
 #ifndef NDEBUG
 
+    extern void _EnvDebugBreak ( const char * msg );
     extern bool InitTracerAll ();
     extern void DisposeTracerAll ();
 
@@ -38,6 +39,9 @@ namespace environs
 #else
 #	define InitTracer()
 #	define DisposeTracerAll()
+#   ifndef _EnvDebugBreak
+#       define _EnvDebugBreak(a)
+#   endif
 #endif
 
     /*

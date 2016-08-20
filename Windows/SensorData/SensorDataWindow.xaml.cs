@@ -30,7 +30,7 @@ namespace environs.Apps
     /// <summary>
     /// Interactionlogic for SensorDataWindow.xaml
     /// </summary>
-    public partial class SensorDataWindow : Window
+    public partial class SensorDataWindow : Window, IDisposable
     {
         private static String className = "SensorDataWindow";
 
@@ -152,7 +152,7 @@ namespace environs.Apps
                         break;
                     }
 
-                    if (pack.type == SensorType.MotionGravityAcceleration)
+                    if (pack.type == SensorType.Gravity || pack.type == SensorType.Acceleration)
                     {
                         //orientationView1.UpdateValue(pack.f1); // gravity
                         //orientationView2.UpdateValue(pack.f2); // gravity
@@ -184,12 +184,29 @@ namespace environs.Apps
 
         #endregion
 
-        internal void AppPreviewKeyDown(object sender, KeyEventArgs e)
+        
+        #region Disposing
+
+        public void Dispose()
         {
-            if (e.Key == Key.T)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
+                if (osciTimer != null)
+                {
+                    osciTimer.Dispose();
+                    osciTimer = null;
+                }
             }
         }
+
+        #endregion
+
 
         #region Environs notifications
 
@@ -282,7 +299,6 @@ namespace environs.Apps
 #endregion
 
                
-
         #region Button handler
 
         private void buttonEnvStartStop_Click(object sender, RoutedEventArgs e)
@@ -293,6 +309,17 @@ namespace environs.Apps
             {
                 environs.Stop();
                 UpdateEnvironsStatus();
+            }
+        }
+
+        #endregion
+
+
+        #region Key handler
+        internal void AppPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.T)
+            {
             }
         }
 

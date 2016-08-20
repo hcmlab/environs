@@ -53,6 +53,18 @@ namespace environs
         float   f3;
     }
     SensorPack;
+
+
+    typedef struct SensorPackDoubles
+    {
+        int     packType;
+        int     type;
+        double  d1;
+        double  d2;
+        double  d3;
+    }
+    SensorPackDoubles;
+
     
     typedef struct SensorPackExt
     {
@@ -66,7 +78,8 @@ namespace environs
         double  d3;
     }
     SensorPackExt;
-    
+
+
     static SensorPackExt   *        sensorQueue                 = 0;
 	static bool						sensorLayerAllocated		= false;
     
@@ -74,6 +87,8 @@ namespace environs
     static  vector<int>  **         sensorInstances             = 0;
     
     int								sensorSender [ ENVIRONS_SENSOR_TYPE_MAX ];
+
+    int                             sensorsEventRate [ SensorType::Max ];
     
     static int						queueNext					= 0;
     static int						queueEnd					= 0;
@@ -85,7 +100,8 @@ namespace environs
     pthread_cond_t                  sensorSendEvent;
     pthread_t                       sensorSendThreadID;
     bool                            sensorThreadActive = false;
-    
+
+    static bool sensorChannelTcp [ ENVIRONS_SENSOR_TYPE_MAX ];
     
     /**
      * Objects for handling sensor services
@@ -175,6 +191,11 @@ namespace environs
             CVerb ( "EnvironsSensors_GlobalsInit" );
             
             Zero ( sensorSender );
+
+			for ( size_t i = 0; i < ( sizeof ( sensorsEventRate ) / sizeof ( sensorsEventRate [ 0 ] ) ); ++i )
+				sensorsEventRate [ i ] = 33000; // microseconds
+
+			memcpy ( &sensorChannelTcp, &sensorChannelTcpDefault, sizeof ( sensorChannelTcp ) );
             
             if ( !InitSensors () )
                 return false;
@@ -205,7 +226,7 @@ namespace environs
             
 			if ( !sensorQueue )
 			{
-				sensorQueue = (SensorPackExt *) malloc ( sizeof ( SensorPackExt ) * SENSOR_QUEUE_CAP_MAX );
+				sensorQueue = ( SensorPackExt * ) malloc ( sizeof ( SensorPackExt ) * SENSOR_QUEUE_CAP_MAX );
 
 				if ( !sensorQueue ) {
 					CErr ( "EnvironsSensors_GlobalsInit: Failed to alloc memory for sensor queue!" );
@@ -290,8 +311,8 @@ namespace environs
             if ( !device )
                 return;
             
-            int objID = 0;
-            int nativeID = device->nativeID;
+            int objID       = 0;
+            int nativeID    = device->nativeID;
             
             sp ( DeviceInstanceNode ) instanceNode = device->deviceNode;
             if ( instanceNode ) {
@@ -300,15 +321,24 @@ namespace environs
             }
             
             FAKEJNI ();
-            
-            for ( int i = 0; i < ENVIRONS_SENSOR_TYPE_MAX; ++i )
-            {
-                SensorType_t sensorType = (SensorType_t) i;
-                
-                if ( device->sensorSender & sensorFlags [ sensorType ] ) {
-                    EnvironsCallArg ( SetSensorEventSenderN, hInst, nativeID, objID, sensorType, false );
-                    
-                    EnvironsCallArg ( StopSensorListeningN, hInst, sensorType );
+
+            if ( objID || nativeID ) 
+			{
+				unsigned int flag = 1;
+
+                for ( int i = 0; i < ENVIRONS_SENSOR_TYPE_MAX; ++i )
+                {
+                    SensorType_t sensorType = (SensorType_t) i;
+
+                    if ( device->sensorSender & flag ) {
+                        CVerbArg ( "DisposeSensorSender:\tType [ %i : %s ] Stopping ...", i, sensorFlagDescriptions [ i ] );
+
+                        EnvironsCallArg ( SetSensorEventSenderN, hInst, nativeID, objID, sensorType, false );
+
+                        EnvironsCallArg ( StopSensorListeningN, hInst, sensorType );
+                    }
+
+					flag <<= 1;
                 }
             }
             
@@ -326,7 +356,7 @@ namespace environs
          */
         int GetSensorEventSenderCount ( int hInst, environs::SensorType_t sensorType )
 		{
-			CVerbVerbArg ( "GetSensorEventSenderCount: type [%i]", sensorType );
+			CVerbVerbArg ( "GetSensorEventSenderCount:\tType [ %i ]", sensorType );
 
             FAKEJNI ();
             
@@ -373,9 +403,9 @@ namespace environs
          *
          * @return success true = enabled, false = failed.
          */
-        bool IsSensorAvailable ( int hInst, environs::SensorType_t sensorType )
+        bool IsSensorAvailable ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
         {
-            CVerbArg ( "IsSensorAvailable: type [ %i ]", sensorType );
+            CVerbArg ( "IsSensorAvailable: \tType [ %i : %s ]", sensorType, sensorName );
 
             if ( sensorType < 0 || sensorType >= SensorType::Max )
                 return false;
@@ -400,7 +430,7 @@ namespace environs
 		*/
 		ENVIRONSAPI void EnvironsFunc ( StartSensorListeningAllN, jint hInst )
 		{
-			CVerbArg ( "StartSensorListeningAllN: hInst [%i]", hInst );
+			CVerbArg ( "StartSensorListeningAllN: hInst [ %i ]", hInst );
 
 			StartSensorListeningAll ( hInst );
 		}
@@ -414,7 +444,7 @@ namespace environs
 		*/
         void StartSensorListeningAll ( int hInst )
         {
-            CVerbArg ( "StartSensorListeningAll: hInst [ %i ]", hInst );
+            CVerbArg ( "StartSensorListeningAll:  hInst [ %i ]", hInst );
 
             // return immediately if the environment hasn't been started or using sensor data has been disabled.
             sp ( Instance ) envSP = native.instancesSP [ hInst ] MED_WP;
@@ -425,12 +455,14 @@ namespace environs
                 return;
 
             unsigned int flags = env->sensorSubscribed;
+			if ( !flags )
+				return;
 
             for ( int i = 0; i < ENVIRONS_SENSOR_TYPE_MAX; ++i )
             {
                 SensorType_t sensorType = (SensorType_t) i;
 
-                unsigned int flag = sensorFlags [ sensorType ];
+				unsigned int flag = 1 << ( ( int ) sensorType ); // sensorFlags [ sensorType ];
 
                 if ( flags & flag )
                 {
@@ -439,7 +471,7 @@ namespace environs
                     int registered = (sensorRegistered & flag);
                     if ( !registered )
                     {
-                        registered = StartSensorListeningImpl ( hInst, sensorType );
+                        registered = StartSensorListeningImpl ( hInst, sensorType, sensorFlagDescriptions [ sensorType ] );
                         if ( registered )
                             sensorRegistered |= flag;
                     }
@@ -459,7 +491,7 @@ namespace environs
 		*/
 		ENVIRONSAPI void EnvironsFunc ( StopSensorListeningAllN, jint hInst )
 		{
-			CVerbArg ( "StopSensorListeningAllN: hInst [%i]", hInst );
+			CVerbArg ( "StopSensorListeningAllN: hInst [ %i ]", hInst );
 
 			StopSensorListeningAll ( hInst );
         }
@@ -473,7 +505,7 @@ namespace environs
 		*/
         void StopSensorListeningAll ( int hInst )
         {
-            CVerbArg ( "StartSensorListeningAll: hInst [ %i ]", hInst );
+            CVerbArg ( "StopSensorListeningAll:  hInst [ %i ]", hInst );
 
             // return immediately if the environment hasn't been started or using sensor data has been disabled.
             sp ( Instance ) envSP = native.instancesSP [ hInst ] MED_WP;
@@ -483,18 +515,19 @@ namespace environs
                 return;
 
             unsigned int flags = env->sensorSubscribed;
+			unsigned int flag = 1;
 
             for ( int i = 0; i < ENVIRONS_SENSOR_TYPE_MAX; ++i )
             {
                 SensorType_t sensorType = (SensorType_t) i;
 
-                unsigned int flag = sensorFlags [ sensorType ];
+				//unsigned int flag = 1 << ( ( int ) sensorType ); // sensorFlags [ sensorType ];
 
                 if ( sensorRegistered & flag )
                 {
                     if ( flags & flag )
                     {
-                        StopSensorListeningImpl ( hInst, sensorType );
+                        StopSensorListeningImpl ( hInst, sensorType, sensorFlagDescriptions [ i ] );
 
                         sensorRegistered &= ~flag;
                         flags &= ~flag;
@@ -503,9 +536,71 @@ namespace environs
 
                 if ( !flags )
                     break;
+				flag <<= 1;
             }
         }
 
+
+        /**
+         * Enable sending of sensor events to this DeviceInstance.
+         * Events are send if the device is connected and stopped if the device is disconnected.
+         *
+         * @param hInst                 The Environs instance identifier.
+         * @param nativeID 				Destination native device id
+         * @param objID 				Destination object device id
+         * @param sensorType            A value of type environs.SensorType.
+         * @param enable 				true = enable, false = disable.
+         *
+         * @return success true = enabled, false = failed.
+         */
+        bool SetSensorEventSender ( int hInst, int nativeID, int objID, environs::SensorType_t sensorType, bool enable )
+        {
+            CVerbArg2 ( "SetSensorEventSender", "nativeID", "i", nativeID, "type", "i", sensorType );
+
+            FAKEJNI ();
+
+            bool success;
+            EnvironsCallArg ( SetSensorEventSenderN, hInst, nativeID, objID, ( int ) sensorType, enable );
+
+            if ( enable ) {
+                success = EnvironsCallArg ( StartSensorListeningN,  hInst, ( int ) sensorType ) != 0;
+            }
+            else {
+                success = EnvironsCallArg ( StopSensorListeningN,  hInst, ( int ) sensorType ) != 0;
+            }
+
+            return success;
+        }
+
+
+        /**
+         * Enable sending of sensor events to this DeviceInstance.
+         * Events are send if the device is connected and stopped if the device is disconnected.
+         *
+         * @param hInst                 The Environs instance identifier.
+         * @param nativeID 				Destination native device id
+         * @param objID 				Destination object device id
+         * @param flags            		A bitfield with values of type SensorType
+         * @param enable 				true = enable, false = disable.
+         *
+         * @return success 1 = enabled, 0 = failed.
+         */
+        ENVIRONSAPI int EnvironsFunc ( SetSensorEventSenderFlagsN, int hInst, int nativeID, int objID, int flags, int enable )
+        {
+            int success = 1;
+
+			unsigned int flag = 1;
+
+            for ( int i = 0; i<SensorType::Max; ++i )
+            {
+				if ( ( flags & flag ) != 0 ) {// if ( (flags & sensorFlags [ i ]) != 0 ) {
+                    if ( !SetSensorEventSender ( hInst, nativeID, objID, (environs::SensorType_t) i, enable != 0 ) )
+                        success = 0;
+                }
+				flag <<= 1;
+            }
+            return success;
+        }
 
 
         /**
@@ -516,30 +611,40 @@ namespace environs
          * @param hInst         The Environs instance identifier.
          * @param sensorType    A value of type environs::SensorType_t.
          *
+         * @return success 1 = enabled, 0 = failed.
          */
-        ENVIRONSAPI void EnvironsFunc ( StartSensorListeningN, int hInst, int sensorType )
+        ENVIRONSAPI int EnvironsFunc ( StartSensorListeningN, int hInst, int sensorType )
         {
-            CVerbArg ( "StartSensorListening: type [ %i ]", sensorType );
+			if ( sensorType < 0 || sensorType >= SensorType::Max ) {
+				CWarnArg ( "StartSensorListeningN:\t\tType [ %i ] invalid.", sensorType );
+				return 0;
+			}
 
-            if ( sensorType < 0 || sensorType >= SensorType::Max )
-                return;
+			const char * sensorName = sensorFlagDescriptions [ sensorType ];
+
+			CVerbArg ( "StartSensorListeningN:\t\tType [ %i : %s ]", sensorType, sensorName );
 
             // return immediately if the environment hasn't been started or using sensor data has been disabled.
             sp ( Instance ) envSP = native.instancesSP [ hInst ] MED_WP;
 
             if ( !envSP || envSP->environsState < environs::Status::Started )
-                return;
+                return 0;
 
-            unsigned int flag = sensorFlags [ sensorType ];
+			unsigned int flag = 1 << ( ( int ) sensorType ); // sensorFlags [ sensorType ];
 
             int registered = (sensorRegistered & flag);
-            if ( registered )
-                return;
+			if ( registered ) {
+				CVerbsArg ( 1, "StartSensorListeningN:\t\tType [ %i : %s ] already started.", sensorType, sensorName );
+				return 0;
+			}
 
-            registered = StartSensorListeningImpl ( hInst, ( environs::SensorType_t ) sensorType );
+            registered = StartSensorListeningImpl ( hInst, ( environs::SensorType_t ) sensorType, sensorName );
 
-            if ( registered )
+            if ( registered ) {
                 sensorRegistered |= flag;
+                return 1;
+            }
+            return 0;
         }
         
 
@@ -551,48 +656,68 @@ namespace environs
          * @param hInst         The Environs instance identifier.
          * @param sensorType    A value of type environs::SensorType_t.
          *
+         * @return success 1 = enabled, 0 = failed.
          */
-        ENVIRONSAPI void EnvironsFunc ( StopSensorListeningN, int hInst, int sensorType )
+        ENVIRONSAPI int EnvironsFunc ( StopSensorListeningN, int hInst, int sensorType )
         {
-            CVerbArg ( "StopSensorListening: type [ %i ]", sensorType );
-
             environs::SensorType_t type = ( environs::SensorType_t ) sensorType;
 
             if ( sensorType == -1 ) {
+				CLog ( "StopSensorListeningN:\tType [ All ]" );
                 sensorRegistered = 0;
 
-                StopSensorListeningImpl ( hInst, type );
-
-                return;
+                StopSensorListeningImpl ( hInst, type, "All" );
+                return 1;
             }
 
-            if ( sensorType < 0 || sensorType >= SensorType::Max )
-                return;
+			// Make sure that the sensorType value is valid
+			if ( sensorType < 0 || sensorType >= SensorType::Max ) {
+				CVerbArg ( "StopSensorListeningN:\tType [ %i ] invalid.", sensorType );
+				return 0;
+			}
+
+			const char * sensorName = sensorFlagDescriptions [ sensorType ];
+
+			CLogsArg ( 1, "StopSensorListeningN:\tType [ %i : %s ]", sensorType, sensorName );
+
+			bool			disable = true;
+			unsigned int	flag	= 1 << ( ( int ) sensorType ); // sensorFlags [ sensorType ];
 
             sp ( Instance ) envSP = native.instancesSP [ hInst ] MED_WP;
 
             Instance * env = envSP.get ();
-            if ( !env )
-                return;
+            if ( env ) {
+                CVerbArg ( "StopSensorListeningN:\tType [ %i ] Environs subscribed [ %i ].", sensorType, env->sensorSubscribed );
 
-            unsigned int flag = sensorFlags [ sensorType ];
-
-            if ( env->sensorSubscribed & flag ) {
-                return;
-            }
+				// If the sensorType is subscribed by the calling Environs instance, then do not disable the sensor
+                if ( env->sensorSubscribed & flag ) {
+                    CVerbArg ( "StopSensorListeningN:\tType [ %i ] Environs subscribed sensor.", sensorType );
+					disable = false;
+				}
+			}
 
             int devs = GetSensorEventSenderCount ( hInst, type );
             if ( devs > 0 ) {
-                return;
+				// If there are DeviceControllers that have subscribed to this sensorType, then do not disable the sensor
+				disable = false;
             }
 
             int registered = (sensorRegistered & flag);
-            if ( !registered )
-                return;
+			if ( !registered ) {
+				// If the sensorType has not been registered / started, then dont do anything
+				CVerbsArg ( 1, "StopSensorListeningN:\tType [ %i : %s ] already stopped.", sensorType, sensorName );
+				return 0;
+			}
 
-            StopSensorListeningImpl ( hInst, type );
+			if ( disable ) {
+				// Mark the sensorType as stopped
+				sensorRegistered &= ~flag;
 
-            sensorRegistered &= ~flag;
+				CLogsArg ( 1, "StopSensorListeningN:\tType [ %i : %s ] stopping ...", sensorType, sensorName );
+				StopSensorListeningImpl ( hInst, type, sensorName );
+                return 1;
+			}
+            return 0;
         }
     
     
@@ -606,9 +731,35 @@ namespace environs
          */
         ENVIRONSAPI int EnvironsFunc ( IsSensorAvailableN, jint hInst, jint sensorType )
         {
-            CVerbArg ( "IsSensorAvailableN: type [%i]", sensorType );
+			const char * sensorName = ( ( sensorType >= 0 && sensorType < SensorType::Max ) ? sensorFlagDescriptions [ sensorType ] : "Invalid" );
+
+			int avail = ( IsSensorAvailable ( hInst, ( environs::SensorType_t ) sensorType, sensorName ) ? 1 : 0 );
+
+            CVerbArg ( "IsSensorAvailableN:\tType [ %i : %s : %i ]", sensorType, sensorName, avail );
             
-            return ( IsSensorAvailable ( hInst, (environs::SensorType_t) sensorType ) ? 1 : 0);
+			return avail;
+        }
+
+
+        /**
+         * Determine whether the given sensorType is enabled.
+         *
+         * @param hInst         The Environs instance identifier.
+         * @param sensorType    A value of type environs::SensorType_t.
+         *
+         * @return success 1 = enabled, 0 = failed, -1 = error.
+         */
+        ENVIRONSAPI int EnvironsFunc ( IsSensorEnabledN, jint hInst, jint sensorType )
+        {
+            if ( sensorType < 0 || sensorType >= SensorType::Max )
+                return -1;
+
+            CVerbArg ( "IsSensorEnabledN:\t\tType [ %i : %s : %i ]", sensorType, 
+				( ( sensorType >= 0 && sensorType < SensorType::Max ) ? sensorFlagDescriptions [ sensorType ] : "Invalid" ),
+				( ( sensorRegistered & ( 1 << ( ( int ) sensorType ) ) ) ? 1 : 0 ) );
+
+            return ( ( sensorRegistered & ( 1 << ( ( int ) sensorType ) ) ) ? 1 : 0);
+            //return ( ( sensorRegistered & sensorFlags [ sensorType ] ) ? 1 : 0);
         }
         
         
@@ -626,25 +777,28 @@ namespace environs
          */
         ENVIRONSAPI EBOOL EnvironsFunc ( SetSensorEventSenderN, jint hInst, jint nativeID, jint objID, jint sensorType, EBOOL enable )
 		{
-			CVerbArg ( "SetSensorEventSenderN: nativeID [ %i ], type [ %i ], enable [ %d ]", nativeID, sensorType, enable );
+			CVerbArg ( "SetSensorEventSenderN:\t\tType [ %i ], nativeID [ %i ], objID [ %i ], enable [ %d ]", sensorType, nativeID, objID, enable );
 
 			if ( !LockAcquire ( &sensorsMutex, "SetSensorEventSenderN" ) )
 				return false;
+
+			bool                        success     = false;
+			DeviceBase *                device      = 0;
+			vector<DeviceBase *>    *   srcDevices  = 0;
+			vector<int>             *   srcInstances  = 0;
             
-            bool                        success     = false;
-            DeviceBase *                device      = 0;
-            vector<DeviceBase *>    *   srcDevices  = 0;
-            vector<int>             *   srcInstances  = 0;
-            
-            int devs = 0, found = -1, sensorFlag = 0;
+			int devs = 0, found = -1; // sensorFlag = 0;
+			unsigned int sensorFlag;
             
             if ( sensorType < 0 || sensorType >= SensorType::Max )
                 goto Finish;
 
-            sensorFlag = sensorFlags [ sensorType ];
+			sensorFlag = 1 << ( ( int ) sensorType ); // sensorFlags [ sensorType ];
 
             if ( !nativeID && !objID )
             {
+                CVerbArg ( "SetSensorEventSenderN:\t\tType [ %i : %s ] Try %s Environs subscribed ...", sensorType, sensorFlagDescriptions [ sensorType ], enable ? "enabling" : "disabling" );
+
                 if ( hInst <= 0 || hInst >= ENVIRONS_MAX_ENVIRONS_INSTANCES )
                     goto Finish;
 
@@ -703,29 +857,32 @@ namespace environs
                 if ( !srcDevices )
                     goto Finish;
 
-                devs = (int) srcDevices->size();
+                CVerbArg ( "SetSensorEventSenderN:\t\tType [ %i : %s ] Try %s Device subscribed ...", sensorType, sensorFlagDescriptions [ sensorType ], enable ? "enabling" : "disabling" );
 
-                for ( int i=0; i < devs; i++ ) {
-                    DeviceBase * dev = (*srcDevices) [i];
+				devs = ( int ) srcDevices->size ();
 
-                    if ( dev ) {
-                        sp ( DeviceInstanceNode ) node = dev->deviceNode;
-                        if ( !node ) {
-                            RemoveDeviceFromReceivers ( dev );
+				for ( int i=0; i < devs; i++ ) {
+					DeviceBase * dev = ( *srcDevices ) [ i ];
 
-                            i--;
-                            if ( devs > 0 )
-                                devs--;
-                            continue;
-                        }
+					if ( dev ) {
+						// Check whether the device is a zombie without being in the device management anymore
+						sp ( DeviceInstanceNode ) node = dev->deviceNode;
+						if ( !node ) {
+							RemoveDeviceFromReceivers ( dev );
 
-                        if ( node->info.objID == objID ) {
-                            device = dev;
-                            found = i;
-                            break;
-                        }
-                    }
-                }
+							i--;
+							if ( devs > 0 )
+								devs--;
+							continue;
+						}
+
+						if ( node->info.objID == objID ) {
+							device = dev;
+							found = i;
+							break;
+						}
+					}
+				}
 
                 if ( enable ) {
                     if ( device ) {
@@ -783,24 +940,89 @@ namespace environs
 				return 0;
             
             int devs = 0;
-            
-            if ( sensorType >= 0 && sensorType < SensorType::Max )
-                devs = (int) sensorDevices [ sensorType ]->size ();
+
+			if ( sensorType >= 0 && sensorType < SensorType::Max )
+				devs = ( int ) sensorDevices [ sensorType ]->size ();
             
 			if ( !LockRelease ( &sensorsMutex, "GetSensorEventSenderCountN" ) )
 				return 0;
             
             return devs;
         }
-        
-        
-        
+
+
+        /**
+         * Set use of Tcp transport channel of the given sensorType.
+         *
+         * @param hInst         The Environs instance identifier.
+         * @param sensorType    A value of type environs::SensorType_t.
+         * @param enable        true = TCP, false = UDP.
+         *
+         */
+        ENVIRONSAPI void EnvironsFunc ( SetUseSensorChannelTcpN, jint hInst, jint sensorType, jboolean enable )
+        {
+            if ( sensorType >= 0 && sensorType < SensorType::Max ) {
+                sensorChannelTcp [ sensorType ] = enable;
+            }
+        }
+
+
+        /**
+         * Get use of Tcp transport channel of the given sensorType.
+         *
+         * @param hInst         The Environs instance identifier.
+         * @param sensorType    A value of type environs::SensorType_t.
+         *
+         * @return success      1 = TCP, 0 = UDP, -1 = error.
+         */
+        ENVIRONSAPI jint EnvironsFunc ( GetUseSensorChannelTcpN, jint hInst, jint sensorType )
+        {
+            if ( sensorType >= 0 && sensorType < SensorType::Max ) {
+                return ( sensorChannelTcp [ sensorType ] ? 1 : 0 );
+            }
+            return -1;
+        }
+
+
+        /**
+         * Set sample rate of the given sensorType in microseconds.
+         *
+         * @param hInst             The Environs instance identifier.
+         * @param sensorType        A value of type environs::SensorType_t.
+         * @param microseconds      The sensor sample rate in microseconds.
+         *
+         */
+        ENVIRONSAPI void EnvironsFunc ( SetUseSensorRateN, jint hInst, jint sensorType, jint microseconds )
+        {
+            if ( sensorType >= 0 && sensorType < SensorType::Max ) {
+                sensorsEventRate [ sensorType ] = microseconds;
+            }
+        }
+
+
+        /**
+         * Get sample rate of the given sensorType in microseconds.
+         *
+         * @param hInst             The Environs instance identifier.
+         * @param sensorType        A value of type environs::SensorType_t.
+         *
+         * @return microseconds     The sensor sample rate in microseconds. -1 means error.
+         */
+        ENVIRONSAPI jint EnvironsFunc ( GetUseSensorRateN, jint hInst, jint sensorType )
+        {
+            if ( sensorType >= 0 && sensorType < SensorType::Max ) {
+                return sensorsEventRate [ sensorType ];
+            }
+            return -1;
+        }
+
+
         ENVIRONSAPI void EnvironsFunc ( PushSensorDataN, jint sensorType, jfloat x, jfloat y, jfloat z )
         {
             if ( !native.coresStarted )
                 return;
             
-            CVerbVerbArg ( "PushSensorDataN: Type [%i], x [%.2f], y [%.2f], z [%.2f]", sensorType, x, y, z );
+			CVerbVerbArg ( "PushSensorDataN:\tType [ %i ], x [ %.2f ], y [ %.2f ], z [ %.2f ]", sensorType, x, y, z );
             
             if ( pthread_mutex_lock ( &sensorQueueMutex ) ) {
                 CErr ( "PushSensorDataN: Failed to lock mutex on sensorQueueMutex" );
@@ -808,16 +1030,16 @@ namespace environs
             }
 
 			if ( queueEnd == queueNext - 1 || ( queueNext == 0 && queueEnd == SENSOR_QUEUE_MAX ) ) {
-				CVerbVerb ( "PushSensorDataN: Sensor queue is full." );
+				CWarns ( 1, "PushSensorDataN: Sensor queue is full." );
 			}
 			else {
 				SensorPack * pack = ( SensorPack * ) ( sensorQueue + queueEnd );
 
 				pack->packType = 0;
-				pack->type = sensorType;
-				pack->f1 = x;
-				pack->f2 = y;
-				pack->f3 = z;
+				pack->type	= sensorType;
+				pack->f1	= x;
+				pack->f2	= y;
+				pack->f3	= z;
 
 				queueEnd++;
 				if ( queueEnd >= SENSOR_QUEUE_CAP_MAX )
@@ -843,15 +1065,66 @@ namespace environs
                 CErr ( "PushSensorDataN: Failed to release mutex on sensorsMutex" );
             }
         }
+
+
+
+        ENVIRONSAPI void EnvironsFunc ( PushSensorDataDoublesN, jint sensorType, jdouble x, jdouble y, jdouble z )
+        {
+            if ( !native.coresStarted )
+                return;
+
+            CVerbVerbArg ( "PushSensorDataDoublesN:\tType [ %i ], x [ %.2f ], y [ %.2f ], z [ %.2f ]", sensorType, x, y, z );
+
+            if ( pthread_mutex_lock ( &sensorQueueMutex ) ) {
+                CErr ( "PushSensorDataDoublesN: Failed to lock mutex on sensorQueueMutex" );
+                return;
+            }
+
+            if ( queueEnd == queueNext - 1 || ( queueNext == 0 && queueEnd == SENSOR_QUEUE_MAX ) ) {
+				CWarns ( 1, "PushSensorDataDoublesN: Sensor queue is full." );
+            }
+            else {
+                SensorPackDoubles * pack = ( SensorPackDoubles * ) ( sensorQueue + queueEnd );
+
+                pack->packType = 1;
+                pack->type = sensorType;
+                pack->d1 = x;
+                pack->d2 = y;
+                pack->d3 = z;
+
+                queueEnd++;
+                if ( queueEnd >= SENSOR_QUEUE_CAP_MAX )
+                    queueEnd = 0;
+            }
+
+            if ( pthread_mutex_unlock ( &sensorQueueMutex ) ) {
+                CErr ( "PushSensorDataDoublesN: Failed to release mutex on sensorQueueMutex" );
+            }
+
+            ///
+            /// Signal send thread to work on the queue
+            ///
+            if ( pthread_mutex_lock ( &sensorsMutex ) ) {
+                CErr ( "PushSensorDataDoublesN: Failed to lock mutex on sensorsMutex" );
+            }
+
+            if ( pthread_cond_signal ( &sensorSendEvent ) ) {
+                CErr ( "PushSensorDataDoublesN: Failed to signal sensorSendEvent!" );
+            }
+
+            if ( pthread_mutex_unlock ( &sensorsMutex ) ) {
+                CErr ( "PushSensorDataDoublesN: Failed to release mutex on sensorsMutex" );
+            }
+        }
         
         
         
-        ENVIRONSAPI void EnvironsFunc ( PushSensorDataExtN, jboolean tcp, int sensorType, jdouble x, jdouble y, jdouble z, jfloat m, jfloat n, jfloat o )
+        ENVIRONSAPI void EnvironsFunc ( PushSensorDataExtN, jint sensorType, jdouble x, jdouble y, jdouble z, jfloat m, jfloat n, jfloat o )
         {
             if ( !native.coresStarted )
                 return;
             
-            CVerbVerbArg ( "PushSensorDataExtN: Type [%i], x [%.2f], y [%.2f], z [%.2f]", sensorType, x, y, z );
+            CVerbVerbArg ( "PushSensorDataExtN:\tType [ %i ], x [ %.2f ], y [ %.2f ], z [ %.2f ]", sensorType, x, y, z );
             
             if ( pthread_mutex_lock ( &sensorQueueMutex ) ) {
                 CErr ( "PushSensorDataN: Failed to lock mutex on sensorQueueMutex" );
@@ -859,12 +1132,12 @@ namespace environs
             }
             
             if ( queueEnd == queueNext - 1 || (queueNext == 0 && queueEnd == SENSOR_QUEUE_MAX) ) {
-                CVerbVerb ( "PushSensorDataN: Sensor queue is full." );
+				CWarns ( 1, "PushSensorDataN: Sensor queue is full." );
             }
             else {
                 SensorPackExt * pack = sensorQueue + queueEnd;
                 
-                pack->packType = (tcp ? 2 : 1);
+                pack->packType = 2;
                 pack->type = sensorType;
                 pack->d1 = x;
                 pack->d2 = y;
@@ -938,30 +1211,52 @@ namespace environs
                     break;
 
                 int frameType = 0;
+                int frameSize = 0;
                 
                 if ( queueEnd != queueNext )
                 {
                     SensorPackExt * packExt = sensorQueue + queueNext;
 
+					packType				= packExt->packType;
                     frameType               = packExt->type;
-                    frameExt.type           = frameType;
+
                     frameExt.data.floats.f1 = packExt->f1;
                     frameExt.data.floats.f2 = packExt->f2;
                     frameExt.data.floats.f3 = packExt->f3;
-                    
-                    if ( packExt->packType > 0 )
-                    {
-                        packType = packExt->packType;
-                        
-                        frameExt.type            = (frameType | ENVIRONS_SENSOR_PACK_TYPE_EXT);
+
+                    if ( packType == 1 ) {
+                        frameSize       = sizeof ( environs::lib::SensorFrameDoubles );
+
+                        frameExt.type   = (frameType | ENVIRONS_SENSOR_PACK_TYPE_DOUBLES);
+
+                        environs::lib::SensorFrameDoubles * frameDoubles = (environs::lib::SensorFrameDoubles *) &frameExt;
+
+                        SensorPackDoubles * packDoubles = (SensorPackDoubles *) packExt;
+
+                        frameDoubles->data.doubles.d1 = packDoubles->d1;
+                        frameDoubles->data.doubles.d2 = packDoubles->d2;
+                        frameDoubles->data.doubles.d3 = packDoubles->d3;
+
+                        CVerbsArg ( 8, "SensorEventSender:\tType [ %i : %s ]\td1 [ %lf ] d2 [ %lf ] d3 [ %lf ]", frameExt.type & 0x3FFFFFFF, sensorFlagDescriptions [ frameExt.type ], packDoubles->d1, packDoubles->d2, packDoubles->d3 );
+                    }
+                    else if ( packType == 2 )
+                    {                        
+                        frameExt.type          = (frameType | ENVIRONS_SENSOR_PACK_TYPE_EXT);
+                        frameSize              = sizeof ( environs::lib::SensorFrameExt );
                         
                         frameExt.doubles.d1 = packExt->d1;
                         frameExt.doubles.d2 = packExt->d2;
                         frameExt.doubles.d3 = packExt->d3;
                         
-                        CVerbArg ( "SensorEventSender: d1 [ %lf ] d2 [ %lf ] d3 [ %lf ] f1 [ %lf ] f2 [ %lf ] f3 [ %lf ]", packExt->d1, packExt->d2, packExt->d3, packExt->f1, packExt->f2, packExt->f3 );
-                        //CLogArg ( "SensorEventSender: ciphers [%s]", ConvertToHexSpaceString ( (char *)&frameExt, sizeof( environs::lib::SensorFrameExt) ) );
+						CVerbsArg ( 8, "SensorEventSender:\tType [ %i : %s ]\td1 [ %lf ] d2 [ %lf ] d3 [ %lf ] f1 [ %lf ] f2 [ %lf ] f3 [ %lf ]", frameExt.type & 0x3FFFFFFF, sensorFlagDescriptions [ frameExt.type ], packExt->d1, packExt->d2, packExt->d3, packExt->f1, packExt->f2, packExt->f3 );
                     }
+					else {
+						frameSize = sizeof ( environs::lib::SensorFrame );
+
+						frameExt.type = frameType;
+
+						CVerbsArg ( 8, "SensorEventSender:\tType [ %i : %s ]\tf1 [ %lf ] f2 [ %lf ] f3 [ %lf ]", frameExt.type, sensorFlagDescriptions [ frameExt.type ], packExt->f1, packExt->f2, packExt->f3 );
+					}
                     
                     queueNext++;
                     if ( queueNext >= SENSOR_QUEUE_CAP_MAX )
@@ -1012,7 +1307,7 @@ namespace environs
                                     if ( !inst )
                                         continue;
 
-                                    onEnvironsSensor ( inst, 0, ( environs::lib::SensorFrame * ) &frameExt, packType ? sizeof ( environs::lib::SensorFrameExt ) : sizeof ( environs::lib::SensorFrame ) );
+                                    onEnvironsSensor ( inst, 0, ( environs::lib::SensorFrame * ) &frameExt, frameSize );
                                 }
                             }
                             
@@ -1038,7 +1333,7 @@ namespace environs
 
                         int devs = (int) srcDevices->size();
 
-                        if ( packType > 1 )
+                        if ( sensorChannelTcp [ frameType ] )
                         {
                             for ( int i=0; i < devs; i++ )
                             {
@@ -1054,13 +1349,8 @@ namespace environs
                                         continue;
                                     }
                                     // Send to client
-                                    DeviceBase::SendTcpBuffer ( device->nativeID, true, MSG_TYPE_SENSOR, 0, &frameExt, packType ? sizeof ( environs::lib::SensorFrameExt ) : sizeof ( environs::lib::SensorFrame ) );
-                                    /*
-                                     Instance * env = device->env;
-                                     if ( env ) {
-                                     env->asyncWorker.PushSensorData ( device->nativeID, &frameExt, packType ? sizeof ( environs::lib::SensorFrameExt ) : sizeof ( environs::lib::SensorFrame ) );
-                                     }
-                                     */
+                                    device->SendTcpBuffer ( true, MSG_TYPE_SENSOR, 0, &frameExt, frameSize );
+                                    //DeviceBase::SendTcpBuffer ( device->nativeID, true, MSG_TYPE_SENSOR, 0, &frameExt, frameSize );      
                                 }
                             }
                         }
@@ -1081,7 +1371,7 @@ namespace environs
                                         continue;
                                     }
                                     // Send to client
-                                    device->SendDataPacket ( ( const char * ) &frameExt, packType ? sizeof ( environs::lib::SensorFrameExt ) : sizeof ( environs::lib::SensorFrame ) );
+                                    device->SendDataPacket ( ( const char * ) &frameExt, frameSize );
                                 }
                             }
                         }
@@ -1095,7 +1385,7 @@ namespace environs
 					goto DequeueNext;
             }
             
-            CLog ( "SensorEventSender: done" );
+            CLog ( "SensorEventSender: Done ..." );
             return 0;
         }
 	}

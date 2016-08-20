@@ -585,22 +585,32 @@ namespace environs
 	public enum class SensorType {
 			All                 	=	-1,
 			Accelerometer       	=	ENVIRONS_SENSOR_TYPE_ACCELEROMETER,
+			Acceleration        	=	ENVIRONS_SENSOR_TYPE_ACCELERATION,
 			MagneticField       	=	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD,
+			MagneticFieldMotion 	=	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION,
+			MagneticFieldUncalib	=	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB,
 			Gyroscope           	=	ENVIRONS_SENSOR_TYPE_GYROSCOPE,
+			GyroscopeUncalib    	=	ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB,
 			Orientation         	=	ENVIRONS_SENSOR_TYPE_ORIENTATION,
 			Light               	=	ENVIRONS_SENSOR_TYPE_LIGHT,
 			Location            	=	ENVIRONS_SENSOR_TYPE_LOCATION,
 			Heading             	=	ENVIRONS_SENSOR_TYPE_HEADING,
-			Altimeter           	=	ENVIRONS_SENSOR_TYPE_ALTIMETER,
-			MotionAttitudeRotation                    	=	ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION,
-			MotionGravityAcceleration                                                  	=	ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION,
-			MotionMagneticField 	=	ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD,
+			Temperature         	=	ENVIRONS_SENSOR_TYPE_TEMPERATURE,
+			MotionSignificant   	=	ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT,
+			Pressure            	=	ENVIRONS_SENSOR_TYPE_PRESSURE,
+			Attitude            	=	ENVIRONS_SENSOR_TYPE_ATTITUDE,
+			Rotation            	=	ENVIRONS_SENSOR_TYPE_ROTATION,
+			RotationGame        	=	ENVIRONS_SENSOR_TYPE_ROTATION_GAME,
+			RotationGeomagnetic 	=	ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC,
+			Gravity             	=	ENVIRONS_SENSOR_TYPE_GRAVITY,
+			Stepper             	=	ENVIRONS_SENSOR_TYPE_STEPPER,
+			Steps               	=	ENVIRONS_SENSOR_TYPE_STEPS,
+			Tilt                	=	ENVIRONS_SENSOR_TYPE_TILT,
 			Heartrate           	=	ENVIRONS_SENSOR_TYPE_HEARTRATE,
 			Proximity           	=	ENVIRONS_SENSOR_TYPE_PROXIMITY,
 			VOC                 	=	ENVIRONS_SENSOR_TYPE_VOC,
 			CO2                 	=	ENVIRONS_SENSOR_TYPE_CO2,
 			Humidity            	=	ENVIRONS_SENSOR_TYPE_HUMIDITY,
-			Temperature         	=	ENVIRONS_SENSOR_TYPE_TEMPERATURE,
 			Custom              	=	ENVIRONS_SENSOR_TYPE_CUSTOM,
 			Max                 	=	ENVIRONS_SENSOR_TYPE_MAX,
 		
@@ -5535,131 +5545,201 @@ namespace Notify {
 		literal int ENVIRONS_SENSOR_TYPE_ACCELEROMETER                =	(0);
 #		define	ENVIRONS_SENSOR_TYPE_ACCELEROMETER                		(0)
 
+#		ifdef ENVIRONS_SENSOR_TYPE_ACCELERATION                 
+#			undef ENVIRONS_SENSOR_TYPE_ACCELERATION                 
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_ACCELERATION                 =	(1);
+#		define	ENVIRONS_SENSOR_TYPE_ACCELERATION                 		(1)
+
 #		ifdef ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                
 #			undef ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                =	(1);
-#		define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                		(1)
+		literal int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                =	(2);
+#		define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                		(2)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION         
+#			undef ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION         
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION         =	(3);
+#		define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION         		(3)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB        
+#			undef ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB        
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB        =	(4);
+#		define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB        		(4)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_GYROSCOPE                    
 #			undef ENVIRONS_SENSOR_TYPE_GYROSCOPE                    
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_GYROSCOPE                    =	(2);
-#		define	ENVIRONS_SENSOR_TYPE_GYROSCOPE                    		(2)
+		literal int ENVIRONS_SENSOR_TYPE_GYROSCOPE                    =	(5);
+#		define	ENVIRONS_SENSOR_TYPE_GYROSCOPE                    		(5)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB            
+#			undef ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB            
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB            =	(6);
+#		define	ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB            		(6)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_ORIENTATION                  
 #			undef ENVIRONS_SENSOR_TYPE_ORIENTATION                  
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_ORIENTATION                  =	(3);
-#		define	ENVIRONS_SENSOR_TYPE_ORIENTATION                  		(3)
+		literal int ENVIRONS_SENSOR_TYPE_ORIENTATION                  =	(7);
+#		define	ENVIRONS_SENSOR_TYPE_ORIENTATION                  		(7)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_LIGHT                        
 #			undef ENVIRONS_SENSOR_TYPE_LIGHT                        
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_LIGHT                        =	(4);
-#		define	ENVIRONS_SENSOR_TYPE_LIGHT                        		(4)
+		literal int ENVIRONS_SENSOR_TYPE_LIGHT                        =	(8);
+#		define	ENVIRONS_SENSOR_TYPE_LIGHT                        		(8)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_LOCATION                     
 #			undef ENVIRONS_SENSOR_TYPE_LOCATION                     
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_LOCATION                     =	(5);
-#		define	ENVIRONS_SENSOR_TYPE_LOCATION                     		(5)
+		literal int ENVIRONS_SENSOR_TYPE_LOCATION                     =	(9);
+#		define	ENVIRONS_SENSOR_TYPE_LOCATION                     		(9)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_HEADING                      
 #			undef ENVIRONS_SENSOR_TYPE_HEADING                      
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_HEADING                      =	(6);
-#		define	ENVIRONS_SENSOR_TYPE_HEADING                      		(6)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_ALTIMETER                    
-#			undef ENVIRONS_SENSOR_TYPE_ALTIMETER                    
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_ALTIMETER                    =	(7);
-#		define	ENVIRONS_SENSOR_TYPE_ALTIMETER                    		(7)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION    
-#			undef ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION    
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION    =	(8);
-#		define	ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION    		(8)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION  
-#			undef ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION  
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION  =	(9);
-#		define	ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION  		(9)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD         
-#			undef ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD         
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD         =	(10);
-#		define	ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD         		(10)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_HEARTRATE                    
-#			undef ENVIRONS_SENSOR_TYPE_HEARTRATE                    
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_HEARTRATE                    =	(11);
-#		define	ENVIRONS_SENSOR_TYPE_HEARTRATE                    		(11)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_PROXIMITY                    
-#			undef ENVIRONS_SENSOR_TYPE_PROXIMITY                    
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_PROXIMITY                    =	(12);
-#		define	ENVIRONS_SENSOR_TYPE_PROXIMITY                    		(12)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_VOC                          
-#			undef ENVIRONS_SENSOR_TYPE_VOC                          
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_VOC                          =	(13);
-#		define	ENVIRONS_SENSOR_TYPE_VOC                          		(13)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_CO2                          
-#			undef ENVIRONS_SENSOR_TYPE_CO2                          
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_CO2                          =	(14);
-#		define	ENVIRONS_SENSOR_TYPE_CO2                          		(14)
-
-#		ifdef ENVIRONS_SENSOR_TYPE_HUMIDITY                     
-#			undef ENVIRONS_SENSOR_TYPE_HUMIDITY                     
-#		endif
-
-		literal int ENVIRONS_SENSOR_TYPE_HUMIDITY                     =	(15);
-#		define	ENVIRONS_SENSOR_TYPE_HUMIDITY                     		(15)
+		literal int ENVIRONS_SENSOR_TYPE_HEADING                      =	(10);
+#		define	ENVIRONS_SENSOR_TYPE_HEADING                      		(10)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_TEMPERATURE                  
 #			undef ENVIRONS_SENSOR_TYPE_TEMPERATURE                  
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_TEMPERATURE                  =	(16);
-#		define	ENVIRONS_SENSOR_TYPE_TEMPERATURE                  		(16)
+		literal int ENVIRONS_SENSOR_TYPE_TEMPERATURE                  =	(11);
+#		define	ENVIRONS_SENSOR_TYPE_TEMPERATURE                  		(11)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT           
+#			undef ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT           
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT           =	(12);
+#		define	ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT           		(12)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_PRESSURE                     
+#			undef ENVIRONS_SENSOR_TYPE_PRESSURE                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_PRESSURE                     =	(13);
+#		define	ENVIRONS_SENSOR_TYPE_PRESSURE                     		(13)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_ATTITUDE                     
+#			undef ENVIRONS_SENSOR_TYPE_ATTITUDE                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_ATTITUDE                     =	(14);
+#		define	ENVIRONS_SENSOR_TYPE_ATTITUDE                     		(14)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_ROTATION                     
+#			undef ENVIRONS_SENSOR_TYPE_ROTATION                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_ROTATION                     =	(15);
+#		define	ENVIRONS_SENSOR_TYPE_ROTATION                     		(15)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_ROTATION_GAME                
+#			undef ENVIRONS_SENSOR_TYPE_ROTATION_GAME                
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_ROTATION_GAME                =	(16);
+#		define	ENVIRONS_SENSOR_TYPE_ROTATION_GAME                		(16)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC         
+#			undef ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC         
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC         =	(17);
+#		define	ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC         		(17)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_GRAVITY                      
+#			undef ENVIRONS_SENSOR_TYPE_GRAVITY                      
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_GRAVITY                      =	(18);
+#		define	ENVIRONS_SENSOR_TYPE_GRAVITY                      		(18)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_STEPPER                      
+#			undef ENVIRONS_SENSOR_TYPE_STEPPER                      
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_STEPPER                      =	(10);
+#		define	ENVIRONS_SENSOR_TYPE_STEPPER                      		(10)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_STEPS                        
+#			undef ENVIRONS_SENSOR_TYPE_STEPS                        
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_STEPS                        =	(20);
+#		define	ENVIRONS_SENSOR_TYPE_STEPS                        		(20)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_TILT                         
+#			undef ENVIRONS_SENSOR_TYPE_TILT                         
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_TILT                         =	(21);
+#		define	ENVIRONS_SENSOR_TYPE_TILT                         		(21)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_HEARTRATE                    
+#			undef ENVIRONS_SENSOR_TYPE_HEARTRATE                    
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_HEARTRATE                    =	(22);
+#		define	ENVIRONS_SENSOR_TYPE_HEARTRATE                    		(22)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_PROXIMITY                    
+#			undef ENVIRONS_SENSOR_TYPE_PROXIMITY                    
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_PROXIMITY                    =	(23);
+#		define	ENVIRONS_SENSOR_TYPE_PROXIMITY                    		(23)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_VOC                          
+#			undef ENVIRONS_SENSOR_TYPE_VOC                          
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_VOC                          =	(24);
+#		define	ENVIRONS_SENSOR_TYPE_VOC                          		(24)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_CO2                          
+#			undef ENVIRONS_SENSOR_TYPE_CO2                          
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_CO2                          =	(25);
+#		define	ENVIRONS_SENSOR_TYPE_CO2                          		(25)
+
+#		ifdef ENVIRONS_SENSOR_TYPE_HUMIDITY                     
+#			undef ENVIRONS_SENSOR_TYPE_HUMIDITY                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_TYPE_HUMIDITY                     =	(26);
+#		define	ENVIRONS_SENSOR_TYPE_HUMIDITY                     		(26)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_CUSTOM                       
 #			undef ENVIRONS_SENSOR_TYPE_CUSTOM                       
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_CUSTOM                       =	(17);
-#		define	ENVIRONS_SENSOR_TYPE_CUSTOM                       		(17)
+		literal int ENVIRONS_SENSOR_TYPE_CUSTOM                       =	(27);
+#		define	ENVIRONS_SENSOR_TYPE_CUSTOM                       		(27)
 
 #		ifdef ENVIRONS_SENSOR_TYPE_MAX                          
 #			undef ENVIRONS_SENSOR_TYPE_MAX                          
 #		endif
 
-		literal int ENVIRONS_SENSOR_TYPE_MAX                          =	(18);
-#		define	ENVIRONS_SENSOR_TYPE_MAX                          		(18)
+		literal int ENVIRONS_SENSOR_TYPE_MAX                          =	(28);
+#		define	ENVIRONS_SENSOR_TYPE_MAX                          		(28)
 		
 		/**
 		 * Sensor type enumeration.
@@ -5667,14 +5747,32 @@ namespace Notify {
 		 * */
 		
 		
+		/** Ignore: for Resolver */
 
 #		ifdef ENVIRONS_SENSOR_PACK_TYPE_EXT                     
 #			undef ENVIRONS_SENSOR_PACK_TYPE_EXT                     
 #		endif
 
-		literal int ENVIRONS_SENSOR_PACK_TYPE_EXT                     =	(0x1000000);
-#		define	ENVIRONS_SENSOR_PACK_TYPE_EXT                     		(0x1000000)
+		literal int ENVIRONS_SENSOR_PACK_TYPE_EXT                     =	(0x40000000);
+#		define	ENVIRONS_SENSOR_PACK_TYPE_EXT                     		(0x40000000)
+		/** Ignore: for Resolver */
+
+#		ifdef ENVIRONS_SENSOR_PACK_TYPE_DOUBLES                 
+#			undef ENVIRONS_SENSOR_PACK_TYPE_DOUBLES                 
+#		endif
+
+		literal int ENVIRONS_SENSOR_PACK_TYPE_DOUBLES                 =	(0x80000000);
+#		define	ENVIRONS_SENSOR_PACK_TYPE_DOUBLES                 		(0x80000000)
 		
+		
+		/**
+		 * Sensor type bit field declarations.
+		 * Sensor type bit field declarations.
+		 * If number of sensor flags exceed the 32 Bitfield, then another complete FLAG2 type has to be used.
+		 * If number of sensor flags exceed the 32 Bitfield, then another complete FLAG2 type has to be used.
+		 *
+		 *
+		 * */
 
 #		ifdef ENVIRONS_SENSOR_FLAG_ACCELEROMETER                
 #			undef ENVIRONS_SENSOR_FLAG_ACCELEROMETER                
@@ -5683,124 +5781,194 @@ namespace Notify {
 		literal int ENVIRONS_SENSOR_FLAG_ACCELEROMETER                =	(0x1);
 #		define	ENVIRONS_SENSOR_FLAG_ACCELEROMETER                		(0x1)
 
+#		ifdef ENVIRONS_SENSOR_FLAG_ACCELERATION                 
+#			undef ENVIRONS_SENSOR_FLAG_ACCELERATION                 
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_ACCELERATION                 =	(0x2);
+#		define	ENVIRONS_SENSOR_FLAG_ACCELERATION                 		(0x2)
+
 #		ifdef ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                
 #			undef ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                =	(0x2);
-#		define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                		(0x2)
+		literal int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                =	(0x4);
+#		define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                		(0x4)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION         
+#			undef ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION         
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION         =	(0x8);
+#		define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION         		(0x8)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB        
+#			undef ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB        
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB        =	(0x10);
+#		define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB        		(0x10)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_GYROSCOPE                    
 #			undef ENVIRONS_SENSOR_FLAG_GYROSCOPE                    
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_GYROSCOPE                    =	(0x4);
-#		define	ENVIRONS_SENSOR_FLAG_GYROSCOPE                    		(0x4)
+		literal int ENVIRONS_SENSOR_FLAG_GYROSCOPE                    =	(0x20);
+#		define	ENVIRONS_SENSOR_FLAG_GYROSCOPE                    		(0x20)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB            
+#			undef ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB            
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB            =	(0x40);
+#		define	ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB            		(0x40)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_ORIENTATION                  
 #			undef ENVIRONS_SENSOR_FLAG_ORIENTATION                  
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_ORIENTATION                  =	(0x8);
-#		define	ENVIRONS_SENSOR_FLAG_ORIENTATION                  		(0x8)
+		literal int ENVIRONS_SENSOR_FLAG_ORIENTATION                  =	(0x80);
+#		define	ENVIRONS_SENSOR_FLAG_ORIENTATION                  		(0x80)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_LIGHT                        
 #			undef ENVIRONS_SENSOR_FLAG_LIGHT                        
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_LIGHT                        =	(0x10);
-#		define	ENVIRONS_SENSOR_FLAG_LIGHT                        		(0x10)
+		literal int ENVIRONS_SENSOR_FLAG_LIGHT                        =	(0x100);
+#		define	ENVIRONS_SENSOR_FLAG_LIGHT                        		(0x100)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_LOCATION                     
 #			undef ENVIRONS_SENSOR_FLAG_LOCATION                     
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_LOCATION                     =	(0x20);
-#		define	ENVIRONS_SENSOR_FLAG_LOCATION                     		(0x20)
+		literal int ENVIRONS_SENSOR_FLAG_LOCATION                     =	(0x200);
+#		define	ENVIRONS_SENSOR_FLAG_LOCATION                     		(0x200)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_HEADING                      
 #			undef ENVIRONS_SENSOR_FLAG_HEADING                      
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_HEADING                      =	(0x40);
-#		define	ENVIRONS_SENSOR_FLAG_HEADING                      		(0x40)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_ALTIMETER                    
-#			undef ENVIRONS_SENSOR_FLAG_ALTIMETER                    
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_ALTIMETER                    =	(0x80);
-#		define	ENVIRONS_SENSOR_FLAG_ALTIMETER                    		(0x80)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION    
-#			undef ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION    
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION    =	(0x100);
-#		define	ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION    		(0x100)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION  
-#			undef ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION  
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION  =	(0x200);
-#		define	ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION  		(0x200)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD         
-#			undef ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD         
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD         =	(0x400);
-#		define	ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD         		(0x400)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_HEARTRATE                    
-#			undef ENVIRONS_SENSOR_FLAG_HEARTRATE                    
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_HEARTRATE                    =	(0x800);
-#		define	ENVIRONS_SENSOR_FLAG_HEARTRATE                    		(0x800)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_PROXIMITY                    
-#			undef ENVIRONS_SENSOR_FLAG_PROXIMITY                    
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_PROXIMITY                    =	(0x1000);
-#		define	ENVIRONS_SENSOR_FLAG_PROXIMITY                    		(0x1000)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_VOC                          
-#			undef ENVIRONS_SENSOR_FLAG_VOC                          
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_VOC                          =	(0x2000);
-#		define	ENVIRONS_SENSOR_FLAG_VOC                          		(0x2000)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_CO2                          
-#			undef ENVIRONS_SENSOR_FLAG_CO2                          
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_CO2                          =	(0x4000);
-#		define	ENVIRONS_SENSOR_FLAG_CO2                          		(0x4000)
-
-#		ifdef ENVIRONS_SENSOR_FLAG_HUMIDITY                     
-#			undef ENVIRONS_SENSOR_FLAG_HUMIDITY                     
-#		endif
-
-		literal int ENVIRONS_SENSOR_FLAG_HUMIDITY                     =	(0x8000);
-#		define	ENVIRONS_SENSOR_FLAG_HUMIDITY                     		(0x8000)
+		literal int ENVIRONS_SENSOR_FLAG_HEADING                      =	(0x400);
+#		define	ENVIRONS_SENSOR_FLAG_HEADING                      		(0x400)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_TEMPERATURE                  
 #			undef ENVIRONS_SENSOR_FLAG_TEMPERATURE                  
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_TEMPERATURE                  =	(0x10000);
-#		define	ENVIRONS_SENSOR_FLAG_TEMPERATURE                  		(0x10000)
+		literal int ENVIRONS_SENSOR_FLAG_TEMPERATURE                  =	(0x800);
+#		define	ENVIRONS_SENSOR_FLAG_TEMPERATURE                  		(0x800)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT           
+#			undef ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT           
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT           =	(0x1000);
+#		define	ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT           		(0x1000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_PRESSURE                     
+#			undef ENVIRONS_SENSOR_FLAG_PRESSURE                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_PRESSURE                     =	(0x2000);
+#		define	ENVIRONS_SENSOR_FLAG_PRESSURE                     		(0x2000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_ATTITUDE                     
+#			undef ENVIRONS_SENSOR_FLAG_ATTITUDE                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_ATTITUDE                     =	(0x4000);
+#		define	ENVIRONS_SENSOR_FLAG_ATTITUDE                     		(0x4000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_ROTATION                     
+#			undef ENVIRONS_SENSOR_FLAG_ROTATION                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_ROTATION                     =	(0x8000);
+#		define	ENVIRONS_SENSOR_FLAG_ROTATION                     		(0x8000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_ROTATION_GAME                
+#			undef ENVIRONS_SENSOR_FLAG_ROTATION_GAME                
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_ROTATION_GAME                =	(0x10000);
+#		define	ENVIRONS_SENSOR_FLAG_ROTATION_GAME                		(0x10000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC         
+#			undef ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC         
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC         =	(0x20000);
+#		define	ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC         		(0x20000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_GRAVITY                      
+#			undef ENVIRONS_SENSOR_FLAG_GRAVITY                      
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_GRAVITY                      =	(0x40000);
+#		define	ENVIRONS_SENSOR_FLAG_GRAVITY                      		(0x40000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_STEPPER                      
+#			undef ENVIRONS_SENSOR_FLAG_STEPPER                      
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_STEPPER                      =	(0x80000);
+#		define	ENVIRONS_SENSOR_FLAG_STEPPER                      		(0x80000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_STEPS                        
+#			undef ENVIRONS_SENSOR_FLAG_STEPS                        
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_STEPS                        =	(0x100000);
+#		define	ENVIRONS_SENSOR_FLAG_STEPS                        		(0x100000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_TILT                         
+#			undef ENVIRONS_SENSOR_FLAG_TILT                         
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_TILT                         =	(0x200000);
+#		define	ENVIRONS_SENSOR_FLAG_TILT                         		(0x200000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_HEARTRATE                    
+#			undef ENVIRONS_SENSOR_FLAG_HEARTRATE                    
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_HEARTRATE                    =	(0x400000);
+#		define	ENVIRONS_SENSOR_FLAG_HEARTRATE                    		(0x400000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_PROXIMITY                    
+#			undef ENVIRONS_SENSOR_FLAG_PROXIMITY                    
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_PROXIMITY                    =	(0x800000);
+#		define	ENVIRONS_SENSOR_FLAG_PROXIMITY                    		(0x800000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_VOC                          
+#			undef ENVIRONS_SENSOR_FLAG_VOC                          
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_VOC                          =	(0x1000000);
+#		define	ENVIRONS_SENSOR_FLAG_VOC                          		(0x1000000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_CO2                          
+#			undef ENVIRONS_SENSOR_FLAG_CO2                          
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_CO2                          =	(0x2000000);
+#		define	ENVIRONS_SENSOR_FLAG_CO2                          		(0x2000000)
+
+#		ifdef ENVIRONS_SENSOR_FLAG_HUMIDITY                     
+#			undef ENVIRONS_SENSOR_FLAG_HUMIDITY                     
+#		endif
+
+		literal int ENVIRONS_SENSOR_FLAG_HUMIDITY                     =	(0x4000000);
+#		define	ENVIRONS_SENSOR_FLAG_HUMIDITY                     		(0x4000000)
 
 #		ifdef ENVIRONS_SENSOR_FLAG_CUSTOM                       
 #			undef ENVIRONS_SENSOR_FLAG_CUSTOM                       
 #		endif
 
-		literal int ENVIRONS_SENSOR_FLAG_CUSTOM                       =	(0x800000);
-#		define	ENVIRONS_SENSOR_FLAG_CUSTOM                       		(0x800000)
+		literal int ENVIRONS_SENSOR_FLAG_CUSTOM                       =	(0x8000000);
+#		define	ENVIRONS_SENSOR_FLAG_CUSTOM                       		(0x8000000)
 		
 
 #		ifdef MAX_ENVIRONS_SENSOR_TYPE_VALUE                    
@@ -5809,6 +5977,9 @@ namespace Notify {
 
 		literal int MAX_ENVIRONS_SENSOR_TYPE_VALUE                    =	(ENVIRONS_SENSOR_FLAG_CUSTOM);
 #		define	MAX_ENVIRONS_SENSOR_TYPE_VALUE                    		(ENVIRONS_SENSOR_FLAG_CUSTOM)
+		
+		
+		
 		
 		
 
@@ -5830,15 +6001,46 @@ namespace Notify {
 #			undef ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        
 #		endif
 
-		literal int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        =	(5000);
-#		define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        		(5000)
+		literal int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        =	(20000);
+#		define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        		(20000)
 
 #		ifdef ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  
 #			undef ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  
 #		endif
 
-		literal int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  =	(1000);
-#		define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  		(1000)
+		literal int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  =	(2000);
+#		define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  		(2000)
+		
+		
+
+#		ifdef ENVIRONS_BT_OBSERVER_INTERVAL_MIN                 
+#			undef ENVIRONS_BT_OBSERVER_INTERVAL_MIN                 
+#		endif
+
+		literal int ENVIRONS_BT_OBSERVER_INTERVAL_MIN                 =	(30000);
+#		define	ENVIRONS_BT_OBSERVER_INTERVAL_MIN                 		(30000)
+
+#		ifdef ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN           
+#			undef ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN           
+#		endif
+
+		literal int ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN           =	(10000);
+#		define	ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN           		(10000)
+
+#		ifdef ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_MIN          
+#			undef ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_MIN          
+#		endif
+
+		literal int ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_MIN          =	(20000);
+#		define	ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_MIN          		(20000)
+
+#		ifdef ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_CHECK_MIN    
+#			undef ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_CHECK_MIN    
+#		endif
+
+		literal int ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_CHECK_MIN    =	(10000);
+#		define	ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_CHECK_MIN    		(10000)
+		
 		
 		/** Ignore: for CLI all the remaining content*/
 

@@ -28,7 +28,7 @@ namespace environs
 	void			DetectSDKs ( );
 	void			DetectPlatform ( );
 
-	void			DetermineAndInitWorkDir ();
+    bool			DetermineAndInitWorkDir ();
 
 	namespace API
 	{

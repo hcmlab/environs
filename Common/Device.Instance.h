@@ -101,10 +101,10 @@ namespace environs
         STRUCT UdpDataContext
         {
         public:
-            OBJIDType                       objID;
-            int                             size;
-            environs::SensorFrame OBJ_ptr   sensorFrame;
-            Addr_ptr                        dataPtr;
+            OBJIDType                                   objID;
+            int                                         size;
+            environs::SensorFrame           OBJ_ptr     sensorFrame;
+            Addr_ptr                                    dataPtr;
         };
         
 

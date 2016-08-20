@@ -139,6 +139,10 @@ public class Environs extends TypesResolver
 	static WifiObserver wifiObserver = new WifiObserver ();
 
 
+	/** A global bluetooth observer. */
+	static BtObserver btObserver = new BtObserver ();
+
+
 	// Load library
 	static {
 		/// Prepare folder structure
@@ -571,6 +575,12 @@ public class Environs extends TypesResolver
 	/** Use lastLocation services, GPS. 	*/
 	public static boolean useLocation = true;
 
+	/** Enables bluetooth observer. Requires permission android.permission.BLUETOOTH */
+	public static boolean useBluetooth = true;
+
+	/** Enables bluetooth observer. Requires permission android.permission.BLUETOOTH_ADMIN */
+	public static boolean useBluetoothAdmin = true;
+
 
     /**
      * Retrieve a boolean that determines whether Environs shows up a login dialog if a Mediator is used and no credentials are available.
@@ -933,6 +943,24 @@ public class Environs extends TypesResolver
 	 */
 	public String GetSSID(boolean desc) {
 		return Utils.GetSSID(hEnvirons, desc);
+	}
+
+	/**
+	 * Get the current wireless name.
+	 *
+	 * @return		Our 	current wifi name (bssid)
+	 */
+	public String GetBSSID() {
+		return Utils.GetBSSID(hEnvirons);
+	}
+
+	/**
+	 * Get the current wireless name.
+	 *
+	 * @return		Our 	current wifi name (rssi)
+	 */
+	public int GetRSSI() {
+		return Utils.GetRSSI(hEnvirons);
 	}
 	
  	
@@ -1575,14 +1603,14 @@ public class Environs extends TypesResolver
 			else {
 				if ( !Libs.LoadLibrary ( moduleName, false, false ) )
 					return false;
-
-				/// If the modulename does not end with .so, we assume it to be Environs -> libEnvirons.so
-				/// .so will be appended by native layer
-				/// lib has to be prepended by platform layer
-				if ( !moduleName.endsWith(".so") && !moduleName.startsWith("lib") )
-					moduleName = "lib" + moduleName;
 			}
 		}
+
+		/// If the modulename does not end with .so, we assume it to be Environs -> libEnvirons.so
+		/// .so will be appended by native layer
+		/// lib has to be prepended by platform layer
+		if ( !moduleName.endsWith(".so") && !moduleName.startsWith("lib") )
+			moduleName = "lib" + moduleName;
 
 		return SetUseTouchRecognizerN ( hEnvirons, moduleName, enable );
 		/*Libs.extract ( "Env-RecDummy" );
@@ -1592,6 +1620,19 @@ public class Environs extends TypesResolver
 	}
 
 	static native boolean SetUseTouchRecognizerN(int hInst, String moduleName, boolean enable);
+
+
+
+	/**
+	 * Enable or disable all touch recognizers.
+	 *
+	 * @param enable		Enable or disable.
+	 */
+	public void SetUseTouchRecognizerEnable ( boolean enable ) {
+		SetUseTouchRecognizerEnableN ( hEnvirons, enable );
+	}
+
+	static native void SetUseTouchRecognizerEnableN ( int hInst, boolean enable );
 
 
 	static native boolean AllocPlatformN();
@@ -2321,19 +2362,29 @@ public class Environs extends TypesResolver
 		SensorFrame frame = new SensorFrame ();
 		frame.objID = objID;
 		frame.type = buffer.getInt ( 4 );
-		frame.type &= ~ENVIRONS_SENSOR_PACK_TYPE_EXT;
 
 		frame.seqNumber = buffer.getInt ( 8 );
 
-		frame.f1 = buffer.getFloat ( 12 );
-		frame.f2 = buffer.getFloat ( 16 );
-		frame.f3 = buffer.getFloat ( 20 );
-
-		if ( pack.length > 24 ) {
-			frame.d1 = buffer.getDouble ( 24 );
-			frame.d2 = buffer.getDouble ( 32 );
-			frame.d3 = buffer.getDouble ( 40 );
+		if ( (frame.type & ENVIRONS_SENSOR_PACK_TYPE_DOUBLES) != 0  )
+		{
+			frame.d1 = buffer.getDouble ( 12 );
+			frame.d2 = buffer.getDouble ( 20 );
+			frame.d3 = buffer.getDouble ( 28 );
 		}
+		else
+		{
+			frame.f1 = buffer.getFloat ( 12 );
+			frame.f2 = buffer.getFloat ( 16 );
+			frame.f3 = buffer.getFloat ( 20 );
+
+			if ( pack.length > 24 ) {
+				frame.d1 = buffer.getDouble ( 24 );
+				frame.d2 = buffer.getDouble ( 32 );
+				frame.d3 = buffer.getDouble ( 40 );
+			}
+		}
+
+		frame.type &= ~(ENVIRONS_SENSOR_PACK_TYPE_EXT | ENVIRONS_SENSOR_PACK_TYPE_DOUBLES);
 
 		return frame;
 	}
@@ -2652,6 +2703,8 @@ public class Environs extends TypesResolver
 
 		wifiObserver.Stop ();
 
+		btObserver.Stop ();
+
 		StopNetLayerN ( hEnvirons );
 
 		synchronized (portalReceivers)
@@ -2945,7 +2998,62 @@ public class Environs extends TypesResolver
 	static native void PushSensorDataN ( int ENVIRONS_SENSOR_TYPE_, float x, float y, float z );
 
 
-	static native void PushSensorDataExtN ( boolean tcp, int ENVIRONS_SENSOR_TYPE_, double x, double y, double z, float m, float n, float o );
+	static native void PushSensorDataDoublesN ( int ENVIRONS_SENSOR_TYPE_, double x, double y, double z );
+
+
+	static native void PushSensorDataExtN ( int ENVIRONS_SENSOR_TYPE_, double x, double y, double z, float m, float n, float o );
+
+
+	/**
+	 * Set use of Tcp transport channel of the given sensorType.
+	 *
+	 * @param sensorType    A value of type environs::SensorType_t.
+	 * @param enable        true = TCP, false = UDP.
+	 *
+	 */
+	public void SetUseSensorChannelTcp ( @SensorType.Value int sensorType, boolean enable ) {
+		SetUseSensorChannelTcpN ( hEnvirons, sensorType, enable );
+	}
+	static native void SetUseSensorChannelTcpN ( int hInst, @SensorType.Value int sensorType, boolean enable );
+
+
+	/**
+	 * Get use of Tcp transport channel of the given sensorType.
+	 *
+	 * @param sensorType    A value of type environs::SensorType_t.
+	 * @return success      1 = TCP, 0 = UDP, -1 = error.
+	 *
+	 */
+	public int GetUseSensorChannelTcp ( @SensorType.Value int sensorType ) {
+		return GetUseSensorChannelTcpN ( hEnvirons, sensorType );
+	}
+	static native int GetUseSensorChannelTcpN ( @SensorType.Value int hInst, int sensorType );
+
+
+	/**
+	 * Set sample rate of the given sensorType in microseconds.
+	 *
+	 * @param sensorType        A value of type environs::SensorType_t.
+	 * @param microseconds      The sensor sample rate in microseconds.
+	 *
+	 */
+	public void SetUseSensorRate ( @SensorType.Value int sensorType, int microseconds ) {
+		SetUseSensorRateN ( hEnvirons, sensorType, microseconds );
+	}
+	static native void SetUseSensorRateN ( int hInst, @SensorType.Value int sensorType, int microseconds );
+
+
+	/**
+	 * Get sample rate of the given sensorType in microseconds.
+	 *
+	 * @param sensorType        A value of type environs::SensorType_t.
+	 *
+	 * @return microseconds     The sensor sample rate in microseconds. -1 means error.
+	 */
+	public int GetUseSensorRate ( @SensorType.Value int sensorType ) {
+		return GetUseSensorRateN ( hEnvirons, sensorType );
+	}
+	static native int GetUseSensorRateN ( @SensorType.Value int hInst, int sensorType );
 
 
 	/**
@@ -2984,8 +3092,9 @@ public class Environs extends TypesResolver
 	 *
 	 * @param sensorType A value of type environs::SensorType.
 	 *
+	 * @return success 1 = enabled, 0 = failed.
 	 */
-	static native void StartSensorListeningN ( int hInst, @SensorType.Value int sensorType );
+	static native int StartSensorListeningN ( int hInst, @SensorType.Value int sensorType );
 
 
 	/**
@@ -2995,8 +3104,9 @@ public class Environs extends TypesResolver
 	 *
 	 * @param sensorType A value of type environs::SensorType.
 	 *
+	 * @return success 1 = enabled, 0 = failed.
 	 */
-	static native void StopSensorListeningN ( int hInst, @SensorType.Value int sensorType );
+	static native int StopSensorListeningN ( int hInst, @SensorType.Value int sensorType );
 
 
 	/**
@@ -3034,8 +3144,15 @@ public class Environs extends TypesResolver
 	 */
 	private static native int IsSensorAvailableN(int hInst, int ENVIRONS_SENSOR_TYPE_);
 
+	/**
+	 * Determine whether the given sensorType is enabled.
+	 *
+	 * @param ENVIRONS_SENSOR_TYPE_ A value of type ENVIRONS_SENSOR_TYPE_*.
+	 *
+	 * @return success 1 = enabled, 0 = failed, -1 = error.
+	 */
+	static native int IsSensorEnabledN(int hInst, int ENVIRONS_SENSOR_TYPE_);
 
-	boolean sensorLocationEnabled = false;
 
 	/**
 	 * Enable dispatching of sensor events from ourself.
@@ -3048,25 +3165,34 @@ public class Environs extends TypesResolver
 	 */
 	public boolean SetSensorEvent ( @SensorType.Value int sensorType, boolean enable )
 	{
-		Utils.Log2 ( className, "SetSensorEvent: sensorType [ " + sensorType + " ]  enable [ " + enable + " ]" );
+		Utils.Log2 ( className, "SetSensorEvent:\t\t\tType [ " + sensorType + " ]  enable [ " + enable + " ]" );
 
 		if ( sensorType == SensorType.Location )
 		{
-			if (sensors.locationManager == null) {
-				sensorLocationEnabled = false;
+			if (sensors == null || sensors.locationManager == null) {
 				return false;
 			}
-
-			sensorLocationEnabled = enable;
 		}
 
 		boolean success = SetSensorEventSenderN ( hEnvirons, 0, 0, sensorType, enable );
 
 		if ( enable ) {
 			StartSensorListeningN ( hEnvirons, sensorType );
+
+			if ( sensorType == SensorType.Location ) {
+				int enb = Environs.IsSensorEnabledN ( hEnvirons, SensorType.Location );
+				if ( enb == 1 )
+					sensors.StartLocation ( );
+			}
 		}
 		else {
 			StopSensorListeningN ( hEnvirons, sensorType );
+
+			if ( sensorType == SensorType.Location ) {
+				int enb = Environs.IsSensorEnabledN ( hEnvirons, SensorType.Location );
+				if ( enb == 0 )
+					sensors.StopLocation ( );
+			}
 		}
 
 		return success;
@@ -3090,6 +3216,21 @@ public class Environs extends TypesResolver
 
 		return ( IsSensorAvailableN ( hEnvirons, sensorType ) != 0);
 	}
+
+
+	/**
+	 * Enable sending of sensor events to this DeviceInstance.
+	 * Events are send if the device is connected and stopped if the device is disconnected.
+	 *
+	 * @param hInst                 The Environs instance identifier.
+	 * @param nativeID 				Destination native device id
+	 * @param objID 				Destination object device id
+	 * @param flags            		A bitfield with values of type SensorType
+	 * @param enable 				true = enable, false = disable.
+	 *
+	 * @return success 1 = enabled, 0 = failed.
+	 */
+	static native int SetSensorEventSenderFlagsN ( int hInst, int nativeID, int objID, int flags, int enable );
 
 
     /**
@@ -3544,7 +3685,7 @@ public class Environs extends TypesResolver
 		} );
 
 		if (GetPortalViewDimsAuto())
- 		{ 	     	
+ 		{
  	 		if ( Utils.APILevel >= 11 ) {
  	 	 		view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {			
  	 	 			@Override
@@ -3558,7 +3699,7 @@ public class Environs extends TypesResolver
 
 						SetPortalViewDims(portal.portalID, left, top, right, bottom);
  	 	 	        }
- 	 			}); 			
+ 	 			});
  	 		}
  	 		else {
  	 			Utils.LogW ( className, "SetPortalTouchView: API level is less than 11." +
@@ -4025,6 +4166,9 @@ public class Environs extends TypesResolver
 	}
 	static native String GetMediatorIPN(int hInst);
 
+
+	static native void WiFiUpdateWithColonMacN ( String bssid, String ssid, int rssi, int channel, int encrypt, int updateState );
+
 	/**
 	 * Option for whether to observe wifi networks to help location based services.
 	 *
@@ -4066,6 +4210,78 @@ public class Environs extends TypesResolver
 	}
 	static native int GetUseWifiIntervalN();
 
+
+	public WifiItem[] GetWifis() {
+		return BuildWifiItemList(GetWifisN ());
+	}
+	static native ByteBuffer GetWifisN();
+
+
+	@SuppressWarnings ( "all" )
+	private static WifiItem[] BuildWifiItemList(ByteBuffer buffer)
+	{
+		if ( buffer == null )
+			return null;
+        final int wifiItemSize = 16;
+
+		int itemCount = buffer.getInt(0);
+		if ( itemCount <= 0 )
+			return null;
+		if ( itemCount > 256)
+			itemCount = 256;
+
+		int remainSize = buffer.capacity ();
+        if ( remainSize < wifiItemSize )
+            return null;
+
+		//Utils.Log(0, "BuildWifiItemList: Parsing " + itemCount + " items. Buffersize " + remainSize );
+
+		int start = 8;
+
+		WifiItem[] items = new WifiItem [ itemCount ];
+		if (items == null)
+			return null;
+
+		for ( int i=0; i<itemCount; i++ ) {
+			if (remainSize < wifiItemSize)
+				break;
+			//Utils.Log(0, "BuildWifiItemList: Parsing " + i + ". Buffersize " + remainSize );
+
+			WifiItem item =  new WifiItem();
+
+			item.bssid = buffer.getLong ( start ); start += 8;
+			item.rssi = buffer.getShort ( start ); start += 2;
+			item.signal = buffer.getShort ( start ); start += 2;
+			item.channel = buffer.getChar ( start ); start++;
+			item.encrypt = buffer.getChar ( start ); start++;
+			item.isConnected = (buffer.getChar ( start ) == 1); start++;
+			item.sizeOfssid = (short) buffer.get ( start ); start++;
+
+			remainSize -= wifiItemSize;
+
+			if ( item.sizeOfssid > 0 ) {
+                if (item.sizeOfssid > 32)
+                    break;
+				//Utils.Log(0, "BuildWifiItemList: Parsing " + i + ". ssid " + item.sizeOfssid );
+				if (remainSize < item.sizeOfssid)
+					break;
+				item.ssid = GetString ( buffer, start, 32 );
+				start += item.sizeOfssid;
+
+				remainSize -= item.sizeOfssid;
+			}
+			items [ i ] = item;
+		}
+
+		//for(int i=0; i<items.length; i++)
+		//	if (items[i] != null) Utils.Log(0, items[i].toString());
+
+		return items;
+	}
+
+
+	static native void BtUpdateWithColonMacN ( String bssid, String ssid, int rssi, int cod, long uuid1, long uuid2, int updateState );
+
 	/**
 	 * Option for whether to observe blueooth to help location based services.
 	 *
@@ -4106,6 +4322,76 @@ public class Environs extends TypesResolver
 		return GetUseBtIntervalN ( );
 	}
 	static native int GetUseBtIntervalN();
+
+
+	public static BtItem[] GetBts() {
+		return BuildBtItemList(GetBtsN ());
+	}
+	static native ByteBuffer GetBtsN();
+
+
+	@SuppressWarnings ( "all" )
+	private static BtItem[] BuildBtItemList(ByteBuffer buffer)
+	{
+		if ( buffer == null )
+			return null;
+
+        final int btItemSize = 32;
+
+		int itemCount = buffer.getInt(0);
+		if ( itemCount <= 0 )
+			return null;
+		if ( itemCount > 256)
+			itemCount = 256;
+
+		int remainSize = buffer.capacity ();
+        if ( remainSize < btItemSize )
+            return null;
+
+		//Utils.Log(0, "BuildBtItemList: Parsing " + itemCount + " items. Buffersize " + remainSize );
+
+		int start = 8;
+
+		BtItem[] items = new BtItem [ itemCount ];
+		if (items == null)
+			return null;
+
+		for ( int i=0; i<itemCount; i++ ) {
+			if (remainSize < btItemSize)
+				break;
+			//Utils.Log(0, "BuildBtItemList: Parsing " + i + ". Buffersize " + remainSize );
+
+			BtItem item =  new BtItem();
+
+			item.bssid = buffer.getLong ( start ); start += 8;
+			item.rssi = buffer.getShort ( start ); start += 2;
+			item.isConnected = (buffer.getChar ( start ) == 1); start++;
+			item.sizeOfssid = (short) buffer.get ( start ); start++;
+			item.uuid1 = buffer.getLong ( start ); start += 8;
+			item.uuid2 = buffer.getLong ( start ); start += 8;
+
+			remainSize -= btItemSize;
+
+			if ( item.sizeOfssid > 0 ) {
+                if ( item.sizeOfssid > 32 )
+                    break;
+
+				//Utils.Log(0, "BuildBtItemList: Parsing " + i + ". ssid " + item.sizeOfssid );
+				if (remainSize < item.sizeOfssid)
+					break;
+				item.ssid = GetString ( buffer, start, 32 );
+				start += item.sizeOfssid;
+
+				remainSize -= item.sizeOfssid;
+			}
+			items [ i ] = item;
+		}
+
+		for(int i=0; i<items.length; i++)
+			if (items[i] != null) Utils.Log(0, items[i].toString());
+
+		return items;
+	}
  	
 
     /** 
@@ -5209,10 +5495,11 @@ public class Environs extends TypesResolver
 			//device.flags = (int) buffer.get ( DeviceStart + DEVICEINFO_INTERNAL_FLAGS_START );
 
 			device.isSameAppArea = (buffer.get ( DeviceStart + DEVICEINFO_HASAPPAREA_START ) == 0);
+			//if (Utils.isDebug) Utils.Log ( 4, className, "BuildDeviceInfoList: isSameAppArea [ " + device.isSameAppArea + " ].");
 
-			device.deviceName = GetString(buffer, DeviceStart + DEVICEINFO_DEVICENAME_START);
-    		device.areaName = GetString(buffer, DeviceStart + DEVICEINFO_AREANAME_START);
-    		device.appName = GetString ( buffer, DeviceStart + DEVICEINFO_APPNAME_START );
+			device.deviceName = GetString ( buffer, DeviceStart + DEVICEINFO_DEVICENAME_START, MAX_LENGTH_DEVICE_NAME);
+    		device.areaName = GetString ( buffer, DeviceStart + DEVICEINFO_AREANAME_START, MAX_LENGTH_AREA_NAME );
+    		device.appName = GetString ( buffer, DeviceStart + DEVICEINFO_APPNAME_START, MAX_LENGTH_APP_NAME );
 			device.objID = buffer.getInt ( DeviceStart + DEVICEINFO_OBJID_START );
 
 			/*
@@ -5278,9 +5565,9 @@ public class Environs extends TypesResolver
 		device.isConnected = (buffer.get ( DEVICEINFO_ISCONNECTED_START ) == 1);
 		device.isSameAppArea = (buffer.get ( DEVICEINFO_HASAPPAREA_START ) == 0);
 
-		device.deviceName = GetString(buffer, DEVICEINFO_DEVICENAME_START);
-		device.areaName = GetString ( buffer, DEVICEINFO_AREANAME_START );
-		device.appName = GetString ( buffer, DEVICEINFO_APPNAME_START );
+		device.deviceName = GetString ( buffer, DEVICEINFO_DEVICENAME_START, MAX_LENGTH_DEVICE_NAME );
+		device.areaName = GetString ( buffer, DEVICEINFO_AREANAME_START, MAX_LENGTH_AREA_NAME );
+		device.appName = GetString ( buffer, DEVICEINFO_APPNAME_START, MAX_LENGTH_APP_NAME );
 		device.objID = buffer.getInt ( DEVICEINFO_OBJID_START );
 
 		/*if (device.env != null)
@@ -5295,16 +5582,23 @@ public class Environs extends TypesResolver
 	}
 
 
-    private static String GetString(ByteBuffer buffer, int start) {
+    private static String GetString(ByteBuffer buffer, int start, int maxSize ) {
     	String s = "";
     	int i = start;
+        int cap = buffer.capacity ();
     	do
     	{
+            if ( maxSize <= 0)
+                break;
+            maxSize--;
+
     		byte c = buffer.get ( i );
     		if ( c == 0 )
     			break;
     		s += String.valueOf((char)c);
     		i++;
+            if ( i >= cap )
+                break;
     	}
     	while ( true );
     	
@@ -5626,7 +5920,5 @@ public class Environs extends TypesResolver
 
 		SetNetworkStatusN ( netStat);
  	}
-
-	static native void WiFiUpdateWithColonMacN ( String bssid, String ssid, int rssi, int channel, int encrypt, int updateState );
 
 }

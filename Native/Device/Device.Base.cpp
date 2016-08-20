@@ -873,6 +873,10 @@ namespace environs
 		CVerbID ( "InitDeviceStorage" );
 
 		size_t lenRoot = strlen ( native.dataStore );
+#ifndef NDEBUG
+		if ( lenRoot <= 0 )
+			lenRoot = 0;
+#endif
 		size_t lenData = lenRoot + DATASTORE_PATH_APPEND_LEN;
 
 		char * dataStoreNew = dest;
@@ -2105,7 +2109,7 @@ namespace environs
 			"id:%i;rsize:%i;wp:%i;hp:%i;w:%i;h:%i;do:%i;tr:h4%i;pr:%i;an:%s;pn:%s;pl:%i;pt:%i<EOF>",
 			env->deviceID, dataRecSize, native.display.width,
 			native.display.height, native.display.width_mm, native.display.height_mm, native.display.orientation,
-			env->useStream, env->useNativeResolution, env->appName, env->areaName, ( int ) native.platform, ( int ) env->useTcpPortal );
+			( int ) env->useStream, ( int ) env->useNativeResolution, env->appName, env->areaName, ( int ) native.platform, ( int ) env->useTcpPortal );
 
 		if ( numChars <= 0  ) {
 			CErrID ( "SendDeviceConfig: Failed to build helo message!" );
@@ -3287,7 +3291,7 @@ namespace environs
             CErrID ( "SendBufferInParts: Failed to allocate memory for sending!" ); return -1;
         }
         
-        MessageHeaderPartitions    * header	= ( MessageHeaderPartitions * ) sendBuffer;
+        MessageHeaderPartitions	* header	= ( MessageHeaderPartitions * ) sendBuffer;
         char                    * toSend    = sendBuffer;
         
 		// Prepare Buffer with preamble and header : MSG_HEADER_LEN
@@ -3308,7 +3312,7 @@ namespace environs
 
 			parts += payloadSize / PARTITION_PART_SIZE;
 			if ( payloadSize % PARTITION_PART_SIZE )
-				part++;
+				parts++;
 
 			part = 1;
             
@@ -3661,6 +3665,11 @@ namespace environs
 		if ( !device )
 			return false;
 
+        bool success = device->SendTcpBuffer ( comDat, msgType, subType, data, size );
+
+        UnlockDevice ( device );
+        return success;
+        /*
 		int bufferSize = MSG_HEADER_SIZE + size;
 		char * buffer = ( char * ) calloc ( 1, bufferSize + 4 );
 		if ( !buffer ) {
@@ -3700,10 +3709,54 @@ namespace environs
 
 		free ( buffer );
 		return ret;
-	}
+        */
+    }
 
 
-	int DeviceBase::DetectNATStatToDevice ( Instance * env, volatile DeviceStatus_t * deviceStatus, int deviceID, const char * areaName, const char * appName, unsigned int &IP, unsigned int &IPe, int &Port )
+    bool DeviceBase::SendTcpBuffer ( bool comDat, char msgType, unsigned short subType, void * data, int size )
+    {
+        CVerbIDN ( "SendTcpBuffer" );
+
+        int bufferSize = MSG_HEADER_SIZE + size;
+        char * buffer = ( char * ) calloc ( 1, bufferSize + 4 );
+        if ( !buffer ) {
+            return false;
+        }
+
+        ComMessageHeader * msg = ( ComMessageHeader * ) buffer;
+
+        memset ( msg, 0, bufferSize );
+
+        memcpy ( msg, "MSG;", 4 );
+        msg->version = TCP_MSG_PROTOCOL_VERSION;
+        msg->type = msgType;
+        msg->MessageType.payloadType = subType;
+
+        if ( data ) {
+            memcpy ( &msg->payload, data, size );
+
+            //CLogArg ( "SendBulkMessage: ciphers [%s]", ConvertToHexSpaceString ( (char *)data, size) );
+        }
+
+        bool ret = true;
+        int sentSize;
+
+        if ( comDat )
+            sentSize = SendComDatMessage ( buffer, bufferSize );
+        else
+            sentSize = SendHeaderedBuffer ( buffer, bufferSize );
+
+        if ( sentSize != bufferSize ) {
+            CVerbArgIDN ( "SendTcpBuffer: Failed to send buffer to device [ %i != %i ]", sentSize, bufferSize );
+            ret = false;
+        }
+        
+        free ( buffer );
+        return ret;
+    }
+    
+    
+    int DeviceBase::DetectNATStatToDevice ( Instance * env, volatile DeviceStatus_t * deviceStatus, int deviceID, const char * areaName, const char * appName, unsigned int &IP, unsigned int &IPe, int &Port )
 	{
 		CVerb ( "DetectNATStatToDevice" );
 
@@ -4993,7 +5046,7 @@ namespace environs
 		while ( tries > 0 );
 
 		if ( !file ) {
-			CErrArg ( "SaveToStorageMessages: Failed to create file [%s] [%i]", path, errno );
+			CErrArg ( "SaveToStorageMessages: Failed to create file [ %s ] [ %i ]", path, errno );
 			return false;
 		}
 #ifdef _WIN32
@@ -5003,31 +5056,31 @@ namespace environs
 
 		char prefixStr [ 128 ];
 
-		int prefixLen = snprintf ( prefixStr, sizeof ( prefixStr ), "%s:%llu ", prefix, GetUnixEpoch () );
-		if ( prefixLen <= 0 || prefixLen >= (int) sizeof( prefixStr ) ) {
+		int toWriteLen = snprintf ( prefixStr, sizeof ( prefixStr ), "%s:%llu ", prefix, GetUnixEpoch () );
+		if ( toWriteLen <= 0 || toWriteLen >= (int) sizeof ( prefixStr ) ) {
 			CErr ( "SaveToStorageMessages: Failed to build prefix!" );
 			goto Finish;
 		}
 
-		written = fwrite ( prefixStr, 1, prefixLen, file );
-		if ( ( int ) written != prefixLen ) {
-			CErrArg ( "SaveToStorageMessages: Failed to write [%d] prefix. written [%d]", prefixLen, written );
+		written = fwrite ( prefixStr, 1, toWriteLen, file );
+		if ( ( int ) written != toWriteLen )
 			goto Finish;
-		}
 
+		toWriteLen = length;
 		written = fwrite ( message, 1, length, file );
-		if ( ( int ) written != length ) {
-			CErrArg ( "SaveToStorageMessages: Failed to write [%d] bytes. written [%d]", length, written );
+		if ( ( int ) written != length )
 			goto Finish;
-		}
-
+		
+		toWriteLen = 1;
 		written = fwrite ( "\n", 1, 1, file );
-		if ( written != 1 ) {
-			CErrArg ( "SaveToStorageMessages: Failed to write newline char. written [%d]", written );
-		}
-		else success = true;
+		if ( written == 1 )
+			success = true;
 
 	Finish:
+		if ( !success ) {
+			CErrArg ( "SaveToStorageMessages: Failed to write [ %d ] prefix. written [ %d ]", toWriteLen, written );
+		}
+
 		fclose ( file );
 		return success;
 	}
@@ -5273,6 +5326,8 @@ namespace environs
 			}
 		}
 		catch ( ... ) {
+            _EnvDebugBreak ( "SaveToStorage" );
+
 			CErrArgID ( "SaveToStorage: Exception while writing at pos [ %d ] [ %d ] bytes. written [ %d ]", pos, length, written );
 		}
 
@@ -5286,8 +5341,11 @@ namespace environs
 
 
 	bool DeviceBase::LoadFromStorage ( int fileID, char * buffer, int * capacity )
-	{
-		unsigned int	bytesRead = 0;
+    {
+        CVerbID ( "LoadFromStorage" );
+
+		unsigned int	bytesRead   = 0;
+        bool            success     = false;
 
 		if ( !capacity ) {
 			CErrID ( "LoadFromStorage: Invalid parameters given!" );
@@ -5313,11 +5371,15 @@ namespace environs
             // Get filesize
             STAT_STRUCT ( st );
 
-            if ( stat ( dataStorePathForRequests, &st ) != 0 )
+            if ( stat ( dataStorePathForRequests, &st ) != 0 ) {
+                CErrArgID ( "LoadFromStorage: Invalid data storage [ %s ]", dataStorePathForRequests );
                 break;
+            }
 
             if ( !buffer ) {
+                CVerbArg ( "LoadFromStorage: Required size [ %u ]", st.st_size );
                 *capacity = ( unsigned int ) st.st_size;
+                success = true;
                 break;
             }
 
@@ -5330,6 +5392,7 @@ namespace environs
 #pragma warning( push )
 #pragma warning( disable: 4996 )
 #endif
+            CVerbArgID ( "LoadFromStorage: Loading ... [ %s ]", dataStorePathForRequests );
 
             FILE *	file = fopen ( dataStorePathForRequests, "rb" );
             if ( !file ) {
@@ -5345,16 +5408,17 @@ namespace environs
             bytesRead = ( unsigned int ) fread ( buffer, 1, ( size_t ) st.st_size, file );
             
             fclose ( file );
-            if ( bytesRead != ( unsigned ) st.st_size )
+            if ( bytesRead != ( unsigned ) st.st_size ) {
+                CErrArgID ( "LoadFromStorage: Read failed [ %u != %u ]", ( unsigned int ) bytesRead, ( unsigned int ) st.st_size );
                 return false;
+            }
             
             return true;
-            
         }
         while ( false );
 
         LockReleaseA ( spLock, "LoadFromStorage" );
-        return false;
+        return success;
     }
     
     
@@ -5480,7 +5544,10 @@ namespace environs
         if ( success )
         {
             if ( CreatePortalReceiver ( portalID ) ) {
-                onEnvironsNotifier1 ( env, nativeID, streamType == PortalStreamType::Video ? NOTIFY_PORTAL_STREAM_INCOMING : NOTIFY_PORTAL_IMAGES_INCOMING, portalReceivers [ PortalIndex () ]->portalID );
+				int idx = PortalIndex ();
+
+				if ( idx >= 0 && idx < MAX_PORTAL_STREAMS_A_DEVICE )
+					onEnvironsNotifier1 ( env, nativeID, streamType == PortalStreamType::Video ? NOTIFY_PORTAL_STREAM_INCOMING : NOTIFY_PORTAL_IMAGES_INCOMING, portalReceivers [ idx ]->portalID );
             }
             else
                 success = false;
@@ -7624,7 +7691,7 @@ namespace environs
 		char * buffer = 0;
 
 		size = GetFileSize ( hFile, NULL );
-		while ( size != INVALID_FILE_SIZE )
+		while ( size != INVALID_FILE_SIZE && size > 0 )
 		{
 			if ( size > MAX_BULK_SEND_SIZE ) {
 				CErrIDN ( "SendFile: File is larger than 200MB! We don't do this yet!" );

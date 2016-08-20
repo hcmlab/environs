@@ -152,7 +152,7 @@ namespace environs
         // which determines the stream type
         // If we support the stream type, then we return true. Otherwise we return false.
 
-        if ( (type & DATA_STREAM_VIDEO ) == DATA_STREAM_VIDEO )
+		if ( ( type & DATA_STREAM_VIDEO ) == DATA_STREAM_VIDEO )
         {
             // We support h264 streams.
             CVerb ( "InitType: Initialize video decoder." );

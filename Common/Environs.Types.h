@@ -2046,24 +2046,34 @@ public static final int DATA_STREAM_H264_NAL 			= DATA_STREAM | DATA_STREAM_VIDE
  * Type: int
  */
 #define	ENVIRONS_SENSOR_TYPE_ACCELEROMETER                		(0)
-#define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                		(1)
-#define	ENVIRONS_SENSOR_TYPE_GYROSCOPE                    		(2)
-#define	ENVIRONS_SENSOR_TYPE_ORIENTATION                  		(3)
-#define	ENVIRONS_SENSOR_TYPE_LIGHT                        		(4)
-#define	ENVIRONS_SENSOR_TYPE_LOCATION                     		(5)
-#define	ENVIRONS_SENSOR_TYPE_HEADING                      		(6)
-#define	ENVIRONS_SENSOR_TYPE_ALTIMETER                    		(7)
-#define	ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION    		(8)
-#define	ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION  		(9)
-#define	ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD         		(10)
-#define	ENVIRONS_SENSOR_TYPE_HEARTRATE                    		(11)
-#define	ENVIRONS_SENSOR_TYPE_PROXIMITY                    		(12)
-#define	ENVIRONS_SENSOR_TYPE_VOC                          		(13)
-#define	ENVIRONS_SENSOR_TYPE_CO2                          		(14)
-#define	ENVIRONS_SENSOR_TYPE_HUMIDITY                     		(15)
-#define	ENVIRONS_SENSOR_TYPE_TEMPERATURE                  		(16)
-#define	ENVIRONS_SENSOR_TYPE_CUSTOM                       		(17)
-#define	ENVIRONS_SENSOR_TYPE_MAX                          		(18)
+#define	ENVIRONS_SENSOR_TYPE_ACCELERATION                 		(1)
+#define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD                		(2)
+#define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION         		(3)
+#define	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB        		(4)
+#define	ENVIRONS_SENSOR_TYPE_GYROSCOPE                    		(5)
+#define	ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB            		(6)
+#define	ENVIRONS_SENSOR_TYPE_ORIENTATION                  		(7)
+#define	ENVIRONS_SENSOR_TYPE_LIGHT                        		(8)
+#define	ENVIRONS_SENSOR_TYPE_LOCATION                     		(9)
+#define	ENVIRONS_SENSOR_TYPE_HEADING                      		(10)
+#define	ENVIRONS_SENSOR_TYPE_TEMPERATURE                  		(11)
+#define	ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT           		(12)
+#define	ENVIRONS_SENSOR_TYPE_PRESSURE                     		(13)
+#define	ENVIRONS_SENSOR_TYPE_ATTITUDE                     		(14)
+#define	ENVIRONS_SENSOR_TYPE_ROTATION                     		(15)
+#define	ENVIRONS_SENSOR_TYPE_ROTATION_GAME                		(16)
+#define	ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC         		(17)
+#define	ENVIRONS_SENSOR_TYPE_GRAVITY                      		(18)
+#define	ENVIRONS_SENSOR_TYPE_STEPPER                      		(10)
+#define	ENVIRONS_SENSOR_TYPE_STEPS                        		(20)
+#define	ENVIRONS_SENSOR_TYPE_TILT                         		(21)
+#define	ENVIRONS_SENSOR_TYPE_HEARTRATE                    		(22)
+#define	ENVIRONS_SENSOR_TYPE_PROXIMITY                    		(23)
+#define	ENVIRONS_SENSOR_TYPE_VOC                          		(24)
+#define	ENVIRONS_SENSOR_TYPE_CO2                          		(25)
+#define	ENVIRONS_SENSOR_TYPE_HUMIDITY                     		(26)
+#define	ENVIRONS_SENSOR_TYPE_CUSTOM                       		(27)
+#define	ENVIRONS_SENSOR_TYPE_MAX                          		(28)
 
 /**
  * Sensor type enumeration.
@@ -2072,22 +2082,32 @@ public static final int DATA_STREAM_H264_NAL 			= DATA_STREAM | DATA_STREAM_VIDE
 	typedef enum SensorType_t {
 			SensorType_All                 	=	-1,
 			SensorType_Accelerometer       	=	ENVIRONS_SENSOR_TYPE_ACCELEROMETER,
+			SensorType_Acceleration        	=	ENVIRONS_SENSOR_TYPE_ACCELERATION,
 			SensorType_MagneticField       	=	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD,
+			SensorType_MagneticFieldMotion 	=	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION,
+			SensorType_MagneticFieldUncalib	=	ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB,
 			SensorType_Gyroscope           	=	ENVIRONS_SENSOR_TYPE_GYROSCOPE,
+			SensorType_GyroscopeUncalib    	=	ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB,
 			SensorType_Orientation         	=	ENVIRONS_SENSOR_TYPE_ORIENTATION,
 			SensorType_Light               	=	ENVIRONS_SENSOR_TYPE_LIGHT,
 			SensorType_Location            	=	ENVIRONS_SENSOR_TYPE_LOCATION,
 			SensorType_Heading             	=	ENVIRONS_SENSOR_TYPE_HEADING,
-			SensorType_Altimeter           	=	ENVIRONS_SENSOR_TYPE_ALTIMETER,
-			SensorType_MotionAttitudeRotation                    	=	ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION,
-			SensorType_MotionGravityAcceleration                                                  	=	ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION,
-			SensorType_MotionMagneticField 	=	ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD,
+			SensorType_Temperature         	=	ENVIRONS_SENSOR_TYPE_TEMPERATURE,
+			SensorType_MotionSignificant   	=	ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT,
+			SensorType_Pressure            	=	ENVIRONS_SENSOR_TYPE_PRESSURE,
+			SensorType_Attitude            	=	ENVIRONS_SENSOR_TYPE_ATTITUDE,
+			SensorType_Rotation            	=	ENVIRONS_SENSOR_TYPE_ROTATION,
+			SensorType_RotationGame        	=	ENVIRONS_SENSOR_TYPE_ROTATION_GAME,
+			SensorType_RotationGeomagnetic 	=	ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC,
+			SensorType_Gravity             	=	ENVIRONS_SENSOR_TYPE_GRAVITY,
+			SensorType_Stepper             	=	ENVIRONS_SENSOR_TYPE_STEPPER,
+			SensorType_Steps               	=	ENVIRONS_SENSOR_TYPE_STEPS,
+			SensorType_Tilt                	=	ENVIRONS_SENSOR_TYPE_TILT,
 			SensorType_Heartrate           	=	ENVIRONS_SENSOR_TYPE_HEARTRATE,
 			SensorType_Proximity           	=	ENVIRONS_SENSOR_TYPE_PROXIMITY,
 			SensorType_VOC                 	=	ENVIRONS_SENSOR_TYPE_VOC,
 			SensorType_CO2                 	=	ENVIRONS_SENSOR_TYPE_CO2,
 			SensorType_Humidity            	=	ENVIRONS_SENSOR_TYPE_HUMIDITY,
-			SensorType_Temperature         	=	ENVIRONS_SENSOR_TYPE_TEMPERATURE,
 			SensorType_Custom              	=	ENVIRONS_SENSOR_TYPE_CUSTOM,
 			SensorType_Max                 	=	ENVIRONS_SENSOR_TYPE_MAX,
 
@@ -2097,22 +2117,32 @@ public static final int DATA_STREAM_H264_NAL 			= DATA_STREAM | DATA_STREAM_VIDE
 	namespace SensorType {
 			const SensorType_t All                 	=	SensorType_All                 ;
 			const SensorType_t Accelerometer       	=	SensorType_Accelerometer       ;
+			const SensorType_t Acceleration        	=	SensorType_Acceleration        ;
 			const SensorType_t MagneticField       	=	SensorType_MagneticField       ;
+			const SensorType_t MagneticFieldMotion 	=	SensorType_MagneticFieldMotion ;
+			const SensorType_t MagneticFieldUncalib	=	SensorType_MagneticFieldUncalib;
 			const SensorType_t Gyroscope           	=	SensorType_Gyroscope           ;
+			const SensorType_t GyroscopeUncalib    	=	SensorType_GyroscopeUncalib    ;
 			const SensorType_t Orientation         	=	SensorType_Orientation         ;
 			const SensorType_t Light               	=	SensorType_Light               ;
 			const SensorType_t Location            	=	SensorType_Location            ;
 			const SensorType_t Heading             	=	SensorType_Heading             ;
-			const SensorType_t Altimeter           	=	SensorType_Altimeter           ;
-			const SensorType_t MotionAttitudeRotation                    	=	SensorType_MotionAttitudeRotation                    ;
-			const SensorType_t MotionGravityAcceleration                                                  	=	SensorType_MotionGravityAcceleration                                                  ;
-			const SensorType_t MotionMagneticField 	=	SensorType_MotionMagneticField ;
+			const SensorType_t Temperature         	=	SensorType_Temperature         ;
+			const SensorType_t MotionSignificant   	=	SensorType_MotionSignificant   ;
+			const SensorType_t Pressure            	=	SensorType_Pressure            ;
+			const SensorType_t Attitude            	=	SensorType_Attitude            ;
+			const SensorType_t Rotation            	=	SensorType_Rotation            ;
+			const SensorType_t RotationGame        	=	SensorType_RotationGame        ;
+			const SensorType_t RotationGeomagnetic 	=	SensorType_RotationGeomagnetic ;
+			const SensorType_t Gravity             	=	SensorType_Gravity             ;
+			const SensorType_t Stepper             	=	SensorType_Stepper             ;
+			const SensorType_t Steps               	=	SensorType_Steps               ;
+			const SensorType_t Tilt                	=	SensorType_Tilt                ;
 			const SensorType_t Heartrate           	=	SensorType_Heartrate           ;
 			const SensorType_t Proximity           	=	SensorType_Proximity           ;
 			const SensorType_t VOC                 	=	SensorType_VOC                 ;
 			const SensorType_t CO2                 	=	SensorType_CO2                 ;
 			const SensorType_t Humidity            	=	SensorType_Humidity            ;
-			const SensorType_t Temperature         	=	SensorType_Temperature         ;
 			const SensorType_t Custom              	=	SensorType_Custom              ;
 			const SensorType_t Max                 	=	SensorType_Max                 ;
 	};
@@ -2121,40 +2151,67 @@ public static final int DATA_STREAM_H264_NAL 			= DATA_STREAM | DATA_STREAM_VIDE
 
 
 
-#ifndef NDEBUG
 	extern const char * sensorFlagDescriptions [ ];
-#endif
+
+/** Ignore: for Resolver */
+#define	ENVIRONS_SENSOR_PACK_TYPE_EXT                     		(0x40000000)
+/** Ignore: for Resolver */
+#define	ENVIRONS_SENSOR_PACK_TYPE_DOUBLES                 		(0x80000000)
 
 
-#define	ENVIRONS_SENSOR_PACK_TYPE_EXT                     		(0x1000000)
-
+/**
+ * Sensor type bit field declarations.
+ * If number of sensor flags exceed the 32 Bitfield, then another complete FLAG2 type has to be used.
+ *
+ * */
 #define	ENVIRONS_SENSOR_FLAG_ACCELEROMETER                		(0x1)
-#define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                		(0x2)
-#define	ENVIRONS_SENSOR_FLAG_GYROSCOPE                    		(0x4)
-#define	ENVIRONS_SENSOR_FLAG_ORIENTATION                  		(0x8)
-#define	ENVIRONS_SENSOR_FLAG_LIGHT                        		(0x10)
-#define	ENVIRONS_SENSOR_FLAG_LOCATION                     		(0x20)
-#define	ENVIRONS_SENSOR_FLAG_HEADING                      		(0x40)
-#define	ENVIRONS_SENSOR_FLAG_ALTIMETER                    		(0x80)
-#define	ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION    		(0x100)
-#define	ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION  		(0x200)
-#define	ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD         		(0x400)
-#define	ENVIRONS_SENSOR_FLAG_HEARTRATE                    		(0x800)
-#define	ENVIRONS_SENSOR_FLAG_PROXIMITY                    		(0x1000)
-#define	ENVIRONS_SENSOR_FLAG_VOC                          		(0x2000)
-#define	ENVIRONS_SENSOR_FLAG_CO2                          		(0x4000)
-#define	ENVIRONS_SENSOR_FLAG_HUMIDITY                     		(0x8000)
-#define	ENVIRONS_SENSOR_FLAG_TEMPERATURE                  		(0x10000)
-#define	ENVIRONS_SENSOR_FLAG_CUSTOM                       		(0x800000)
+#define	ENVIRONS_SENSOR_FLAG_ACCELERATION                 		(0x2)
+#define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD                		(0x4)
+#define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION         		(0x8)
+#define	ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB        		(0x10)
+#define	ENVIRONS_SENSOR_FLAG_GYROSCOPE                    		(0x20)
+#define	ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB            		(0x40)
+#define	ENVIRONS_SENSOR_FLAG_ORIENTATION                  		(0x80)
+#define	ENVIRONS_SENSOR_FLAG_LIGHT                        		(0x100)
+#define	ENVIRONS_SENSOR_FLAG_LOCATION                     		(0x200)
+#define	ENVIRONS_SENSOR_FLAG_HEADING                      		(0x400)
+#define	ENVIRONS_SENSOR_FLAG_TEMPERATURE                  		(0x800)
+#define	ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT           		(0x1000)
+#define	ENVIRONS_SENSOR_FLAG_PRESSURE                     		(0x2000)
+#define	ENVIRONS_SENSOR_FLAG_ATTITUDE                     		(0x4000)
+#define	ENVIRONS_SENSOR_FLAG_ROTATION                     		(0x8000)
+#define	ENVIRONS_SENSOR_FLAG_ROTATION_GAME                		(0x10000)
+#define	ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC         		(0x20000)
+#define	ENVIRONS_SENSOR_FLAG_GRAVITY                      		(0x40000)
+#define	ENVIRONS_SENSOR_FLAG_STEPPER                      		(0x80000)
+#define	ENVIRONS_SENSOR_FLAG_STEPS                        		(0x100000)
+#define	ENVIRONS_SENSOR_FLAG_TILT                         		(0x200000)
+#define	ENVIRONS_SENSOR_FLAG_HEARTRATE                    		(0x400000)
+#define	ENVIRONS_SENSOR_FLAG_PROXIMITY                    		(0x800000)
+#define	ENVIRONS_SENSOR_FLAG_VOC                          		(0x1000000)
+#define	ENVIRONS_SENSOR_FLAG_CO2                          		(0x2000000)
+#define	ENVIRONS_SENSOR_FLAG_HUMIDITY                     		(0x4000000)
+#define	ENVIRONS_SENSOR_FLAG_CUSTOM                       		(0x8000000)
 
 #define	MAX_ENVIRONS_SENSOR_TYPE_VALUE                    		(ENVIRONS_SENSOR_FLAG_CUSTOM)
 
 	extern int sensorFlags [ ];
 
+
+	extern bool sensorChannelTcpDefault [ ];
+
+
 #define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MIN               		(30000)
 #define	ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN         		(2000)
-#define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        		(5000)
-#define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  		(1000)
+#define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN        		(20000)
+#define	ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN  		(2000)
+
+
+#define	ENVIRONS_BT_OBSERVER_INTERVAL_MIN                 		(30000)
+#define	ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN           		(10000)
+#define	ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_MIN          		(20000)
+#define	ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_CHECK_MIN    		(10000)
+
 
 /** Ignore: for CLI all the remaining content*/
 

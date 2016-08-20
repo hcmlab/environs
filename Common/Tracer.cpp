@@ -32,6 +32,11 @@
 #include <vector>
 #include <string>
 #include "Environs.Utils.h"
+
+#ifndef MEDIATORDAEMON
+#   include "Environs.Obj.h"
+#endif
+
 #include "Mediator.h"
 
 #ifdef DEBUG_TRACK_DEVICEBASE
@@ -114,6 +119,65 @@ namespace environs
     LONGSYNC                        debugDeviceInstanceNodeCount = 0;
 #endif
 
+
+    void _EnvPushPanicMessage ( const char * msg )
+    {
+        if ( !msg )
+            return;
+
+        size_t len = strlen ( msg );
+        if ( len <= 0 )
+            return;
+
+        FILE * fp = fopen ( "./panic.txt", "a" );
+        if ( !fp )
+            return;
+
+        for ( size_t i = 0; i < 100; i++ )
+        {
+            fwrite ( msg, 1, len, fp );
+            fwrite ( "\n", 1, 1, fp );
+        }
+
+        fflush ( fp );
+        fclose ( fp );
+
+        Sleep( 500 );
+    }
+    
+    
+    void _EnvDebugBreak ( const char * msg )
+    {
+#   if defined(_WIN32)
+        _EnvPushPanicMessage ( msg ); 
+#ifdef _WIN32
+		MessageBoxA ( NULL, msg, "Environs Exception!!!", MB_OKCANCEL );
+#endif
+        Sleep ( 5000 );
+		abort ();
+
+#   elif defined(__APPLE__)
+
+#       ifdef ENVIRONS_OSX
+           _EnvPushPanicMessage ( msg );
+
+            abort ();
+        //__asm__("int $3\n" : : )
+        // abort()
+        //Debugger ()
+#       else
+           _EnvPushPanicMessage ( msg );
+        //__asm__("int $3\n" : : )
+#       endif
+
+#   else
+#       include <signal.h>
+
+       _EnvPushPanicMessage ( msg ); raise(SIGTRAP);
+#   endif
+    }
+
+
     /*
      * DeviceInstance tracer
      *
@@ -122,8 +186,14 @@ namespace environs
     LONGSYNC                            debugDeviceObjCount     = 0;
 
     std::vector<lib::DeviceInstance *>  debugDevices;
+#endif
 
-    pthread_mutex_t                     debugDeviceObjLock;
+#ifdef DEBUG_TRACK_DEVICE_INSTANCE2
+	std::map<lib::DeviceInstance *, lib::DeviceInstance *> devicePlatformInstancesMap;
+#endif
+
+#if defined(DEBUG_TRACK_DEVICE_INSTANCE) || defined(DEBUG_TRACK_DEVICE_INSTANCE2)
+	pthread_mutex_t                     debugDeviceObjLock;
 #endif
 
     /*
@@ -274,7 +344,7 @@ namespace environs
 		if ( debugCoreCount > 0 ) {
 			CErrArg ( "TraceCheckCoreStatus: Kernel objects still alive [ %i ] ", debugCoreCount );
 #ifdef BREAK_INTO_LEAKS
-			_EnvDebugBreak ();
+			_EnvDebugBreak ( "TraceCheckCoreStatus" ); 
 #endif
 		}
 #endif
@@ -331,6 +401,10 @@ namespace environs
 
 		if ( iter != devicesMapTraceObjects.end () ) {
 			devicesMapTraceObjects.erase ( iter );
+		}
+		else {
+			// Double delete / dispose
+			_EnvDebugBreak ( "TraceDeviceBaseRemove" );
 		}
 
 		LockReleaseA ( tracerLock, "TraceDeviceBaseRemove" );
@@ -401,35 +475,35 @@ namespace environs
 				count--;
 			}
 			if ( debugDeviceBaseCount > 0 ) {
-				_EnvDebugBreak ();
+				_EnvDebugBreak ( "debugDeviceBaseCount > 0" );
 			}
 		}
 
 		if ( debugDeviceInstanceNodeCount > 0 ) {
 			CErrArg ( "~TraceSocketDispose: DeviceInstanceNode objects still alive [ %i ] ", debugDeviceInstanceNodeCount );
 #ifdef BREAK_INTO_LEAKS
-			_EnvDebugBreak ();
+			_EnvDebugBreak ( "debugDeviceInstanceNodeCount > 0" );
 #endif
 		}
 
 		if ( stuntCount > 0 ) {
 			CErrArg ( "~TraceSocketDispose: Stunt objects still alive [ %i ] ", stuntCount );
 #ifdef BREAK_INTO_LEAKS
-			_EnvDebugBreak ();
+			_EnvDebugBreak ( "stuntCount > 0" );
 #endif
 		}
 
 		if ( stunCount > 0 ) {
 			CErrArg ( "~TraceSocketDispose: Stun objects still alive [ %i ] ", stunCount );
 #ifdef BREAK_INTO_LEAKS
-			_EnvDebugBreak ();
+			_EnvDebugBreak ( "stunCount > 0" );
 #endif
 		}
 
 		if ( debugMediatorCount > 0 ) {
 			CErrArg ( "~TraceSocketDispose: Mediator objects still alive [ %i ] ", debugMediatorCount );
 #ifdef BREAK_INTO_LEAKS
-			_EnvDebugBreak ();
+			_EnvDebugBreak ( "debugMediatorCount > 0" );
 #endif
 		}
 
@@ -818,6 +892,26 @@ namespace environs
     
     void CheckDebugDevices ( lib::DeviceInstance * inst, bool remove )
     {
+#ifdef DEBUG_TRACK_DEVICE_INSTANCE2
+		LockAcquireA ( debugDeviceObjLock, "CheckDebugDevices" );
+
+		if ( remove ) {
+			const std::map<lib::DeviceInstance *, lib::DeviceInstance *>::iterator it = devicePlatformInstancesMap.find ( inst );
+			if ( it != devicePlatformInstancesMap.end () ) {
+				devicePlatformInstancesMap.erase ( it );
+			}
+			else {
+				// Double delete / dispose
+				_EnvDebugBreak ( "CheckDebugDevices" );
+			}
+		}
+		else {
+			devicePlatformInstancesMap [ inst ] = inst;
+		}
+
+		LockReleaseA ( debugDeviceObjLock, "CheckDebugDevices" );
+#endif
+
 #ifdef DEBUG_TRACK_DEVICE_INSTANCE1
 
         pthread_mutex_lock ( &debugDeviceObjLock );
@@ -1166,9 +1260,27 @@ namespace environs
 
     void TraceDeviceInstanceNodesAdd ( DeviceInstanceNode  * ctx )
     {
+        CLogArg ( "DeviceInstanceNode: Construct [ %i ]", ctx->info.objID );
+
         LockAcquireA ( deviceInstancesMapLock, "SendContext" );
 
         deviceInstancesMap [ ctx ] = ctx;
+
+        /*MediatorClient * med = instances [ 1 ]->mediatorSP.get ();
+        if ( med ) {
+            size_t s = med->devicesMapAvailable->size ();
+
+            if ( s > deviceInstancesMap.size () ) {
+                if ( s - deviceInstancesMap.size () >= 4 )
+					// Double delete / dispose
+					_EnvDebugBreak ( "SendContext" );
+            }
+            else {
+                if ( deviceInstancesMap.size () - s >= 4 )
+					// Double delete / dispose
+					_EnvDebugBreak ( "SendContext" );
+            }
+        }*/
 
         LockReleaseA ( deviceInstancesMapLock, "SendContext" );
     }
@@ -1176,12 +1288,18 @@ namespace environs
 
     void TraceDeviceInstanceNodesRemove ( DeviceInstanceNode  * ctx )
     {
+        CLogArg ( "DeviceInstanceNode: Destruct [ %i ]", ctx->info.objID );
+
         LockAcquireA ( deviceInstancesMapLock, "DeviceInstanceNode" );
 
         const std::map<DeviceInstanceNode *, DeviceInstanceNode *>::iterator it = deviceInstancesMap.find ( ctx );
-        if ( it != deviceInstancesMap.end () ) {
-            deviceInstancesMap.erase ( it );
-        }
+		if ( it != deviceInstancesMap.end () ) {
+			deviceInstancesMap.erase ( it );
+		}
+		else {
+			// Double delete / dispose
+			_EnvDebugBreak ( "DeviceInstanceNode" );
+		}
 
         LockReleaseA ( deviceInstancesMapLock, "DeviceInstanceNode" );
     }
@@ -1280,6 +1398,7 @@ namespace environs
         LockReleaseA ( threadInstanceMapLock, "ThreadInstance" );
     }
 #endif
+    
 }
 
 #endif

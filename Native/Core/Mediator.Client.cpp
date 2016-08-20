@@ -122,6 +122,11 @@ namespace environs
     unsigned int                    MediatorClient::IPe = 0;
     bool                            MediatorClient::behindNAT = true;
 
+#ifndef ANDROID
+    int                             MediatorClient::wifiCurrentRSSI = 0;
+    unsigned long long              MediatorClient::wifiCurrentBSSID = 0;
+#endif
+
 #ifdef ENABLE_EXT_BIND_IN_STUNT
     unsigned int                    MediatorClient::primaryInterface = 0;
 #endif
@@ -272,6 +277,8 @@ namespace environs
         }
 
         TraceDeviceInstanceNodeRemove ();
+
+        TraceDeviceInstanceNodesRemove ( this );
 	}
 
 
@@ -476,7 +483,7 @@ namespace environs
             Mediator::StopMediators ();
         }
         
-		DevicesMediatorClear ( true );
+		DevicesMediatorClear ();
 
 		ReleaseDevices ();
 	}
@@ -573,7 +580,7 @@ namespace environs
 	}
 
 
-	void MediatorClient::RemoveDevice ( DeviceInstanceNode * device, bool useLock )
+	void MediatorClient::RemoveDevice ( DeviceInstanceNode * device, bool useLock, bool forceUnlock )
 	{
 		CVerb ( "RemoveDevice" );
 
@@ -667,7 +674,7 @@ namespace environs
 
         device->baseSP = 0;
 
-		if ( useLock ) {
+		if ( useLock || forceUnlock ) {
 			LockReleaseVA ( devicesLock, "RemoveDevice" );
 		}
 
@@ -2024,8 +2031,8 @@ namespace environs
 		INTEROPTIMEVAL	lastBeat			= 0;
 
 
-		MediatorInstance * med = &mediator;
-        ThreadInstance * inst = &med->connection.instance;
+		MediatorInstance    * med   = &mediator;
+        ThreadInstance      * inst  = &med->connection.instance;
 
         SendBroadcast ();
 
@@ -2975,12 +2982,12 @@ namespace environs
 			return true;
 
 
-		if ( !*native.deviceUID ) {
+        if ( !*native.deviceUID ) {
 			CreateAppID ( native.deviceUID, sizeof ( native.deviceUID ) );
 
 			if ( !*native.deviceUID )
 				return false;
-		}
+        }
 
 		if ( !*env->UserName )
 		{
@@ -4250,12 +4257,15 @@ namespace environs
 				do
 				{
 					unsigned int certSize = *( ( unsigned int * ) opt_pubCert ) & 0xFFFF;
+					
+					// Code analysis seem to allow size_t to be negative
+					if ( certSize <= 0 )
+						break;
 					certSize += 4;
 
 					signReq = ( char * ) malloc ( certSize + 8 );
-					if ( !signReq ) {
+					if ( !signReq )
 						break;
-					}
 
 					memcpy ( signReq + 4, "3ts;", 4 );
 					signReq [ 4 ] = MEDIATOR_PROTOCOL_VERSION;
@@ -5530,7 +5540,7 @@ namespace environs
 	}
 
 
-    sp ( DeviceInstanceNode ) MediatorClient::GetDeviceSP ( int deviceID, const char * areaName, const char * appName, int * success, bool useLock )
+    sp ( DeviceInstanceNode ) MediatorClient::GetDeviceSP ( int deviceID, const char * areaName, const char * appName, int * success )//, bool useLock )
     {
         if ( !isRunning )
             return 0;
@@ -5558,7 +5568,7 @@ namespace environs
 
         sp ( DeviceInstanceNode ) deviceSP;
 
-        if ( useLock && pthread_mutex_lock ( &devicesMapLock ) ) {
+        if ( /*useLock &&*/ pthread_mutex_lock ( &devicesMapLock ) ) {
             if ( success )
                 *success = -1;
             CErr ( "GetDeviceSP: Failed to aquire mutex!" );
@@ -5568,15 +5578,18 @@ namespace environs
         std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator foundIt = devicesMapAvailable->find ( key );
         if ( foundIt != devicesMapAvailable->end () )
         {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CVerbArg ( "GetDeviceSP: Found [ %i : %s ]", key->deviceID, key->appArea );
+#else
             CVerbArg ( "GetDeviceSP: Found [ %s ]", key ENVIRONS_DEVICE_KEY_EXT );
-
+#endif
             DeviceInstanceNode * device = foundIt->second;
 
-            if (device && device->mapSP)
+            if ( device && device->mapSP )
                 deviceSP = device->mapSP;
         }
 
-        if ( useLock && pthread_mutex_unlock ( &devicesMapLock ) ) {
+        if ( /*useLock &&*/ pthread_mutex_unlock ( &devicesMapLock ) ) {
             if ( success )
                 *success = -1;
             CErr ( "GetDeviceSP: Failed to unlock mutex!" );
@@ -5635,9 +5648,9 @@ namespace environs
 	}
 
 
-	sp ( DeviceInstanceNode ) MediatorClient::GetDeviceNearbySP ( int deviceID, const char * areaName, const char * appName, bool useLock )
+    sp ( DeviceInstanceNode ) MediatorClient::GetDeviceNearbySP ( int deviceID, const char * areaName, const char * appName ) //, bool useLock )
 	{
-		sp ( DeviceInstanceNode ) device = GetDeviceSP ( deviceID, areaName, appName, 0, useLock );
+        sp ( DeviceInstanceNode ) device = GetDeviceSP ( deviceID, areaName, appName, 0 ); //, useLock );
 
 		if ( device ) {
 			if ( device->info.broadcastFound == DEVICEINFO_DEVICE_BROADCAST && ( lastGreetUpdate - device->info.updates ) > 120000 ) {
@@ -5755,9 +5768,11 @@ namespace environs
 
 			// Simulate a query with 0 device infos
 			//
-			bufferDevices = (char *) calloc ( 1, sizeof ( DevicePack ) );
-			if ( !bufferDevices )
-				return false;
+            void * t = calloc ( 1, sizeof ( DevicePack ) );
+            if ( !t )
+                return false;
+            
+            bufferDevices = static_cast < char * > ( t );
 
 			deviceMediatorQueryCount	= 0;
 			countDevices				= 0;
@@ -5811,16 +5826,22 @@ namespace environs
                     if ( foundIt != devicesMapAvailable->end () )
                     {
                         /// Update the item
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                        CListLogArg ( "DevicesMediatorReload: Updating [ %i : %s ]", key->deviceID, key->appArea );
+#else
                         CListLogArg ( "DevicesMediatorReload: Updating [ %s ]", key ENVIRONS_DEVICE_KEY_EXT );
-                        
+#endif
                         foundIt->second->info.internalUpdates = ( char ) updateCounter;
                         
                         DeviceCompareAndTakeOver ( foundIt->second, device, false );
                     }
                     else {
                         /// Add the item
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                        CListLogArg ( "DevicesMediatorReload: Adding mediator device [ %i : %s ]", key->deviceID, key->appArea );
+#else
                         CListLogArg ( "DevicesMediatorReload: Adding mediator device [ %s ]", key ENVIRONS_DEVICE_KEY_EXT );
-                        
+#endif
                         sp ( DeviceInstanceNode ) itemSP = sp_make ( DeviceInstanceNode );
                         if ( !itemSP ) {
                             CErr ( "DevicesMediatorReload: Failed to allocate memory for device item!" );
@@ -5861,34 +5882,6 @@ namespace environs
 #endif
 				device++;
 			}
-			/*
-			// The follwing is transfered to GC of the caller
-			// Iterate over the available map and remove the ones that have been removed from mediator
-			//
-			std::vector<std::string> toRemove;
-
-			std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator it = devicesMapAvailable->begin ();
-
-			while ( it != devicesMapAvailable->end () )
-			{
-				DeviceInfo * src = &it->second->info;
-
-				char bc = src->broadcastFound;
-				if ( bc != DEVICEINFO_DEVICE_BROADCAST && src->internalUpdates != ( char ) updateCounter )
-				{
-					toRemove.push_back ( it->first );
-				}
-				it++;
-			}
-
-			size_t size = toRemove.size ();
-
-			if ( size > 0 )
-			{
-				for ( size_t i = 0; i < size; ++i )
-					DeviceRemove ( toRemove [ i ].c_str (), true, false );
-			}
-			*/
 		}
 		while ( false );
 
@@ -5926,11 +5919,11 @@ namespace environs
 	}
 
 
-	bool MediatorClient::DevicesMediatorClear ( bool useLock )
+	bool MediatorClient::DevicesMediatorClear ()
 	{
-		CListLogArg ( "DevicesMediatorClear: useLock [%d]", useLock );
+		CListLog ( "DevicesMediatorClear" );
 
-		if ( useLock && !LockAcquireA ( devicesMapLock, "DevicesMediatorClear" ) )
+		if ( !LockAcquireA ( devicesMapLock, "DevicesMediatorClear" ) )
 			return false;
 
 		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator it = devicesMapAvailable->begin ();
@@ -5943,8 +5936,7 @@ namespace environs
 
 		devicesMapAvailable->clear ();
 
-		if ( useLock )
-			LockReleaseVA ( devicesMapLock, "DevicesMediatorClear" );
+		LockReleaseVA ( devicesMapLock, "DevicesMediatorClear" );
 
 		CListLog ( "DevicesMediatorClear: done" );
 		return true;
@@ -5962,11 +5954,17 @@ namespace environs
 		DeviceInstanceNode * device;
 		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator foundIt;
 
-        if ( mediator.ip && !DevicesMediatorReload () ) {
-            CListLog ( "DevicesAvailableReload: done" );
+        if ( mediator.ip ) {
+            if ( !DevicesMediatorReload () ) {
+                CListLog ( "DevicesAvailableReload: done" );
             
-            //DevicesHasChanged ( MEDIATOR_DEVICE_RELOAD );
-            return false;
+                //DevicesHasChanged ( MEDIATOR_DEVICE_RELOAD );
+                return false;
+            }
+        }
+        else {
+            if ( !LockAcquireA ( devicesMapLock, "DevicesAvailableReload" ) )
+                return false;
         }
 
 		PrintDevicesMap ( devicesMapAvailable, false );
@@ -5992,9 +5990,12 @@ namespace environs
 				DeviceInfo * found = &foundIt->second->info;
 
 				if ( foundIt->second != device ) {
-					/// Update the item
-					CListLogArg ( "DevicesAvailableReload: Update nearby+mediator [%s]", device->key ENVIRONS_DEVICE_KEY_EXT );
-
+                    /// Update the item
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                    CListLogArg ( "DevicesAvailableReload: Update nearby+mediator [ %i : %s ]", device->key.deviceID, device->key.appArea );
+#else
+					CListLogArg ( "DevicesAvailableReload: Update nearby+mediator [ %s ]", device->key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 					// We need to switch (device is part of the nodelist, found is the one from the map)
 
                     device->info.flags          |= found->flags;
@@ -6029,9 +6030,12 @@ namespace environs
 					found->internalUpdates  = ( char ) updateCounter;
 			}
 			else {
-				/// Add the item
+                /// Add the item
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                CListLogArg ( "DevicesAvailableReload: Add nearby reference [ %i : %s ]", device->key.deviceID, device->key.appArea );
+#else
 				CListLogArg ( "DevicesAvailableReload: Add nearby reference [ %s ]", device->key ENVIRONS_DEVICE_KEY_EXT );
-
+#endif
                 device->mapSP = device->baseSP;
 
                 if ( device->mapSP ) {
@@ -6142,7 +6146,11 @@ namespace environs
                     {
                         // Check is not required as the GC will remove the item and leave a valid list to us
                         //if ( src->internalUpdates >= updateCounter ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                        CListLogArg ( "DevicesCacheRebuild: Copying device to available [ %i : %s ]", it->second->key.deviceID, it->second->key.appArea );
+#else
                         CListLogArg ( "DevicesCacheRebuild: Copying device to available [ %s ]", it->second->key ENVIRONS_DEVICE_KEY_EXT );
+#endif
                         
                         memcpy ( item, src, DEVICE_PACKET_SIZE );
                         item++;
@@ -6227,11 +6235,11 @@ namespace environs
 
 	bool MediatorClient::GC_DevicesAvailable ()
 	{
-		CListLogArg ( "GC.Devices.Available: disposeCount: [ %d ]", disposeCount );
+		CListLog ( "GC.Devices.Available" );
 
 		int updateCounter = devicesMapUpdates;
 
-		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator it = devicesMapAvailable->begin ();
+		std::map < APPAREATYPE *, DeviceInstanceNode *, compare_char_key >::iterator it = devicesMapAvailable->begin ();
 
 		while ( it != devicesMapAvailable->end () )
         {
@@ -6240,7 +6248,7 @@ namespace environs
 			if ( !item || item->info.internalUpdates < updateCounter )
             {
                 bool erase = false;
-                sp ( DeviceController) deviceSP;
+                sp ( DeviceController ) deviceSP;
                 
                 if ( item )
                     deviceSP = item->deviceSP.lock ();
@@ -6249,7 +6257,7 @@ namespace environs
 					erase = true;
 				else if ( deviceSP->deviceStatus != DeviceStatus::Connected )
 					erase = true;
-				else {
+				else if ( item )  {
 					int diff = updateCounter - ( int ) item->info.internalUpdates;
 
 					if ( diff > 3 ) {
@@ -6260,8 +6268,11 @@ namespace environs
 				}
 
                 if ( erase ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                    CListLogArg ( "GC.Devices.Available: Disposing device from available [ %i : %s ]", item->key.deviceID, item->key.appArea );
+#else
                     CListLogArg ( "GC.Devices.Available: Disposing device from available [ %s ]", item->key ENVIRONS_DEVICE_KEY_EXT );
-
+#endif
                     devicesMapAvailable->erase ( it++ );
 
                     if ( item )
@@ -6429,7 +6440,7 @@ namespace environs
                 break;
             locked  = true;
 
-            DeviceInfo * headerDevice = (DeviceInfo *) (buffer + DEVICES_HEADER_SIZE_V6);
+			DeviceInfo * headerDevice = ( DeviceInfo * ) ( buffer + DEVICES_HEADER_SIZE_V6 );
 
 			if ( packet->notification == NOTIFY_MEDIATOR_SRV_DEVICE_CHANGED )
 				success = DeviceChange ( 0, headerDevice );
@@ -6511,16 +6522,23 @@ namespace environs
 
 
 	int MediatorClient::DeviceRemove ( APPAREATYPE * key, bool mediatorRequest, bool notify )
-	{
-		CListLogArg ( "DeviceRemove: [ %s ] - [ %s ]", mediatorRequest ? "Mediator" : "Nearby", key ENVIRONS_DEVICE_KEY_EXT );
+    {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+        CListLogArg ( "DeviceRemove: [ %s ] - [ %i : %s ]", mediatorRequest ? "Mediator" : "Nearby", key->deviceID, key->appArea );
+#else
+        CListLogArg ( "DeviceRemove: [ %s ] - [ %s ]", mediatorRequest ? "Mediator" : "Nearby", key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 
 		int success = false;
 
 		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator foundIt = devicesMapAvailable->find ( key );
 
-		if ( foundIt != devicesMapAvailable->end () ) {
+        if ( foundIt != devicesMapAvailable->end () ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CListLogArg ( "DeviceRemove: Remove request for device [ %s ] [ %i : %s ]", GET_DEVICE_SOURCE_STRING ( foundIt->second->info.broadcastFound ), foundIt->second->key.deviceID, foundIt->second->key.appArea );
+#else
 			CListLogArg ( "DeviceRemove: Remove request for device [ %s ] [ %s ]", GET_DEVICE_SOURCE_STRING ( foundIt->second->info.broadcastFound ), foundIt->second->key ENVIRONS_DEVICE_KEY_EXT );
-
+#endif
 			DeviceInstanceNode * item = foundIt->second;
 			bool erase = false;
 
@@ -6549,8 +6567,12 @@ namespace environs
 				}
 			}
 
-			if ( erase ) {
+            if ( erase ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                CListLogArg ( "DeviceRemove: Removing device [ %s ] [ %i : %s ]", GET_DEVICE_SOURCE_STRING ( foundIt->second->info.broadcastFound ), foundIt->second->key.deviceID, foundIt->second->key.appArea );
+#else
 				CListLogArg ( "DeviceRemove: Removing device [ %s ] [ %s ]", GET_DEVICE_SOURCE_STRING ( foundIt->second->info.broadcastFound ), foundIt->second->key ENVIRONS_DEVICE_KEY_EXT );
+#endif
                 devicesMapAvailable->erase ( foundIt );
 
                 if ( notify && subscribedToNotifications )
@@ -6709,11 +6731,19 @@ namespace environs
 		else {
 			broadcastFound = DEVICEINFO_DEVICE_BROADCAST_AND_MEDIATOR;
 
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CListLogArg ( "DeviceCompareAndTakeOver: Updating to [Mediator+Nearby] device [ %i : %s ]", listDevice->key.deviceID, listDevice->key.appArea );
+#else
 			CListLogArg ( "DeviceCompareAndTakeOver: Updating to [Mediator+Nearby] device [ %s ]", listDevice->key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 		}
 
-		if ( success == 1 ) {
+        if ( success == 1 ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CListLogArg ( "DeviceCompareAndTakeOver: Updating [ %s ] device [ %i : %s ]", GET_DEVICE_SOURCE_STRING ( info->broadcastFound ), listDevice->key.deviceID, listDevice->key.appArea );
+#else
             CListLogArg ( "DeviceCompareAndTakeOver: Updating [ %s ] device [ %s ]", GET_DEVICE_SOURCE_STRING ( info->broadcastFound ), listDevice->key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 
 			memcpy ( info, device, DEVICE_MEDIATOR_PACKET_SIZE );
 		}
@@ -6727,8 +6757,12 @@ namespace environs
         info->nativeID          = nativeID;
         info->objID             = objID;
 
-		if ( success == -1 ) {
+        if ( success == -1 ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CListLogArg ( "DeviceCompareAndTakeOver: Updating [ %s ] device [ %i : %s ]", GET_DEVICE_SOURCE_STRING ( info->broadcastFound ), listDevice->key.deviceID, listDevice->key.appArea );
+#else
             CListLogArg ( "DeviceCompareAndTakeOver: Updating [ %s ] device [ %s ]", GET_DEVICE_SOURCE_STRING ( info->broadcastFound ), listDevice->key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 
 			memcpy ( device, info, DEVICE_MEDIATOR_PACKET_SIZE );
 		}
@@ -6747,8 +6781,11 @@ namespace environs
 		int             success = 0;
 		DeviceInfo  *   device  = ( nearbyDevice ? &nearbyDevice->info : mediatorDevice );
 
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+        CListLogArg ( "DeviceChange: Comparing the device found [ %s ] with the incoming device [ %i : %s ]", GET_DEVICE_SOURCE_STRING ( foundIt->second->info.broadcastFound ), nearbyDevice ? nearbyDevice->key.deviceID : 0, nearbyDevice ? nearbyDevice->key.appArea : "Mediator device" );
+#else
 		CListLogArg ( "DeviceChange: Comparing the device found [ %s ] with the incoming device [ %s ]", GET_DEVICE_SOURCE_STRING ( foundIt->second->info.broadcastFound ), nearbyDevice ? nearbyDevice->key ENVIRONS_DEVICE_KEY_EXT : "Mediator device" );
-
+#endif
 		int status = DeviceCompareAndTakeOver ( foundIt->second, device, true );
 
 		if ( status == 1 ) {
@@ -6756,8 +6793,11 @@ namespace environs
 		}
 		else if ( status == -1 ) {
             if ( nearbyDevice ) {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+                CListLogArg ( "DeviceChange: Replacing Mediator device with Nearby instance [ %i : %s ]", nearbyDevice->key.deviceID, nearbyDevice->key.appArea );
+#else
                 CListLogArg ( "DeviceChange: Replacing Mediator device with Nearby instance [ %s ]", nearbyDevice->key ENVIRONS_DEVICE_KEY_EXT );
-
+#endif
                 DeviceInstanceNode  * toDelete = foundIt->second;
 
                 int nativeID = toDelete->info.nativeID;
@@ -6765,32 +6805,40 @@ namespace environs
                 //nearbyDevice->info.unused |= toDelete->info.unused;
                 nearbyDevice->info.flags |= toDelete->info.flags;
 
-                sp ( DeviceController ) deviceSP = toDelete->deviceSP.lock ();
-                if ( deviceSP ) {
-                    DeviceBase * deviceBase     = (DeviceBase *) deviceSP.get();
+                if ( LockAcquireA ( devicesLock, "DeviceChange" ) )
+                {
+                    sp ( DeviceController ) deviceSP = toDelete->deviceSP.lock ();
+                    if ( deviceSP ) {
+                        DeviceBase * deviceBase     = ( DeviceBase * ) deviceSP.get();
 
-					deviceBase->deviceNode      = nearbyDevice->baseSP;
+                        deviceBase->deviceNode      = nearbyDevice->baseSP;
 
-                    nearbyDevice->deviceSP      = deviceSP;
+                        nearbyDevice->deviceSP      = deviceSP;
 
-                    toDelete->deviceSP.reset ();
-                }
+                        toDelete->deviceSP.reset ();
+                    }
 
-                devicesMapAvailable->erase ( foundIt );
+                    devicesMapAvailable->erase ( foundIt );
 
-                toDelete->mapSP.reset ();
+                    toDelete->mapSP.reset ();
 
-                nearbyDevice->mapSP = nearbyDevice->baseSP;
+                    nearbyDevice->mapSP = nearbyDevice->baseSP;
 
-                if ( nearbyDevice->mapSP ) {
-                    if ( nativeID > 0 )
-                        nearbyDevice->info.nativeID = nativeID;
+                    LockReleaseVA ( devicesLock, "DeviceChange" );
+
+                    if ( nearbyDevice->mapSP ) {
+                        if ( nativeID > 0 )
+                            nearbyDevice->info.nativeID = nativeID;
 
 #ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
-                    (*devicesMapAvailable) [ &nearbyDevice->key ] = nearbyDevice;
+                        (*devicesMapAvailable) [ &nearbyDevice->key ] = nearbyDevice;
 #else
-                    (*devicesMapAvailable) [ ( APPAREATYPE  * ) nearbyDevice->key ] = nearbyDevice;
+                        (*devicesMapAvailable) [ ( APPAREATYPE  * ) nearbyDevice->key ] = nearbyDevice;
 #endif
+                    }
+                }
+                else {
+                    CErr ( "DeviceChange: Failed to acquire devicesLock." );
                 }
             }
             else {
@@ -6907,12 +6955,15 @@ namespace environs
 			item->hEnvirons = env->hEnvirons;
 		}
 
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+        CListLogArg ( "DeviceAdd: [ %i : %s ]", key->deviceID, key->appArea );
+#else
 		CListLogArg ( "DeviceAdd: [ %s ]", key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 
 #ifdef DEBUGVERB
         deviceID	= device->deviceID;
 #endif
-
 		foundIt = devicesMapAvailable->find ( key );
 
 		if ( foundIt != devicesMapAvailable->end () )
@@ -6920,9 +6971,12 @@ namespace environs
 			success = DeviceChange ( foundIt, nearbyDevice, mediatorDevice );
 		}
 		else {
-			/// Add the item
-			CListLogArg ( "DeviceAdd: Adding [ %s ] device [ %s ]", GET_DEVICE_SOURCE_STRING ( device->broadcastFound ), key ENVIRONS_DEVICE_KEY_EXT );
-
+            /// Add the item
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CListLogArg ( "DeviceAdd: Adding [ %s ] device [ %i : %s ]", GET_DEVICE_SOURCE_STRING ( device->broadcastFound ), key->deviceID, key->appArea );
+#else
+            CListLogArg ( "DeviceAdd: Adding [ %s ] device [ %s ]", GET_DEVICE_SOURCE_STRING ( device->broadcastFound ), key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 			if ( item ) {
 				memcpy ( &item->info, device, DEVICE_MEDIATOR_PACKET_SIZE );
 
@@ -6950,17 +7004,25 @@ namespace environs
                 //device->unused			= 0;
                 device->flags           = DeviceFlagsInternal::NativeReady;
 
-				if ( nearbyDevice ) {
-					nearbyDevice->mapSP     = nearbyDevice->baseSP;
+                if ( nearbyDevice ) {
+                    if ( LockAcquireA ( devicesLock, "DeviceAdd" ) )
+                    {
+                        nearbyDevice->mapSP = nearbyDevice->baseSP;
 
-					if ( nearbyDevice->mapSP ) {
-						(*devicesMapAvailable) [ key ] = nearbyDevice;
+                        LockReleaseVA ( devicesLock, "DeviceAdd" );
 
-						if ( subscribedToNotifications )
-                            API::onEnvironsNotifierContext1 ( env, device->objID, NOTIFY_MEDIATOR_DEVICE_ADDED, SOURCE_NATIVE, device, DEVICE_PACKET_SIZE );
+                        if ( nearbyDevice->mapSP ) {
+                            (*devicesMapAvailable) [ key ] = nearbyDevice;
 
-                        env->asyncWorker.Push ( nearbyDevice->info.objID, ASYNCWORK_TYPE_DEVICE_FLAGS_SYNC );
-					}
+                            if ( subscribedToNotifications )
+                                API::onEnvironsNotifierContext1 ( env, device->objID, NOTIFY_MEDIATOR_DEVICE_ADDED, SOURCE_NATIVE, device, DEVICE_PACKET_SIZE );
+
+                            env->asyncWorker.Push ( nearbyDevice->info.objID, ASYNCWORK_TYPE_DEVICE_FLAGS_SYNC );
+                        }
+                    }
+                    else {
+                        CErr ( "DeviceAdd: Failed to acquire devicesLock" );
+                    }
 				}
 
 				UpdateDirtyFlags ( true, false );
@@ -7022,9 +7084,12 @@ namespace environs
 		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator foundIt = devicesMapAvailable->find ( key );
 
 		if ( foundIt != devicesMapAvailable->end () )
-		{
-			CVerbVerbArg ( "UpdateDeviceState: Found [ %s ]", key ENVIRONS_DEVICE_KEY_EXT );
-
+        {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CVerbVerbArg ( "UpdateDeviceState: Found [ %i : %s ]", key->deviceID, key->appArea );
+#else
+			CVerbVerbArg ( "UpdateDeviceState: Found [ %i : %s ]", key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 			DeviceInstanceNode * item = foundIt->second;
 
 			//bool changed = false;
@@ -7048,8 +7113,12 @@ namespace environs
 			}
 		}
 #ifndef NDEBUG
-		else {
+        else {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CWarnsArg ( 4, "UpdateDeviceState: Failed to lookup device [ %i : %s ]!", key->deviceID, key->appArea );
+#else
             CWarnsArg ( 4, "UpdateDeviceState: Failed to lookup device [ %s ]!", key ENVIRONS_DEVICE_KEY_EXT );
+#endif
 		}
 #endif
 
@@ -7164,9 +7233,12 @@ namespace environs
 		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator foundIt = devicesMapAvailable->find ( key );
 
 		if ( foundIt != devicesMapAvailable->end () )
-		{
+        {
+#ifdef USE_MEDIATOR_OPT_KEY_MAPS_COMP
+            CVerbArg ( "GetDeviceFromMediatorCached: Found [ %i : %s ]", key->deviceID, key->appArea );
+#else
 			CVerbArg ( "GetDeviceFromMediatorCached: Found [ %s ]", key ENVIRONS_DEVICE_KEY_EXT );
-
+#endif
 			memcpy ( info, &foundIt->second->info, DEVICE_PACKET_SIZE );
 
 			deviceCount = 1;
@@ -7332,9 +7404,9 @@ namespace environs
 	}
 
 
-	int MediatorClient::GetDevicesAvailableCached ( char * &buffer )
+	jobject MediatorClient::GetDevicesAvailableCached ( JNIEnv * jenv )
 	{
-		CLog ( "GetDevicesAvailableCached" );
+		CVerb ( "GetDevicesAvailableCached" );
 
 		if ( !UpdateDirtyCaches ( true, false ) ) {
 			CErr ( "GetDevicesAvailableCached: Failed to update cache!" );
@@ -7344,8 +7416,7 @@ namespace environs
 		if ( !LockAcquireA ( devicesCacheLock, "GetDevicesAvailableCached" ) )
 			return 0;
 
-		char *          tmp;
-		unsigned int    deviceCount = 0;
+		jobject			byteBuffer  = 0;
 		unsigned int    reqSize;
 
         int cacheCount = deviceAvailableCachedCount;
@@ -7354,20 +7425,25 @@ namespace environs
 		{
 			reqSize = ( cacheCount * DEVICE_PACKET_SIZE ) + ( 2 * DEVICES_HEADER_SIZE );
 
-			tmp = ( char * ) malloc ( reqSize );
-			if ( tmp ) {
+			char * tmp = 0;
+#ifdef ANDROID
+			byteBuffer = allocJByteBuffer ( jenv, reqSize, tmp );
+#else
+			byteBuffer = malloc ( reqSize ); tmp = ( char * ) byteBuffer;
+#endif
+			if ( !tmp ) {
+				CErrArg ( "GetDevicesN: Failed to allocate buffer for [ %d ] devices with [ %u bytes ]!", cacheCount, reqSize );
+			}
+			else {
 				memcpy ( tmp, deviceAvailableCached, reqSize );
-				buffer = tmp;
-
-				deviceCount = cacheCount;
 			}
 		}
 
 		LockReleaseA ( devicesCacheLock, "GetDevicesAvailableCached" );
 
-		PrintDeviceList ( "AvailableC: ", buffer );
+		PrintDeviceList ( "AvailableC: ", ( char * ) byteBuffer );
 
-		return deviceCount;
+		return byteBuffer;
 	}
 
 
@@ -7570,9 +7646,9 @@ namespace environs
                 DeviceInfo * device = ( DeviceInfo * ) pCurDevice;
 
                 // Make sure that strings are 0 terminated
-                device->appName [ MAX_LENGTH_APP_NAME - 1 ]         = 0;
-                device->areaName [ MAX_LENGTH_AREA_NAME - 1 ]       = 0;
-                device->deviceName [ MAX_LENGTH_DEVICE_NAME - 1 ]   = 0;
+                device->appName		[ MAX_LENGTH_APP_NAME - 1 ]		= 0;
+                device->areaName	[ MAX_LENGTH_AREA_NAME - 1 ]	= 0;
+                device->deviceName	[ MAX_LENGTH_DEVICE_NAME - 1 ]	= 0;
 
 				// Check whether the device represents ourself
 				//CVerbArg ( "GetDevicesFromMediator: Received deviceID [ 0x%X ]  [ %s / %s ]", device->deviceID, device->appName, device->areaName );
@@ -7601,6 +7677,17 @@ namespace environs
                 }
                 else {
                     device->objID = 0;
+
+					if ( device->hasAppEnv ) {
+						char *  app         = device->appName;
+						char *  area        = device->areaName;
+
+						// Make sure that strings are 0 terminated
+						app  [ MAX_LENGTH_APP_NAME - 1 ]	= 0;
+						area [ MAX_LENGTH_AREA_NAME - 1 ]	= 0;
+
+						device->hasAppEnv = !( !strncmp ( area, env->areaName, sizeof ( env->areaName ) ) && !strncmp ( app, env->appName, sizeof ( env->appName ) ) );
+					}
                 }
             }
             else
@@ -7611,11 +7698,12 @@ namespace environs
 #ifdef NDEBUG
                 char * medDevices   = ( char * ) malloc ( bufferSize );
 #else
-				char * medDevices   = ( char * ) calloc ( 1, bufferSize );
+				char * medDevices   = ( char * ) malloc ( bufferSize );
+				//char * medDevices   = ( char * ) calloc ( 1, bufferSize );
 #endif
                 if ( medDevices )
                 {
-                    DeviceInfo * medDevice = (DeviceInfo *) (medDevices + DEVICES_HEADER_SIZE_V6);
+					DeviceInfo * medDevice = ( DeviceInfo * ) ( medDevices + DEVICES_HEADER_SIZE_V6 );
                     
                     bool    sameAppArea = false;
                     char *  app         = 0;
@@ -7635,20 +7723,22 @@ namespace environs
                             area = d->areaName;
 
                             // Make sure that strings are 0 terminated
-                            app  [ MAX_LENGTH_APP_NAME - 1 ]        = 0;
-                            area [ MAX_LENGTH_AREA_NAME - 1 ]       = 0;
+                            app  [ MAX_LENGTH_APP_NAME - 1 ]	= 0;
+                            area [ MAX_LENGTH_AREA_NAME - 1 ]	= 0;
 
-                            appLen = strlen ( app ) + 1;
-                            areaLen = strlen ( area ) + 1;
-                            sameAppArea = (!strncmp ( area, env->areaName, sizeof ( env->areaName ) ) && !strncmp ( app, env->appName, sizeof ( env->appName ) ) );
+                            appLen		= strlen ( app ) + 1;
+                            areaLen		= strlen ( area ) + 1;
+							sameAppArea = ( !strncmp ( area, env->areaName, sizeof ( env->areaName ) ) && !strncmp ( app, env->appName, sizeof ( env->appName ) ) );
+
+							//CVerbArg ( "GetDevicesMediator: Has AppEnv, isSameAppArea [ %d ].", ( int ) sameAppArea );
                         }
 
                         device->deviceName [ MAX_LENGTH_DEVICE_NAME - 1 ]   = 0;
 
-                        //CVerbArg ( "GetDevicesMediator: Device [ %d ] ID [ 0x%X ] of area [ %s ] app [ %s ] name [ %s ].", i, device->deviceID, area, app, device->deviceName );
+						//CVerbArg ( "GetDevicesMediator: Device [ %d ] ID [ 0x%X ] of area [ %s ] app [ %s ] name [ %s ].", i, device->deviceID, area, app, device->deviceName );
                         if ( sameAppArea && device->deviceID == env->deviceID )
                         {
-							// We skipped ourself in the list. Update counters accordingly.
+							// We skip ourself in the list. Update counters accordingly.
                             // Save the external IP determined by the Mediator
                             IPe = device->ipe;
 #ifdef ENABLE_EXT_BIND_IN_STUNT
@@ -7663,8 +7753,8 @@ namespace environs
                                 else {
                                     memcpy ( medDevice, pCurDevice, sizeof ( DeviceInfoShort ) );
                                     
-                                    memcpy ( medDevice->areaName, area, areaLen );
-                                    memcpy ( medDevice->appName, app, appLen );
+									memcpy ( medDevice->areaName, area, areaLen ); medDevice->areaName [ areaLen ] = 0;
+                                    memcpy ( medDevice->appName, app, appLen ); medDevice->appName [ appLen ] = 0;
                                 }
                                 
                                 medDevice->hasAppEnv = !sameAppArea;
@@ -7881,7 +7971,7 @@ namespace environs
 	{
 		CVerbsID ( 6, "GetPortTCP" );
 
-		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName, true );
+		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName );
 
 		if ( device ) {
 			value = device->info.tcpPort;
@@ -7900,7 +7990,7 @@ namespace environs
 
 	bool MediatorClient::GetPortUDP ( int deviceID, const char * areaName, const char * appName, int &value )
 	{
-		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName, true );
+		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName );
 
 		if ( device ) {
 			value = device->info.udpPort;
@@ -7919,7 +8009,7 @@ namespace environs
 
 	bool MediatorClient::GetIP ( int deviceID, const char * areaName, const char * appName, unsigned int &value )
 	{
-		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName, true );
+		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName );
 
 		if ( device ) {
 			value = device->info.ip;
@@ -7943,7 +8033,7 @@ namespace environs
 	bool MediatorClient::GetIPe ( int deviceID, const char * areaName, const char * appName, unsigned int &value )
 	{
 
-		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName, true );
+		sp ( DeviceInstanceNode ) device = GetDeviceNearbySP ( deviceID, areaName, appName );
 
 		if ( device ) {
 			value = device->info.ipe;

@@ -29,6 +29,7 @@
 //#   define DEBUGVERBVerb
 #endif
 
+#ifdef _WIN32
 
 #include "Ext.Wifi.Observer.h"
 #include "Environs.Obj.h"
@@ -325,8 +326,8 @@ namespace environs
 				unsigned int now = nativo->Tick32 ();
 				unsigned int diff = now - lastCheck;
 
-				if ( diff < NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
-					waitTime = ( NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+				if ( diff < ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
+					waitTime = ( ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
 					goto WaitLoop;
 				}
 
@@ -353,4 +354,5 @@ namespace environs
 } /* namespace environs */
 
 
+#endif
 

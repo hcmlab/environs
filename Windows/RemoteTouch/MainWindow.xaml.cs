@@ -35,7 +35,7 @@ namespace environs.Apps
     /// <summary>
     /// Interactionlogic für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
         private const String className = "MainWindow . . . . . . .";
 
@@ -161,6 +161,30 @@ namespace environs.Apps
         }
 
         #endregion
+
+
+        #region Disposing
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (taskBar != null)
+                {
+                    taskBar.Dispose();
+                    taskBar = null;
+                }
+            }
+        }
+
+        #endregion
+
 
         internal void appPreviewKeyDown(object sender, KeyEventArgs e)
         {

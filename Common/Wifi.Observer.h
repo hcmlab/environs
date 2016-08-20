@@ -23,11 +23,30 @@
 #define INCLUDE_HCM_ENVIRONS_WIFI_OBSERVER_H
 
 #include "Environs.Build.Opts.h"
+#include "Interop/jni.h"
 
 #ifdef __cplusplus
 namespace environs
 {
 #endif
+    extern unsigned long long GetBSSIDFromColonMac ( const char * _bssid );
+
+    NET_PACK_PUSH1
+
+    typedef struct WifiItem
+    {
+        unsigned long long  bssid;			// 8
+        short               rssi;			// 2
+        short				signal;			// 2
+        unsigned char       channel;		// 1
+        unsigned char       encrypt;		// 1
+        bool                isConnected;	// 1
+        unsigned char		sizeOfssid;		// 1
+    }
+    NET_PACK_ALIGN WifiItem;
+    
+    NET_PACK_POP
+
 
 #ifdef NATIVE_WIFI_OBSERVER
 
@@ -35,33 +54,29 @@ namespace environs
 	{
 	public:
 		int                 seqNr;
-		bool                isConnected;
+		WifiItem			data;
 		char	*           ssid;
-		unsigned long long  bssid;
-		int                 rssi;
-		int					signal;
-		unsigned char       channel;
-		unsigned char       encrypt;
 
-		EnvWifiItem () { };
+        EnvWifiItem ();
 
-		EnvWifiItem ( int _seqNr, char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt )
+		EnvWifiItem ( int _seqNr, unsigned long long  bssid, char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt )
 			:
-			seqNr ( _seqNr ), isConnected ( false ), ssid ( _ssid ), bssid ( 0 ),
-			rssi ( _rssi ), signal ( _signal ), channel ( _channel ), encrypt ( _encrypt )
+			seqNr ( _seqNr ), ssid ( _ssid )
 		{
+			data.bssid			= bssid;
+			data.rssi			= ( short ) _rssi;
+			data.signal			= ( short ) _signal;
+			data.channel		= _channel;
+			data.encrypt		= _encrypt;
+			data.isConnected	= false;
+			data.sizeOfssid		= 0;
 		}
 
-		~EnvWifiItem ()
-		{
-			if ( ssid ) {
-				free ( ssid );
-			}
-		}
+        ~EnvWifiItem ();
 
 		void Update ( int _seqNr, const char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt );
 
-		static EnvWifiItem * Create ( int _seqNr, const char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt );
+		static EnvWifiItem * Create ( int _seqNr, unsigned long long  bssid, const char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt );
 	};
 
 	
@@ -73,6 +88,7 @@ namespace environs
 		bool		threadRun;
 		bool		itemsChanged;
 		ThreadSync	thread;
+        EnvWifiItem we0;
 
         WifiObserver () : initialized ( false ), seqNr ( 0 ), threadRun ( false ), itemsChanged ( true )
         {
@@ -93,6 +109,7 @@ namespace environs
 
 		virtual void UpdateWithMac ( unsigned long long _bssid, const char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt );
 
+		jobject BuildNetData ( JNIEnv * jenv );
     };
 
 #endif

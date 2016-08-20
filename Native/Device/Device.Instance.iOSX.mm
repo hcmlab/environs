@@ -94,9 +94,9 @@ namespace environs
             
             environs::DeviceInfo * info ( ) { return inst->info_; }
             
-            static const sp ( environs::lib::PortalInstance ) & GetPortalSP ( environs::lib::PortalInstance * portal )
+            static const sp ( environs::lib::PortalInstance ) GetPortalSP ( environs::lib::PortalInstance * portal )
             {
-                return portal->myself;
+                return portal->myself.lock ();
             }
 
             pthread_mutex_t * GetPortalLock () {

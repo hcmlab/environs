@@ -48,8 +48,10 @@
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchHeading;
 @property (weak, nonatomic) IBOutlet UISwitch *switchAltimeter;
-@property (weak, nonatomic) IBOutlet UISwitch *switchMotionAttRot;
-@property (weak, nonatomic) IBOutlet UISwitch *switchMotionGravAcc;
+@property (weak, nonatomic) IBOutlet UISwitch *switchMotionAtt;
+@property (weak, nonatomic) IBOutlet UISwitch *switchMotionRot;
+@property (weak, nonatomic) IBOutlet UISwitch *switchMotionGrav;
+@property (weak, nonatomic) IBOutlet UISwitch *switchMotionAcc;
 @property (weak, nonatomic) IBOutlet UISwitch *switchMotionMagneticField;
 
 - (IBAction) switchAccelerometer:(id)sender;
@@ -61,8 +63,10 @@
 
 - (IBAction) switchHeading:(id)sender;
 - (IBAction) switchAltimeter:(id)sender;
-- (IBAction) switchMotionAttRot:(id)sender;
-- (IBAction) switchMotionGravAcc:(id)sender;
+- (IBAction) switchMotionAtt:(id)sender;
+- (IBAction) switchMotionRot:(id)sender;
+- (IBAction) switchMotionGrav:(id)sender;
+- (IBAction) switchMotionAcc:(id)sender;
 - (IBAction) switchMotionMagneticField:(id)sender;
 
 @end

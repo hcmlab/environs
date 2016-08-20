@@ -349,7 +349,8 @@ namespace environs
 		* @return	2 A new connection has been triggered and is in progress
 		*/
 		static int					ConnectToDevice ( int hInst, int Environs_CALL_, int deviceID, const char * areaName, const char * appName );
-        
+
+        bool                        SendTcpBuffer ( bool comDat, char msgType, unsigned short portalMessage, void * data, int size );
         static bool 				SendTcpBuffer ( int nativeID, bool comDat, char msgType, unsigned short portalMessage, void * data, int size );
 		static bool					SendMessageToDevice ( Instance * env, volatile DeviceStatus_t * deviceStatus, int deviceID, const char * areaName, const char * appName, void * sendBuffer, unsigned int bufferLength );
 		

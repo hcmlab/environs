@@ -65,7 +65,13 @@ namespace environs
         {
             CVerbVerb ( "PlatformDispose" );
             
-            CVerbArg ( "PlatformDispose: ObjID [ %i ]\tRemaining [ %i ]", objID_, debugMessagePlatformObjCount );
+            CVerbArg ( "PlatformDispose: ObjID [ %i ]\tRemaining [ %i ]", objID_,
+#ifdef DEBUG_TRACK_PLATFORM_MESSAGE_INSTANCE
+                      debugMessagePlatformObjCount
+#else
+                      0
+#endif
+                      );
 
 #ifdef OSX_USE_MANUAL_REF_COUNT
             void * p = 0;
@@ -171,7 +177,13 @@ namespace environs
     environs::lib::CheckDebugArcMessages ( (__bridge void *) self, true );
 #endif
 
-    CVerbArg ( "dealloc ObjID [ %i ]\tRemaining [ %i ]", p.GetObjID (), environs::debugMessagePlatformObjCount );
+    CVerbArg ( "dealloc ObjID [ %i ]\tRemaining [ %i ]", p.GetObjID (),
+#ifdef DEBUG_TRACK_PLATFORM_MESSAGE_INSTANCE
+              environs::debugMessagePlatformObjCount
+#else
+              0
+#endif
+              );
     
     if ( p.inst ) {
         p.inst->platformRef = 0;

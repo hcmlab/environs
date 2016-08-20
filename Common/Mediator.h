@@ -877,7 +877,7 @@ namespace environs	/// Namespace: environs ->
 		virtual sp ( ApplicationDevices ) GetDeviceList ( char * areaName, char * appName, pthread_mutex_t ** mutex, int ** pDevicesAvailable, DeviceInstanceNode ** &list ) = 0;
 
 		virtual void			RemoveDevice ( unsigned int ip, char * msg ) {};
-		virtual void			RemoveDevice ( DeviceInstanceNode * device, bool useLock = true ) = 0;
+		virtual void			RemoveDevice ( DeviceInstanceNode * device, bool useLock = true, bool forceUnlock = false ) = 0;
 
 		int                     randBroadcastToken;
         

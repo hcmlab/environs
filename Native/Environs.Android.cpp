@@ -31,14 +31,22 @@
 
 #define USE_NATIVE_SENSOR_READER
 
-#define EnvASENSOR_TYPE_ORIENTATION				3
-#define EnvASENSOR_TYPE_PRESSURE				6
-#define EnvASENSOR_TYPE_TEMPERATURE				7
-#define EnvASENSOR_TYPE_GRAVITY					9
-#define EnvASENSOR_TYPE_ACCELEROMETER_LINEAR	10
-#define EnvASENSOR_TYPE_ROTATION_VECTOR			11
-#define EnvASENSOR_TYPE_HUMIDITY				12
-#define EnvASENSOR_TYPE_HEART_RATE				21
+#define EnvASENSOR_TYPE_ORIENTATION                 3
+#define EnvASENSOR_TYPE_PRESSURE                    6
+#define EnvASENSOR_TYPE_TEMPERATURE                 7
+#define EnvASENSOR_TYPE_GRAVITY                     9
+#define EnvASENSOR_TYPE_ACCELEROMETER_LINEAR        10
+#define EnvASENSOR_TYPE_ROTATION_VECTOR             11
+#define EnvASENSOR_TYPE_HUMIDITY                    12
+#define EnvASENSOR_TYPE_MAGNETIC_FIELD_UNCALIBRATED 14
+#define EnvASENSOR_TYPE_GAME_ROTATION_VECTOR        15
+#define EnvASENSOR_TYPE_TYPE_GYROSCOPE_UNCALIBRATED 16
+#define EnvASENSOR_TYPE_MOTION_SIGNIFICANT          17
+#define EnvASENSOR_TYPE_STEP_DETECTOR               18
+#define EnvASENSOR_TYPE_STEP_COUNTER                19
+#define EnvASENSOR_TYPE_GEOMAGNETIC_ROTATION_VECTOR 20
+#define EnvASENSOR_TYPE_HEART_RATE                  21
+#define EnvASENSOR_TYPE_TILT_DETECTOR               23
 
 #include <stdlib.h>
 #include "Environs.Mobile.h"
@@ -51,6 +59,7 @@
 #   include <android/sensor.h>
 #   include <android/looper.h>
 #endif
+
 
 // The TAG for prepending to log messages
 #define CLASS_NAME	"Environs.JNI . . . . . ."
@@ -98,9 +107,9 @@ namespace environs
     ASensorManager      *   sensorManager           = 0;
     ASensorEventQueue   *   sensorEventQueue        = 0;
 
-    const ASensor       *	sensorsAndroid [ SensorType::Max ] = { 0 };
+    bool                    sensorAccelSubscribed   = false;
 
-    int                     sensorsEventRate [ SensorType::Max ];
+    const ASensor       *	sensors [ SensorType::Max ] = { 0 };
 
 	const int getEnvSensorTypeByAndroidType [ ] = {
 		-1,
@@ -109,84 +118,68 @@ namespace environs
 		ENVIRONS_SENSOR_TYPE_ORIENTATION,                   // TYPE_ORIENTATION = 3;	// Deprecated
 		ENVIRONS_SENSOR_TYPE_GYROSCOPE,                     // TYPE_GYROSCOPE = 4;
 		ENVIRONS_SENSOR_TYPE_LIGHT,                         // TYPE_LIGHT = 5;
-		ENVIRONS_SENSOR_TYPE_ALTIMETER,                     // TYPE_PRESSURE = 6;
+		ENVIRONS_SENSOR_TYPE_PRESSURE,                      // TYPE_PRESSURE = 6;
 		ENVIRONS_SENSOR_TYPE_TEMPERATURE,                   // TYPE_TEMPERATURE = 7;	 // Deprecated
 		ENVIRONS_SENSOR_TYPE_PROXIMITY,                     // TYPE_PROXIMITY = 8;
-		ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION,	// TYPE_GRAVITY = 9;
-		ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION,	// TYPE_LINEAR_ACCELERATION = 10;
-		ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION,		// TYPE_ROTATION_VECTOR = 11;
+		ENVIRONS_SENSOR_TYPE_GRAVITY,                       // TYPE_GRAVITY = 9;
+		ENVIRONS_SENSOR_TYPE_ACCELERATION,					// TYPE_LINEAR_ACCELERATION = 10;
+		ENVIRONS_SENSOR_TYPE_ROTATION,                      // TYPE_ROTATION_VECTOR = 11;
 		ENVIRONS_SENSOR_TYPE_HUMIDITY,                      // TYPE_RELATIVE_HUMIDITY = 12;
 		ENVIRONS_SENSOR_TYPE_TEMPERATURE,                   // TYPE_AMBIENT_TEMPERATURE = 13;
-		-1,                                                 // TYPE_MAGNETIC_FIELD_UNCALIBRATED = 14;
-		-1,                                                 // TYPE_GAME_ROTATION_VECTOR = 15;
-		-1,                                                 // TYPE_GYROSCOPE_UNCALIBRATED = 16;
-		-1,                                                 // TYPE_SIGNIFICANT_MOTION = 17;
-		-1,                                                 // TYPE_STEP_DETECTOR = 18;
-		-1,                                                 // TYPE_STEP_COUNTER = 19;
-		-1,                                                 // TYPE_GEOMAGNETIC_ROTATION_VECTOR = 20;
-		ENVIRONS_SENSOR_TYPE_HEARTRATE,                     // TYPE_HEART_RATE = 21;
-	};
+		ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB,         // TYPE_MAGNETIC_FIELD_UNCALIBRATED = 14;
+		ENVIRONS_SENSOR_TYPE_ROTATION_GAME,                 // TYPE_GAME_ROTATION_VECTOR = 15;
+		ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB,             // TYPE_GYROSCOPE_UNCALIBRATED = 16;
+		ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT,            // TYPE_SIGNIFICANT_MOTION = 17;
+		ENVIRONS_SENSOR_TYPE_STEPPER,                       // TYPE_STEP_DETECTOR = 18;
+		ENVIRONS_SENSOR_TYPE_STEPS,                         // TYPE_STEP_COUNTER = 19;
+		ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC,          // TYPE_GEOMAGNETIC_ROTATION_VECTOR = 20;
+        ENVIRONS_SENSOR_TYPE_HEARTRATE,                     // TYPE_HEART_RATE = 21;
+        ENVIRONS_SENSOR_TYPE_TILT,                          // TYPE_TILT_DETECTOR = 22;
+    };
+
 
 #define envSensorTypeByAndroidTypeSize		( sizeof(getEnvSensorTypeByAndroidType) / sizeof(getEnvSensorTypeByAndroidType[0]) )
 
-
 	const int getAndroidSensorType [ ] = {
-		ASENSOR_TYPE_ACCELEROMETER,
-		ASENSOR_TYPE_MAGNETIC_FIELD,        //ENVIRONS_SENSOR_FLAG_MAGNETICFIELD,
-		ASENSOR_TYPE_GYROSCOPE,             //ENVIRONS_SENSOR_FLAG_GYROSCOPE,
-		EnvASENSOR_TYPE_ORIENTATION,        //ENVIRONS_SENSOR_FLAG_ORIENTATION,
-		ASENSOR_TYPE_LIGHT,                 //ENVIRONS_SENSOR_FLAG_LIGHT,
-		-1,                                 //ENVIRONS_SENSOR_FLAG_LOCATION,
-		-1,                                 //ENVIRONS_SENSOR_FLAG_HEADING,
-		EnvASENSOR_TYPE_PRESSURE,			//ENVIRONS_SENSOR_FLAG_ALTIMETER,
-		EnvASENSOR_TYPE_ROTATION_VECTOR,	//ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION,
-		EnvASENSOR_TYPE_GRAVITY,			//ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION,
-		EnvASENSOR_TYPE_GRAVITY,			//ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD,
-		EnvASENSOR_TYPE_HEART_RATE,         //ENVIRONS_SENSOR_FLAG_HEARTRATE,
-		ASENSOR_TYPE_PROXIMITY,             //ENVIRONS_SENSOR_FLAG_PROXIMITY,
-		-1,                                 //ENVIRONS_SENSOR_FLAG_VOC,
-		-1,                                 //ENVIRONS_SENSOR_FLAG_CO2,
-		EnvASENSOR_TYPE_HUMIDITY,           //ENVIRONS_SENSOR_FLAG_HUMIDITY,
-		EnvASENSOR_TYPE_TEMPERATURE,		//ENVIRONS_SENSOR_FLAG_TEMPERATURE,
-		-1,                                 //ENVIRONS_SENSOR_FLAG_CUSTOM,
-		-1,                                 //MAX_ENVIRONS_SENSOR_TYPE_VALUE,
+        ASENSOR_TYPE_ACCELEROMETER,                 // ENVIRONS_SENSOR_TYPE_ACCELEROMETER
+        EnvASENSOR_TYPE_ACCELEROMETER_LINEAR,       // ENVIRONS_SENSOR_TYPE_ACCELERATION_MOTION
+        ASENSOR_TYPE_MAGNETIC_FIELD,                // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD,
+        -1,                                         // ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION,
+        EnvASENSOR_TYPE_MAGNETIC_FIELD_UNCALIBRATED, // ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB,
+        ASENSOR_TYPE_GYROSCOPE,                     // ENVIRONS_SENSOR_FLAG_GYROSCOPE,
+        EnvASENSOR_TYPE_TYPE_GYROSCOPE_UNCALIBRATED, // ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB,
+		EnvASENSOR_TYPE_ORIENTATION,                // ENVIRONS_SENSOR_FLAG_ORIENTATION,
+		ASENSOR_TYPE_LIGHT,                         // ENVIRONS_SENSOR_FLAG_LIGHT,
+		-1,                                         // ENVIRONS_SENSOR_FLAG_LOCATION,
+		-1,                                         // ENVIRONS_SENSOR_FLAG_HEADING,
+		EnvASENSOR_TYPE_TEMPERATURE,                // ENVIRONS_SENSOR_FLAG_ALTENVIRONS_SENSOR_FLAG_TEMPERATUREIMETER,
+        EnvASENSOR_TYPE_MOTION_SIGNIFICANT,         // ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT,
+        EnvASENSOR_TYPE_PRESSURE,                   // ENVIRONS_SENSOR_TYPE_PRESSURE,
+        -1,                                         // ENVIRONS_SENSOR_TYPE_ATTITUDE,
+        EnvASENSOR_TYPE_ROTATION_VECTOR,            // ENVIRONS_SENSOR_TYPE_ROTATION,
+        EnvASENSOR_TYPE_GAME_ROTATION_VECTOR,       // ENVIRONS_SENSOR_TYPE_ROTATION_GAME,
+        EnvASENSOR_TYPE_GEOMAGNETIC_ROTATION_VECTOR, // ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC,
+        EnvASENSOR_TYPE_GRAVITY,                    // ENVIRONS_SENSOR_TYPE_GRAVITY,
+        EnvASENSOR_TYPE_STEP_DETECTOR,              // ENVIRONS_SENSOR_TYPE_STEPPER,
+        EnvASENSOR_TYPE_STEP_COUNTER,               // ENVIRONS_SENSOR_TYPE_STEPS,
+        EnvASENSOR_TYPE_TILT_DETECTOR,              // ENVIRONS_SENSOR_TYPE_TILT,
+		EnvASENSOR_TYPE_HEART_RATE,                 // ENVIRONS_SENSOR_FLAG_HEARTRATE,
+		ASENSOR_TYPE_PROXIMITY,                     // ENVIRONS_SENSOR_FLAG_PROXIMITY,
+		-1,                                         // ENVIRONS_SENSOR_FLAG_VOC,
+		-1,                                         // ENVIRONS_SENSOR_FLAG_CO2,
+		EnvASENSOR_TYPE_HUMIDITY,                   // ENVIRONS_SENSOR_FLAG_HUMIDITY,
+		-1,                                         // ENVIRONS_SENSOR_FLAG_CUSTOM,
+		-1,                                         // MAX_ENVIRONS_SENSOR_TYPE_VALUE,
 	};
 
 #define androidSensorTypeSize		( sizeof(getAndroidSensorType) / sizeof(getAndroidSensorType[0]))
 
 #endif
-
-#ifdef NDEBUG
-    const char * sensorFlagDescriptions [ ] = {
-        "Accelerometer",
-        "MagneticField",
-        "Gyroscope",
-        "Orientation",
-        "Light",
-        "Location",
-        "Heading",
-        "Altimeter/Pressure",
-        "MotionAttitudeRotation",
-        "MotionGravityAcceleration",
-        "MotionMagneticField",
-        "Heartrate",
-        "Proximity",
-        "VOC",
-        "CO2",
-        "Humidity",
-        "Temperature",
-        "Custom",
-        "Invalid",
-    };
-#endif
-
-
+    
+    
     bool AllocNativePlatform ()
 	{
         CVerb ( "AllocNativePlatform" );
-
-        for ( size_t i = 0; i < ( sizeof ( sensorsEventRate ) / sizeof ( sensorsEventRate [0] ) ); ++i )
-            sensorsEventRate [ i ] = 33000; // microseconds
 
         return true;
     }
@@ -349,7 +342,7 @@ namespace environs
 				CErr ( "SHAHashCreate: Failed to allocate memory for returning the blob!" ); break;
 			}
 
-			CVerbArg ( "SHAHashCreate: [%s]", ConvertToHexSpaceString ( buffer, capacity ) );
+			CVerbArg ( "SHAHashCreate: [ %s ]", ConvertToHexSpaceString ( buffer, capacity ) );
 
 			memcpy ( retBlob, buffer, capacity );
 			retBlob [capacity] = 0;
@@ -400,7 +393,7 @@ namespace environs
 			if ( !privKey ) {
 				CErr ( "GenerateCertificate: Memory allocation failed." ); break;
 			}
-			CLogArg ( "GenerateCertificate: Copying [%i] bytes of encrypted message.", length );
+			CLogArg ( "GenerateCertificate: Copying [ %i ] bytes of encrypted message.", length );
 			memcpy ( privKey, buffer, length );
 
 			unsigned int length1 = *((unsigned int *)(buffer + length));
@@ -410,7 +403,7 @@ namespace environs
 			if ( !pubKey ) {
 				CErr ( "GenerateCertificate: Memory allocation failed." ); break;
 			}
-			CLogArg ( "GenerateCertificate: Copying [%i] bytes of encrypted message.", length1 );
+			CLogArg ( "GenerateCertificate: Copying [ %i ] bytes of encrypted message.", length1 );
 			memcpy ( pubKey, buffer + length, length1 );
 
 			*priv = privKey;
@@ -440,10 +433,10 @@ namespace environs
 
         unsigned int certSize = certProp & 0xFFFF;
 
-        CVerbArgID ( "EncryptMessage: Encrypting buffer sized [%i], certSize [%u]", *msgLen, certSize );
+        CVerbArgID ( "EncryptMessage: Encrypting buffer sized [ %i ], certSize [ %u ]", *msgLen, certSize );
 
         if (certSize > 64000) {
-            CErrArgID ( "EncryptMessage: Invalid certSize [%u]", certSize );
+            CErrArgID ( "EncryptMessage: Invalid certSize [ %u ]", certSize );
             return false;
         }
 
@@ -480,13 +473,13 @@ namespace environs
 				CErrID ( "EncryptMessage: Failed to get reference to memory of the shared buffer!" );
 			}
 			else {
-				CVerbArgID ( "EncryptMessage: Copying [%i] bytes of encrypted message.", capacity );
+				CVerbArgID ( "EncryptMessage: Copying [ %i ] bytes of encrypted message.", capacity );
 				memcpy ( msg, buffer, capacity );
 				msg [capacity] = 0;
 				*msgLen = capacity;
 				ret = true;
 
-				CVerbVerbArgID ( "EncryptMessage: ciphers [%s]", ConvertToHexSpaceString (msg, capacity) );
+				CVerbVerbArgID ( "EncryptMessage: ciphers [ %s ]", ConvertToHexSpaceString (msg, capacity) );
 			}
 		}
 		while ( 0 );
@@ -506,7 +499,7 @@ namespace environs
             CErr ( "DecryptMessage: Called with at least one NULL (or invalid) argument." );
 			return false;
         }
-        CVerbArg ( "DecryptMessage: Decrypting msg of size [%i]", msgLen );
+        CVerbArg ( "DecryptMessage: Decrypting msg of size [ %i ]", msgLen );
 
 
         key += 4;
@@ -555,7 +548,7 @@ namespace environs
 				CErr ( "DecryptMessage: Memory alloc failed." ); break;
 			}
 
-			CVerbArg ( "DecryptMessage: Copying [%i] bytes of decrypted message.", capacity );
+			CVerbArg ( "DecryptMessage: Copying [ %i ] bytes of decrypted message.", capacity );
 			memcpy ( plainText, buffer, capacity );
 			plainText [capacity] = 0;
 
@@ -586,7 +579,7 @@ namespace environs
     
     void dReleaseCert ( int deviceID )
     {
-		CVerbArg ( "ReleaseCert: Disposing certificate context for deviceID [%u].", deviceID );
+		CVerbArg ( "ReleaseCert: Disposing certificate context for deviceID [ %u ].", deviceID );
 
 		JNIEnv * env;
 		int rc = AttachJavaThread ( env );
@@ -606,7 +599,7 @@ namespace environs
 	bool dAESDeriveKeyContext ( char * key, unsigned int keyLen, AESContext * ctx )
     {
 		if ( !key || keyLen < AES_SHA256_KEY_LENGTH || !ctx ) {
-			CErrArg ( "AESDeriveKeyContext: Called with at least one NULL argument or keyLen [%u] < [%u].", keyLen, AES_SHA256_KEY_LENGTH ); return false;
+			CErrArg ( "AESDeriveKeyContext: Called with at least one NULL argument or keyLen [ %u ] < [ %u ].", keyLen, AES_SHA256_KEY_LENGTH ); return false;
 		}
 
 		CVerbVerb ( "AESDeriveKeyContext" );
@@ -620,7 +613,7 @@ namespace environs
 		/// Assign a temporary deviceId if required
 		if ( ctx->deviceID == 0xFFFFFFFF ) {
 			ctx->deviceID = __sync_sub_and_fetch ( &keyDeviceIDCounter, 1 );
-            CVerbArg ( "AESDeriveKeyContext: Assigned temporary deviceID [%i].", (int)ctx->deviceID );
+            CVerbArg ( "AESDeriveKeyContext: Assigned temporary deviceID [ %i ].", (int)ctx->deviceID );
 		}
 
 		bool ret = false;
@@ -683,7 +676,7 @@ namespace environs
 			ctx->lockAllocated = false;
 		}
 
-		CVerbArg ( "AESDisposeKeyContext: Disposing context for deviceID [%u].", ctx->deviceID );
+		CVerbArg ( "AESDisposeKeyContext: Disposing context for deviceID [ %u ].", ctx->deviceID );
 
 		JNIEnv * env;
 		int rc = AttachJavaThread ( env );
@@ -702,13 +695,13 @@ namespace environs
 	void dAESUpdateKeyContext ( AESContext * ctx, int deviceID )
 	{
 
-		CVerbArg ( "AESUpdateKeyContext: Update context to deviceID [%u].", deviceID );
+		CVerbArg ( "AESUpdateKeyContext: Update context to deviceID [ %u ].", deviceID );
 
 		if ( !ctx ) {
 			CVerb ( "AESUpdateKeyContext: Invalid context supplied." );
 			return;
 		}
-		CVerbArg ( "AESUpdateKeyContext: Temporary deviceID was [%u].", ctx->deviceID );
+		CVerbArg ( "AESUpdateKeyContext: Temporary deviceID was [ %u ].", ctx->deviceID );
 
 		JNIEnv * env;
 		int rc = AttachJavaThread ( env );
@@ -755,7 +748,7 @@ namespace environs
 		        BUILD_IV_128 ( IV );
 				env->SetByteArrayRegion ( jIV, 0, 16, (jbyte*)IV );
 
-		        CVerbVerbArgID ( "AESTransform: Encrypt IV [%s]", ConvertToHexSpaceString ( IV, 16 ) );
+		        CVerbVerbArgID ( "AESTransform: Encrypt IV [ %s ]", ConvertToHexSpaceString ( IV, 16 ) );
 
 				jMsg = env->NewByteArray ( *msgLen );
 				if ( !jMsg ) {
@@ -765,11 +758,11 @@ namespace environs
 			}
 			else {
 				if ( *msgLen < 36 ) {
-					CErrArgID ( "AESTransform: Decrypt requested, but msg is missing the IV [%u].", *msgLen ); break;
+					CErrArgID ( "AESTransform: Decrypt requested, but msg is missing the IV [ %u ].", *msgLen ); break;
 				}
 				env->SetByteArrayRegion ( jIV, 0, 16, (jbyte*)(msg + 4) );
 
-		        CVerbVerbArgID ( "AESTransform: Decrypt IV [%s]", ConvertToHexSpaceString ( msg + 4, 16 ) );
+		        CVerbVerbArgID ( "AESTransform: Decrypt IV [ %s ]", ConvertToHexSpaceString ( msg + 4, 16 ) );
 
 				jMsg = env->NewByteArray ( *msgLen - 20 );
 				if ( !jMsg ) {
@@ -812,7 +805,7 @@ namespace environs
             }
             *result = blob;
             ret = true;
-    		CVerbArgID ( "AESTransform: %s buffer to size [%i] ", encrypt ? "Encrypted" : "Decrypted", capacity );
+    		CVerbArgID ( "AESTransform: %s buffer to size [ %i ] ", encrypt ? "Encrypted" : "Decrypted", capacity );
 		}
 		while ( 0 );
 
@@ -837,7 +830,7 @@ namespace environs
 			CErr ( "AESEncrypt: Called with at least one NULL argument." ); return false;
 		}
 
-		CVerbArg ( "AESEncrypt: Encrypting buffer sized [%i] ",  *msgLen );
+		CVerbArg ( "AESEncrypt: Encrypting buffer sized [ %i ]",  *msgLen );
 
 		return AESTransform ( ctx, true, msg, msgLen, cipher );
     }
@@ -866,10 +859,12 @@ namespace environs
             if ( updateState == 1 )
                 native.wifiObserver.Begin ();
 
-            native.wifiObserver.UpdateWithColonMac ( szBssid, szSsid, rssi, 0, ( unsigned char ) channel, ( unsigned char ) encrypt );
+            if ( szBssid ) {
+                native.wifiObserver.UpdateWithColonMac ( szBssid, szSsid, rssi, 0, ( unsigned char ) channel, ( unsigned char ) encrypt );
+            }
 
-            CVerbArg ( "WifiObserver: BSSID [ %s ]\t: rssi [ %i ]\t: channel [ %d ]\t: encrypt [ %c ]\t: SSID [ %s ]",
-                      szBssid, szSsid, rssi, channel, encrypt );
+            CVerbVerbArg ( "WifiObserver: BSSID [ %s ]\t: SSID [ %s ]\t: rssi [ %i ]\t: channel [ %d ]\t: encrypt [ %c ]",
+                      szBssid ? szBssid : "", szSsid ? szSsid : "", rssi, channel, encrypt );
 
             if ( updateState == 0 )
                 native.wifiObserver.Finish ();
@@ -879,6 +874,32 @@ namespace environs
         }
 
 
+		/*
+		* Method:    BtUpdateWithColonMacN
+		*/
+		ENVIRONSAPI void EnvironsFunc ( BtUpdateWithColonMacN, jstring bssid, jstring ssid, jint rssi, jint cod, jlong uuid1, jlong uuid2, jint updateState )
+		{
+			INIT_PCHAR ( szBssid, bssid );
+			INIT_PCHAR ( szSsid, ssid );
+
+			if ( updateState == 1 )
+				native.btObserver.Begin ();
+
+            if ( szBssid ) {
+                native.btObserver.UpdateWithColonMac ( szBssid, szSsid, rssi, cod, uuid1, uuid2 );
+            }
+
+			CVerbVerbArg ( "BtObserver: BSSID [ %s ]\t: SSID [ %s ]\t: rssi [ %i ]",
+				szBssid ? szBssid : "", szSsid ? szSsid : "", rssi );
+
+			if ( updateState == 0 )
+				native.btObserver.Finish ();
+
+			RELEASE_PCHAR ( szSsid, ssid );
+			RELEASE_PCHAR ( szBssid, bssid );
+		}
+
+
         void Environs_LoginDialog ( int hInst, const char * userName )
         {
         }
@@ -886,7 +907,7 @@ namespace environs
 
 		bool opt ( int hInst, const char * key, const char * value )
         {
-            CVerbVerbArg ( "opt [%i]: Saving [%s] [%s]", hInst, key ? key : "NULL", value ? value : "NULL" );
+            CVerbVerbArg ( "opt [ %i ]: Saving [ %s ] [ %s ]", hInst, key ? key : "NULL", value ? value : "NULL" );
 
 			if ( !key || !value || !*key || !*value ) {
 				CErrArg ( "opt: key [ %s ], value [ %s ]!", (key && *key) ? "valid" : "invalid", ( value && *value ) ? "valid" : "invalid" );
@@ -959,7 +980,7 @@ namespace environs
 				return false;
             }
             
-            CVerbArg ( "opt [%i]: Saving [%s] [%s]", hInst, key ? key : "NULL", szValue ? szValue : "NULL" );
+            CVerbArg ( "opt [ %i ]: Saving [ %s ] [ %s ]", hInst, key ? key : "NULL", szValue ? szValue : "NULL" );
 
 			ret = opt ( hInst, key, szValue );
 
@@ -971,7 +992,7 @@ namespace environs
 
 		const char * opt ( int hInst, const char * key )
         {
-            CVerbVerbArg ( "opt [%i]: Loading [%s]", hInst, key ? key : "NULL" );
+            CVerbVerbArg ( "opt [ %i ]: Loading [ %s ]", hInst, key ? key : "NULL" );
             
 			const char * value = optString ( hInst, key );
 
@@ -984,7 +1005,7 @@ namespace environs
 
 		const char * optString ( int hInst, const char * key )
         {
-            CVerbVerbArg ( "optString [%i]: Loading [%s]", hInst, key ? key : "NULL" );
+            CVerbVerbArg ( "optString [ %i ]: Loading [ %s ]", hInst, key ? key : "NULL" );
 
 			static char buffer [ 4096 ];
 			buffer [ 0 ] = 0;
@@ -1061,14 +1082,14 @@ namespace environs
 
             jbyteArray jContext = 0;
             
-			//CVerbVerbArg ( "BridgeForNotify: context [%i].", context );
+			//CVerbVerbArg ( "BridgeForNotify: context [ %i ].", context );
             if ( contextPtr && context ) {
                 jContext = env->NewByteArray ( context );
-				//CVerbVerbArg ( "BridgeForNotify: creating context [%i].", context );
+				//CVerbVerbArg ( "BridgeForNotify: creating context [ %i ].", context );
                 
                 if ( jContext ) {
                     env->SetByteArrayRegion ( jContext, 0, context, (jbyte*)contextPtr );
-					//CVerbVerbArg ( "BridgeForNotify: copying context [%i].", context );
+					//CVerbVerbArg ( "BridgeForNotify: copying context [ %i ].", context );
                 }
             }
 
@@ -1315,7 +1336,7 @@ namespace environs
             if ( rc < 0 )
                 return;
             
-            CVerbArg ( "BridgeForData: delivering [%s] with [%d] bytes and fileID [%d]", fileDescriptor ? fileDescriptor : "", size, fileID );
+            CVerbArg ( "BridgeForData: delivering [ %s ] with [ %d ] bytes and fileID [ %d ]", fileDescriptor ? fileDescriptor : "", size, fileID );
             
             jbyteArray jDesc = 0;
             
@@ -1493,7 +1514,7 @@ namespace environs
 				*((jmethodID *)jm.fnPtr) = env->GetStaticMethodID ( g_EnvironsClass, jm.name, jm.signature ); 
 				
 				if ( !*((jmethodID *)jm.fnPtr) ){
-					CErrArg ( "JNI_OnLoad: Failed to get the method [%s] using GetStaticMethodID()", jm.name );
+					CErrArg ( "JNI_OnLoad: Failed to get the method [ %s ] using GetStaticMethodID()", jm.name );
 					return -1;
 				}
             }
@@ -1536,13 +1557,10 @@ namespace environs
         }
 
 
-		float envAccLinear [ 3 ];
-		float envGravityLinear [ 3 ];
-
         int SensorEventsCallback ( int fd, int events, void* data )
         {
-            CVerb ( "SensorEventsCallback" );
-            
+            CVerbVerb ( "SensorEventsCallback" );
+
             ASensorEvent ev;
 			FAKEJNI ();
 
@@ -1553,58 +1571,178 @@ namespace environs
 
 				environs::SensorType_t sensorType = ( environs::SensorType_t ) getEnvSensorTypeByAndroidType [ ev.type ];
 				if ( sensorType < 0 )
-					continue;
+                    continue;
 
-				switch ( ev.type )
-				{
-				case ASENSOR_TYPE_ACCELEROMETER:
-				case ASENSOR_TYPE_GYROSCOPE:
-				case ASENSOR_TYPE_MAGNETIC_FIELD:
-				case EnvASENSOR_TYPE_ROTATION_VECTOR:
-					CVerbArg ( "SensorEventsCallback: [ %s ] x [ %f ] y [ %f ] z [ %f ]", sensorFlagDescriptions [ sensorType ], ev.acceleration.x, ev.acceleration.y, ev.acceleration.z );
+                switch ( ev.type )
+                {
+                    case ASENSOR_TYPE_ACCELEROMETER: static float accelf [ 3 ]  = { 0 };
+                        if ( !sensorAccelSubscribed || ( accelf [ 0 ] == ev.data [ 0 ] && accelf [ 1 ] == ev.data [ 1 ] && accelf [ 2 ] == ev.data [ 2 ] ) )
+                            break;
+                        accelf [ 0 ] = ev.data [ 0 ]; accelf [ 1 ] = ev.data [ 1 ]; accelf [ 2 ] = ev.data [ 2 ];  goto SendSensorDataFloatValues;
 
-					EnvironsCallArg ( PushSensorDataN, sensorType, ev.acceleration.x, ev.acceleration.y, ev.acceleration.z ); // x, y, z
+                    case ASENSOR_TYPE_GYROSCOPE: static float gyro [ 3 ]  = { 0 };
+
+                        if ( gyro [ 0 ] == ev.data [ 0 ] && gyro [ 1 ] == ev.data [ 1 ] && gyro [ 2 ] == ev.data [ 2 ] )
+                            break;
+                        gyro [ 0 ] = ev.data [ 0 ]; gyro [ 1 ] = ev.data [ 1 ]; gyro [ 2 ] = ev.data [ 2 ];  goto SendSensorDataFloatValues;
+
+                    case ASENSOR_TYPE_MAGNETIC_FIELD: static float mag [ 3 ]  = { 0 };
+
+                        if ( mag [ 0 ] == ev.data [ 0 ] && mag [ 1 ] == ev.data [ 1 ] && mag [ 2 ] == ev.data [ 2 ] )
+                            break;
+                        mag [ 0 ] = ev.data [ 0 ]; mag [ 1 ] = ev.data [ 1 ]; mag [ 2 ] = ev.data [ 2 ];  //goto SendSensorDataFloatValues;
+                        
+                    SendSensorDataFloatValues:
+                        CVerbVerbArg ( "SensorEventsCallback: [ %s ] x [ %.2f ] y [ %.2f ] z [ %.2f ]", sensorFlagDescriptions [ sensorType ], ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ] );
+
+						EnvironsCallArg ( PushSensorDataN, sensorType, ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ] ); // x, y, z
                         break;
 
-                    case EnvASENSOR_TYPE_ORIENTATION:
-                        CVerbArg ( "SensorEventsCallback: [ %s ] x [ %f ] y [ %f ] z [ %f ]", sensorFlagDescriptions [ sensorType ], ev.acceleration.x, ev.acceleration.y, ev.acceleration.z );
+                    case EnvASENSOR_TYPE_ORIENTATION: static float orivs [ 3 ]  = { 0 };
 
-                        EnvironsCallArg ( PushSensorDataN, sensorType, GetDegrees(ev.acceleration.x), GetDegrees(ev.acceleration.y), GetDegrees(ev.acceleration.z) ); // x, y, z
+                        if ( orivs [ 0 ] == ev.data [ 0 ] && orivs [ 1 ] == ev.data [ 1 ] && orivs [ 2 ] == ev.data [ 2 ] )
+                            break;
+                        orivs [ 0 ] = ev.data [ 0 ]; orivs [ 1 ] = ev.data [ 1 ]; orivs [ 2 ] = ev.data [ 2 ];
+
+                        CVerbVerbArg ( "SensorEventsCallback: [ %s ] x [ %.2f ] y [ %.2f ] z [ %.2f ]", sensorFlagDescriptions [ sensorType ], ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ] );
+
+						EnvironsCallArg ( PushSensorDataN, sensorType, GetDegrees ( ev.data [ 0 ] ), GetDegrees ( ev.data [ 1 ] ), GetDegrees ( ev.data [ 2 ] ) ); // x, y, z
+                        break;
+
+                    case ASENSOR_TYPE_PROXIMITY: static float proximity  = 0;
+
+                        if ( proximity == ev.data [ 0 ] )
+                            break;
+                        proximity = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case EnvASENSOR_TYPE_HEART_RATE: static float heartrate  = 0;
+
+                        if ( heartrate == ev.data [ 0 ] )
+                            break;
+                        heartrate = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+                        
+                    case EnvASENSOR_TYPE_PRESSURE: static float pressure   = 0;
+                        if ( pressure == ev.data [ 0 ] )
+                            break;
+                        pressure = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case ASENSOR_TYPE_LIGHT: static float light      = 0;
+                        if ( light == ev.data [ 0 ] )
+                            break;
+                        light = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case EnvASENSOR_TYPE_TEMPERATURE: static float temperature = 0;
+                        if ( temperature == ev.data [ 0 ] )
+                            break;
+                        temperature = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case EnvASENSOR_TYPE_STEP_COUNTER: static float steps = 0;
+                        if ( steps == ev.data [ 0 ] )
+                            break;
+                        steps = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case EnvASENSOR_TYPE_STEP_DETECTOR: static float stepper = 0;
+                        if ( stepper == ev.data [ 0 ] )
+                            break;
+                        stepper = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case EnvASENSOR_TYPE_TILT_DETECTOR: static float tilter = 0;
+                        if ( tilter == ev.data [ 0 ] )
+                            break;
+                        tilter = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+
+                    case EnvASENSOR_TYPE_MOTION_SIGNIFICANT: static float sigmot = 0;
+                        if ( sigmot == ev.data [ 0 ] )
+                            break;
+                        sigmot = ev.data [ 0 ]; goto SendSensorDataSingleValue;
+                        
+                    case EnvASENSOR_TYPE_HUMIDITY: static float humidity   = 0;
+                        if ( humidity == ev.data [ 0 ] )
+                            break;
+                        humidity = ev.data [ 0 ];
+
+                    SendSensorDataSingleValue:
+                        CVerbVerbArg ( "SensorEventsCallback: %s [ %.2f ] ", sensorFlagDescriptions [ sensorType ], ev.data [ 0 ] );
+
+                        EnvironsCallArg ( PushSensorDataN, sensorType, ev.data [ 0 ], 0, 0 ); // x, y, z
+                        break;
+
+                    case EnvASENSOR_TYPE_GRAVITY: static double gravity [ 3 ]  = { 0 };
+
+                        if ( gravity [ 0 ] == ev.data [ 0 ] && gravity [ 1 ] == ev.data [ 1 ] && gravity [ 2 ] == ev.data [ 2 ] )
+                            break;
+                        gravity [ 0 ] = ev.data [ 0 ]; gravity [ 1 ] = ev.data [ 1 ]; gravity [ 2 ] = ev.data [ 2 ];  goto SendSensorDataDoubleValues;
+
+                    case EnvASENSOR_TYPE_ACCELEROMETER_LINEAR: static float accel [ 3 ]  = { 0 };
+
+                        if ( accel [ 0 ] == ev.data [ 0 ] && accel [ 1 ] == ev.data [ 1 ] && accel [ 2 ] == ev.data [ 2 ] )
+                            break;
+                        accel [ 0 ] = ev.data [ 0 ]; accel [ 1 ] = ev.data [ 1 ]; accel [ 2 ] = ev.data [ 2 ];
+
+                    SendSensorDataDoubleValues:
+                        CVerbVerbArg ( "SensorEventsCallback: %s [ %i ] x [ %.2f ] y [ %.2f ] z [ %.2f ]", sensorFlagDescriptions [ sensorType ], sensorType, ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ] );
+                        
+                        EnvironsCallArg ( PushSensorDataDoublesN, sensorType, ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ] ); // x, y, z
+                        break;
+
+                    case EnvASENSOR_TYPE_ROTATION_VECTOR: static float rot [ 5 ]  = { 0 };
+
+                        if ( rot [ 0 ] == ev.data [ 0 ] && rot [ 1 ] == ev.data [ 1 ] && rot [ 2 ] == ev.data [ 2 ] &&
+                            rot [ 3 ] == ev.data [ 3 ] && rot [ 4 ] == ev.data [ 4 ] && rot [ 5 ] == ev.data [ 5 ] )
+                            break;
+                        rot [ 0 ] = ev.data [ 0 ]; rot [ 1 ] = ev.data [ 1 ]; rot [ 2 ] = ev.data [ 2 ];
+                        rot [ 3 ] = ev.data [ 3 ]; rot [ 4 ] = ev.data [ 4 ]; rot [ 5 ] = ev.data [ 5 ];
+                        goto SendSensorExtValues;
+
+                    case EnvASENSOR_TYPE_GEOMAGNETIC_ROTATION_VECTOR: static float rotgeo [ 5 ]  = { 0 };
+
+                        if ( rotgeo [ 0 ] == ev.data [ 0 ] && rotgeo [ 1 ] == ev.data [ 1 ] && rotgeo [ 2 ] == ev.data [ 2 ] &&
+                            rotgeo [ 3 ] == ev.data [ 3 ] && rotgeo [ 4 ] == ev.data [ 4 ] && rotgeo [ 5 ] == ev.data [ 5 ] )
+                            break;
+                        rotgeo [ 0 ] = ev.data [ 0 ]; rotgeo [ 1 ] = ev.data [ 1 ]; rotgeo [ 2 ] = ev.data [ 2 ];
+                        rotgeo [ 3 ] = ev.data [ 3 ]; rotgeo [ 4 ] = ev.data [ 4 ]; rotgeo [ 5 ] = ev.data [ 5 ];
+                        goto SendSensorExtValues;
+
+                    case EnvASENSOR_TYPE_GAME_ROTATION_VECTOR: static float rotg [ 5 ]  = { 0 };
+
+                        if ( rotg [ 0 ] == ev.data [ 0 ] && rotg [ 1 ] == ev.data [ 1 ] && rotg [ 2 ] == ev.data [ 2 ] &&
+                            rotg [ 3 ] == ev.data [ 3 ] && rotg [ 4 ] == ev.data [ 4 ] && rotg [ 5 ] == ev.data [ 5 ] )
+                            break;
+                        rotg [ 0 ] = ev.data [ 0 ]; rotg [ 1 ] = ev.data [ 1 ]; rotg [ 2 ] = ev.data [ 2 ];
+                        rotg [ 3 ] = ev.data [ 3 ]; rotg [ 4 ] = ev.data [ 4 ]; rotg [ 5 ] = ev.data [ 5 ];
+                        goto SendSensorExtValues;
+                        
+                    case EnvASENSOR_TYPE_MAGNETIC_FIELD_UNCALIBRATED: static float ugyro [ 6 ]  = { 0 };
+
+                        if ( ugyro [ 0 ] == ev.data [ 0 ] && ugyro [ 1 ] == ev.data [ 1 ] && ugyro [ 2 ] == ev.data [ 2 ] &&
+                            ugyro [ 3 ] == ev.data [ 3 ] && ugyro [ 4 ] == ev.data [ 4 ] && ugyro [ 5 ] == ev.data [ 5 ] )
+                            break;
+                        ugyro [ 0 ] = ev.data [ 0 ]; ugyro [ 1 ] = ev.data [ 1 ]; ugyro [ 2 ] = ev.data [ 2 ];
+                        ugyro [ 3 ] = ev.data [ 3 ]; ugyro [ 4 ] = ev.data [ 4 ]; ugyro [ 5 ] = ev.data [ 5 ];
+                        goto SendSensorExtValues;
+
+                    case EnvASENSOR_TYPE_TYPE_GYROSCOPE_UNCALIBRATED: static float umag [ 6 ]  = { 0 };
+
+                        if ( umag [ 0 ] == ev.data [ 0 ] && umag [ 1 ] == ev.data [ 1 ] && umag [ 2 ] == ev.data [ 2 ] &&
+                            umag [ 3 ] == ev.data [ 3 ] && umag [ 4 ] == ev.data [ 4 ] && umag [ 5 ] == ev.data [ 5 ] )
+                            break;
+                        umag [ 0 ] = ev.data [ 0 ]; umag [ 1 ] = ev.data [ 1 ]; umag [ 2 ] = ev.data [ 2 ];
+                        umag [ 3 ] = ev.data [ 3 ]; umag [ 4 ] = ev.data [ 4 ]; umag [ 5 ] = ev.data [ 5 ];
+
+                    SendSensorExtValues:
+                        CVerbVerbArg ( "SensorEventsCallback: %s [ %i ] a [ %.2f ] b [ %.2f ] c [ %.2f ] - x [ %.2f ] y [ %.2f ] z [ %.2f ] ", sensorFlagDescriptions [ sensorType ], sensorType, ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ], ev.data [ 3 ], ev.data [ 4 ], ev.data [ 5 ] );
+
+                        // bias - values
+                        EnvironsCallArg ( PushSensorDataExtN, sensorType, ev.data [ 3 ], ev.data [ 4 ], ev.data [ 5 ], ev.data [ 0 ], ev.data [ 1 ], ev.data [ 2 ] );
                         break;
                         
-                case ASENSOR_TYPE_PROXIMITY:
-                case EnvASENSOR_TYPE_PRESSURE:
-				case ASENSOR_TYPE_LIGHT:
-				case EnvASENSOR_TYPE_TEMPERATURE:
-				case EnvASENSOR_TYPE_HUMIDITY:
-					CVerbArg ( "SensorEventsCallback: %s [ %f ] ", sensorFlagDescriptions [ sensorType ], ev.data [ 0 ] );
-
-					EnvironsCallArg ( PushSensorDataN, sensorType, ev.data [ 0 ], 0, 0 ); // x, y, z
-					break;
-
-				case EnvASENSOR_TYPE_GRAVITY:
-					CVerbArg ( "SensorEventsCallback: Gravity x [ %f ] y [ %f ] z [ %f ]", ev.acceleration.x, ev.acceleration.y, ev.acceleration.z );
-					envGravityLinear [ 0 ] = ev.acceleration.v [ 0 ];
-					envGravityLinear [ 1 ] = ev.acceleration.v [ 1 ];
-					envGravityLinear [ 2 ] = ev.acceleration.v [ 2 ];
-
-					EnvironsCallArg ( PushSensorDataExtN, false, environs::SensorType::MotionGravityAcceleration, envAccLinear [ 0 ], envAccLinear [ 1 ], envAccLinear [ 2 ], envGravityLinear [ 0 ], envGravityLinear [ 1 ], envGravityLinear [ 2 ] ); // x, y, z
-					break;
-
-				case EnvASENSOR_TYPE_ACCELEROMETER_LINEAR:
-					CVerbArg ( "SensorEventsCallback: Acc linear x [ %f ] y [ %f ] z [ %f ]", ev.acceleration.x, ev.acceleration.y, ev.acceleration.z );
-					envAccLinear [ 0 ] = ev.acceleration.v [ 0 ];
-					envAccLinear [ 1 ] = ev.acceleration.v [ 1 ];
-					envAccLinear [ 2 ] = ev.acceleration.v [ 2 ];
-
-					EnvironsCallArg ( PushSensorDataExtN, false, environs::SensorType::MotionGravityAcceleration, envAccLinear [ 0 ], envAccLinear [ 1 ], envAccLinear [ 2 ], envGravityLinear [ 0 ], envGravityLinear [ 1 ], envGravityLinear [ 2 ] ); // x, y, z
-					break;
-
-				default:
-					break;
-				}
+                    default:
+                        CVerbArg ( "SensorEventsCallback: Unknown type [ %i ]", ev.type );
+                        break;
+                }
             }
 
+            CVerbVerb ( "SensorEventsCallback: Done" );
             return 1; // Continue - 0 means stop handling
         }
 #endif
@@ -1626,7 +1764,6 @@ namespace environs
 
 				int             type        = ASensor_getType ( sensor );
 				const char *    name        = ASensor_getName ( sensor );
-				const char *    envName     = 0;
 				bool            supported   = false;
 
                 if ( type < envSensorTypeByAndroidTypeSize )
@@ -1635,11 +1772,11 @@ namespace environs
 
                     if ( sensorType >= 0 && sensorType < SensorType::Max )
                     {
-                        envName = sensorFlagDescriptions [ sensorType ];
-
-                        unsigned int flag = sensorFlags [ sensorType ];
+						unsigned int flag = 1 << ( ( int ) sensorType ); // sensorFlags [ sensorType ];
                         if ( flag ) {
                             sensorsAvailable |= flag; supported = true;
+
+							const char * envName = sensorFlagDescriptions [ sensorType ];
 
                             CLogArg ( "DetermineSensorSupport: Sensor [ %i : %s / %s ].", type, name, envName ? envName : "Unknown" );
                         }
@@ -1647,7 +1784,7 @@ namespace environs
                 }
 
 				if ( !supported ) {
-					CWarnArg ( "DetermineSensorSupport: Sensor [ %i : %s ] not supporeted by Environs.", type, name );
+					CWarnArg ( "DetermineSensorSupport: Sensor [ %i : %s ] not supported by Environs.", type, name );
 				}
 			}
 #endif
@@ -1658,7 +1795,7 @@ namespace environs
         {
 #ifdef USE_NATIVE_SENSOR_READER
             if ( sensorEventQueue ) {
-                CLog ( "CreateSensorManager: Sensor event queue exists!" );
+                CVerb ( "CreateSensorManager: Sensor event queue available!" );
                 return true;
             }
 
@@ -1682,7 +1819,8 @@ namespace environs
             if ( !sensorEventQueue ) {
                 CLog ( "CreateSensorManager: Creating EventQueue" );
 
-                sensorEventQueue = ASensorManager_createEventQueue ( sensorManager, sensorLooper, 3, SensorEventsCallback, 0 );
+                //sensorEventQueue = ASensorManager_createEventQueue ( sensorManager, sensorLooper, 3, SensorEventsCallback, 0 );
+                sensorEventQueue = ASensorManager_createEventQueue ( sensorManager, sensorLooper, ALOOPER_POLL_CALLBACK, SensorEventsCallback, 0 );
                 if ( !sensorEventQueue ) {
                     CErr ( "CreateSensorManager: Creating EventQueue failed." );
                     return false;
@@ -1721,7 +1859,7 @@ namespace environs
 #ifdef USE_NATIVE_SENSOR_READER
             CVerb ( "DisposeSensorImpl" );
 
-			StopSensorListeningImpl ( 1, ( environs::SensorType_t ) -1 );
+			StopSensorListeningImpl ( 1, ( environs::SensorType_t ) -1, "All" );
 
             if ( sensorEventQueue ) 
 			{
@@ -1738,7 +1876,7 @@ namespace environs
                 sensorManager = 0;
             }
 
-			Zero ( sensorsAndroid );
+			Zero ( sensors );
 
             if ( sensorLooper ) {
                 CLog ( "DisposeSensorImpl: Releasing Looper" );
@@ -1756,12 +1894,12 @@ namespace environs
          * @param sensorType A value of type environs::SensorType.
          *
          */
-        bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+        bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
         {
             bool success = false;
             
 #ifdef USE_NATIVE_SENSOR_READER
-            CVerbArg ( "StartSensorListeningImpl: hInst [ %i ] sensorType [ %i ]", hInst, sensorType );
+            CVerbArg ( "StartSensorListeningImpl: hInst [ %i ] sensorType [ %i : %s ]", hInst, sensorType, sensorName );
 
             if ( !CreateSensorManager () )
                 return false;
@@ -1770,26 +1908,49 @@ namespace environs
 			{
 				int type = getAndroidSensorType [ sensorType ];
 
-				if ( !sensorsAndroid [ sensorType ] && type > 0 && type  < androidSensorTypeSize )
+				if ( !sensors [ sensorType ] && type > 0 && type  < androidSensorTypeSize )
                 {
-                    CVerbArg ( "StartSensorListeningImpl: Acquire sensor [ %s ]", sensorFlagDescriptions [ sensorType ] );
+                    CVerbArg ( "StartSensorListeningImpl: Acquire sensor [ %s ]", sensorName );
 
-					sensorsAndroid [ sensorType ] = ASensorManager_getDefaultSensor ( sensorManager, type );
-				}
+					sensors [ sensorType ] = ASensorManager_getDefaultSensor ( sensorManager, type );
+                }
 
-				if ( sensorsAndroid [ sensorType ] ) {
-					CLogArg ( "StartSensorListeningImpl: enableSensor [ %s ]", sensorFlagDescriptions [ sensorType ] );
+                if ( sensors [ sensorType ] ) {
+					CLogArg ( "StartSensorListeningImpl: Enable sensor  [ %s ]", sensorName );
 
-					ASensorEventQueue_enableSensor ( sensorEventQueue, sensorsAndroid [ sensorType ] );
+					ASensorEventQueue_enableSensor ( sensorEventQueue, sensors [ sensorType ] );
 
-					CVerbArg ( "StartSensorListeningImpl: setEventRate [ %s ]", sensorFlagDescriptions [ sensorType ] );
+					CVerbArg ( "StartSensorListeningImpl: Set eventrate  [ %s : %i ]", sensorName, sensorsEventRate [ sensorType ] );
 
-                    ASensorEventQueue_setEventRate ( sensorEventQueue, sensorsAndroid [ sensorType ], sensorsEventRate [ sensorType ] );
-					success = true;
+                    ASensorEventQueue_setEventRate ( sensorEventQueue, sensors [ sensorType ], sensorsEventRate [ sensorType ] );
+
+                    if ( sensorType == SensorType::Accelerometer )
+                        sensorAccelSubscribed = true;
+                    else {
+                        if ( !sensors [ SensorType::Accelerometer ] )
+                            sensors [ SensorType::Accelerometer ] = ASensorManager_getDefaultSensor ( sensorManager, ASENSOR_TYPE_ACCELEROMETER );
+
+                        if ( sensors [ SensorType::Accelerometer ] ) {
+                            CVerbArg ( "StartSensorListeningImpl: hInst [ %i ] Starting Accelerometer for [ %s ]", hInst, sensorName );
+                            
+                            ASensorEventQueue_enableSensor ( sensorEventQueue, sensors [ SensorType::Accelerometer ] );
+
+                            ASensorEventQueue_setEventRate ( sensorEventQueue, sensors [ SensorType::Accelerometer ], sensorsEventRate [ SensorType::Accelerometer ] );
+                        }
+                    }
+                    success = true;
 				}
 				else {
-					CErrArg ( "StartSensorListeningImpl: Get sensor  [ %s ] failed.", sensorFlagDescriptions [ sensorType ] );
+					if ( sensorType == SensorType::Location ) {
+						CVerbArg ( "StartSensorListeningImpl: Type [ %i : %s ] handled at platform layer.", sensorType, sensorName );
+						success = true;
+					}
+                    else
+                        CErrArg ( "StartSensorListeningImpl: Get sensor  [ %s ] failed.", sensorFlagDescriptions [ sensorType ] );
 				}
+			}
+			else {
+				CVerbArg ( "StartSensorListeningImpl: Type [ %i : %s ] not available at native layer.", sensorType, sensorName );
 			}
 #endif
             return success;
@@ -1803,37 +1964,62 @@ namespace environs
          * @param sensorType A value of type environs::SensorType.
          *
          */
-        void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+        void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
         {
 #ifdef USE_NATIVE_SENSOR_READER
-            CVerbArg ( "StopSensorListeningImpl: hInst [ %i ] sensorType [ %i ]", hInst, sensorType );
+            CVerbArg ( "StopSensorListeningImpl: hInst [ %i ] sensorType [ %i : %s ]", hInst, sensorType, sensorName );
 
             if ( !sensorEventQueue ) {
-                CWarnArg ( "StopSensorListeningImpl: No event queue for sensorType [ %i ]", hInst, sensorType );
+                CWarnArg ( "StopSensorListeningImpl: No event queue for sensorType [ %i : %s ]", hInst, sensorType, sensorName );
                 return;
             }
 
             if ( sensorType == -1 ) {
                 CLog ( "StopSensorListeningImpl: Stopping all sensors ..." );
-                sensorRegistered = 0;
-                
+
+                sensorRegistered        = 0;
+                sensorAccelSubscribed   = false;
+
                 if ( sensorEventQueue ) {
 					for ( size_t i = 0; i < SensorType::Max; ++i )
 					{
-                        if ( sensorsAndroid [ i ] ) {
-                            CLogArg ( "StopSensorListeningImpl: Stopping [ %s ]", sensorFlagDescriptions [ sensorType ] );
+                        if ( sensors [ i ] ) {
+                            CLogsArg ( 1, "StopSensorListeningImpl: Stopping [ %s ]", sensorName );
 
-							ASensorEventQueue_disableSensor ( sensorEventQueue, sensorsAndroid [ i ] );
+							ASensorEventQueue_disableSensor ( sensorEventQueue, sensors [ i ] );
 						}
 					}
                 }
                 return;
             }
             
-            if ( sensorsAndroid [ sensorType ] ) {
-                CLogArg ( "StopSensorListeningImpl: hInst [ %i ] Stopping [ %s ]", hInst, sensorFlagDescriptions [ sensorType ] );
+            if ( sensors [ sensorType ] ) {
+                CLogsArg ( 1, "StopSensorListeningImpl: hInst [ %i ] Stopping [ %s ]", hInst, sensorName );
 
-				ASensorEventQueue_disableSensor ( sensorEventQueue, sensorsAndroid [ sensorType ] );
+				ASensorEventQueue_disableSensor ( sensorEventQueue, sensors [ sensorType ] );
+
+				if ( sensorType != SensorType::Accelerometer ) {
+					sensors [ sensorType ] = 0;
+				}
+                else
+                    sensorAccelSubscribed = false;
+
+				if ( sensors [ SensorType::Accelerometer ] ) {
+					if ( sensorRegistered ) {
+						ASensorEventQueue_enableSensor ( sensorEventQueue, sensors [ SensorType::Accelerometer ] );
+					}
+					else {
+						ASensorEventQueue_disableSensor ( sensorEventQueue, sensors [ SensorType::Accelerometer ] );
+						sensors [ SensorType::Accelerometer ] = 0;
+					}
+				}
+
+            /*Failure:
+                if ( sensors [ SensorType::Accelerometer ] ) {
+                    ASensorEventQueue_disableSensor ( sensorEventQueue, sensors [ SensorType::Accelerometer ] );
+
+					sensors [ SensorType::Accelerometer ] = 0;
+                }*/
 			}
 #endif
         }
@@ -1849,7 +2035,7 @@ namespace environs
         bool IsSensorAvailableImpl ( int hInst, environs::SensorType_t sensorType )
         {
 			if ( sensorType >= 0 && sensorType < SensorType::Max )
-				return ( ( sensorsAvailable & sensorFlags [ sensorType ] ) != 0 );
+				return ( ( sensorsAvailable & ( 1 << ( ( unsigned int ) sensorType ) ) ) != 0 );
 			return false;
         }
         

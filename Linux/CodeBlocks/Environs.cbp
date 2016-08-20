@@ -34,7 +34,6 @@
 					<Add library="dl" />
 					<Add library="m" />
 					<Add library="pthread" />
-					<Add library="uuid" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="../../Tools/build.commit.sh" />
@@ -67,7 +66,6 @@
 					<Add option="-rdynamic" />
 					<Add option="-Wextra" />
 					<Add library="dl" />
-					<Add library="uuid" />
 					<Add library="m" />
 					<Add library="pthread" />
 				</Linker>
@@ -311,6 +309,12 @@
 		<Unit filename="../../Common/Interfaces/Interfaces.h">
 			<Option virtualFolder="Interfaces/" />
 		</Unit>
+		<Unit filename="../../Common/Interfaces/IWifi.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
+		<Unit filename="../../Common/Interfaces/IBt.List.h">
+			<Option virtualFolder="Interfaces/" />
+		</Unit>
 		<Unit filename="../../Common/Interop.h">
 			<Option virtualFolder="Interop/" />
 		</Unit>
@@ -426,6 +430,9 @@
 			<Option virtualFolder="Utils/" />
 		</Unit>
 		<Unit filename="../../Common/Wifi.Observer.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Common/Bt.Observer.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="../../Common/direntw.h">
@@ -668,6 +675,21 @@
 		<Unit filename="../../Native/Core/Wifi.Observer.cpp">
 			<Option virtualFolder="Core/" />
 		</Unit>
+		<Unit filename="../../Native/Core/Wifi.List.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Wifi.List.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Bt.Observer.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Bt.List.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="../../Native/Core/Bt.List.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="../../Native/Decoder/Decoder.Android.cpp">
 			<Option virtualFolder="Decoder/" />
 		</Unit>
@@ -795,6 +817,12 @@
 			<Option virtualFolder="DynLib/" />
 		</Unit>
 		<Unit filename="../../Native/DynLib/Dyn.OpenCL.h">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../Native/DynLib/Dyn.Lib.UUID.cpp">
+			<Option virtualFolder="DynLib/" />
+		</Unit>
+		<Unit filename="../../Native/DynLib/Dyn.Lib.UUID.h">
 			<Option virtualFolder="DynLib/" />
 		</Unit>
 		<Unit filename="../../Native/Encoder/Encoder.And.cpp">

@@ -611,7 +611,10 @@ namespace environs
         CVerbVerbArg ( "Worker thread id [ %16X ]", GetCurrentThreadId () );
         
         pthread_setname_current_envthread ( "AsyncWorker.Worker" );
-        
+
+#ifndef NDEBUG
+        try {
+#endif
         while ( active )
         {
             // pop a notification
@@ -791,8 +794,16 @@ namespace environs
             // Dispose work item
 			DisposeAsyncWork ( work );
         }
-        
-//	Finish:
+
+#ifndef NDEBUG
+        }
+        catch ( char * )
+        {
+            printf ( "AsyncWorker: Exception !!!\n" );
+            _EnvDebugBreak ( "AsyncWorker" );
+        }
+#endif
+        //	Finish:
         //pthread_reset ( workerThreadID ); // Will be done by the "closer"
         CLog ( "Worker: bye bye..." );
         
@@ -809,7 +820,7 @@ namespace environs
 	*/
 	void AsyncWorker::UpdateDeviceFlags ( char * msgDec )
     {
-        CVerb ( "UpdateDeviceFlags" );
+		CVerbVerb ( "UpdateDeviceFlags" );
 
 		MediatorStatusMsg * msg = ( MediatorStatusMsg * ) msgDec;
 
@@ -827,7 +838,7 @@ namespace environs
             else if ( env->mediatorFilterLevel >= MEDIATOR_FILTER_AREA_AND_APP )
             {
                 if ( strncmp ( areaName, env->areaName, sizeof ( env->areaName ) - 1 ) || strncmp ( appName, env->appName, sizeof ( env->appName ) - 1 ) ) {
-                    CVerbArg ( "UpdateDeviceFlags: Device filter level restricted [ 0x%X : %s / %s ]", msg->deviceID, appName, areaName  );
+                    CVerbVerbArg ( "UpdateDeviceFlags: Device filter level restricted [ 0x%X : %s / %s ]", msg->deviceID, appName, areaName  );
                     return;
                 }
             }
@@ -993,6 +1004,9 @@ namespace environs
     
     bool AsyncWorker::SendDataUdpPrefix ( int nativeID, void * data, int dataSize )
     {
+		if ( dataSize <= 0 )
+			return true;
+
         bool success = false;
         
         DeviceBase * device = GetDevice ( nativeID );

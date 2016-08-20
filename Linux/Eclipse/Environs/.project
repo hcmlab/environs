@@ -411,6 +411,16 @@
 			<locationURI>PARENT-3-PROJECT_LOC/Native/DynLib/Dyn.OpenCL.h</locationURI>
 		</link>
 		<link>
+			<name>DynLib/Dyn.Lib.UUID.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/Native/DynLib/Dyn.Lib.UUID.cpp</locationURI>
+		</link>
+		<link>
+			<name>DynLib/Dyn.Lib.UUID.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/Native/DynLib/Dyn.Lib.UUID.h</locationURI>
+		</link>
+		<link>
 			<name>Encoder/Encoder.Base.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Native/Encoder/Encoder.Base.cpp</locationURI>

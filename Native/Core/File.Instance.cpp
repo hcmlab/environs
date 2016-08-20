@@ -52,7 +52,7 @@ namespace environs
 {    
 	namespace lib
 	{
-		ENVIRONS_OUTPUT_WP_ALLOC ( FileInstance );
+		ENVIRONS_OUTPUT_ALLOC_WP ( FileInstance );
         
 
 		FileInstance::FileInstance ()
@@ -100,13 +100,13 @@ namespace environs
 		{
 			CVerbVerbArg1 ( "DisposeInstance", "", "i", objID_ );
 
-			bool resetSP = ( ___sync_val_compare_and_swap ( c_Addr_of ( disposed_ ), 0, 1 ) == 0 );
+			//bool resetSP = ( ___sync_val_compare_and_swap ( c_Addr_of ( disposed_ ), 0, 1 ) == 0 );
 
 			PlatformDispose ();
 
-			if ( resetSP ) {
-				sp_reset ( myself );
-			}
+            /*if ( resetSP ) {
+                Cli_Only ( myself = nill );
+			}*/
 		}
 
 		/**
@@ -348,7 +348,7 @@ namespace environs
 #else
 				char buffer [ 256 ];
 
-				if ( snprintf ( buffer, 256, "FileInstance fileID [%i]  desc [%s]  size [%ld bytes] created at [%llu]", fileID_, STRING_empty ( descriptor_ ) ? "" : STRING_get_cstr ( descriptor_ ), size_, created_ ) < 0 )
+				if ( snprintf ( buffer, 256, "FileInstance fileID [ %i ]  desc [ %s ]  size [ %ld bytes ] created at [ %llu ]", fileID_, STRING_empty ( descriptor_ ) ? "" : STRING_get_cstr ( descriptor_ ), size_, created_ ) < 0 )
 					*buffer = 0;
 
 				toString_ = CCharToString ( buffer );

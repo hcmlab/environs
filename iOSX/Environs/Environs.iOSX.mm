@@ -32,6 +32,7 @@
 #include "Interfaces/IPortal.Decoder.h"
 #include "Environs.Obj.h"
 #include "Environs.Sensors.h"
+#include "Environs.Utils.h"
 
 #import "Environs.iOSX.h"
 #import "Login.Dialog.h"
@@ -44,6 +45,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
+//#import <IOBluetooth/IOBluetooth.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <CoreBluetooth/CBService.h>
 
 #ifdef ENVIRONS_IOS
 //******** iOS *************
@@ -2177,6 +2181,14 @@ void DisposeNetworkNotifier ()
     return environs::API::GetNSSID ( true );
 }
 
+- (unsigned long long) GetBSSID {
+    return environs::MediatorClient::wifiCurrentBSSID;
+}
+
+- (int) GetRSSI {
+    return environs::MediatorClient::wifiCurrentRSSI;
+}
+
 
 /**
  * Called by Reachability whenever status changes.
@@ -2566,6 +2578,357 @@ void DisposeNetworkNotifier ()
 
 
 
+#ifdef NATIVE_BT_OBSERVER
+
+#include "Bt.Observer.h"
+using namespace environs;
+
+#ifndef ENVIRONS_IOS
+#   define USE_IOBLUETOOTH_FW
+#endif
+
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <CoreBluetooth/CBService.h>
+
+int btScanState = 0;
+
+#ifdef USE_IOBLUETOOTH_FW
+#   import <IOBluetooth/objc/IOBluetoothDevice.h>
+#   import <IOBluetooth/objc/IOBluetoothDeviceInquiry.h>
+#   import <IOBluetooth/IOBluetoothUserLib.h>
+#   import <IOBluetoothUI/IOBluetoothUIUserLib.h>
+#endif
+
+
+@interface iOSXBtHelper : NSObject < CLLocationManagerDelegate, CBCentralManagerDelegate >
+{
+@public
+    BtObserver *                bt;
+
+    CBCentralManager          * manager;
+    dispatch_queue_t            queue;
+
+#ifdef USE_IOBLUETOOTH_FW
+    IOBluetoothDeviceInquiry *  query;
+#endif
+}
+
+- (bool) Init : (BtObserver *) _bt;
+- (bool) StartScan;
+- (void) StopScan;
+
+@end
+
+
+@implementation iOSXBtHelper
+
+
+- (id) init
+{
+    CVerb ( "init" );
+
+    self = [super init];
+
+    if ( self ) {
+        bt          = 0;
+        manager     = nil;
+
+#ifdef USE_IOBLUETOOTH_FW
+        query       = nil;
+#endif
+    }
+
+    return self;
+}
+
+
+- (bool) Init : (BtObserver *) _bt
+{
+    if ( !_bt )
+        return false;
+    bt = _bt;
+
+    queue = dispatch_queue_create("de.hcm.lab.Environs.centralManagerQueue", NULL);
+
+    manager = [[CBCentralManager alloc] initWithDelegate:self queue:queue];
+    if ( !manager )
+        return false;
+
+    return true;
+}
+
+
+- (bool) StartScan
+{
+    //[self StopScan];
+
+    @autoreleasepool
+    {
+        if ( manager.state == CBCentralManagerStatePoweredOn )
+        {
+            CVerb ( "StartScan: Starting ..." );
+            [manager scanForPeripheralsWithServices:nil options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES}];
+
+            btScanState = 1;
+        }
+
+#ifdef USE_IOBLUETOOTH_FW
+        bt->thread.Lock ( "StartScan" );
+
+        IOBluetoothDeviceInquiry * q = nil;
+
+        if ( !query )
+            query = [IOBluetoothDeviceInquiry inquiryWithDelegate:self];
+
+        q = query;
+
+        bt->thread.Unlock ( "StartScan" );
+
+        if ( q )
+        {
+            IOReturn status = [q start];
+
+            if ( status == kIOReturnSuccess )
+            {
+                btScanState = 1;
+            }
+        }
+#endif
+    }
+
+    return ( btScanState > 0 );
+}
+
+
+- (void) StopScan
+{
+    @autoreleasepool
+    {
+        if ( manager ) {
+            CVerb ( "StopScan: Stopping ..." );
+            [manager stopScan];
+        }
+        else {
+            CVerb ( "StopScan: No manager available." );
+        }
+
+#ifdef USE_IOBLUETOOTH_FW
+        bt->thread.Lock ( "StopScan" );
+
+        IOBluetoothDeviceInquiry * q = query;
+
+        query = nil;
+
+        bt->thread.Unlock ( "StopScan" );
+
+        if ( q )
+        {
+            [q stop];
+        }
+#endif
+
+        btScanState = 0;
+    }
+}
+
+
+- (void) centralManagerDidUpdateState : (CBCentralManager *)central
+{
+    switch (central.state) {
+        case CBCentralManagerStateResetting:
+            CVerb ( "centralManagerDidUpdateState: CBCentralManagerStateResetting" );
+            break;
+        case CBCentralManagerStateUnsupported:
+            CVerb ( "centralManagerDidUpdateState: CBCentralManagerStateUnsupported" );
+            break;
+        case CBCentralManagerStateUnauthorized:
+            CVerb ( "centralManagerDidUpdateState: CBCentralManagerStateUnauthorized" );
+            break;
+        case CBCentralManagerStatePoweredOff:
+            CVerb ( "centralManagerDidUpdateState: CBCentralManagerStatePoweredOff" );
+            break;
+        case CBCentralManagerStatePoweredOn:
+            CVerb ( "centralManagerDidUpdateState: CBCentralManagerStatePoweredOn" );
+            break;
+        default:
+            CVerb ( "centralManagerDidUpdateState: Unknown" );
+            break;
+    }
+}
+
+
+- (void)centralManager:(CBCentralManager *)central
+ didDiscoverPeripheral:(CBPeripheral *)peripheral
+     advertisementData:(NSDictionary *)advertisementData
+                  RSSI:(NSNumber *)RSSI
+{
+
+    //CLogArg ( "centralManager: BSSID [ %llX ]\t: SSID [ %s ]\t: rssi [ %i ]", bssid, ssid ? [ssid UTF8String] : "", rssi );
+
+#ifndef ENVIRONS_IOS
+    NSString * ssid = [peripheral name];
+
+    CFUUIDBytes bytes = CFUUIDGetUUIDBytes ( [peripheral UUID] );
+
+    native.btObserver.UpdateWithMac ( 0, ssid ? [ssid UTF8String] : 0, (int)[RSSI integerValue], 0, *((unsigned long long *)&bytes.byte0), *((unsigned long long *)&bytes.byte8) );
+#endif
+}
+
+
+#ifdef USE_IOBLUETOOTH_FW
+
+- (void) deviceInquiryStarted : ( IOBluetoothDeviceInquiry * ) sender
+{
+    CVerb ( "deviceInquiryStarted" );
+
+    btScanState = 1;
+}
+
+
+- (void) deviceInquiryDeviceFound : (IOBluetoothDeviceInquiry*)sender device:(IOBluetoothDevice*)device
+{
+    if ( !sender )
+        return;
+    NSArray * devices = [sender foundDevices];
+
+    if ( devices && [devices count] > 0 )
+    {
+        CVerbArg ( "Found %d devices...", (int) [devices count] );
+
+        for ( IOBluetoothDevice * dev in devices )
+        {
+            unsigned long long * bssid = (unsigned long long *) [dev getAddress];
+            if ( !bssid )
+                continue;
+
+            NSString * ssid = [dev getName];
+
+            int rssi = (int) [dev rawRSSI];
+
+            int cod = [dev classOfDevice];
+
+            CLogArg ( "BtObserver: BSSID [ %llX ]\t: SSID [ %s ]\t: rssi [ %i ]\t: cod [ %i ]", bssid, ssid ? [ssid UTF8String] : "", rssi, cod, 0, 0 );
+
+            bt->UpdateWithMac ( *bssid, ssid ? [ssid UTF8String] : 0, rssi, cod, 0, 0 );
+        }
+    }
+}
+
+
+- (void) deviceInquiryUpdatingDeviceNamesStarted : (IOBluetoothDeviceInquiry*) sender devicesRemaining:(int) devicesRemaining
+{
+    CVerbArg ( "deviceInquiryUpdatingDeviceNamesStarted: %d", devicesRemaining );
+}
+
+
+- (void) deviceInquiryDeviceNameUpdated:(IOBluetoothDeviceInquiry*)sender device:(IOBluetoothDevice*)device devicesRemaining:(int)devicesRemaining
+{
+    CVerbArg ( "deviceInquiryDeviceNameUpdated: %d", devicesRemaining );
+}
+
+
+- (void) deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender	error:(IOReturn)error	aborted:(BOOL)aborted
+{
+    if ( aborted )
+    {
+        CVerb ( "deviceInquiryComplete: Stopped" );
+
+        /*@autoreleasepool {
+         bt->thread.Lock ( "deviceInquiryComplete" );
+
+         if ( query )
+         {
+         query = nil; scanning = false;
+         }
+
+         bt->thread.Unlock ( "deviceInquiryComplete" );
+         }
+         */
+    }
+    else
+    {
+        CVerbVerb ( "deviceInquiryComplete: Done" );
+    }
+
+    if ( btScanState > 1 )
+    {
+        bt->Finish ();
+    }
+
+    btScanState = 0;
+
+    bt->thread.Notify ( "deviceInquiryComplete" );
+}
+#endif
+
+@end
+
+
+
+namespace environs
+{
+    unsigned int lastBtScan	= 0;
+
+    void * Thread_BtObserver ()
+    {
+        CLog ( "BtObserver: Created ..." );
+
+        @autoreleasepool
+        {
+            BtObserver *	bt			= &native.btObserver;
+
+            iOSXBtHelper * bluetooth    = [[iOSXBtHelper alloc] init];
+
+            if ( !bluetooth || ![bluetooth Init:bt] )
+                return 0;
+
+            bool			doScan		= true;
+            unsigned int	lastCheck	= 0;
+
+
+            while ( bt->threadRun )
+            {
+                if ( doScan ) {
+                    if ( !btScanState ) {
+                        [bluetooth StartScan];
+                    }
+                    //[bluetooth StartScan];
+
+                    doScan = false;
+                    lastBtScan = GetEnvironsTickCount32 ();
+                }
+
+                lastCheck = GetEnvironsTickCount32 ();
+
+                unsigned int waitTime = native.useBtInterval;
+
+            WaitLoop:
+                if ( bt->threadRun ) {
+                    bt->thread.WaitOne ( "BtObserver", waitTime );
+
+                    unsigned int now = GetEnvironsTickCount32 ();
+                    unsigned int diff = now - lastCheck;
+
+                    if ( diff < ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN ) {
+                        waitTime = ( ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+                        goto WaitLoop;
+                    }
+                    
+                    if ( ( now - lastBtScan ) > ( unsigned ) native.useBtInterval )
+                        doScan = true;
+                }
+            }
+            
+            [bluetooth StopScan];
+        }
+        
+        CLog ( "BtObserver: bye bye ..." );
+        return 0;
+    }
+    
+}
+
+#endif
 
 
 

@@ -858,13 +858,29 @@ public class Utils
 
         	if (pm.checkPermission ( perm, name ) != PackageManager.PERMISSION_GRANTED)
 				Environs.useWakup = CheckManifestWarning("useWakup or GCM", perm);
+
+			if (Environs.useWakup) {
+				perm = android.Manifest.permission.DISABLE_KEYGUARD;
+
+				if (pm.checkPermission ( perm, name ) != PackageManager.PERMISSION_GRANTED)
+					Environs.useWakup = CheckManifestWarning("useWakup or GCM", perm);
+			}
     	}
 
-		if (Environs.useWakup) {
-			perm = android.Manifest.permission.DISABLE_KEYGUARD;
+		if (Environs.useBluetooth) {
+			perm = android.Manifest.permission.BLUETOOTH;
 
 			if (pm.checkPermission ( perm, name ) != PackageManager.PERMISSION_GRANTED)
-				Environs.useWakup = CheckManifestWarning("useWakup or GCM", perm);
+				Environs.useBluetooth = CheckManifestWarning("useBluetooth", perm);
+		}
+
+		if (!Environs.useBluetooth) Environs.useBluetoothAdmin = false;
+
+		if (Environs.useBluetoothAdmin) {
+			perm = Manifest.permission.BLUETOOTH_ADMIN;
+
+			if (pm.checkPermission ( perm, name ) != PackageManager.PERMISSION_GRANTED)
+				Environs.useBluetoothAdmin = CheckManifestWarning("useBluetoothAdmin", perm);
 		}
 
 		if (Utils.isDebug) Utils.Log ( 6, className, "CheckManifest: done");
@@ -1098,6 +1114,8 @@ public class Utils
 		return true;
 	}
 
+	static String wifiCurrentBSSID = "";
+	static int wifiCurrentRSSI = 0;
 
 	static String GetSSID(int hInst, boolean desc)
 	{
@@ -1111,10 +1129,30 @@ public class Utils
 		if (info == null)
 			return "Error";
 
+		wifiCurrentBSSID = info.getBSSID ();
+		wifiCurrentRSSI = info.getRssi ();
+
 		if ( desc )
 			return info.getSSID() + " (" + info.getRssi() + " dB)";
 		return info.getSSID();
 	}
+
+
+	static String GetBSSID(int hInst)
+	{
+		if (wifiCurrentBSSID == "")
+			GetSSID(hInst, false);
+		return wifiCurrentBSSID;
+	}
+
+
+	static int GetRSSI(int hInst)
+	{
+		if (wifiCurrentRSSI == 0)
+			GetSSID(hInst, false);
+		return wifiCurrentRSSI;
+	}
+
 
     /**
      * Request fullscreen UI feature and always on display - IMPORTANT This method must be called BEFORE calling setContentView()!!!

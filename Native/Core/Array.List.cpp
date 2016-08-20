@@ -53,15 +53,26 @@ namespace environs
 
 			size_       = 0;
             capacity    = 0;
-			items       = nill;
+            items       = nill;
 
-			ENVIRONS_OUTPUT_ALLOC_INIT ();
+#ifdef ENABLE_ARRAYLIST_LOCK
+            disposed    = false;
+
+            if ( !LockInitA ( lock ) )
+                disposed = true;
+#endif
+            ENVIRONS_OUTPUT_ALLOC_INIT ();
 		}
 
 
 		ArrayList::~ArrayList ()
 		{
 			CVerbArg ( "Destruct [ %i ]: [ %s ]", objID_, listType );
+
+#ifdef ENABLE_ARRAYLIST_LOCK
+			if ( disposed )
+				LockDisposeA ( lock );
+#endif
 		}
 
 
@@ -72,11 +83,26 @@ namespace environs
 		*
 		*/
 		void ArrayList::Release ()
-		{
+        {
+#ifdef ENABLE_ARRAYLIST_LOCK
+			LockAcquireA ( lock, "Release" );
+#endif
+
 			ENVIRONS_OUTPUT_RELEASE ();
 
-			if ( localRefCount == 0 )
+            if ( localRefCount == 0 ) {
+#ifdef ENABLE_ARRAYLIST_LOCK
+                disposed = true;
+
+				LockReleaseA ( lock, "ReleaseLocked" );
+#endif
 				delete this;
+            }
+#ifdef ENABLE_ARRAYLIST_LOCK
+			else {
+				LockReleaseA ( lock, "ReleaseLocked" );
+			}
+#endif
 		}
 
 
@@ -226,8 +252,8 @@ namespace environs
 
 				for ( size_t i = 0; i < size; ++i )
 				{
-                    const sp ( DeviceInstance ) &itemSP = list->at ( i ); // Should be safe as we must have a lock on the list
-					//sp ( DeviceInstance ) itemSP = list->at ( i );
+                    //const sp ( DeviceInstance ) &itemSP = list->at ( i ); // Should be safe as we must have a lock on the list
+					sp ( DeviceInstance ) itemSP = list->at ( i );
 
 					IEnvironsDispose * item = ( IEnvironsDispose * ) itemSP.get ();
 					if ( item )
@@ -253,7 +279,19 @@ namespace environs
         bool ArrayList::UpdateWithDevices ( const svsp ( DeviceInstance ) &listSP )
         {
             CVerbVerb ( "UpdateWithDevices" );
-            
+
+#ifdef ENABLE_ARRAYLIST_LOCK
+            if ( disposed )
+                return false;
+
+            if ( !LockAcquireA ( lock, "UpdateWithDevices" ) )
+                return false;
+
+            if ( disposed ) {
+                LockReleaseA ( lock, "UpdateWithDevices" );
+                return false;
+            }
+#endif
 			vsp ( DeviceInstance ) * list = listSP.get ();
 
             if ( list == nill || list->size () <= 0 ) {
@@ -272,6 +310,11 @@ namespace environs
                     }
                     size_ = 0;
                 }
+
+#ifdef ENABLE_ARRAYLIST_LOCK
+                if ( !LockReleaseA ( lock, "UpdateWithDevices" ) )
+                    return false;
+#endif
                 return true;
             }
             
@@ -283,8 +326,12 @@ namespace environs
 				size_t newCap = sizeList + GROW_SIZE;
 
                 void ** tmp = ( void ** ) calloc ( 1, newCap * sizeof ( void * ) );
-                if ( !tmp )
+                if ( !tmp ) {
+#ifdef ENABLE_ARRAYLIST_LOCK
+                    LockReleaseA ( lock, "UpdateWithDevices" );
+#endif
                     return false;
+                }
 
 				memcpy ( tmp, items, sizeof ( void * ) * size_ );
                 free ( items );
@@ -313,6 +360,9 @@ namespace environs
 				if ( src->Retain () ) {
 					items [ j ] = src; j++;
 				}
+                else {
+                    items [ j ] = nill;
+                }
                 
                 if ( item )
 					item->Release ();
@@ -327,7 +377,11 @@ namespace environs
                     item->Release (); items [ j ] = 0;
                 }
             }
-            
+
+#ifdef ENABLE_ARRAYLIST_LOCK
+            if ( !LockReleaseA ( lock, "UpdateWithDevices" ) )
+                return false;
+#endif
             return true;
         }
 

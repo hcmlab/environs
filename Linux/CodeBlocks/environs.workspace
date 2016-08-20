@@ -4,6 +4,5 @@
 		<Project filename="Environs.cbp" />
 		<Project filename="Echo.Bot.cbp" />
 		<Project filename="Simple.Console.cbp" />
-		<Project filename="../Plugins/ExtWifiObserver/ExtWifiObserver.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -60,55 +60,105 @@ namespace environs
 	}; 
 #endif
 
-#ifndef NDEBUG
 	const char * sensorFlagDescriptions [ ] = { 
 				"Accelerometer",
+				"Acceleration",
 				"MagneticField",
+				"MagneticFieldMotion",
+				"MagneticFieldUncalib",
 				"Gyroscope",
+				"GyroscopeUncalib",
 				"Orientation",
 				"Light",
 				"Location",
 				"Heading",
-				"Altimeter/Pressure",
-				"MotionAttitudeRotation",
-				"MotionGravityAcceleration",
-				"MotionMagneticField",
+				"Temperature",
+				"MotionSignificant",
+				"Pressure",
+				"Attitude",
+				"Rotation",
+				"RotationGame",
+				"RotationGeomagnetic",
+				"Gravity",
+				"Stepper",
+				"Steps",
+				"Tilt",
 				"Heartrate",
 				"Proximity",
 				"VOC",
 				"CO2",
 				"Humidity",
-				"Temperature",
 				"Custom",
 				"Invalid",
 	}; 
-#endif
 
 #endif
 
 	int sensorFlags [ ] = { 
 				ENVIRONS_SENSOR_FLAG_ACCELEROMETER,
+				ENVIRONS_SENSOR_FLAG_ACCELERATION,
 				ENVIRONS_SENSOR_FLAG_MAGNETICFIELD,
+				ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION,
+				ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB,
 				ENVIRONS_SENSOR_FLAG_GYROSCOPE,
+				ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB,
 				ENVIRONS_SENSOR_FLAG_ORIENTATION,
 				ENVIRONS_SENSOR_FLAG_LIGHT,
 				ENVIRONS_SENSOR_FLAG_LOCATION,
 				ENVIRONS_SENSOR_FLAG_HEADING,
-				ENVIRONS_SENSOR_FLAG_ALTIMETER,
-				ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION,
-				ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION,
-				ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD,
+				ENVIRONS_SENSOR_FLAG_TEMPERATURE,
+				ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT,
+				ENVIRONS_SENSOR_FLAG_PRESSURE,
+				ENVIRONS_SENSOR_FLAG_ATTITUDE,
+				ENVIRONS_SENSOR_FLAG_ROTATION,
+				ENVIRONS_SENSOR_FLAG_ROTATION_GAME,
+				ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC,
+				ENVIRONS_SENSOR_FLAG_GRAVITY,
+				ENVIRONS_SENSOR_FLAG_STEPPER,
+				ENVIRONS_SENSOR_FLAG_STEPS,
+				ENVIRONS_SENSOR_FLAG_TILT,
 				ENVIRONS_SENSOR_FLAG_HEARTRATE,
 				ENVIRONS_SENSOR_FLAG_PROXIMITY,
 				ENVIRONS_SENSOR_FLAG_VOC,
 				ENVIRONS_SENSOR_FLAG_CO2,
 				ENVIRONS_SENSOR_FLAG_HUMIDITY,
-				ENVIRONS_SENSOR_FLAG_TEMPERATURE,
 				ENVIRONS_SENSOR_FLAG_CUSTOM,
 				MAX_ENVIRONS_SENSOR_TYPE_VALUE,
 	}; 
 
 #ifndef CLI_CPP
+
+	bool sensorChannelTcpDefault [ ] = { 
+				false, // ENVIRONS_SENSOR_FLAG_ACCELEROMETER,
+				false, // ENVIRONS_SENSOR_FLAG_ACCELERATION,
+				false, // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD,
+				false, // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION,
+				false, // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB,
+				false, // ENVIRONS_SENSOR_FLAG_GYROSCOPE,
+				false, // ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB,
+				false, // ENVIRONS_SENSOR_FLAG_ORIENTATION,
+				false, // ENVIRONS_SENSOR_FLAG_LIGHT,
+				true,  // ENVIRONS_SENSOR_FLAG_LOCATION,
+				false, // ENVIRONS_SENSOR_FLAG_HEADING,
+				false, // ENVIRONS_SENSOR_FLAG_TEMPERATURE,
+				false, // ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT,
+				false, // ENVIRONS_SENSOR_FLAG_PRESSURE,
+				false, // ENVIRONS_SENSOR_FLAG_ATTITUDE,
+				false, // ENVIRONS_SENSOR_FLAG_ROTATION,
+				false, // ENVIRONS_SENSOR_FLAG_ROTATION_GAME,
+				false, // ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC,
+				false, // ENVIRONS_SENSOR_FLAG_GRAVITY,
+				true, // ENVIRONS_SENSOR_FLAG_STEPPER,
+				true, // ENVIRONS_SENSOR_FLAG_STEPS,
+				false, // ENVIRONS_SENSOR_FLAG_TILT,
+				true,  // ENVIRONS_SENSOR_FLAG_HEARTRATE,
+				false, // ENVIRONS_SENSOR_FLAG_PROXIMITY,
+				false, // ENVIRONS_SENSOR_FLAG_VOC,
+				false, // ENVIRONS_SENSOR_FLAG_CO2,
+				false, // ENVIRONS_SENSOR_FLAG_HUMIDITY,
+				true, // ENVIRONS_SENSOR_FLAG_CUSTOM,
+				false, // MAX_ENVIRONS_SENSOR_TYPE_VALUE,
+	}; 
 
 
 
@@ -884,9 +934,27 @@ namespace environs
 
 		switch ( constToResolve ) {
 			case ( 17 ):
-				return "ENVIRONS_SENSOR_TYPE_CUSTOM";
+				return "ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC";
 			case ( 18 ):
-				return "ENVIRONS_SENSOR_TYPE_MAX";
+				return "ENVIRONS_SENSOR_TYPE_GRAVITY";
+			case ( 21 ):
+				return "ENVIRONS_SENSOR_TYPE_TILT";
+			case ( 22 ):
+				return "ENVIRONS_SENSOR_TYPE_HEARTRATE";
+			case ( 23 ):
+				return "ENVIRONS_SENSOR_TYPE_PROXIMITY";
+			case ( 25 ):
+				return "ENVIRONS_SENSOR_TYPE_CO2";
+			case ( 26 ):
+				return "ENVIRONS_SENSOR_TYPE_HUMIDITY";
+			case ( 27 ):
+				return "ENVIRONS_SENSOR_TYPE_CUSTOM";
+			case ( 0x2000000 ):
+				return "ENVIRONS_SENSOR_FLAG_CO2";
+			case ( 0x4000000 ):
+				return "ENVIRONS_SENSOR_FLAG_HUMIDITY";
+			case ( 0x8000000 ):
+				return "ENVIRONS_SENSOR_FLAG_CUSTOM";
 		} /// -> switch
 		if ( constToResolve == ( ENVIRONS_SENSOR_FLAG_CUSTOM ) )
 			return "MAX_ENVIRONS_SENSOR_TYPE_VALUE";
@@ -895,10 +963,10 @@ namespace environs
 		switch ( constToResolve ) {
 			case ( 2000 ):
 				return "ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN";
-			case ( 5000 ):
+			case ( 20000 ):
 				return "ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN";
-			case ( 1000 ):
-				return "ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN";
+			case ( 10000 ):
+				return "ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN";
 		} /// -> switch
 
 

@@ -92,7 +92,7 @@ namespace environs
 		}
 		catch ( Exception ^ex )
 		{
-			System::Windows::MessageBox::Show ( getEnvironsMissingMsg ( ex->Message ) );
+			System::Windows::MessageBox::Show ( getEnvironsMissingMsg ( ( ex != nill ? ex->Message : "" ) ) );
 		}
 
 		LockReleaseA ( platformLock, "Environs" );

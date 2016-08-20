@@ -631,8 +631,15 @@ namespace environs
             return; // Nothing to do
         
         bool			extTouches		= frame->version >= 3;
+
+#ifndef USE_INPUT_PACK_STDINT_CPP
+        unsigned int	touchPakSize    = extTouches ? INPUTPACK_V3_SIZE : INPUTPACK_V2_SIZE;
+        unsigned int	touchPakIntSize = extTouches ? INPUTPACK_V3_INT_SIZE : INPUTPACK_V2_INT_SIZE;
+#else
         unsigned int	touchPakSize	= extTouches ? INPUTPACK_V3_SIZE : INPUTPACK_V2_SIZE;
-       
+		unsigned int	touchPakIntSize = touchPakSize;
+#endif
+
         if ( sizeof ( InputFrame ) + (touchCount * touchPakSize) > (unsigned)length )
             return; // received buffer is less than expected
         
@@ -715,7 +722,7 @@ namespace environs
             {
                 if ( pack->state == INPUT_STATE_DROP ) // drop
                 {
-                    touch->Update ( pack, touchPakSize );
+                    touch->Update ( pack, touchPakIntSize );
                     touch->pack.raw.valid = false;
                     
                     if ( !inject_touch )
@@ -732,7 +739,7 @@ namespace environs
                 {
                     insTemp->push_back ( touch );
                     
-                    if ( touch->Update ( pack, touchPakSize ) )
+                    if ( touch->Update ( pack, touchPakIntSize ) )
                     {
                         touch->pack.raw.state = INPUT_STATE_CHANGE;
                         
@@ -757,7 +764,7 @@ namespace environs
                 if ( pack->state != INPUT_STATE_DROP ) // If the state is drop, then a remote recognizer has taken over this touch contact and dont want us to consider that touch entity
                 {
                     // We have a new touch
-                    touch = new Input ( pack, touchPakSize );
+                    touch = new Input ( pack, touchPakIntSize );
                     if ( !touch ) {
                         goto Finish;
                     }

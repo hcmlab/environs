@@ -172,7 +172,7 @@ public class DeviceInstance
 	public String toString() {
 		
         return GetBroadcastString(false) + " " +  (isConnected ? " *" : "") + " 0x" + Integer.toHexString(this.deviceID).toUpperCase() + " " + DeviceTypeString() + ": "
-        		+ this.deviceName + ", [" + this.appName + "/" + this.areaName + "], [" + this.objID + "]";
+        		+ this.deviceName + ", [ " + this.appName + " / " + this.areaName + " ], [ " + this.objID + " ]";
     }
 
 	public String ToString() {
@@ -702,10 +702,13 @@ public class DeviceInstance
 		if ( sensorType < 0 || sensorType >= Environs.ENVIRONS_SENSOR_TYPE_MAX )
 			return false;
 
-		int flag = Environs.sensorFlags [ sensorType ];
+		if (Utils.isDebug) Utils.Log ( 6, className, "SetSensorEventSending: " +
+				Environs.sensorFlagDescriptions [ sensorType ] + " trying to " + (enable ? "enable" : "disable") );
+
+		int flag = 1 << sensorType; //Environs.sensorFlags [ sensorType ];
 
 		if ( enable == ((enableSensorSender & flag) != 0) ) {
-			if (Utils.isDebug) Utils.Log ( 1, className, "SetSensorEventSending: " +
+			if (Utils.isDebug) Utils.Log ( 4, className, "SetSensorEventSending: " +
 					Environs.sensorFlagDescriptions [ sensorType ] + " already " + (enable ? "enabled" : "disabled") );
 			return true;
 		}
@@ -720,8 +723,19 @@ public class DeviceInstance
 		else
 			enableSensorSender &= ~flag;
 
+		if (Utils.isDebug) Utils.Log ( 6, className, "SetSensorEventSending: " +
+				Environs.sensorFlagDescriptions [ sensorType ] + (enable ? " enabled" : " disabled") + " at platform layer" );
+
 		if (isConnected && nativeID > 0) {
-			return env.sensors.SetSensorEventSender(nativeID, objID, sensorType, enable);
+			if ( env.sensors != null ) {
+				if (Utils.isDebug) Utils.Log ( 6, className, "SetSensorEventSending: " +
+						Environs.sensorFlagDescriptions [ sensorType ] + " trying to " + (enable ? "enable" : "disable") + " at native layer" );
+
+				env.sensors.SetSensorEventSenderFlags ( nativeID, objID, 1 << sensorType, enable );
+
+				if (Utils.isDebug) Utils.Log ( 6, className, "SetSensorEventSending: " +
+						Environs.sensorFlagDescriptions [ sensorType ] + (enable ? " enabled" : " disabled") + " at native layer" );
+			}
 		}
 		return true;
 	}
@@ -740,7 +754,8 @@ public class DeviceInstance
 		if ( sensorType < 0 || sensorType >= Environs.ENVIRONS_SENSOR_TYPE_MAX )
 			return false;
 
-		return ((enableSensorSender & Environs.sensorFlags [ sensorType ]) != 0);
+		return ((enableSensorSender & (1 << sensorType)) != 0);
+		//return ((enableSensorSender & Environs.sensorFlags [ sensorType ]) != 0);
 	}
 
 
@@ -849,12 +864,13 @@ public class DeviceInstance
 		if (isConnected != device.isConnected) {
 			changed |= Environs.DEVICE_INFO_ATTR_ISCONNECTED;
 			isConnected = device.isConnected;
+			//Utils.Log ( 0, className, "Update: Changed connect to " + isConnected );
 
 			if (isConnected) {
 				synchronized (this) {
 					notifyAll();
 
-					if (nativeID > 0 && enableSensorSender != 0 ) {
+					if ( nativeID > 0 && enableSensorSender != 0 && env.sensors != null ) {
 						env.sensors.SetSensorEventSenderFlags ( nativeID, objID, enableSensorSender, true );
 					}
 				}
@@ -1654,7 +1670,7 @@ public class DeviceInstance
 		FileInstance fileInst = new FileInstance(fileID);
 		fileInst.descriptor = fileDescriptor;
 		fileInst.path = filePath;
-		fileInst.sent = true;
+		fileInst.sent = sent;
 		fileInst.created = System.currentTimeMillis() / 1000L;
 		fileInst.size = bytesToSend;
 		fileInst.device = this;

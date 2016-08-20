@@ -61,7 +61,7 @@ class PortalReceiver extends Thread implements Runnable, PortalObserver
 
         	Environs.BridgeForNotifier ( hEnvirons, 0, Types.NOTIFY_PORTAL_STREAM_RECEIVER_STARTED, 0 );
 
-			int offsetStartValue = Environs.GetBufferHeaderBytesToStartValueN ( );
+			//int offsetStartValue = Environs.GetBufferHeaderBytesToStartValueN ( );
 
         	int offset = Environs.GetBufferHeaderSizeN ( );
 			int offsetData = offset + 4;

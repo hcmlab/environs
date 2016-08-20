@@ -446,7 +446,9 @@ int SimpleConsole::GetIntArg ( char * line )
     *argEnd = 0;
     
     int arg = 0;
-    sscanf ( line, "%i", &arg );
+	if ( sscanf ( line, "%i", &arg ) != 1 ) {
+		printf ( "Invald argument!" );
+	}
     
     *argEnd = ' ';
     return arg;
@@ -555,7 +557,9 @@ int SimpleConsole::GetFirstIntArg ( char * &line )
     *argEnd = 0;
     
     int arg = 0;
-    sscanf ( argLine, "%i", &arg );
+	if ( sscanf ( argLine, "%i", &arg ) != 1 ) {
+		printf ( "Invald argument!" );
+	}
     
     *argEnd = ' ';
     

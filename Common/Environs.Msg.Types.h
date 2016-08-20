@@ -79,7 +79,36 @@ namespace environs
 			}
 			data;
         }
-		NET_PACK_ALIGN SensorFrame;
+        NET_PACK_ALIGN SensorFrame;
+
+
+        typedef struct SensorFrameDoubles
+        {
+            // Static data initialized at construction time
+            char 		preamble [ 3 ];
+            char		version;
+
+            // A value of type environs::SensorType
+            int			type;
+
+            // Increase with each frame
+            int         seqNumber;
+
+            // Dynamic data
+            union
+            {
+                struct
+                {
+                    // Light: f1 = light in Lux
+                    double		d1;
+                    double		d2;
+                    double		d3;
+                }
+                doubles;
+            }
+            data;
+        }
+        NET_PACK_ALIGN SensorFrameDoubles;
         
         
         typedef struct SensorFrameExt
@@ -251,8 +280,8 @@ namespace environs
         
         void            *   devicePlatform;
 	}
-	SensorFrame;
-
+    SensorFrame;
+    
     //typedef lib::SensorFrame SensorFrame;
 #   endif
 #endif

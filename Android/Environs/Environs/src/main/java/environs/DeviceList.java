@@ -1376,17 +1376,18 @@ public class DeviceList extends BaseAdapter
                             deviceList.add(listIndex, item);
                             doNotify = true;
 
-                            if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [0x" + Integer.toHexString(item.deviceID) + "] appeared, " + item.objID);
+                            if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [ 0x" + Integer.toHexString(item.deviceID) + " ] appeared (a), " + item.objID);
                             listIndex++; itemHandled = true;
                             appeared.add ( item );
                             break;
                         }
 
+                        //if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device isSameAppArea [ " + item.isSameAppArea + " ], " + item.objID);
                         if (item.isSameAppArea) //if (device.EqualsAppEnv(item))
                         {
                             if (item.deviceID == device.deviceID) /// Device found
                             {
-                                if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Updating device [0x" + Integer.toHexString(item.deviceID) + "], " + item.objID);
+                                if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Updating device [ 0x" + Integer.toHexString(item.deviceID) + " ], " + item.objID);
 
                                 DeviceInstanceUpdateContext upd = new DeviceInstanceUpdateContext ();
                                 upd.device = device;
@@ -1403,7 +1404,7 @@ public class DeviceList extends BaseAdapter
                             vanished.add ( device );
 
                             doNotify = true;
-                            if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [0x" + Integer.toHexString(item.deviceID) + "] vanished, " + item.objID);
+                            if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [ 0x" + Integer.toHexString(item.deviceID) + " ] vanished (a), " + item.objID);
 
                             /// Stop comparing if we reached the end of the list
                             if (listIndex >= deviceList.size())
@@ -1420,7 +1421,7 @@ public class DeviceList extends BaseAdapter
                                 vanished.add ( device );
 
                                 doNotify = true;
-                                if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [0x" + Integer.toHexString(item.deviceID) + "] vanished, " + item.objID);
+                                if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [ 0x" + Integer.toHexString(item.deviceID) + " ] vanished (b), " + item.objID);
                                 continue;
                             }
                         }
@@ -1436,7 +1437,7 @@ public class DeviceList extends BaseAdapter
                         deviceList.add(item);
                         doNotify = true;
                         appeared.add ( item );
-                        if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [0x" + Integer.toHexString(item.deviceID) + "] appeared, " + item.objID);
+                        if (Utils.isDebug) Utils.Log ( 4, className, "DeviceListUpdaterDo: Device [ 0x" + Integer.toHexString(item.deviceID) + " ] appeared (b), " + item.objID);
                     }
                 }
 

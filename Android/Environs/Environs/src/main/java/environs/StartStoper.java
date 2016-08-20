@@ -168,6 +168,13 @@ class StartStoper extends Thread implements Runnable
 						Utils.LogE ( className, "InitInstance: Start of wifi observer failed!");
 				}
 
+				if ( Environs.GetUseBtObserverN () && Environs.useBluetooth ) {
+					if ( !Environs.btObserver.Init ( act ) )
+						Utils.LogE ( className, "InitInstance: Initialize of bluetooth observer failed!");
+					else if ( !Environs.btObserver.Start () )
+						Utils.LogE ( className, "InitInstance: Start of bluetooth observer failed!");
+				}
+
 				Environs.StartSensorListeningAllN ( hEnvirons );
 				env.started = true;
 

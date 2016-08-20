@@ -41,9 +41,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\Interfaces\IEnvirons.Base.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -51,6 +48,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Native\Decoder\Decoder.Windows.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

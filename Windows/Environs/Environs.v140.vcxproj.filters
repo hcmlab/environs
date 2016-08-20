@@ -496,6 +496,22 @@
     <ClInclude Include="..\..\Native\DynLib\Dyn.WlanAPI.h">
       <Filter>DynLib</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Native\DynLib\Dyn.Lib.UUID.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IWifi.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Wifi.List.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Bt.Observer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Native\Core\Bt.List.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Interfaces\IBt.List.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -807,6 +823,16 @@
     <ClCompile Include="..\..\Native\DynLib\Dyn.WlanAPI.cpp">
       <Filter>DynLib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Native\DynLib\Dyn.Lib.UUID.cpp" />
+    <ClCompile Include="..\..\Native\Core\Wifi.List.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Bt.Observer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Bt.List.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md" />
@@ -816,6 +842,9 @@
     </None>
     <None Include="..\..\Native\Portal\Portal.Receiver.iOS.mm">
       <Filter>Portal</Filter>
+    </None>
+    <None Include="..\..\iOSX\Environs\Environs.OSX.mm">
+      <Filter>Environs</Filter>
     </None>
   </ItemGroup>
 </Project>

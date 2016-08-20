@@ -71,7 +71,7 @@ namespace environs
 
 		bool							PortalInstance::globalsInit = false;
 #endif
-		ENVIRONS_OUTPUT_ALLOC ( PortalInstance );
+		ENVIRONS_OUTPUT_ALLOC_WP ( PortalInstance );
 
 
 		bool PortalInstance::GlobalsInit ()
@@ -217,8 +217,8 @@ namespace environs
             C_Only ( observers.clear () );
             
             info_.portal = nill;
-            
-            C_Only ( myself = nill );
+
+            //Cli_Only ( myself = nill; )
 		}
 
 
@@ -721,9 +721,11 @@ namespace environs
 				portalID_ = Environs_PORTAL_DIR_ | slot | (int)type;
 
 				CVerbArg2 ( "InitInstance: Adding portal to device portals.", "portalID", "i", portalID_, "portalKey", "i", portalKey );
-
+#ifdef CLI_CPP
                 ContainerdAppend ( device->devicePortals, CPP_CLI ( myself, GetPlatformObj () ) );
-
+#else
+                ContainerdAppend ( device->devicePortals, CPP_CLI ( myself.lock (), GetPlatformObj () ) );
+#endif
 				success = true;
 			}
 
@@ -744,7 +746,7 @@ namespace environs
 				{
 					CVerbArg2 ( "Init: Adding portal to global portals.", "portalID", "i", portalID_, "portalKey", "i", portalKey );
 #ifndef CLI_CPP
-					( *portals ) [ portalKey ] = myself;
+					( *portals ) [ portalKey ] = myself.lock ();
 #else
 					portals[ portalKey ] = GetPlatformObj ( );
 
@@ -772,7 +774,7 @@ namespace environs
 
 					portalID_ = destID;
 #ifndef CLI_CPP
-					( *portals ) [ portalKey ] = myself;
+					( *portals ) [ portalKey ] = myself.lock ();
 #else
 					portals[ portalKey ] = GetPlatformObj ( );
 

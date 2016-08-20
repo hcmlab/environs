@@ -59,6 +59,8 @@
 #include "Portal.Instance.h"
 #include "Environs.Sensors.h"
 #include "Tracer.h"
+#include "Core/Wifi.List.h"
+#include "Core/Bt.List.h"
 
 
 using namespace environs;
@@ -341,7 +343,9 @@ namespace environs
 							
                             if ( api->GetUseMediatorLoginDialog () && !api->GetUseMediatorAnonymousLogon() && api->GetStatus () >= Status::Started )
                             {
-                                CString_ptr userName = CCharToString ( environs::API::GetMediatorUserNameN ( hInst ) );
+                                const char * t = environs::API::GetMediatorUserNameN ( hInst );
+
+                                CString_ptr userName = ( t != nill ? CCharToString ( t ) : "" );
                                 
                                 environs::API::ShowLoginDialogN ( hInst, userName );
                             }
@@ -791,16 +795,18 @@ namespace environs
         {
             if ( ctx.size <= 0 )
                 return false;
-            
-            char * data = (char *) Addr_pvalued ( pack );
+
+			char * data = ( char * ) Addr_pvalued ( pack );
+			if ( data == nill )
+				return false;
             
             if ( data [ 0 ] == 's' && data [ 1 ] == 'f' && data [ 2 ] == ':' )
             {
                 ctx.sensorFrame = GetSensorInputPack ( pack );
-                
+#ifdef CLI_CPP
                 if ( ctx.sensorFrame == nill )
                     return false;
-                
+#endif
                 ctx.dataPtr     = nill;
             }
             else {
@@ -810,8 +816,8 @@ namespace environs
             
             return true;
         }
-        
-        
+
+
         /**
          * BridgeForUdpData static method to be called by native layer in order to notify about udp data received from a device.
          *
@@ -848,7 +854,7 @@ namespace environs
                 // Backup the first values of the next frame (Do we overflow the buffer here???)
                 device            = frame->device;
                 devicePlatform    = frame->devicePlatform;
-                
+
                 frame->frame.type &= ~ENVIRONS_SENSOR_PACK_TYPE_EXT;
             }
 #endif
@@ -860,8 +866,6 @@ namespace environs
 #endif
             if ( !frame )
                 return;
-            /*if ( !ctx.sensorFrame )
-                return;*/            
 #ifdef CLI_CPP
 			if ( api -> OnSensorInput != nill )
 				api -> OnSensorInput ( objID, frame );
@@ -903,12 +907,13 @@ namespace environs
                     }
                 }
             }
-
+			 
 			// Restore the first values of the next frame (Do we overflow the buffer here???)
             frame->device           = device;
             frame->devicePlatform   = devicePlatform;
 #endif
         }
+
 
 		ENVIRONS_OUTPUT_ALLOC ( Environs );
       
@@ -1895,8 +1900,10 @@ namespace environs
         CString_ptr Environs::GetMediatorIP ()
         {
             CVerb ( "GetMediatorIP" );
-            
-			return CCharToString ( environs::API::GetMediatorIPN ( hEnvirons ) );
+
+            const char * t = environs::API::GetMediatorIPN ( hEnvirons );
+
+            return ( t != nill ? CCharToString ( t ) : "" );
         }
         
         
@@ -2113,8 +2120,10 @@ namespace environs
         CString_ptr Environs::GetMediatorUserName ()
         {
             CVerb ( "GetMediatorUserName" );
-            
-			return CCharToString ( environs::API::GetMediatorUserNameN ( hEnvirons ) );
+
+            const char * t = environs::API::GetMediatorUserNameN ( hEnvirons );
+
+            return ( t != nill ? CCharToString ( t ) : "" );
         }
         
         
@@ -2353,7 +2362,12 @@ namespace environs
             envObj->deviceNotifierThread.Run ( pthread_make_routine ( &DeviceInstance::NotifierThread ), ( pthread_param_t ) envObj, "Start", false );
             
             if ( environs::API::GetUseCustomMediatorN ( hEnvirons ) )
-				SetMediatorN ( hEnvirons, CCharToString ( GetMediatorIPN ( hEnvirons ) ), GetMediatorPortN ( hEnvirons ) );
+            {
+                const char * t = GetMediatorIPN ( hEnvirons );
+
+                if ( t != nill )
+                    SetMediatorN ( hEnvirons, CCharToString ( t ), GetMediatorPortN ( hEnvirons ) );
+            }
 
             // Start native stack
             if ( !StartN ( hEnvirons ) ) {
@@ -3950,7 +3964,59 @@ namespace environs
 		void Environs::SetUseWifiInterval ( int interval )
 		{
 			environs::API::SetUseWifiIntervalN ( interval );
-		}
+        }
+
+        /**
+         * Get the interval for scanning of wifi networks.
+         *
+         * @return	interval  A millisecond value for scan intervals.
+         */
+        int Environs::GetUseWifiInterval ()
+        {
+            return environs::API::GetUseWifiIntervalN ();
+        }
+
+
+#ifndef CLI_CPP
+        /**
+         * Get a collection that holds all available wifi APs. This list is NOT updated dynamically.
+         *
+         * @return WifiList with WifiItem objects
+         */
+        WifiList * Environs::GetWifisRetained ()
+        {
+            void * data = environs::API::GetWifisN ();
+
+            if ( data == nill )
+                return nill;
+
+			WifiListInstance * wifis = WifiListInstance::CreateWithWifisRetained ( ( char * ) data );
+            if ( wifis == nill )
+                free ( data );
+
+            return wifis;
+        }
+
+
+		/**
+		* Get a collection that holds all available Bluetooth devices. This list is NOT updated dynamically.
+		*
+		* @return BtList with BtItem objects
+		*/
+        BtList * Environs::GetBtsRetained ()
+        {
+            void * data = environs::API::GetBtsN ();
+
+            if ( data == nill )
+                return nill;
+
+			BtListInstance * bts = BtListInstance::CreateWithBtsRetained ( ( char * ) data );
+            if ( bts == nill )
+                free ( data );
+
+            return bts;
+        }
+#endif
 
 
         /**
@@ -3982,9 +4048,19 @@ namespace environs
 		void Environs::SetUseBtInterval ( int interval )
 		{
 			environs::API::SetUseBtIntervalN ( interval );
-		}
+        }
 
-
+        /**
+         * Determines the interval for scanning of bluetooth devices.
+         *
+         * @param	interval  A millisecond value for scan intervals.
+         */
+        int Environs::GetUseBtInterval ()
+        {
+            return environs::API::GetUseBtIntervalN ();
+        }
+        
+        
         /**
          * Determine whether the given sensorType is available.
          *
@@ -3999,6 +4075,58 @@ namespace environs
 
 
         /**
+         * Set use of Tcp transport channel of the given sensorType.
+         *
+         * @param sensorType    A value of type environs::SensorType_t.
+         * @param enable        true = TCP, false = UDP.
+         *
+         */
+        void Environs::SetUseSensorChannelTcp ( environs::SensorType_t sensorType, bool enable )
+        {
+            environs::API::SetUseSensorChannelTcpN ( hEnvirons, ( int ) sensorType, enable );
+        }
+
+
+        /**
+         * Get use of Tcp transport channel of the given sensorType.
+         *
+         * @param sensorType    A value of type environs::SensorType_t.
+         * @return success      1 = TCP, 0 = UDP, -1 = error.
+         *
+         */
+        int Environs::GetUseSensorChannelTcp ( environs::SensorType_t sensorType )
+        {
+            return environs::API::GetUseSensorChannelTcpN ( hEnvirons, ( int ) sensorType );
+        }
+
+
+        /**
+         * Set sample rate of the given sensorType in microseconds.
+         *
+         * @param sensorType        A value of type environs::SensorType_t.
+         * @param microseconds      The sensor sample rate in microseconds.
+         *
+         */
+        void Environs::SetUseSensorRate ( environs::SensorType_t sensorType, int microseconds )
+        {
+            environs::API::SetUseSensorRateN ( hEnvirons, ( int ) sensorType, microseconds );
+        }
+
+        
+        /**
+         * Get sample rate of the given sensorType in microseconds.
+         *
+         * @param sensorType        A value of type environs::SensorType_t.
+         *
+         * @return microseconds     The sensor sample rate in microseconds. -1 means error.
+         */
+        int Environs::GetUseSensorRate ( environs::SensorType_t sensorType )
+        {
+            return environs::API::GetUseSensorRateN ( hEnvirons, ( int ) sensorType );
+        }
+
+
+        /**
          * Enable dispatching of sensor events from ourself.
          * Events are send if Environs instance is started stopped if the Environs instance has stopped.
          *
@@ -4009,7 +4137,7 @@ namespace environs
          */
         bool Environs::SetSensorEvent ( environs::SensorType_t sensorType, bool enable )
         {
-            CVerbArg2 ( "SetSensorEvent", "nativeID", "i", nativeID, "type", "i", sensorType );
+            CVerbArg2 ( "SetSensorEvent", "enable", "i", enable, "type", "i", sensorType );
 
 			bool success = ( environs::API::SetSensorEventSenderN ( hEnvirons, 0, 0, ( int ) sensorType, enable ) ) != 0;
 
@@ -4034,7 +4162,6 @@ namespace environs
          * @param enable 				true = enable, false = disable.
          *
          * @return success true = enabled, false = failed.
-         */
         bool Environs::SetSensorEventSender ( int nativeID, int objID, environs::SensorType_t sensorType, bool enable )
         {
             CVerbArg2 ( "SetSensorEventSender", "nativeID", "i", nativeID, "type", "i", sensorType );
@@ -4062,12 +4189,15 @@ namespace environs
                     SetSensorEventSender ( nativeID, objID, ( environs::SensorType_t ) i, enable );
                 }
             }
-        }
+         }
+         */
         
 
 		CString_ptr Environs::GetFilePathNative ( int nativeID, int fileID )
 		{
-			return CCharToString ( environs::API::GetFilePathNativeN ( hEnvirons, nativeID, fileID ) );
+            const char * t = environs::API::GetFilePathNativeN ( hEnvirons, nativeID, fileID );
+
+            return ( t != nill ? CCharToString ( t ) : "" );
 		}
 
 		String_ptr Environs::GetFilePath ( int nativeID, int fileID )

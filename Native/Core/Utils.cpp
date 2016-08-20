@@ -130,8 +130,11 @@ namespace environs
 		}
 
 		size_t defLen = strlen ( opt_dataStoreDefault );
-
-		char * storagePathNew = (char *) malloc ( len + defLen + 4 );
+#ifndef NDEBUG // Code analysis seem to allow size_t to be negative
+		if ( defLen <= 0 )
+			defLen = 0;
+#endif
+		char * storagePathNew = ( char * ) malloc ( len + defLen + 4 );
 		if ( !storagePathNew ) {
 			CErr ( "InitStorageUtil: Failed to allocate memory for new storagePath!" );
 			return false;
@@ -142,8 +145,8 @@ namespace environs
 		size_t last = len - 1;
 
 		// Ensure that we have a slash as last character
-		if ( storagePathNew [last] != '/' ) {
-			storagePathNew [last + 1] = '/';
+		if ( storagePathNew [ last ] != '/' ) {
+			storagePathNew [ last + 1 ] = '/';
 			last += 2;
 		}
 		else
@@ -154,7 +157,7 @@ namespace environs
 
 		last += defLen - 2;
 		// Append a terminating zero
-		storagePathNew [last] = 0;
+		storagePathNew [ last ] = 0;
 
 		native.SetDataStore ( storagePathNew );
 

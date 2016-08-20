@@ -18,9 +18,12 @@
 * --------------------------------------------------------------------
 */
 #include "stdafx.h"
-#include "Environs.native.h"
+#include "Environs.Native.h"
+
+#ifdef _WIN32
+
 #include "Interop.h"
-#include "dyn.Direct3D.11.h"
+#include "Dyn.Direct3D.11.h"
 using namespace environs;
 
 // Disable this flag to use library as statically linked library again
@@ -156,5 +159,5 @@ Failed:
 
 } // -> namespace environs
 
-
+#endif
 

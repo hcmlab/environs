@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LocationTagger</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="status">Status</string>
+</resources>

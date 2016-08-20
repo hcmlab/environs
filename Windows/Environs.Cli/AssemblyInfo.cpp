@@ -17,7 +17,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyCultureAttribute(L"")];
 
 
-[assembly:AssemblyVersionAttribute("0.9.9.5737")];
+[assembly:AssemblyVersionAttribute("0.9.9.5755")];
 [assembly:ComVisible(false)];
 
 [assembly:CLSCompliantAttribute(true)];

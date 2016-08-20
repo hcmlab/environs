@@ -61,6 +61,9 @@
 		7E7936BE18DB6642007E06F1 /* Environs.Crypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936BC18DB6642007E06F1 /* Environs.Crypt.cpp */; };
 		7E7936C118DCED56007E06F1 /* Environs.Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7936BF18DCED56007E06F1 /* Environs.Types.cpp */; };
 		7E81512E1AF56D6F008FB6DB /* Environs.iOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E81512D1AF56D6F008FB6DB /* Environs.iOSX.mm */; };
+		7E8DEFA11D419FC4006B0A4B /* Wifi.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DEF9F1D419FC4006B0A4B /* Wifi.List.cpp */; };
+		7E8DEFB21D4293F6006B0A4B /* Bt.Observer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DEFB01D4293F6006B0A4B /* Bt.Observer.cpp */; };
+		7E8DEFB31D4293F6006B0A4B /* Bt.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DEFB11D4293F6006B0A4B /* Bt.List.cpp */; };
 		7EB29ABC1BDAF47D00B6B304 /* Environs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB29ABB1BDAF47D00B6B304 /* Environs.cpp */; };
 		7EB29AC11BDAF4EA00B6B304 /* Array.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB29ABD1BDAF4EA00B6B304 /* Array.List.cpp */; };
 		7EB29AC21BDAF4EA00B6B304 /* Message.Instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB29ABE1BDAF4EA00B6B304 /* Message.Instance.cpp */; };
@@ -256,6 +259,14 @@
 		7E7936C018DCED56007E06F1 /* Environs.Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Types.h; path = ../Common/Environs.Types.h; sourceTree = "<group>"; };
 		7E81512D1AF56D6F008FB6DB /* Environs.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Environs.iOSX.mm; path = Environs/Environs.iOSX.mm; sourceTree = "<group>"; };
 		7E81512F1AF56D7C008FB6DB /* Environs.iOSX.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = Environs.iOSX.h; path = ../Common/Environs.iOSX.h; sourceTree = "<group>"; };
+		7E8DEF9F1D419FC4006B0A4B /* Wifi.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Wifi.List.cpp; sourceTree = "<group>"; };
+		7E8DEFA01D419FC4006B0A4B /* Wifi.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wifi.List.h; sourceTree = "<group>"; };
+		7E8DEFA21D419FEA006B0A4B /* IWifi.List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IWifi.List.h; sourceTree = "<group>"; };
+		7E8DEFA31D4293A8006B0A4B /* IBt.List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IBt.List.h; sourceTree = "<group>"; };
+		7E8DEFA61D4293D1006B0A4B /* Bt.Observer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Bt.Observer.h; path = ../../Common/Bt.Observer.h; sourceTree = "<group>"; };
+		7E8DEFAF1D4293F6006B0A4B /* Bt.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bt.List.h; sourceTree = "<group>"; };
+		7E8DEFB01D4293F6006B0A4B /* Bt.Observer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bt.Observer.cpp; sourceTree = "<group>"; };
+		7E8DEFB11D4293F6006B0A4B /* Bt.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bt.List.cpp; sourceTree = "<group>"; };
 		7EA5B2AE1932AA56005C8BB8 /* Environs.Release.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Environs.Release.h; path = ../Common/Environs.Release.h; sourceTree = "<group>"; };
 		7EB29ABA1BDAF43C00B6B304 /* Device.List.iOSX.IAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Device.List.iOSX.IAPI.h; sourceTree = "<group>"; };
 		7EB29ABB1BDAF47D00B6B304 /* Environs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.cpp; path = ../Native/Environs.cpp; sourceTree = "<group>"; };
@@ -272,7 +283,6 @@
 		7EB29ACB1BDAF5B400B6B304 /* IDevice.Instance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDevice.Instance.h; sourceTree = "<group>"; };
 		7EB29ACC1BDAF5B400B6B304 /* IMessage.List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMessage.List.h; sourceTree = "<group>"; };
 		7EB29ACD1BDAF5B400B6B304 /* IFile.Instance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFile.Instance.h; sourceTree = "<group>"; };
-		7EB29ACE1BDAF5B500B6B304 /* IDevice.List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDevice.List.h; sourceTree = "<group>"; };
 		7EB29AD01BDAF5B500B6B304 /* IFile.List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFile.List.h; sourceTree = "<group>"; };
 		7EB29AD11BDAF7B400B6B304 /* Portal.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Portal.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
 		7EB29AD21BDAFA0C00B6B304 /* Environs.Build.Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Environs.Build.Macros.h; path = ../Common/Environs.Build.Macros.h; sourceTree = "<group>"; };
@@ -568,6 +578,10 @@
 				7EB29ABF1BDAF4EA00B6B304 /* Array.List.h */,
 				7ED0D34F1AFD7B0A00342B64 /* Async.Worker.cpp */,
 				7ED0D3501AFD7B0A00342B64 /* Async.Worker.h */,
+				7E8DEFB11D4293F6006B0A4B /* Bt.List.cpp */,
+				7E8DEFAF1D4293F6006B0A4B /* Bt.List.h */,
+				7E8DEFB01D4293F6006B0A4B /* Bt.Observer.cpp */,
+				7E8DEFA61D4293D1006B0A4B /* Bt.Observer.h */,
 				7ED0D3511AFD7B0A00342B64 /* Byte.Buffer.cpp */,
 				7ED0D3521AFD7B0A00342B64 /* Byte.Buffer.h */,
 				7E79358B18D5F0A1007E06F1 /* Callbacks.cpp */,
@@ -620,6 +634,8 @@
 				7E33A7861CF86E590018AA0E /* Tracer.cpp */,
 				7E33A7851CF86E590018AA0E /* Tracer.h */,
 				7E7935A218D5F0A1007E06F1 /* Utils.cpp */,
+				7E8DEF9F1D419FC4006B0A4B /* Wifi.List.cpp */,
+				7E8DEFA01D419FC4006B0A4B /* Wifi.List.h */,
 				7EE7BBE71D2579DB00F2A70B /* Wifi.Observer.cpp */,
 				7EE7BBE61D2579C600F2A70B /* Wifi.Observer.h */,
 			);
@@ -778,8 +794,9 @@
 			isa = PBXGroup;
 			children = (
 				7EB29AC91BDAF5B400B6B304 /* IArray.List.h */,
+				7E8DEFA31D4293A8006B0A4B /* IBt.List.h */,
 				7EB29ACB1BDAF5B400B6B304 /* IDevice.Instance.h */,
-				7EB29ACE1BDAF5B500B6B304 /* IDevice.List.h */,
+				7E6335C91BD1BE6C0025C9D3 /* IDevice.List.h */,
 				7E79369818D6311D007E06F1 /* IEnvirons.Base.cpp */,
 				7E79369918D6311D007E06F1 /* IEnvirons.Base.h */,
 				7EB29AED1BE4F88A00B6B304 /* IEnvirons.Dispose.h */,
@@ -798,11 +815,12 @@
 				7E7936A018D6311D007E06F1 /* IPortal.Encoder.h */,
 				7E6335C81BD1BE6C0025C9D3 /* IPortal.Info.h */,
 				7E6335C61BD1BE6C0025C9D3 /* IDevice.Instance.h */,
+				7E6335CA1BD1BE6C0025C9D3 /* IPortal.Instance.h */,
 				7E7936A118D6311D007E06F1 /* IPortal.Renderer.cpp */,
 				7E7936A218D6311D007E06F1 /* IPortal.Renderer.h */,
+				7E8DEFA21D419FEA006B0A4B /* IWifi.List.h */,
 				7E6335C91BD1BE6C0025C9D3 /* IDevice.List.h */,
 				7E6335C71BD1BE6C0025C9D3 /* IFile.Instance.h */,
-				7E6335CA1BD1BE6C0025C9D3 /* IPortal.Instance.h */,
 			);
 			name = Interfaces;
 			path = ../../Common/Interfaces;
@@ -939,6 +957,7 @@
 				7E2812081BFE4DE6008B5950 /* Environs.Cli.TouchDevice.cpp in Sources */,
 				7E7935EC18D5F0A1007E06F1 /* Stunt.Request.cpp in Sources */,
 				7ED0D33C1AFD4D3C00342B64 /* Device.Base.cpp in Sources */,
+				7E8DEFA11D419FC4006B0A4B /* Wifi.List.cpp in Sources */,
 				7E7936A718D6311D007E06F1 /* IPortal.Encoder.cpp in Sources */,
 				7ED0D3531AFD7B0A00342B64 /* Async.Worker.cpp in Sources */,
 				7E3744471B23799200C5E82E /* Decoder.Android.cpp in Sources */,
@@ -961,8 +980,10 @@
 				7E7935F118D5F0A1007E06F1 /* Decoder.Base.cpp in Sources */,
 				7E0A7F021B2C9BAA008B6782 /* Portal.Generator.iOS.mm in Sources */,
 				7E7935EF18D5F0A1007E06F1 /* Utils.cpp in Sources */,
+				7E8DEFB21D4293F6006B0A4B /* Bt.Observer.cpp in Sources */,
 				7E0A7EFF1B2C9A68008B6782 /* Encoder.iOSX.H264.mm in Sources */,
 				7ED0D3B01B0129E100342B64 /* Capture.Win.D3D.cpp in Sources */,
+				7E8DEFB31D4293F6006B0A4B /* Bt.List.cpp in Sources */,
 				7ED0D3CD1B0131BD00342B64 /* Render.GDI.cpp in Sources */,
 				7E79356A18D5F07B007E06F1 /* Environs.Obj.cpp in Sources */,
 				7EB29AC21BDAF4EA00B6B304 /* Message.Instance.cpp in Sources */,

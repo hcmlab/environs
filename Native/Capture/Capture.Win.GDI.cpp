@@ -346,6 +346,7 @@ namespace environs
 
 		if ( renderOverlays [0] ) {
 
+			// Not checking return value is perfectly okay for win32, as EnterCriticalSection does not provide any return value
 			pthread_mutex_lock ( (pthread_mutex_t *) renderOverlayMutex );
 
 			if ( leftc + widtha > (int) env->appWindowWidth )

@@ -24,6 +24,8 @@
 #include "Interop/Smart.Pointer.h"
 #include "Interfaces/IArray.List.h"
 
+//#define ENABLE_ARRAYLIST_LOCK
+
 namespace environs
 {
 	namespace lib
@@ -98,6 +100,10 @@ namespace environs
             size_t capacity;
 			void ** items;
 
+#ifdef ENABLE_ARRAYLIST_LOCK
+            bool                        disposed;
+            pthread_mutex_t             lock;
+#endif
 			svsp ( DeviceInstance )		deviceList;
 			svsp ( MessageInstance )	messageList;
 			smsp ( int, FileInstance )	fileList;

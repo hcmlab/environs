@@ -28,13 +28,16 @@
 #   if __has_feature(modules)
         @import Foundation;
         @import CoreLocation;
-
+        @import CoreBluetooth;
+#       if ( defined(ENVIRONS_OSX) )
+            @import IOBluetooth;
+            @import IOBluetoothUI;
+#       endif
 #       if ( defined(ENVIRONS_IOS) )
             @import CoreMotion;
             @import VideoToolbox;
             @import AVFoundation;
             @import SystemConfiguration;
-
 #           ifdef ENABLE_IOS_HEALTHKIT_SUPPORT
                 @import HealthKit;
 #           endif
@@ -572,6 +575,8 @@ bool CreateAppID ( char * buffer, unsigned int bufSize );
 
 - (NSString *) GetSSID;
 - (NSString *) GetSSIDDesc;
+- (unsigned long long) GetBSSID;
+- (int) GetRSSI;
 
 
 /**

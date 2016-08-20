@@ -147,7 +147,7 @@ namespace environs
 #undef CLASS_NAME
 #define CLASS_NAME	"Device.Instance. . . . ."
 
-        ENVIRONS_OUTPUT_WP_ALLOC ( DeviceInstance );
+		ENVIRONS_OUTPUT_ALLOC_WP ( DeviceInstance );
 
         
         DeviceInstance::DeviceInstance ()
@@ -260,7 +260,10 @@ namespace environs
         }
         
 #define DEBUG_SP_CONSISTENCY
-        
+
+#if !defined(NDEBUG) && !defined(CLI_CPP) 
+        //#define ENABLE_DISPOSER_DEVICEINSTANCE_CONSISTENCY_CHECK1
+#endif
         /**
          * Release ownership on this interface and mark it disposable.
          * Release must be called once for each Interface that the Environs framework returns to client code.
@@ -269,33 +272,78 @@ namespace environs
          */
         void DeviceInstance::Release ()
         {
-#ifndef ENABLE_DISPOSER_DEVICEINSTANCE_CONSISTENCY_CHECK
+#ifndef ENABLE_DISPOSER_DEVICEINSTANCE_CONSISTENCY_CHECK1
 			ENVIRONS_OUTPUT_RELEASE_SP ( DeviceInstance );
 #else
-			LONGSYNC localRefCount = __sync_sub_and_fetch ( &refCountSP, 1 ); 
-    
-			if ( localRefCount == 0 )  { 
-				CVerbVerbArg ( "Release  [%i]: -> Disposing SP", objID_ );  
-        
-				sp ( DeviceInstance ) toDispose; bool doRelease = false; 
-        
-				pthread_mutex_lock ( &objLock ); 
-			
-				if ( refCountSP == 0 ) { 
-					checkSP = true;
 
-					CVerbVerbArg ( "Release  [%i]: -> [%i]", objID_, localRefCount ); 
-			
-					if ( atLists > 0 )
-						abort ();
+#	ifdef DISPOSER_ATOMIC_COUNTER
+            bool checkSPLocal1 = checkSP;
+            bool checkSPLocal2 = false;
+            bool doReleaseLocal1 = false;
+            bool doReleaseLocal2 = false;
+            int  useCount = -1;
+            int  disposedLocal = -1;
 
+            LONGSYNC localRefCount = __sync_sub_and_fetch ( &refCountSP, 1 );
+
+            if ( localRefCount == 0 )  {
+                CVerbVerbArg ( "Release  [%i]: -> Disposing SP", objID_ );
+
+                sp ( DeviceInstance ) toDispose; bool doRelease = false; \
+
+                pthread_mutex_lock ( &objLock );
+
+                if ( refCountSP == 0 ) {
+                    checkSPLocal2 = checkSP = true;
+
+                    CVerbVerbArg ( "Release  [%i]: -> [%i]", objID_, localRefCount );
+
+                    toDispose = myselfAtClients; doRelease = true;
+                    doReleaseLocal1 = true;
+
+                    useCount = (int) toDispose.use_count();
+                    disposedLocal = (int) disposed_;
+
+                    if (useCount > 0) {
+                        doReleaseLocal2 = true;
+                    }
+
+                    myselfAtClients = 0;
+                }
+                pthread_mutex_unlock ( &objLock );
+
+                // Linux crashes next line(s)
+                if ( doRelease ) {
+                    ReleaseLocked ();
+                }
+            }
+            checkSPLocal1 = false;
+#	else
+			CVerbVerbArg ( "Release  [ %i ]: [ %i ]", objID_, refCountSP ); 
+				
+			sp ( DeviceInstance ) toDispose; bool doRelease = false;
+				
+			pthread_mutex_lock ( &objLock ); 
+				
+			LONGSYNC localRefCount = --refCountSP; 
+				
+			if ( localRefCount == 0 ) {						
+					CVerbVerbArg ( "Release  [ %i ]: -> Disposing SP", objID_ );  
+						
+					CVerbVerbArg ( "Release  [ %i ]: -> [ %i ]", objID_, localRefCount ); 
+						
 					toDispose = myselfAtClients; doRelease = true; 
-					myselfAtClients = 0; 
-				}  
-				pthread_mutex_unlock ( &objLock ); 
-        
-				if ( doRelease ) { ReleaseLocked (); } 
+						
+					myselfAtClients = 0;
+
+					if ( myself.use_count () <= 0 ) checkSP = false; 
 			} 
+					
+			pthread_mutex_unlock ( &objLock ); 
+						
+			if ( doRelease ) { ReleaseLocked (); }
+#	endif
+
 #endif
         }
         
@@ -508,7 +556,7 @@ namespace environs
             }
             
             if ( enableSensorSender != 0 ) {
-                envObj->SetSensorEventSenderFlags ( info_->nativeID, info_->objID, enableSensorSender, false );
+                environs::API::SetSensorEventSenderFlagsN ( hEnvirons, info_->nativeID, info_->objID, enableSensorSender, false );
             }
 
             LockAcquireVA ( storageLock, "DisposeInstance" );
@@ -549,7 +597,7 @@ namespace environs
             // Will be called by list notifier thread (the thread needs the platform object)
             //PlatformDispose ();
 
-			sp_reset ( myself );
+            //Cli_Only ( myself = nill; )
         }
         
         
@@ -557,14 +605,15 @@ namespace environs
         {
             CVerbVerb ( "NotifierThread" );
             
-            EnvironsPtr                                 envObj  = (EnvironsPtr) arg;
+            EnvironsPtr                 envObj  = ( EnvironsPtr ) arg;
+
+            DeviceNotifierContextPtr    ctx     = nill;
             
-            DeviceNotifierContextPtr                     ctx     = nill;
+			envQueueVector ( DeviceNotifierContextPtr ) OBJ_ref q = envObj->deviceNotifierQueue;
+
+            pthread_mutex_t OBJ_ref     lock    = envObj->deviceNotifierLock;
             
-			envQueueVector ( DeviceNotifierContextPtr ) OBJ_ref q      = envObj->deviceNotifierQueue;
-            pthread_mutex_t             OBJ_ref			 lock   = envObj->deviceNotifierLock;
-            
-            ThreadSync                             OBJ_ref thread  = envObj->deviceNotifierThread;
+            ThreadSync      OBJ_ref     thread  = envObj->deviceNotifierThread;
             
             while ( 1 )
             {
@@ -1499,7 +1548,7 @@ namespace environs
                     }
                     
                     if ( info_->nativeID > 0 && enableSensorSender != 0 ) {
-                        envObj->SetSensorEventSenderFlags ( info_->nativeID, info_->objID, enableSensorSender, true );
+                        environs::API::SetSensorEventSenderFlagsN ( hEnvirons, info_->nativeID, info_->objID, enableSensorSender, true );
                     }
                 }
             }
@@ -1529,7 +1578,16 @@ namespace environs
 #ifndef CLI_CPP
                 info_->areaName [ sizeof ( info_->areaName ) - 1 ] = 0; // Make sure a concurrent read will not overrun the buffer
 #endif
-				CString_copy ( info_->areaName, sizeof ( info_->areaName ), CPP_CLI ( env->areaName, CCharToString ( environs::API::GetAreaNameN ( hEnvirons ) ) ) );
+                const char * t = environs::API::GetAreaNameN ( hEnvirons ); 
+				if ( t == nill ) 
+					t = 
+#ifndef CLI_CPP
+					DefAreaName;
+#else
+					ENVIRONS_DEFAULT_AREA_NAME;
+#endif
+
+				CString_copy ( info_->areaName, sizeof ( info_->areaName ), CPP_CLI ( env->areaName, CCharToString ( t ) ) );
 
 				DeviceInstancePropertyNotify ( "areaName", false );
             }
@@ -1549,7 +1607,16 @@ namespace environs
 #ifndef CLI_CPP
                 info_->appName [ sizeof ( info_->appName ) - 1 ] = 0; // Make sure a concurrent read will not overrun the buffer
 #endif
-				CString_copy ( info_->appName, sizeof ( info_->appName ), CPP_CLI ( env->appName, CCharToString ( environs::API::GetApplicationNameN ( hEnvirons ) ) ) );
+                const char * t = environs::API::GetApplicationNameN ( hEnvirons );
+				if ( t == nill ) 
+					t = 
+#ifndef CLI_CPP
+					DefAppName;
+#else
+					ENVIRONS_DEFAULT_APP_NAME;
+#endif
+
+				CString_copy ( info_->appName, sizeof ( info_->appName ), CPP_CLI ( env->appName, CCharToString ( t ) ) );
 
 				DeviceInstancePropertyNotify ( "appName", false );
             }
@@ -1800,28 +1867,28 @@ namespace environs
          *
          * @return success true = enabled, false = failed.
          */
-        bool DeviceInstance::SetSensorEventSending ( environs::SensorType_t type, bool enable )
+        bool DeviceInstance::SetSensorEventSending ( environs::SensorType_t sensorType, bool enable )
         {
             CVerbVerb ( "SetSensorEventSending" );
             
-			int typeID = ( int ) type;
+			int typeID = ( int ) sensorType;
 
             if ( typeID < 0 || typeID >= ENVIRONS_SENSOR_TYPE_MAX )
                 return false;
-            
-            if ( !API::IsSensorAvailableN ( hEnvirons, (int) type ) )
+
+			if ( !API::IsSensorAvailableN ( hEnvirons, typeID ) )
                 return false;
             
             //if ( enable == ( ( enableSensorSender & sensorFlags [ typeID ] ) != 0))
             //    return true;
             
-            if (enable)
-                enableSensorSender |= sensorFlags [ typeID ];
+			if ( enable )
+				enableSensorSender |= ( 1 << typeID ); // sensorFlags [ typeID ];
             else
-                enableSensorSender &= ~(sensorFlags [ typeID ]);
+                enableSensorSender &= ~( 1 << typeID );
 
             if ( info_->isConnected && info_->nativeID > 0 ) {
-                return envObj->SetSensorEventSender ( info_->nativeID, info_->objID, type, enable ) != 0;
+				return ( environs::API::SetSensorEventSenderFlagsN ( hEnvirons, info_->nativeID, info_->objID, typeID, enable ) != 0 );
             }
             return true;
         }
@@ -1843,7 +1910,8 @@ namespace environs
 			if ( typeID < 0 || typeID >= ENVIRONS_SENSOR_TYPE_MAX )
 				return false;
 
-			return ( ( enableSensorSender & sensorFlags [ typeID ] ) != 0 );
+			return ( ( enableSensorSender & ( 1 << typeID ) ) != 0 );
+			//return ( ( enableSensorSender & sensorFlags [ typeID ] ) != 0 );
 		}
         
                 
@@ -2260,19 +2328,26 @@ namespace environs
 			if ( STRING_empty ( filePath ) )
             {
                 CString_ptr path = nill;
+
+                const char * t = nill;
                 
                 if ( info_->nativeID > 0 )
-					path = CCharToString ( environs::API::GetFilePathNativeN ( hEnvirons, info_->nativeID, fileID ) );
+					t = environs::API::GetFilePathNativeN ( hEnvirons, info_->nativeID, fileID );
                 else
-					path = CCharToString ( environs::API::GetFilePathN ( hEnvirons, info_->deviceID, isSameAppArea ? nill : info_->areaName, isSameAppArea ? nill : info_->appName, fileID ) );
-                
-                if ( path != nill )
-                    filePath = path;
+					t = environs::API::GetFilePathN ( hEnvirons, info_->deviceID, isSameAppArea ? nill : info_->areaName, isSameAppArea ? nill : info_->appName, fileID );
+
+                if ( t != nill )
+                {
+                    path = CCharToString ( t );
+
+                    if ( path != nill )
+                        filePath = path;
+                }
             }
 
 			LockReleaseVA ( changeEventLock, "GetFilePath" );
 
-            return STRING_get ( filePath );
+            return ( STRING_empty ( filePath ) ? "" : STRING_get ( filePath ) );
         }
         
         
@@ -2849,7 +2924,7 @@ namespace environs
 						}
 						catch ( Exception OBJ_ptr ex )
 						{
-							CErr ( "ParseStoragePath: " + ex ->Message );
+                            CErr ( "ParseStoragePath: " + (ex != nill ? ex ->Message : "") );
 							continue;
 						}
 #endif                       
@@ -2860,7 +2935,7 @@ namespace environs
 #endif
                         if ( instance ) {
 #ifndef CLI_CPP
-                            CVerbVerbArg ( "ParseStoragePath: Adding file [%i] [%s] of size [%i]", fileID, instance->descriptor_.c_str (), (int) instance->size_ );
+                            CVerbVerbArg ( "ParseStoragePath: Adding file [ %i ] [ %s ] of size [ %i ]", fileID, instance->descriptor_.c_str (), (int) instance->size_ );
 #endif
                             (*filesCache) [fileID] = instance;
                         }
@@ -2920,7 +2995,7 @@ namespace environs
             
 #ifndef NDEBUG
             if ( !sent ) {
-                CVerbsArg2 ( 3, "AddMessage: Delivering Incoming ", "message", "s", message, "device", "s", toString ().c_str () );
+                CVerbsArg2 ( 3, "AddMessage: Delivering Incoming ", "message", "s", message, "device", "s", CString_get_cstr ( toString () ) );
                 
                 //printf ( "Message: %s", message );
                 CVerbsArg1 ( 3, "AddMessage: ", "con", "c", connection );
@@ -2932,7 +3007,7 @@ namespace environs
                 */
             }
             else {
-                CVerbsArg2 ( 5, "AddMessage: Delivering Outgoing ", "message", "s", message, "device", "s", toString ().c_str () );
+                CVerbsArg2 ( 5, "AddMessage: Delivering Outgoing ", "message", "s", message, "device", "s", CString_get_cstr ( toString () ) );
                 
                 CVerbsArg1 ( 5, "AddMessage: ", "con", "c", connection );
             }
@@ -3768,7 +3843,7 @@ namespace environs
 							}
 							catch ( Exception OBJ_ptr ex )
 							{
-								CErr ( "ClearStorageDo: " + ex->Message );
+                                CErr ( "ClearStorageDo: " + ( ex != nill ? ex->Message : "" ) );
 								continue;
 							}
 #endif                            
@@ -3974,9 +4049,11 @@ namespace environs
             if ( !LockAcquireA ( storageLock, "VerifyStoragePath" ) )
                 return;
 
-			if ( STRING_empty ( storagePath ) ) {
+			if ( STRING_empty ( storagePath ) )
+            {
                 char * path = environs::API::GetFilePathForStorageN ( hEnvirons, info_->deviceID, isSameAppArea ? nill : info_->areaName, isSameAppArea ? nill : info_->appName );
-                if ( path != 0 ) {
+                if ( path != nill )
+                {
                     storagePath = CCharToString ( path );
 					free_plt ( path );
                 }

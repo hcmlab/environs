@@ -132,7 +132,7 @@ namespace environs
 		if ( display.width == 0 || display.height == 0 || display.width_mm == 0 || display.height_mm == 0 )
 			return false;
 
-		CVerbArg ( "Init: device_width [%u]  device_height [%u]", display.width, display.height );
+		CVerbArg ( "Init: device_width [ %u ]  device_height [ %u ]", display.width, display.height );
 
 		return true;
 	}
@@ -153,11 +153,11 @@ namespace environs
 		prevYcached	= 0;
 
 		prevFingCount = touchesCount;
-        
-        if ( !deviceBase )
-            return RECOGNIZER_REJECT;
-        
-        deviceID = ((DeviceBase *)deviceBase)->deviceID;
+
+		if ( !deviceBase )
+			return RECOGNIZER_REJECT;
+
+		deviceID = ( ( DeviceBase * ) deviceBase )->deviceID;
 		return RECOGNIZER_TAKEN_OVER_INPUTS;
 	}
 
@@ -165,63 +165,63 @@ namespace environs
 	int GestureThreeTouch::Perform ( InputPackRec ** touches, int touchesCount )
 	{
 		CVerbVerbID ( "Perform" );
-        
-        if ( deviceBase && !((DeviceBase *)deviceBase)->SetPortalInfoPosibble() )
-            return RECOGNIZER_HANDLED;
+
+		if ( deviceBase && !( ( DeviceBase * ) deviceBase )->SetPortalInfoPosibble () )
+			return RECOGNIZER_HANDLED;
         
 		if ( touchesCount == 1 ) 
 		{
 			CVerbVerbID ( "Perform: 1 finger" );
 
-			InputPackRaw * touch = &touches [0]->raw;
+			InputPackRec * touch = touches [ 0 ];
 
-            iniDist = 0;
-            
+			iniDist = 0;
+
 			if ( prevFingCount != 1 ) {
-				prevX = touch->x;
-				prevY = touch->y;
+				prevX = touch->org_x;
+				prevY = touch->org_y;
 				ZeroStruct ( info, PortalInfoBase );
 
 				info.portalID = portalID;
-                
-                if ( !deviceBase || !((DeviceBase *)deviceBase)->GetPortalInfo ( &info ) ) {
-                    CVerbArgID ( "Perform: GetPortalInfo portalID [%u] failed.", info.portalID );
-                    return RECOGNIZER_REJECT;
-                }
+
+				if ( !deviceBase || !( ( DeviceBase * ) deviceBase )->GetPortalInfo ( &info ) ) {
+					CVerbArgID ( "Perform: GetPortalInfo portalID [ %u ] failed.", info.portalID );
+					return RECOGNIZER_REJECT;
+				}
 
 				prevFingCount = 1;
-				CVerbArgID ( "Perform: GetPortalInfo portalID [%u] centerX [%i]  centerY [%i]  width [%i]  height [%i]", info.portalID, info.centerX, info.centerY, info.width, info.height );
+				CVerbArgID ( "Perform: GetPortalInfo portalID [ %u ] centerX [ %i ]  centerY [ %i ]  width [ %i ]  height [ %i ]", info.portalID, info.centerX, info.centerY, info.width, info.height );
 				return RECOGNIZER_HANDLED;
 			}
 
-			int dX = prevX - touch->x;
-			int dY = prevY - touch->y;
-			prevX = touch->x; prevY = touch->y;
+			int dX = prevX - touch->org_x;
+			int dY = prevY - touch->org_y;
+			prevX = touch->org_x; prevY = touch->org_y;
 			iniDist = 0;
 
 			if ( dX || dY ) {
-				int dXP = (int) ((float) (dX * info.width) / display.width);
-				int dYP = (int) ((float) (dY * info.height) / display.height);
-				//CVerbArgID ( "Perform: dx [%i]  dy [%i] - width [%i/%i]  height [%i/%i] - px [%i]  py [%i] ", dX, dY, info.width, device_width, info.height, device_height, dXP, dYP );
+				int dXP = ( int ) ( ( float ) ( dX * info.width ) / display.width );
+				int dYP = ( int ) ( ( float ) ( dY * info.height ) / display.height );
+				//CVerbArgID ( "Perform: dx [ %i ]  dy [ %i ] - width [%i/%i]  height [%i/%i] - px [ %i ]  py [ %i ] ", dX, dY, info.width, device_width, info.height, device_height, dXP, dYP );
 
 				if ( prevXcached == dXP && prevYcached == dYP )
 					return 1;
 
 				prevXcached = dXP; prevYcached = dYP;
 
-				if (info.orientation == 90.0f) {
+				if ( info.orientation == 90.0f ) {
 					info.centerX += dXP;
 					info.centerY += dYP;
 				}
-				else if (info.orientation == 0.0f) {
+				else if ( info.orientation == 0.0f ) {
 					info.centerX += dYP;
 					info.centerY -= dXP;
 				}
-				else if (info.orientation == 180.0f) {
+				else if ( info.orientation == 180.0f ) {
 					info.centerX -= dYP;
 					info.centerY += dXP;
 				}
-				else if (info.orientation == 270.0f) {
+				else if ( info.orientation == 270.0f ) {
 					info.centerX -= dXP;
 					info.centerY -= dYP;
 				}
@@ -232,31 +232,31 @@ namespace environs
 
 					/// Add marker angle offset (showing upwards on the surface means 0 degree on the tablet) + 90
 					/// double theta = 270 - info.orientation;
-					double theta = (double)(((270.0f - info.orientation) * (double)PI) / (double)180.0);
+					double theta = ( double ) ( ( ( 270.0f - info.orientation ) * ( double ) PI ) / ( double )180.0 );
 
 					theta = -theta;
 
 					//double theta = info.orientation + 90;
-	                //if (theta < 0)
-	                //	theta = 360 + theta;
-	                double cosV = cos(theta);
-	                double sinV = sin(theta);
+					//if (theta < 0)
+					//	theta = 360 + theta;
+					double cosV = cos ( theta );
+					double sinV = sin ( theta );
 
-	                double xV = (double)dXP * cosV - (double)dYP * sinV;
-	                double yV = (double)dXP * sinV + (double)dYP * cosV;
+					double xV = ( double ) dXP * cosV - ( double ) dYP * sinV;
+					double yV = ( double ) dXP * sinV + ( double ) dYP * cosV;
 
-					info.centerX -= (int)xV;
-					info.centerY -= (int)yV;
+					info.centerX -= ( int ) xV;
+					info.centerY -= ( int ) yV;
 				}
 
-				CVerbArgID ( "Perform: setPortalInfo1 portalID [%u] x [%i]  y [%i]", info.portalID, info.centerX, info.centerY );
+				CVerbArgID ( "Perform: setPortalInfo1 portalID [ %u ] x [ %i ]  y [ %i ]", info.portalID, info.centerX, info.centerY );
 
 				info.portalID = portalID;
 				info.flags = PORTAL_INFO_FLAG_LOCATION;
-                
-                if ( deviceBase ) {
-                    ((DeviceBase *)deviceBase)->SetPortalInfo ( &info, false );
-                }
+
+				if ( deviceBase ) {
+					( ( DeviceBase * ) deviceBase )->SetPortalInfo ( &info, false );
+				}
 			}
 
 			return RECOGNIZER_HANDLED;
@@ -265,63 +265,63 @@ namespace environs
 		if ( touchesCount == 2 ) 
 		{
 			CVerbVerbID ( "Perform: 2 finger" );
-            
+
 			prevFingCount = 2;
 
-			InputPackRaw * t1 = &touches [0]->raw;
-			InputPackRaw * t2 = &touches [1]->raw;
+			InputPackRec * t1 = touches [ 0 ];
+			InputPackRec * t2 = touches [ 1 ];
 
-			int td1 = (t1->x - t1->y);
-			int td2 = (t2->x - t2->y);
-			int dist = (int) sqrt ( (double) (td1 * td1) + (td2 * td2) );
-            
-			CVerbVerbArgID ( "Perform: prevDist [%i]  dist [%i]", iniDist, dist );
-            
+			int td1 = ( t1->org_x - t1->org_y );
+			int td2 = ( t2->org_x - t2->org_y );
+			int dist = ( int ) sqrt ( ( double ) ( td1 * td1 ) + ( td2 * td2 ) );
+
+			CVerbVerbArgID ( "Perform: prevDist [ %i ]  dist [ %i ]", iniDist, dist );
+
 			if ( iniDist == 0 ) {
 				iniDist = dist;
-                
-                if ( prevFingCount != 1 ) {
-                    info.portalID = portalID;
-                }
-                
-                if ( !deviceBase || !((DeviceBase *)deviceBase)->GetPortalInfo ( &info ) ) {
-                    CVerbArgID ( "Perform: GetPortalInfo portalID [%u] failed.", info.portalID );
-                    return RECOGNIZER_REJECT;
-                }
-                
-                iniWidth = info.width;
-                iniHeight = info.height;
-                
+
+				if ( prevFingCount != 1 ) {
+					info.portalID = portalID;
+				}
+
+				if ( !deviceBase || !( ( DeviceBase * ) deviceBase )->GetPortalInfo ( &info ) ) {
+					CVerbArgID ( "Perform: GetPortalInfo portalID [ %u ] failed.", info.portalID );
+					return RECOGNIZER_REJECT;
+				}
+
+				iniWidth = info.width;
+				iniHeight = info.height;
+
 				if ( info.width > 0 )
-                    scaleDist = ((double) info.width / (double) display.width);
+					scaleDist = ( ( double ) info.width / ( double ) display.width );
 				else
-                    scaleDist = 0.4;
-                
-                CVerbArgID ( "Perform: Start pinch gesture with dist [%i] scaleDist [%f]  width [%i]  height [%i].", iniDist, scaleDist, info.width, info.height );
+					scaleDist = 0.4;
+
+				CVerbArgID ( "Perform: Start pinch gesture with dist [ %i ] scaleDist [%f]  width [ %i ]  height [ %i ].", iniDist, scaleDist, info.width, info.height );
 			}
 			else {
 				int distDiff = iniDist - dist;
-				distDiff = (int) ((double) distDiff * scaleDist);
-                
-				if ( info.width > 0 && (distDiff > 6 || distDiff < -6) )
-                {
+				distDiff = ( int ) ( ( double ) distDiff * scaleDist );
+
+				if ( info.width > 0 && ( distDiff > 6 || distDiff < -6 ) )
+				{
 					int newWidth = iniWidth + distDiff;
-					if ( abs ( (double) (info.width - newWidth) ) > 4 ) {
-                        info.width = newWidth;
-                        
-                        /// Keep aspect ratio
-                        int distDiffY = (distDiff * info.height) / info.width;
-                        info.height = iniHeight + distDiffY;
-                        
-                        CVerbArgID ( "Perform: setPortalInfo1 portalID [%u] w [%i]  h [%i]", info.portalID, info.width, info.height );
-                        
-                        info.portalID = portalID;
-                        info.flags = PORTAL_INFO_FLAG_SIZE;
-                        
-                        if ( deviceBase && ((DeviceBase *)deviceBase)->SetPortalInfo ( &info, false ) )
-                            return RECOGNIZER_HANDLED;
-                        return RECOGNIZER_REJECT;
-                    }
+					if ( abs ( ( double ) ( info.width - newWidth ) ) > 4 ) {
+						info.width = newWidth;
+
+						/// Keep aspect ratio
+						int distDiffY = ( distDiff * info.height ) / info.width;
+						info.height = iniHeight + distDiffY;
+
+						CVerbArgID ( "Perform: setPortalInfo1 portalID [ %u ] w [ %i ]  h [ %i ]", info.portalID, info.width, info.height );
+
+						info.portalID = portalID;
+						info.flags = PORTAL_INFO_FLAG_SIZE;
+
+						if ( deviceBase && ( ( DeviceBase * ) deviceBase )->SetPortalInfo ( &info, false ) )
+							return RECOGNIZER_HANDLED;
+						return RECOGNIZER_REJECT;
+					}
 				}
 			}
 
@@ -330,7 +330,7 @@ namespace environs
 
 		if ( touchesCount == 3 && prevFingCount == 3 ) {
 			CVerbVerbID ( "Perform: 3 finger" );
-            iniDist = 0;
+			iniDist = 0;
 			return RECOGNIZER_TAKEN_OVER_INPUTS;
 		}
 

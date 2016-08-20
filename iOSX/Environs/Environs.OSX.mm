@@ -47,6 +47,7 @@ using namespace environs::API;
 #define	CLASS_NAME 	"Environs.OSX . . . . . ."
 
 
+
 #ifdef NATIVE_WIFI_OBSERVER_THREAD
 
 @interface OSXWifiListener : NSObject <NSApplicationDelegate>
@@ -219,7 +220,7 @@ namespace environs
                 
                 const char * cDir = [workDir UTF8String];
                 
-                CVerbArg ( "DetermineAndInitWorkDir: app working path [%s]", cDir );
+                CVerbArg ( "DetermineAndInitWorkDir: app working path [ %s ]", cDir );
                 InitWorkDirN ( cDir );
                 
                 InitStorageN ( cDir );
@@ -665,7 +666,7 @@ namespace environs
 
     extern ThreadSync	wifiThread;
 
-    unsigned int lastScan	= 0;
+    unsigned int lastWifiScan	= 0;
 
     void * Thread_WifiObserver ()
     {
@@ -680,7 +681,7 @@ namespace environs
             OSXWifiListener * listener = [[OSXWifiListener alloc] init];
             if ( !listener )
             {
-                CErr( "WifiObserver: Failed to create listener." );
+                CErr ( "WifiObserver: Failed to create listener." );
                 return 0;
             }
             listener->name = nil;
@@ -699,47 +700,51 @@ namespace environs
 
                 while ( wifiObs->threadRun )
                 {
-                    NSSet<CWNetwork *> * networks;
+                    @autoreleasepool
+                    {
+                        NSSet < CWNetwork * > * networks;
 
-                    if ( doScan ) {
-                        networks = [wifi scanForNetworksWithName:nil error:&err];
-                        doScan = false;
-                    }
-                    else
-                        networks = [wifi cachedScanResults];
-
-                    if( err ) {
-                        NSLog( @"%@", err );
-                    }
-                    else {
-                        if ( [ networks count ] > 0 )
-                        {
-                            native.wifiObserver.Begin ();
-
-                            for ( CWNetwork * network in networks )
-                            {
-                                unsigned char encrypt;
-
-                                if ( [network supportsSecurity:kCWSecurityNone ] )
-                                    encrypt = 0;
-                                else if ( [network supportsSecurity:kCWSecurityWEP ] )
-                                    encrypt = 1;
-                                else encrypt = 2;
-
-                                native.wifiObserver.UpdateWithColonMac ( [[network bssid] UTF8String],
-                                                                        [[network ssid] UTF8String],
-                                                                        (int) [network rssiValue], 0,
-                                                                        (unsigned char) [[network wlanChannel] channelNumber],
-                                                                        encrypt );
-
-                                CVerbArg ( "WifiObserver: SSID [ %s ]\tBSSID [ %s ]\trssi [ %i ]\tchannel [ %d ]\tencrypt [ %c ]",
-                                          [[network ssid] UTF8String], [[network bssid] UTF8String] ,
-                                          (int)[network rssiValue], (int) [[network wlanChannel] channelNumber],
-                                          encrypt );
-                            }
-
-                            native.wifiObserver.Finish ();
+                        if ( doScan ) {
+                            networks = [ wifi scanForNetworksWithName:nil error:&err ];
+                            doScan = false;
                         }
+                        else
+                            networks = [ wifi cachedScanResults ];
+
+                        if ( err ) {
+                            NSLog ( @"%@", err );
+                        }
+                        else {
+                            if ( [ networks count ] > 0 )
+                            {
+                                native.wifiObserver.Begin ();
+
+                                for ( CWNetwork * network in networks )
+                                {
+                                    unsigned char encrypt;
+
+                                    if ( [network supportsSecurity:kCWSecurityNone ] )
+                                        encrypt = 0;
+                                    else if ( [network supportsSecurity:kCWSecurityWEP ] )
+                                        encrypt = 1;
+                                    else encrypt = 2;
+
+                                    native.wifiObserver.UpdateWithColonMac ( [[network bssid] UTF8String],
+                                                                            [[network ssid] UTF8String],
+                                                                            (int) [network rssiValue], 0,
+                                                                            (unsigned char) [[network wlanChannel] channelNumber],
+                                                                            encrypt );
+
+                                    CVerbArg ( "WifiObserver: SSID [ %s ]\tBSSID [ %s ]\trssi [ %i ]\tchannel [ %d ]\tencrypt [ %c ]",
+                                              [[network ssid] UTF8String], [[network bssid] UTF8String] ,
+                                              (int)[network rssiValue], (int) [[network wlanChannel] channelNumber],
+                                              encrypt );
+                                }
+                                
+                                native.wifiObserver.Finish ();
+                            }
+                        }
+
                     }
 
                     lastCheck = GetEnvironsTickCount32 ();
@@ -753,14 +758,14 @@ namespace environs
                         unsigned int now = GetEnvironsTickCount32 ();
                         unsigned int diff = now - lastCheck;
 
-                        if ( diff < NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
-                            waitTime = ( NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+                        if ( diff < ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
+                            waitTime = ( ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
                             goto WaitLoop;
                         }
 
-                        if ( ( now - lastScan ) > ( unsigned ) native.useWifiInterval )
+                        if ( ( now - lastWifiScan ) > ( unsigned ) native.useWifiInterval )
                         {
-                            lastScan = GetEnvironsTickCount32 ();
+                            lastWifiScan = GetEnvironsTickCount32 ();
                             doScan = true;
                         }
                     }
@@ -819,7 +824,7 @@ namespace environs
 {
     CVerbVerb ( "OnWifiNotification" );
 
-    lastScan = GetEnvironsTickCount32 ();
+    lastWifiScan = GetEnvironsTickCount32 ();
 
     wifiObs->thread.Notify ( "WifiObserver");
 }
@@ -827,6 +832,7 @@ namespace environs
 @end
 
 #   endif
+
 
 #endif
 

@@ -155,6 +155,8 @@
   <VirtualDirectory Name="DynLib">
     <File Name="../../../Native/DynLib/Dyn.OpenCL.cpp"/>
     <File Name="../../../Native/DynLib/Dyn.OpenCL.h"/>
+    <File Name="../../../Native/DynLib/Dyn.Lib.UUID.cpp"/>
+    <File Name="../../../Native/DynLib/Dyn.Lib.UUID.h"/>
     <File Name="../../../3rd/DynLib/Dyn.Lib.Crypto.cpp"/>
     <File Name="../../../3rd/DynLib/Dyn.Lib.Crypto.h"/>
   </VirtualDirectory>
@@ -182,7 +184,6 @@
       </Compiler>
       <Linker Options="-rdynamic -lm -lpthread" Required="yes">
         <Library Value="dl"/>
-        <Library Value="uuid"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../../../bin64/libs/lib$(ProjectName).so" IntermediateDirectory="./Debug" Command="libEnvirons.so" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

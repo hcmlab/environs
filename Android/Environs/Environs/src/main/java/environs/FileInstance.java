@@ -152,7 +152,7 @@ public class FileInstance
     @Override
     public String toString()
     {
-        return "FileInstance fileID [" + fileID + "]  desc [" + descriptor + "]  size [" + size + " bytes] created at [" + new java.util.Date(created*1000) + "]";
+        return "FileInstance fileID [ " + fileID + " ]  desc [ " + descriptor + " ]  size [ " + size + " bytes] created at [ " + new java.util.Date(created*1000) + " ]";
     }
 
     public String ToString() {

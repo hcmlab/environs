@@ -20,12 +20,7 @@ package environs;
  */
 import android.app.Activity;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -43,10 +38,6 @@ class Sensors extends Service implements LocationListener
     /**
      * Objects for handling sensor services
      */
-    int [] sensorSender = new int [Environs.ENVIRONS_SENSOR_TYPE_MAX];
-
-    int sensorRegistered       = 0;
-
     Sensors ( Environs envObj, int hInst )
     {
         env = envObj;
@@ -95,74 +86,43 @@ class Sensors extends Service implements LocationListener
      *
      * @param nativeID 				Destination native device id
      * @param objID 				Destination object device id
-     * @param sensorType            A value of type SensorType
+     * @param flags            		A bitfield with values of type SensorType
      * @param enable 				true = enable, false = disable.
      *
-     * @return success true = enabled, false = failed.
      */
-    boolean SetSensorEventSender(int nativeID, int objID, @SensorType.Value int sensorType, boolean enable)
+    void SetSensorEventSenderFlags ( int nativeID, int objID, int flags, boolean enable )
     {
-        if (Utils.isDebug) Utils.Log ( 1, className, "SetSensorEventSender: " +
-                Environs.sensorFlagDescriptions [ sensorType ] + " to be " + (enable ? "enabled" : "disabled") );
+        int flag = (1 << SensorType.Location);
 
-        boolean success = Environs.SetSensorEventSenderN ( hEnvirons, nativeID, objID, sensorType, enable );
+        if ( ( flags & flag ) != 0 )
+        {
+            if ( locationManager == null) {
+                return;
+            }
+        }
 
-        if (enable) {
-            StartSensorListening(sensorType);
+        Environs.SetSensorEventSenderFlagsN ( hEnvirons, nativeID, objID, flags, enable ? 1 : 0 );
+
+        if ( ( flags & flag ) == 0 )
+            return;
+
+        if ( enable ) {
+            StartLocation ();
         }
         else {
-            StopSensorListening(sensorType);
-        }
-        return success;
-    }
-
-
-    void SetSensorEventSenderFlags ( int nativeID, int objID, @SensorType.Value int flags, boolean enable )
-    {
-        for ( int i=0; i<SensorType.Max; ++i )
-        {
-            if ( (flags & Environs.sensorFlags [ i ]) != 0 ) {
-                SetSensorEventSender ( nativeID, objID, i, enable );
-            }
+            boolean enabled = Environs.IsSensorEnabledN ( hEnvirons, SensorType.Location ) == 1;
+            if ( enabled )
+                return;
+            StopLocation ();
         }
     }
 
 
     void StopAllSensors ()
     {
-        StopSensorListening ( SensorType.Location );
-
         Environs.StopSensorListeningAllN ( hEnvirons );
-    }
 
-
-    /**
-     *
-     */
-    void StartSensorListening ( @SensorType.Value int sensorType )
-    {
-        // return immediately if the environment hasn't been started or using sensor data has been disabled.
-        if (!env.started)
-            return;
-
-        if ( IsRegistered ( sensorType ) ) {
-            if (Utils.isDebug) Utils.Log ( 1, className, "StartSensorListening: " +
-                    Environs.sensorFlagDescriptions [ sensorType ] + " already  started." );
-            return;
-        }
-
-        synchronized ( this ) {
-            sensorRegistered |= Environs.sensorFlags [ sensorType ];
-
-            if ( sensorType == SensorType.Location )
-            {
-                if (StartLocation ())
-                    onLocationChanged ( lastLocation );
-                return;
-            }
-
-            Environs.StartSensorListeningN ( hEnvirons, sensorType );
-        }
+        StopLocation ();
     }
 
 
@@ -170,6 +130,8 @@ class Sensors extends Service implements LocationListener
     {
         if (locationManager != null)
         {
+            Utils.Log ( className, "StartLocation" );
+
             lastLocation = null;
 
             final Sensors sensorObj = this;
@@ -181,6 +143,7 @@ class Sensors extends Service implements LocationListener
                         locationManager.requestLocationUpdates ( LocationManager.NETWORK_PROVIDER, UPDATE_MS_MIN, UPDATE_METERS_MIN, sensorObj );
 
                         lastLocation = locationManager.getLastKnownLocation ( LocationManager.NETWORK_PROVIDER );
+                        Utils.Log ( className, "StartLocation: Network Location updates requested." );
                     }
                     else {
                         Utils.LogW ( className, "StartLocation: No network manager available" );
@@ -191,6 +154,7 @@ class Sensors extends Service implements LocationListener
 
                         //if ( lastLocation == null )
                             lastLocation = locationManager.getLastKnownLocation ( LocationManager.GPS_PROVIDER );
+                        Utils.Log ( className, "StartLocation: GPS Location updates requested." );
                     }
                     else {
                         Utils.LogE ( className, "StartLocation: No location manager available" );
@@ -215,99 +179,15 @@ class Sensors extends Service implements LocationListener
 
     void StopLocation()
     {
+        Utils.Log ( className, "StopLocation" );
+
         if (locationManager != null) {
             locationManager.removeUpdates ( this );
             lastLocation = null;
+
+            Utils.Log ( className, "StopLocation: Location updates stopped." );
         }
     }
-
-
-    boolean IsRegistered ( @SensorType.Value int sensorType )
-    {
-        if ( sensorType < 0 || sensorType >= SensorType.Max )
-            return false;
-        return ((sensorRegistered & Environs.sensorFlags [ sensorType ]) != 0);
-    }
-
-    /**
-     *
-     */
-    void StopSensorListening ( @SensorType.Value int sensorType )
-    {
-        if (Utils.isDebug) Utils.Log ( 1, className, "StopSensorListening: " + Environs.sensorFlagDescriptions [ sensorType ] );
-
-        synchronized (this) {
-            if ( sensorType == -1 ) {
-                sensorRegistered = 0;
-                if (Utils.isDebug) Utils.Log ( 1, className, "StopSensorListening: Stopping all sensors ..." );
-
-                if ( locationManager != null ) {
-                    locationManager.removeUpdates(this);
-                }
-
-                Environs.StopSensorListeningAllN ( hEnvirons );
-                return;
-            }
-
-            int devs = GetSensorEventSenderCount ( sensorType );
-            if ( devs < 0 )
-                return;
-
-            if ( devs > 0 ) {
-                if (Utils.isDebug) Utils.Log ( 1, className, "StopSensorListening: " +
-                        Environs.sensorFlagDescriptions [ sensorType ] + " is subscribed by " + devs + " other device(s)." );
-                return;
-            }
-
-            sensorRegistered &= ~ (Environs.sensorFlags [ sensorType ]);
-
-            if ( sensorType == SensorType.Location )
-            {
-                if ( IsRegistered ( sensorType ) ) {
-                    if (Utils.isDebug) Utils.Log ( 1, className, "StopSensorListening: Stopping Location." );
-                    StopLocation ();
-                }
-                return;
-            }
-
-            if (Utils.isDebug) Utils.Log ( 1, className, "StopSensorListening: Stopping " +
-                    Environs.sensorFlagDescriptions [ sensorType ] + " at native." );
-
-            Environs.StopSensorListeningN ( hEnvirons, sensorType );
-        }
-    }
-
-
-    /**
-     * Get registered DeviceInstance objects for sending of sensor events.
-     *
-     * @param sensorType A value of type SensorType.
-     *
-     * @return success true = enabled, false = failed.
-     */
-    int GetSensorEventSenderCount ( @SensorType.Value int sensorType )
-    {
-        if ( sensorType < 0 || sensorType >= SensorType.Max )
-            return -1;
-
-        int devs = Environs.GetSensorEventSenderCountN ( hEnvirons, sensorType );
-
-        sensorSender [ sensorType ] = devs;
-        return devs;
-    }
-
-
-    /**
-     * @param rad   Angle in radians.
-     * @return degrees for given radians
-    public float GetDegrees ( double rad ) {
-        double deg = ((rad * 180) / Math.PI);
-        if (deg < 0)
-            deg = 360 + deg;
-
-        return (float) deg;
-    }
-     */
 
 
     LocationManager locationManager = null;
@@ -365,7 +245,7 @@ class Sensors extends Service implements LocationListener
 
         //Utils.Log ( 0, className, "onLocationChanged: latitude [ " + latitude + "]  longitude [ " + longitude + " ] altitude [ " + altitude + " ] speed [ " + speed + " ]" );
 
-        if (env.sensorLocationEnabled) {
+        if (env != null) {
             SensorFrame frame = new SensorFrame ();
             frame.type = SensorType.Location;
             frame.seqNumber = seqNr++;
@@ -391,7 +271,7 @@ class Sensors extends Service implements LocationListener
             }
         }
 
-        Environs.PushSensorDataExtN ( true, SensorType.Location, latitude, longitude, altitude, accuracy, 0, speed );
+        Environs.PushSensorDataExtN ( SensorType.Location, latitude, longitude, altitude, accuracy, 0, speed );
     }
 
 

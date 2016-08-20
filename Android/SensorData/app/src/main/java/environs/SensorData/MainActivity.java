@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
 
     static Switch switchAccel;
     static Switch switchAccelLinear;
+    static Switch switchGravity;
     static Switch switchMagnetic;
     static Switch switchGyroscope;
     static Switch switchOrientation;
@@ -63,10 +64,11 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
     static DeviceInstance currentDevice;
     static Environs environs;
 
-    static boolean enableSensorAccelerometer = true;
+    static boolean enableSensorAccelerometer = false;
     static boolean enableSensorAccelerometerLinear = false;
-    static boolean enableSensorMagneticField = true;
-    static boolean enableSensorGyroscope = true;
+    static boolean enableSensorMagneticField = false;
+    static boolean enableSensorGravity = false;
+    static boolean enableSensorGyroscope = false;
     static boolean enableSensorOrientation = false;
     static boolean enableSensorLocation = false;
     static boolean enableSensorLight = false;
@@ -101,7 +103,17 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
         switchAccelLinear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enableSensorAccelerometerLinear = ChangeSensorEventState ( SensorType.MotionGravityAcceleration, isChecked );
+                enableSensorAccelerometerLinear = ChangeSensorEventState ( SensorType.Acceleration, isChecked );
+            }
+        });
+
+        switchGravity = (Switch) findViewById(R.id.switchGravity);
+        if (switchGravity == null)
+            return;
+        switchGravity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                enableSensorGravity = ChangeSensorEventState ( SensorType.Gravity, isChecked );
             }
         });
 
@@ -161,7 +173,7 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
         switchRotation.setOnCheckedChangeListener ( new CompoundButton.OnCheckedChangeListener ( ) {
             @Override
             public void onCheckedChanged ( CompoundButton buttonView, boolean isChecked ) {
-                enableSensorRotation = ChangeSensorEventState ( SensorType.MotionAttitudeRotation, isChecked );
+                enableSensorRotation = ChangeSensorEventState ( SensorType.Rotation, isChecked );
             }
         } );
 
@@ -171,7 +183,7 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
         switchPressure.setOnCheckedChangeListener ( new CompoundButton.OnCheckedChangeListener ( ) {
             @Override
             public void onCheckedChanged ( CompoundButton buttonView, boolean isChecked ) {
-                enableSensorPressure = ChangeSensorEventState ( SensorType.Altimeter, isChecked );
+                enableSensorPressure = ChangeSensorEventState ( SensorType.Pressure, isChecked );
             }
         } );
 
@@ -219,13 +231,22 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
             environs.SetSensorEvent ( SensorType.Accelerometer, enableSensorAccelerometer );
         }
 
-        if ( !environs.IsSensorAvailable ( SensorType.MotionGravityAcceleration ) ) {
+        if ( !environs.IsSensorAvailable ( SensorType.Acceleration ) ) {
             switchAccelLinear.setEnabled ( false ); switchAccelLinear.setChecked ( false ); enableSensorAccelerometerLinear = false;
         }
         else {
             switchAccelLinear.setChecked ( enableSensorAccelerometerLinear );
 
-            environs.SetSensorEvent ( SensorType.MotionGravityAcceleration, enableSensorAccelerometerLinear );
+            environs.SetSensorEvent ( SensorType.Acceleration, enableSensorAccelerometerLinear );
+        }
+
+        if ( !environs.IsSensorAvailable ( SensorType.Gravity ) ) {
+            switchGravity.setEnabled ( false ); switchGravity.setChecked ( false ); enableSensorGravity = false;
+        }
+        else {
+            switchGravity.setChecked ( enableSensorGravity );
+
+            environs.SetSensorEvent ( SensorType.Gravity, enableSensorGravity );
         }
 
         if ( !environs.IsSensorAvailable ( SensorType.MagneticField ) ) {
@@ -273,22 +294,22 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
             environs.SetSensorEvent ( SensorType.Light, enableSensorLight );
         }
 
-        if ( !environs.IsSensorAvailable ( SensorType.MotionAttitudeRotation ) ) {
+        if ( !environs.IsSensorAvailable ( SensorType.Rotation ) ) {
             switchRotation.setEnabled ( false ); switchRotation.setChecked ( false ); enableSensorRotation = false;
         }
         else {
             switchRotation.setChecked ( enableSensorRotation );
 
-            environs.SetSensorEvent ( SensorType.MotionAttitudeRotation, enableSensorRotation );
+            environs.SetSensorEvent ( SensorType.Rotation, enableSensorRotation );
         }
 
-        if ( !environs.IsSensorAvailable ( SensorType.Altimeter ) ) {
+        if ( !environs.IsSensorAvailable ( SensorType.Pressure ) ) {
             switchPressure.setEnabled ( false ); switchPressure.setChecked ( false ); enableSensorPressure = false;
         }
         else {
             switchPressure.setChecked ( enableSensorPressure );
 
-            environs.SetSensorEvent ( SensorType.Altimeter, enableSensorPressure );
+            environs.SetSensorEvent ( SensorType.Pressure, enableSensorPressure );
         }
 
         if ( !environs.IsSensorAvailable ( SensorType.Humidity ) ) {
@@ -326,8 +347,8 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
                 if ( devices == null )
                     return;
 
-                for (DeviceInstance device : devices)
-                    device.SetSensorEventSending(sensorType, state);
+                for ( DeviceInstance device : devices )
+                    device.SetSensorEventSending ( sensorType, state );
             }
         }).start();
 
@@ -408,7 +429,7 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
         {
             device.SetSensorEventSending ( SensorType.Accelerometer, enableSensorAccelerometer );
 
-            device.SetSensorEventSending ( SensorType.MotionGravityAcceleration, enableSensorAccelerometerLinear );
+            device.SetSensorEventSending ( SensorType.Acceleration, enableSensorAccelerometerLinear );
 
             device.SetSensorEventSending ( SensorType.MagneticField, enableSensorMagneticField );
 
@@ -468,6 +489,6 @@ public class MainActivity extends Activity implements ListObserver, DeviceObserv
         if ( type >= 0 && type < SensorType.Max )
             name = Environs.sensorFlagDescriptions [ type ];
 
-        Utils.Log(1, className, "OnSensorData: type [ " + type + " / " + name + " ]");
+        //Utils.Log(1, className, "OnSensorData: type [ " + type + " / " + name + " ]");
     }
 }

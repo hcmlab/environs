@@ -28,31 +28,43 @@ import java.lang.annotation.RetentionPolicy;
  * */
 public abstract class SensorType {
 
-	@IntDef(flag=true, value={All, Accelerometer, MagneticField, Gyroscope, Orientation, Light, Location, 
-			Heading, Altimeter, MotionAttitudeRotation, MotionGravityAcceleration, MotionMagneticField, Heartrate, Proximity, 
-			VOC, CO2, Humidity, Temperature, Custom, Max})
+	@IntDef(flag=true, value={All, Accelerometer, Acceleration, MagneticField, MagneticFieldMotion, MagneticFieldUncalib, Gyroscope, 
+			GyroscopeUncalib, Orientation, Light, Location, Heading, Temperature, MotionSignificant, 
+			Pressure, Attitude, Rotation, RotationGame, RotationGeomagnetic, Gravity, Stepper, 
+			Steps, Tilt, Heartrate, Proximity, VOC, CO2, Humidity, 
+			Custom, Max})
 
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface Value {}
 
 	public static final int All                 	=	-1;
 	public static final int Accelerometer       	=	Types.ENVIRONS_SENSOR_TYPE_ACCELEROMETER;
+	public static final int Acceleration        	=	Types.ENVIRONS_SENSOR_TYPE_ACCELERATION;
 	public static final int MagneticField       	=	Types.ENVIRONS_SENSOR_TYPE_MAGNETICFIELD;
+	public static final int MagneticFieldMotion 	=	Types.ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION;
+	public static final int MagneticFieldUncalib	=	Types.ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB;
 	public static final int Gyroscope           	=	Types.ENVIRONS_SENSOR_TYPE_GYROSCOPE;
+	public static final int GyroscopeUncalib    	=	Types.ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB;
 	public static final int Orientation         	=	Types.ENVIRONS_SENSOR_TYPE_ORIENTATION;
 	public static final int Light               	=	Types.ENVIRONS_SENSOR_TYPE_LIGHT;
 	public static final int Location            	=	Types.ENVIRONS_SENSOR_TYPE_LOCATION;
 	public static final int Heading             	=	Types.ENVIRONS_SENSOR_TYPE_HEADING;
-	public static final int Altimeter           	=	Types.ENVIRONS_SENSOR_TYPE_ALTIMETER;
-	public static final int MotionAttitudeRotation                    	=	Types.ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION;
-	public static final int MotionGravityAcceleration                                                  	=	Types.ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION;
-	public static final int MotionMagneticField 	=	Types.ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD;
+	public static final int Temperature         	=	Types.ENVIRONS_SENSOR_TYPE_TEMPERATURE;
+	public static final int MotionSignificant   	=	Types.ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT;
+	public static final int Pressure            	=	Types.ENVIRONS_SENSOR_TYPE_PRESSURE;
+	public static final int Attitude            	=	Types.ENVIRONS_SENSOR_TYPE_ATTITUDE;
+	public static final int Rotation            	=	Types.ENVIRONS_SENSOR_TYPE_ROTATION;
+	public static final int RotationGame        	=	Types.ENVIRONS_SENSOR_TYPE_ROTATION_GAME;
+	public static final int RotationGeomagnetic 	=	Types.ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC;
+	public static final int Gravity             	=	Types.ENVIRONS_SENSOR_TYPE_GRAVITY;
+	public static final int Stepper             	=	Types.ENVIRONS_SENSOR_TYPE_STEPPER;
+	public static final int Steps               	=	Types.ENVIRONS_SENSOR_TYPE_STEPS;
+	public static final int Tilt                	=	Types.ENVIRONS_SENSOR_TYPE_TILT;
 	public static final int Heartrate           	=	Types.ENVIRONS_SENSOR_TYPE_HEARTRATE;
 	public static final int Proximity           	=	Types.ENVIRONS_SENSOR_TYPE_PROXIMITY;
 	public static final int VOC                 	=	Types.ENVIRONS_SENSOR_TYPE_VOC;
 	public static final int CO2                 	=	Types.ENVIRONS_SENSOR_TYPE_CO2;
 	public static final int Humidity            	=	Types.ENVIRONS_SENSOR_TYPE_HUMIDITY;
-	public static final int Temperature         	=	Types.ENVIRONS_SENSOR_TYPE_TEMPERATURE;
 	public static final int Custom              	=	Types.ENVIRONS_SENSOR_TYPE_CUSTOM;
 	public static final int Max                 	=	Types.ENVIRONS_SENSOR_TYPE_MAX;
 		

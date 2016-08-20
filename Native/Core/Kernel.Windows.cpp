@@ -37,6 +37,7 @@
 #include "Renderer/Render.OpenCL.h"
 #include "DynLib/Dyn.OpenCL.h"
 #include "Environs.Utils.h"
+#include <ws2bth.h>
 
 #include <string>
 #include <map>
@@ -595,7 +596,7 @@ namespace environs
 			{
 				interfaceInfo = ( WLAN_INTERFACE_INFO * ) & interfaceList->InterfaceInfo [ i ];
 
-				CLogArg ( "WifiObserver [ %u ]: Desc  [ %ws ] - State [ %d ]", i, interfaceInfo->strInterfaceDescription, interfaceInfo->isState );
+				CLogsArg ( 3, "WifiObserver [ %u ]: Desc  [ %ws ] - State [ %d ]", i, interfaceInfo->strInterfaceDescription, interfaceInfo->isState );
 
 				if ( doScan )
 				{
@@ -605,7 +606,7 @@ namespace environs
 					result = dWlanScan ( hClient, &interfaceInfo->InterfaceGuid, 0, 0, 0 );
 
 					if ( result != ERROR_SUCCESS ) {
-						CLogArg ( "WifiObserver [ %u ]: Scan failed [ %u ]", i, result );
+						CWarnArg ( "WifiObserver [ %u ]: Scan failed [ %u ]", i, result );
 					}
 				}
 
@@ -659,7 +660,7 @@ namespace environs
 
 							unsigned char channel = GetWiFiChannel ( pEntry->ulChCenterFrequency );
 
-							CLogArg ( "WifiObserver: MAC [ %12llX ]\t: C%i\t: S%i\t: %i dBm\t: Network %s", bssid, ( int ) channel, pEntry->uLinkQuality, pEntry->lRssi, ssidName );
+							CLogsArg ( 3, "WifiObserver: MAC [ %12llX ]\t: C%i\t: S%i\t: %i dBm\t: Network %s", bssid, ( int ) channel, pEntry->uLinkQuality, pEntry->lRssi, ssidName );
 
 							native.wifiObserver.UpdateWithMac ( bssid, ssidName, pEntry->lRssi, pEntry->uLinkQuality, channel, 0 );
 						}
@@ -683,8 +684,8 @@ namespace environs
 				unsigned int now = GetEnvironsTickCount32 ();
 				unsigned int diff = now - lastCheck;
 
-				if ( diff < NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
-					waitTime = ( NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+				if ( diff < ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
+					waitTime = ( ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
 					goto WaitLoop;
 				}
 
@@ -710,6 +711,132 @@ namespace environs
 #endif
 
 
+#ifdef NATIVE_BT_OBSERVER
+
+#define MAX_BT_BUFF_SIZE 16384
+
+
+	bool HasBluetooth ()
+	{
+		SOCKET s = ::socket ( AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM );
+
+		bool success = false;
+
+		if ( IsValidFD ( s ) ) {
+			success = true;
+			::closesocket ( s );
+		}
+
+		return success;
+	}
+
+
+	void * Thread_BtObserver ()
+	{
+		CLog ( "BtObserver: Created ..." );
+
+		if ( !HasBluetooth () ) {
+			CLog ( "BtObserver: Bt not available. Bye bye ..." );
+			return 0;
+		}
+
+		WSAQUERYSET		query;
+		WSAQUERYSETA *	pResult;
+		DWORD			flags, size;
+		HANDLE			hClient;
+
+		BtObserver *	bt			= &native.btObserver;
+		bool			doScan		= true;
+		unsigned int	lastCheck	= 0;
+
+		union
+		{
+			CHAR buffer [ MAX_BT_BUFF_SIZE ];
+			double pad;
+		};
+
+
+		while ( bt->threadRun )
+		{
+			hClient = 0;
+
+			Zero ( query );
+
+			query.dwSize = sizeof ( query );
+			query.dwNameSpace = NS_BTH;
+			query.lpcsaBuffer = NULL;
+			
+			flags = LUP_CONTAINERS;
+			if ( doScan ) {
+				flags |= LUP_FLUSHCACHE;
+				doScan = false;
+			}
+
+			int res = WSALookupServiceBegin ( &query, flags, &hClient );
+			if ( !res ) {
+				pResult = ( WSAQUERYSETA * ) buffer;
+
+				memset ( pResult, 0, MAX_BT_BUFF_SIZE );
+
+				pResult->dwSize			= sizeof ( WSAQUERYSETA );
+				pResult->dwNameSpace	= NS_BTH;
+
+				flags = LUP_NEAREST | LUP_RETURN_NAME | LUP_RETURN_ADDR | LUP_RETURN_TYPE | LUP_RETURN_VERSION | LUP_RETURN_COMMENT;
+				//flags = LUP_RETURN_ALL;
+
+				while ( true )
+				{
+					size  = MAX_BT_BUFF_SIZE;
+					res = WSALookupServiceNextA ( hClient, flags, &size, pResult );
+					if ( res )
+						break;
+
+					if ( pResult->dwNumberOfCsAddrs <= 0 )
+						break;
+
+					char * bssid = pResult->lpszServiceInstanceName;
+					if ( bssid && *bssid ) {
+						CLogArg ( "Device: %s", bssid );
+					}
+					
+					unsigned long long * addr = ( unsigned long long * ) &pResult->lpcsaBuffer->RemoteAddr.lpSockaddr->sa_data;
+					unsigned long long  mac = ( unsigned long long ) *addr;
+					CLogArg ( "MAC: %llX", mac );
+
+					bt->UpdateWithMac ( mac, bssid, 0, pResult->lpServiceClassId->Data1, 0, 0 );
+				}
+
+				WSALookupServiceEnd ( hClient );
+			}
+
+			lastCheck = GetEnvironsTickCount32 ();
+
+			unsigned int waitTime = native.useBtInterval;
+
+		WaitLoop:
+			if ( bt->threadRun ) {
+				bt->thread.WaitOne ( "BtObserver", waitTime );
+
+				unsigned int now = GetEnvironsTickCount32 ();
+				unsigned int diff = now - lastCheck;
+
+				if ( diff < ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
+					waitTime = ( ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+					goto WaitLoop;
+				}
+
+				if ( ( now - lastScan ) > ( unsigned ) native.useBtInterval )
+					doScan = true;
+			}
+		}
+
+
+		CLog ( "BtObserver: bye bye ..." );
+		return 0;
+	}
+
+
+#endif
 
 } /* namespace environs */
 

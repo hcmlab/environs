@@ -765,7 +765,7 @@ public class PortalInstance implements SurfaceHolder.Callback
                     portal = portals.get(key);
                 }
                 if (portal == null) {
-                    Utils.LogW ( className, "UpdateOptions: Portal [" + Integer.toHexString(portalID).toUpperCase() + "] not found." );
+                    Utils.LogW ( className, "UpdateOptions: Portal [ " + Integer.toHexString(portalID).toUpperCase() + " ] not found." );
                     return;
                 }
 
@@ -777,7 +777,7 @@ public class PortalInstance implements SurfaceHolder.Callback
                     info = portal.GetPortalInfo(portalID);
 
                 if (info == null) {
-                    Utils.LogW ( className, "UpdateOptions: Get PortalInfo [" + Integer.toHexString(portalID).toUpperCase() + "] failed." );
+                    Utils.LogW ( className, "UpdateOptions: Get PortalInfo [ " + Integer.toHexString(portalID).toUpperCase() + " ] failed." );
                     return;
                 }
 
@@ -796,6 +796,25 @@ public class PortalInstance implements SurfaceHolder.Callback
     }
 
 
+    void UpdateViewToNative ()
+    {
+        if ( surfaceView == null )
+            return;
+
+        Environs env = Environs.GetInstance ( hEnvirons );
+        if ( env == null )
+            return;
+
+        Utils.Log ( className, "UpdateViewToNative: set portal view for portalID [ " + Integer.toHexString(portalID).toUpperCase() + " ]" );
+
+        int bottom = surfaceView.getBottom ();
+
+        bottom -= (Utils.GetNaviBarHeigth(env.GetClient()) / 2);
+
+        env.SetPortalViewDims ( portalID, surfaceView.getLeft (), surfaceView.getTop (), surfaceView.getRight (), bottom );
+    }
+
+
     static void HandleSuccessfulPortal(PortalInstance portal, int notification)
     {
         PortalInfo info = portal.GetPortalInfo(portal.portalID);
@@ -807,6 +826,8 @@ public class PortalInstance implements SurfaceHolder.Callback
         //portal.device.NotifyObservers(portal, Environs.DEVICE_INFO_ATTR_PORTAL_CREATED);
         else
             portal.NotifyObservers(notification);
+
+        portal.UpdateViewToNative ();
 
         if (portal.startIfPossible && notification == Environs.NOTIFY_PORTAL_INCOMING_ESTABLISHED && portal.HasPortalRenderer())
             portal.Start();

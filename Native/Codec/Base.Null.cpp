@@ -39,10 +39,9 @@ using namespace environs;
 
 static const char		*		BaseNULL_extensionNames[]	= { "NULL Base", "End" };
 
-#ifndef ENVIRONS_CORE_LIB
-
 static const InterfaceType_t	BaseNULL_interfaceTypes[]	= { InterfaceType::Unknown, InterfaceType::Unknown };
 
+#ifndef ENVIRONS_CORE_LIB
 
 /**
 * GetINames

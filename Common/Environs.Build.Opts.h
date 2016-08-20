@@ -29,7 +29,7 @@
 #endif
 
 #ifndef NDEBUG
-#   ifndef LINUX
+#   if !defined(LINUX) && !defined(ANDROID)
 #	    define	ENABLE_EXCEPTION_REDIRECT
 #   endif
 #	ifndef MEDIATORDAEMON
@@ -43,6 +43,7 @@
 #       ifndef CLI_CPP
 //#           define DEBUG_TRACK_DEVICE_INSTANCE
 //#           define DEBUG_TRACK_DEVICE_INSTANCE1
+//#           define DEBUG_TRACK_DEVICE_INSTANCE2
 
 //#           define DEBUG_TRACK_MESSAGE_INSTANCE
 //#           define DEBUG_TRACK_MESSAGE_INSTANCE1
@@ -102,6 +103,12 @@
 
 #if defined ( NATIVE_WIFI_OBSERVER ) && !defined ( ANDROID )
 #	define NATIVE_WIFI_OBSERVER_THREAD
+#endif
+
+#define NATIVE_BT_OBSERVER
+
+#if defined ( NATIVE_BT_OBSERVER ) && !defined ( ANDROID )
+#	define NATIVE_BT_OBSERVER_THREAD
 #endif
 
 #ifdef DISPLAYDEVICE

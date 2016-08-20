@@ -21,7 +21,7 @@
 
 /// Compiler flag that enables verbose debug output
 #if ( !defined(CLI_CPP) )
-#   define DEBUGVERB
+//#   define DEBUGVERB
 //#   define DEBUGVERBVerb
 
 #include "Environs.Native.h"
@@ -42,6 +42,46 @@
 
 namespace environs
 {
+    unsigned long long GetBSSIDFromColonMac ( const char * _bssid )
+    {
+        if ( !_bssid || !*_bssid )
+            return 0;
+
+        int len = ( int ) strnlen ( _bssid, 17 );
+        if ( len < 5 )
+            return 0;
+
+        char hex [ 13 ];
+        int  pos    = 0;
+        int  count  = 0;
+        int  js     = 0;
+        const char * cur = _bssid;
+
+        for ( int i = 0; i < len; ++i )
+        {
+            char c = *cur; cur++;
+            if ( !c )
+                break;
+
+            if ( c == ':' ) {
+                if ( js == 1 ) {
+                    hex [ pos ] = hex [ pos - 1 ]; hex [ pos - 1 ] = '0';
+                }
+                else if ( js == 0 ) {
+                    hex [ pos ] = hex [ pos + 1 ] = '0'; pos += 2;
+                }
+                js = 0; count++; if ( count > 5 ) break;
+                continue;
+            }
+
+            hex [ pos++ ] = c; js++;
+        }
+
+        hex [ pos ] = 0;
+        
+        return strtoull ( hex, NULL, 16 );
+    }
+
 #ifdef NATIVE_WIFI_OBSERVER
 
 
@@ -55,22 +95,49 @@ namespace environs
     void        *   Thread_WifiObserverStarter ( void * object );
     void        *   Thread_WifiObserver ();
 
-    std::map<unsigned long long, EnvWifiItem *> wifiItems;
+    std::map<unsigned long long, EnvWifiItem *> * envWifiItems = 0;
 
 
-    EnvWifiItem * EnvWifiItem::Create ( int _seqNr, const char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt  )
+    EnvWifiItem::EnvWifiItem () : seqNr ( 0 ), ssid ( 0 )
+    {
+        data.bssid			= 0;
+        data.rssi			= 0;
+        data.signal			= 0;
+        data.channel		= 0;
+        data.encrypt		= 0;
+        data.isConnected	= 0;
+        data.sizeOfssid		= 0;
+    }
+    
+    
+    EnvWifiItem::~EnvWifiItem ()
+    {
+        if ( ssid ) {
+            free ( ssid );
+        }
+    }
+    
+    
+    EnvWifiItem * EnvWifiItem::Create ( int _seqNr, unsigned long long  bssid, const char * _ssid, int _rssi, int _signal, unsigned char _channel, unsigned char _encrypt  )
     {
 		CVerbVerb ( "Create" );
 
-        char * ssid = 0;
+		char * ssid = 0; size_t ssidLen = 0;
 
 		if ( _ssid && *_ssid )
 		{
 			size_t len = strnlen ( _ssid, 64 );
 			if ( len ) {
-				ssid = ( char * ) malloc ( len + 1 );
+				ssidLen = len + 1;
+
+				unsigned int rest = ssidLen % 4;
+				if ( rest ) {
+					ssidLen += 4 - rest;
+				}
+
+				ssid = ( char * ) malloc ( ssidLen );
 				if ( !ssid ) {
-					CErrArg ( "Create: Failed to allocate memory [ %u bytes ]", len );
+					CErrArg ( "Create: Failed to allocate memory [ %u bytes ]", ssidLen );
 					return 0;
 				}
 
@@ -80,12 +147,17 @@ namespace environs
 		}
 
 
-        EnvWifiItem * item = new EnvWifiItem ( _seqNr, ssid, _rssi, _signal, _channel, _encrypt );
+        EnvWifiItem * item = new EnvWifiItem ( _seqNr, bssid, ssid, _rssi, _signal, _channel, _encrypt );
 
-        if ( ssid && !item )
-            free ( ssid );
+		if ( ssid ) {
+			if ( !item )
+				free ( ssid );
+			else
+				item->data.sizeOfssid = ( unsigned char ) ssidLen;
+		}
 
-		CVerbArg ( "Create: [ %i dBm \t: C%i \t: E%i \t: %s ]", _rssi, ( int ) _channel, ( int ) _encrypt, ssid );
+
+		CVerbVerbArg ( "Create: [ %i dBm \t: C%i \t: E%i \t: %s ]", _rssi, ( int ) _channel, ( int ) _encrypt, ssid );
 #if defined(DEBUGVERB) && defined(LINUX)
 		printf ( "Create: [ %i dBm \t: C%i \t: E%i \t: %s ]\n", _rssi, ( int ) _channel, ( int ) _encrypt, ssid );
 #endif
@@ -103,7 +175,7 @@ namespace environs
             if ( ssid ) {
                 free ( ssid );
                 ssid = 0;
-
+				data.sizeOfssid = 0;
                 native.wifiObserver.itemsChanged = true;
             }
         }
@@ -119,51 +191,62 @@ namespace environs
                     rebuild = true;
                     free ( ssid );
                     ssid = 0;
+					data.sizeOfssid = 0;
                 }
             }
 
             if ( rebuild ) {
                 size_t len = strlen ( _ssid );
 
-                ssid = ( char * ) malloc ( len + 1 );
-                if ( !ssid ) {
-                    CErrArg ( "Update: Failed to allocate memory [ %u bytes ]", len );
-                    return;
-                }
+				if ( len > 0 ) {
+					size_t ssidLen = len + 1;
 
-                memcpy ( ssid, _ssid, len );
-                ssid [ len ] = 0;
+					unsigned int rest = ssidLen % 4;
+					if ( rest ) {
+						ssidLen += 4 - rest;
+					}
 
-				native.wifiObserver.itemsChanged = true;
+					ssid = ( char * ) malloc ( ssidLen );
+					if ( !ssid ) {
+						CErrArg ( "Update: Failed to allocate memory [ %u bytes ]", ssidLen );
+						return;
+					}
+
+					memcpy ( ssid, _ssid, len );
+					ssid [ len ] = 0;
+					data.sizeOfssid = ( unsigned char ) ssidLen;
+
+					native.wifiObserver.itemsChanged = true;
+				}
             }
         }
 
-		if ( _signal != signal ) {
-			CVerbArg ( "Update: signal [ %i to %i ]", signal, _signal );
+		if ( _signal != ( int ) data.signal ) {
+			CVerbVerbArg ( "Update: signal [ %i to %i ]", ( int ) data.signal, _signal );
 #if defined(DEBUGVERB) && defined(LINUX)
-            printf ( "Update: signal [ %i to %i ]\n", signal, _signal );
+            printf ( "Update: signal [ %i to %i ]\n", ( int ) data.signal, _signal );
 #endif
 
-			signal = _signal;
+			data.signal = ( short ) _signal;
 			native.wifiObserver.itemsChanged = true;
 		}
 
-        if ( _rssi != rssi ) {
-			CVerbArg ( "Update: rssi [ %i to %i ]", rssi, _rssi );
+        if ( _rssi < 42 && _rssi != ( int ) data.rssi ) {
+			CVerbVerbArg ( "Update: rssi [ %i to %i ]", ( int ) data.rssi, _rssi );
 #if defined(DEBUGVERB) && defined(LINUX)
-            printf ( "Update: rssi [ %i to %i ]\n", rssi, _rssi );
+            printf ( "Update: rssi [ %i to %i ]\n", ( int ) data.rssi, _rssi );
 #endif
 
-            rssi = _rssi;
+			data.rssi = ( short ) _rssi;
 			native.wifiObserver.itemsChanged = true;
         }
 
-        if ( _channel != channel ) {
-			CVerbArg ( "Update: channel [ %i to %i ]", ( int ) channel, ( int ) _channel );
+        if ( _channel != data.channel ) {
+			CVerbVerbArg ( "Update: channel [ %i to %i ]", ( int ) data.channel, ( int ) _channel );
 #if defined(DEBUGVERB) && defined(LINUX)
-            printf ( "Update: channel [ %i to %i ]\n", ( int ) channel, ( int ) _channel );
+            printf ( "Update: channel [ %i to %i ]\n", ( int ) data.channel, ( int ) _channel );
 #endif
-			channel = _channel;
+			data.channel = _channel;
 			native.wifiObserver.itemsChanged = true;
         }
     }
@@ -171,7 +254,16 @@ namespace environs
 
     bool WifiObserver::Init ()
     {
-		CVerb ( "Init" );
+        CVerb ( "Init" );
+        
+        if ( !envWifiItems ) {
+            envWifiItems = new std::map<unsigned long long, EnvWifiItem *> ();
+            
+            if ( !envWifiItems ) {
+                CErr ( "Init: Failed to initialize envWifiItems!" );
+                return false;
+            }
+        }
 
 #ifdef _WIN32
 		if ( !InitLibWlanAPI () ) {
@@ -197,7 +289,10 @@ namespace environs
 
     bool WifiObserver::Start ()
     {
-		CVerb ( "Start" );
+        CVerb ( "Start" );
+        
+        if ( !envWifiItems )
+            return false;
 
 #if defined(_WIN32) && defined(USE_DYNAMIC_LIB_WLAN_API)
 		if (!dWlanOpenHandle) {
@@ -253,20 +348,20 @@ namespace environs
 
         LockAcquireA ( wifiObserverLock, "Finish" );
 
-		std::map<unsigned long long, EnvWifiItem *>::iterator it = wifiItems.begin ();
+		std::map<unsigned long long, EnvWifiItem *>::iterator it = envWifiItems->begin ();
 
 		int minSeq = seqNr - 4;
 
-		while ( it != wifiItems.end () )
+		while ( it != envWifiItems->end () )
 		{
 			EnvWifiItem * item = it->second;
 
 			if ( item->seqNr < minSeq )
 			{
-				CVerbArg ( "Finish: Removing [ %s : %i : %i ]", item->ssid ? item->ssid : "???", item->rssi, ( int ) item->channel );
+				CVerbVerbArg ( "Finish: Removing [ %s : %i : %i ]", item->ssid ? item->ssid : "???", item->data.rssi, ( int ) item->data.channel );
 
 				delete item;
-				wifiItems.erase ( it++ );
+				envWifiItems->erase ( it++ );
 
 				itemsChanged = true;
 			}
@@ -286,16 +381,21 @@ namespace environs
 
 			LockDisposeA ( wifiObserverLock );
 
-			std::map<unsigned long long, EnvWifiItem *>::iterator it = wifiItems.begin ();
-
-			while ( it != wifiItems.end () )
-			{
-				if ( it->second )
-					delete it->second;
-				++it;
-			}
-
-			wifiItems.clear ();
+            if ( envWifiItems )
+            {
+                std::map<unsigned long long, EnvWifiItem *>::iterator it = envWifiItems->begin ();
+                
+                while ( it != envWifiItems->end () )
+                {
+                    if ( it->second )
+                        delete it->second;
+                    ++it;
+                }
+                
+                envWifiItems->clear ();
+                
+                delete envWifiItems; envWifiItems = 0;
+            }
 
 			ReleaseWlanAPI ();
 		}
@@ -306,28 +406,7 @@ namespace environs
     {
 		CVerbVerb ( "UpdateWithColonMac" );
 
-		if ( !_bssid || !*_bssid || strnlen ( _bssid, 17 ) < 17 )
-			return;
-
-		char hex [ 13 ];
-		int  skip = 0;
-		int  pos  = 0;
-
-		for ( int i = 0; i < 17; ++i )
-		{
-			if ( skip == 2 ) {
-				skip = 0; continue;
-			}
-			skip++;
-
-			hex [ pos++ ] = _bssid [ i ];
-		}
-
-		hex [ 12 ] = 0;
-
-		unsigned long long bssid = strtoull ( hex, NULL, 16 );
-
-		WifiObserver::UpdateWithMac ( bssid, _ssid, _rssi, _signal, _channel, _encrypt );
+		UpdateWithMac ( GetBSSIDFromColonMac ( _bssid ), _ssid, _rssi, _signal, _channel, _encrypt );
     }
 
 
@@ -342,28 +421,121 @@ namespace environs
 
 		LockAcquireA ( wifiObserverLock, "UpdateWithMac" );
 
-		std::map<unsigned long long, EnvWifiItem *>::iterator it = wifiItems.find ( bssid );
+        if ( _rssi == 42 ) {
+            we0.Update ( seqNr, _ssid, 42, 0, 0, 0 );
+            we0.data.bssid = bssid;
+        }
+        else {
+            std::map<unsigned long long, EnvWifiItem *>::iterator it = envWifiItems->find ( bssid );
 
-		if ( it == wifiItems.end () )
-		{
-			item = EnvWifiItem::Create ( seqNr, _ssid, _rssi, _signal, _channel, _encrypt );
-			if ( item )
-			{
-				item->bssid = bssid;
-				wifiItems [ bssid ] = item;
+            if ( it == envWifiItems->end () )
+            {
+                item = EnvWifiItem::Create ( seqNr, bssid, _ssid, _rssi, _signal, _channel, _encrypt );
+                if ( item )
+                {
+                    (*envWifiItems) [ bssid ] = item;
 
-				item = 0;
-			}
-		}
-		else {
-			it->second->Update ( seqNr, _ssid, _rssi, _signal, _channel, _encrypt );
-		}
-
-		LockReleaseA ( wifiObserverLock, "UpdateWithMac" );
+                    item = 0;
+                }
+            }
+            else {
+                it->second->Update ( seqNr, _ssid, _rssi, _signal, _channel, _encrypt );
+            }
+        }
+        
+        LockReleaseA ( wifiObserverLock, "UpdateWithMac" );
 
 		if ( item )
 			delete item;
     }
+
+
+	jobject  WifiObserver::BuildNetData ( JNIEnv * jenv )
+	{
+		unsigned int	bufSize, items, itemCount = 0;
+		char		  * data	= 0;
+
+		// Calculate size
+
+		if ( !LockAcquireA ( wifiObserverLock, "BuildNetData" ) )
+			return 0;
+
+		items = ( unsigned int ) envWifiItems->size ();
+		if ( items > 0 )
+		{
+			if ( items > 256 )
+				items = 256;
+
+			const std::map<unsigned long long, EnvWifiItem *>::iterator end = envWifiItems->end ();
+			std::map<unsigned long long, EnvWifiItem *>::iterator it	= envWifiItems->begin ();
+
+			bufSize = ( unsigned int ) ( items * sizeof ( WifiItem ) );
+
+			while ( it != end && itemCount < items )
+			{
+				bufSize += ( unsigned int ) it->second->data.sizeOfssid;
+				++itemCount;
+				++it;
+			}
+
+			bufSize += sizeof ( WifiItem ) + 40;
+
+			jobject byteBuffer = allocJByteBuffer ( jenv, bufSize, data );
+			if ( !data ) {
+				CErrArg ( "BuildNetData: Failed to allocate buffer of size [ %d ]!", bufSize );
+			}
+			else {
+				unsigned int remainSize = bufSize; itemCount = 0;
+
+				it	= envWifiItems->begin ();
+
+				char * cur = data + 8;
+
+				while ( it != end && itemCount < items )
+				{
+					EnvWifiItem * item = it->second;
+
+					unsigned int ssidSize = ( unsigned int ) item->data.sizeOfssid;
+
+					unsigned int min = ( unsigned int ) ( sizeof ( WifiItem ) + ssidSize );
+
+					if ( min > remainSize )
+						break;
+					WifiItem * decls = ( WifiItem * ) cur;
+
+					memcpy ( decls, &item->data, sizeof ( WifiItem ) );
+
+					cur += sizeof ( WifiItem );
+
+					if ( ssidSize ) {
+						memcpy ( cur, item->ssid, ssidSize );
+
+						cur [ ssidSize - 1 ] = 0;
+						cur += ssidSize;
+					}
+					else
+						*cur = 0;
+
+					remainSize -= min;
+
+					++itemCount;
+					++it;
+				}
+
+				LockReleaseA ( wifiObserverLock, "BuildNetData" );
+
+				unsigned int * sizes = reinterpret_cast< unsigned int * > ( data );
+
+				*sizes = itemCount;  *( sizes + 1 ) = (  bufSize - remainSize );
+
+				return byteBuffer;
+			}
+		}
+
+		LockReleaseA ( wifiObserverLock, "BuildNetData" );
+
+		return 0;
+	}
 
 #endif
 }

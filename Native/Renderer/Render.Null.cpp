@@ -39,9 +39,9 @@ using namespace environs;
 
 static const char		*		RenderNull_extensionNames[]	= { "Null Renderer", "End" };
 
-#ifndef ENVIRONS_CORE_LIB
-
 static const InterfaceType_t	RenderNull_interfaceTypes[]	= { InterfaceType::Unknown, InterfaceType::Unknown };
+
+#ifndef ENVIRONS_CORE_LIB
 
 
 /**

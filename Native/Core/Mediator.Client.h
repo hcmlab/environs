@@ -23,6 +23,7 @@
 #define INCLUDE_HCM_ENVIRONS_MEDIATOR_CLIENT_H
 
 #include "Mediator.h"
+#include "Interop/jni.h"
 #include <map>
 #include <cstring>
 
@@ -51,11 +52,11 @@ namespace environs
         int							deviceID;
         
         struct _DeviceChangePacket	* next;
+
+		char						pads [ 2 ];
+		unsigned char				sizes [ 2 ];
         
-        char			pads [2];
-        unsigned char   sizes [2];
-        
-        char			appArea;
+        char						appArea;
 	}
 	DeviceChangePacket;
 
@@ -70,7 +71,8 @@ namespace environs
 #if (defined(ENVIRONS_CORE_LIB1) && !defined(NDEBUG))
 				CErrArg ( "compare_char_key: Invalid left [%s] or right [%s]", left ? "ok" : "!", right ? "ok" : "!" );
 #endif
-				//_EnvDebugBreak ();
+				_EnvDebugBreak ( "compare_char_key" );
+				//return false;
 			}
             if ( strlen ( left->appArea ) <= 0 || strlen ( right->appArea ) <= 0 ) {
 #if (defined(ENVIRONS_CORE_LIB1) && !defined(NDEBUG))
@@ -180,6 +182,10 @@ namespace environs
 
 		unsigned int        connectFails;
 
+#ifndef ANDROID
+        static int                  wifiCurrentRSSI;
+        static unsigned long long   wifiCurrentBSSID;
+#endif
         bool				Init ( const sp ( Instance ) & obj );
 		static bool			InitInstance ();
 
@@ -208,9 +214,9 @@ namespace environs
 		bool				IsDeviceInSameNetwork ( int deviceID, const char * areaName, const char * appName );
 
 #ifdef __cplusplus
-        sp ( DeviceInstanceNode ) GetDeviceNearbySP ( int deviceID, const char * areaName, const char * appName, bool useLock = true );
+        sp ( DeviceInstanceNode ) GetDeviceNearbySP ( int deviceID, const char * areaName, const char * appName );//, bool useLock = true );
         
-        sp ( DeviceInstanceNode ) GetDeviceSP ( int deviceID, const char * areaName, const char * appName, int * success = 0, bool useLock = true );
+        sp ( DeviceInstanceNode ) GetDeviceSP ( int deviceID, const char * areaName, const char * appName, int * success = 0 ); //, bool useLock = true );
         
         static sp ( DeviceInstanceNode ) GetDeviceSP ( int hInst, int objID );        
         
@@ -246,7 +252,7 @@ namespace environs
 		int					GetDevicesAvailableCount ( );
 
 		int					GetDevicesAvailableCountCached ();
-		int					GetDevicesAvailableCached ( char * &buffer );
+		jobject				GetDevicesAvailableCached ( JNIEnv * jenv );
         
         static bool			SocketKeepAlive ( int sock, int opt );
 		static bool			SendUDPFIN ( int sock );
@@ -343,7 +349,7 @@ namespace environs
 
 		void				ReleaseDevices ( );
 		void				RemoveDevice ( unsigned int ip, char * msg );
-		void				RemoveDevice ( DeviceInstanceNode * device, bool useLock = true );
+		void				RemoveDevice ( DeviceInstanceNode * device, bool useLock = true, bool forceUnlock = false );
 
 #ifdef ENABLE_EXT_BIND_IN_STUNT
         static unsigned int primaryInterface;
@@ -419,8 +425,14 @@ namespace environs
 		static void		*	AliveThreadStarter ( void * object );
 		void				AliveThread ( );
 
+#ifndef NDEBUG
+    public:
+#endif
 		// DeviceList cache
-		std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>  *   devicesMapAvailable;
+        std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>  *   devicesMapAvailable;
+#ifndef NDEBUG
+    private:
+#endif
 
 		char			*	deviceAvailableCached;
 		bool				deviceAvailableCacheDirty;
@@ -435,7 +447,7 @@ namespace environs
 
 		int					deviceMediatorQueryCount;
 
-		bool				DevicesMediatorClear ( bool useLock );
+		bool				DevicesMediatorClear ();
 		bool				DevicesMediatorReload ();
 
 		bool				DevicesAvailableReload ();

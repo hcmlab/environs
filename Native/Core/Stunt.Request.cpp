@@ -635,6 +635,9 @@ namespace environs
     
     int StunTRequest::Establish ()
     {
+#ifndef NDEBUG
+        try {
+#endif
         int connectSocketT	= INVALID_FD;
         int acceptSocketT	= INVALID_FD;
         int localNetSocketT	= INVALID_FD;
@@ -915,15 +918,16 @@ namespace environs
             if ( (msPassed - lastCheck) < 30 ) {
                 maxFails++;
 
-                CLogArgID ( "[ %s ].Establish: STUNT CHECK [ rc1 %d : rc %d : size %d : msPassed %d : socketConnect %d : socketAccept %d ]", getChannel (), rc1, rc, size, msPassed, socketConnect, socketAccept );
-                CLogArgID ( "[ %s ].Establish: STUNT CHECK [ sock %d : %d : %d : sock %d : state %d ]", getChannel (), desc[0].fd, desc[0].events, desc[0].revents, acceptStunt.sock, acceptStunt.state );
-                CLogArgID ( "[ %s ].Establish: STUNT CHECK [ sock %d : %d : %d : sock %d : state %d ]", getChannel (), desc[1].fd, desc[1].events, desc[1].revents, handlers [ 1 ] ? handlers [ 1 ]->sock : -1, handlers [ 1 ] ? handlers [ 1 ]->state : -1 );
+                CVerbArgID ( "[ %s ].Establish: STUNT CHECK [ rc1 %d : rc %d : size %d : msPassed %d : socketConnect %d : socketAccept %d ]", getChannel (), rc1, rc, size, msPassed, socketConnect, socketAccept );
+                CVerbArgID ( "[ %s ].Establish: STUNT CHECK [ sock %d : %d : %d : sock %d : state %d ]", getChannel (), desc[0].fd, desc[0].events, desc[0].revents, acceptStunt.sock, acceptStunt.state );
+                CVerbArgID ( "[ %s ].Establish: STUNT CHECK [ sock %d : %d : %d : sock %d : state %d ]", getChannel (), desc[1].fd, desc[1].events, desc[1].revents, handlers [ 1 ] ? handlers [ 1 ]->sock : -1, handlers [ 1 ] ? handlers [ 1 ]->state : -1 );
 
+#ifdef DEBUGVERB
                 if (size > 2)
-                CLogArgID ( "[ %s ].Establish: STUNT CHECK [ sock %d : %d : %d : sock %d : state %d ]", getChannel (), desc[2].fd, desc[2].events, desc[2].revents, handlers [ 2 ] ? handlers [ 2 ]->sock : -1, handlers [ 2 ] ? handlers [ 2 ]->state : -1 );
-                
+					CVerbArgID ( "[ %s ].Establish: STUNT CHECK [ sock %d : %d : %d : sock %d : state %d ]", getChannel (), desc[2].fd, desc[2].events, desc[2].revents, handlers [ 2 ] ? handlers [ 2 ]->sock : -1, handlers [ 2 ] ? handlers [ 2 ]->state : -1 );
+#endif                
                 if ( (maxFails % 10) == 0 ) {
-                    _EnvDebugBreak ();
+                    _EnvDebugBreak ( "Stunt.Request::Establish" );
                 }
             }
 
@@ -1039,7 +1043,16 @@ namespace environs
             ShutdownCloseSocket ( socketNew, true, "Establish stunt" );
         }
         
-        CloseThreads ( false );
+            CloseThreads ( false );
+
+#ifndef NDEBUG
+        }
+        catch ( char * )
+        {
+            printf ( "StunTHandler::Establish: Exception !!!\n" );
+            _EnvDebugBreak ( "StunTHandler::Establish" );
+        }
+#endif
         
         return INVALID_FD;
     }
@@ -1344,6 +1357,10 @@ namespace environs
 			return;
         }
 
+#ifndef NDEBUG
+        try {
+#endif
+
 		DeviceBase			*	device		= deviceSP.get ();
 
         int					*	destSocket          = 0;
@@ -1441,7 +1458,16 @@ namespace environs
 #endif
         
     Finish:
-        *destState	= ENVIRONS_THREAD_NO_THREAD;
+            *destState	= ENVIRONS_THREAD_NO_THREAD;
+
+#ifndef NDEBUG
+        }
+        catch ( char * )
+        {
+            printf ( "StunTRequest::HandleRequest: Exception !!!\n" );
+            _EnvDebugBreak ( "StunTRequest::HandleRequest" );
+        }
+#endif
     }
     
     
@@ -1453,8 +1479,11 @@ namespace environs
 		if ( !device ) {
 			CErrArg ( "[ %s ].EstablishRequest: Invalid argument.", getChannel () );
 			return false;
-		}
+        }
 
+#ifndef NDEBUG
+        try {
+#endif
         int						deviceID	= device->deviceID;
         
         CVerbArgID ( "[ %s ].EstablishRequest", getChannel ( ) );
@@ -1611,7 +1640,17 @@ namespace environs
 	FinishAndReset:
         *destState	= ENVIRONS_THREAD_NO_THREAD;
         
-        return success;
+            return success;
+
+#ifndef NDEBUG
+        }
+        catch ( char * )
+        {
+            printf ( "StunTRequest: EstablishRequest !!!\n" );
+            _EnvDebugBreak ( "StunTRequest: EstablishRequest" );
+        }
+        return false;
+#endif
     }
 
 
@@ -1831,7 +1870,7 @@ namespace environs
         
         sp ( MediatorClient ) mediator = env->mediator MED_WP;
         if ( mediator ) {
-            sp ( DeviceInstanceNode ) deviceInst = mediator->GetDeviceNearbySP ( deviceID, areaName, appName, true );
+            sp ( DeviceInstanceNode ) deviceInst = mediator->GetDeviceNearbySP ( deviceID, areaName, appName );
             if ( deviceInst ) {                
                 Porti = deviceInst->info.udpPort;
             }            
@@ -1927,6 +1966,9 @@ namespace environs
     
     void * StunRequest::EstablishStarter ( void * arg )
     {
+#ifndef NDEBUG
+        try {
+#endif
         StunRequest * request = (StunRequest *) arg;
         if ( !request )
             return 0;
@@ -1955,7 +1997,16 @@ namespace environs
         
         request->myself = 0;
         
-        request->thread.Unlock ( "StunRequest.EstablishStarter" );
+            request->thread.Unlock ( "StunRequest.EstablishStarter" );
+
+#ifndef NDEBUG
+        }
+        catch ( char * )
+        {
+            printf ( "StunRequest::EstablishStarter: Exception !!!\n" );
+            _EnvDebugBreak ( "StunRequest::EstablishStarter" );
+        }
+#endif
         
         return 0;
     }
@@ -1963,6 +2014,9 @@ namespace environs
     
     void StunRequest::Establisher ( )
     {
+#ifndef NDEBUG
+        try {
+#endif
         CVerbID ( "Establisher started ..." );
         
         pthread_setname_current_envthread ( "StunRequest.Establisher" );
@@ -1976,7 +2030,16 @@ namespace environs
         
         mediator->RegisterAtMediators ( true );
         
-        Establish ( );
+            Establish ( );
+
+#ifndef NDEBUG
+        }
+        catch ( char * )
+        {
+            printf ( "StunRequest::Establisher: Exception !!!\n" );
+            _EnvDebugBreak ( "StunRequest::Establisher" );
+        }
+#endif
     }
     
     

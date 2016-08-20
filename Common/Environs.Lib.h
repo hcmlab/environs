@@ -729,6 +729,7 @@ namespace environs
 
 			CLI_INC
 				LIBEXPORT void * CallConv		GetDevicesN ( int hInst, int listType );
+
 			CLI_INC
                 LIBEXPORT void * CallConv		GetDeviceN ( int hInst, int deviceID, CString_ptr areaName, CString_ptr appName, int fromType );
             CLI_INC
@@ -1000,6 +1001,21 @@ namespace environs
 			CLI_INC
 				LIBEXPORT int CallConv			GetUseWifiIntervalN ();
 
+			/**
+			* Query array of WifiItems.
+			*
+			* @return array of WifiItems.
+			*/
+			CLI_INC
+				LIBEXPORT void * CallConv		GetWifisN ();
+
+			/**
+			* Query array of BtItems.
+			*
+			* @return array of BtItems.
+			*/
+			CLI_INC
+				LIBEXPORT void * CallConv		GetBtsN ();
 
 			/**
 			* Option for whether to observe blueooth to help location based services.

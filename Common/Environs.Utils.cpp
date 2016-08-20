@@ -401,7 +401,7 @@ namespace environs
     
     bool IsValidDirectory ( const char * path, size_t length )
     {
-        if ( length < 1 )
+        if ( length < 1 || !path )
             return false;
         
         const char * found = strstr ( path, ".." );

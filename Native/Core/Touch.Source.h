@@ -74,6 +74,8 @@ namespace environs
 		bool					viewAdapt;
 		float					xScale;
 		float					yScale;
+		int						xOffset;
+		int						yOffset;
         
         bool					Start ();
 		bool					Stop ( );
@@ -85,6 +87,8 @@ namespace environs
 		void					SendFrame ( bool useLock = true );
         
         lib::InputPackRec   *	AllocTouch ( lib::InputPackRaw * touchPack );
+
+		static bool				recognizersEnabled;
 
 
 	private:

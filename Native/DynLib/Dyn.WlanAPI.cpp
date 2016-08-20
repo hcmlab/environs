@@ -18,7 +18,10 @@
 * --------------------------------------------------------------------
 */
 #include "stdafx.h"
-#include "Environs.native.h"
+#include "Environs.Native.h"
+
+#ifdef _WIN32
+
 #include "Interop.h"
 #include "Dyn.WlanAPI.h"
 using namespace environs;
@@ -166,5 +169,6 @@ Failed:
 
 } // -> namespace environs
 
+#endif
 
 

@@ -18,6 +18,7 @@
 */
 //#define REFRESH_LIST_IN_CALLABCK
 #define RELEASE_CHAT_IN_LIST_CALLABCK
+//#define USE_ENV_OBSERVERCOLLECTION
 
 using System;
 using System.Windows;
@@ -32,7 +33,7 @@ namespace environs.Apps
     /// <summary>
     /// Interactionlogic for ChatAppWindow.xaml
     /// </summary>
-    public partial class ChatAppWindow : Window
+    public partial class ChatAppWindow : Window, IDisposable
     {
         Thread updaterThread = null;
 
@@ -88,6 +89,7 @@ namespace environs.Apps
 
         #region Environs Observers
 
+#if USE_ENV_OBSERVERCOLLECTION
         EnvObservableCollection<DeviceInstance> devices = new EnvObservableCollection<DeviceInstance>();
 
         public EnvObservableCollection<DeviceInstance> userCollection
@@ -97,6 +99,17 @@ namespace environs.Apps
                 return devices;
             }
         }
+#else
+        ObservableCollection<DeviceInstance> devices = new ObservableCollection<DeviceInstance>();
+
+        public ObservableCollection<DeviceInstance> userCollection
+        {
+            get
+            {
+                return devices;
+            }
+        }
+#endif
 
 
         void OnListChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs args)
@@ -206,8 +219,10 @@ namespace environs.Apps
                         devices.Clear();
                         return;
                     }
-
+                    
+#if USE_ENV_OBSERVERCOLLECTION
                     devices.notificationEnabled = false;
+#endif
 
                     // A reaaaally simple sync approach ... there are much better ones for sure ...
                     int i = 0, j = 0;
@@ -251,8 +266,10 @@ namespace environs.Apps
                         changed = true;
 #endif
                     }
-
+                    
+#if USE_ENV_OBSERVERCOLLECTION
                     devices.notificationEnabled = true;
+#endif
 
 #if REFRESH_LIST_IN_CALLABCK
                     if (changed)
@@ -268,12 +285,13 @@ namespace environs.Apps
 
             lock(this) { updaterThread = null; }
         }
+
         #endregion
 
-        
+
         #region Messages list
-        
+
         #endregion
-        
+
     }
 }

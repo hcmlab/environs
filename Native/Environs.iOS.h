@@ -68,7 +68,7 @@ namespace environs
 	{
 #endif
         const char * GetSSID ( bool desc );
-        
+
 #ifdef __cplusplus
 	} /* namespace API */
 #endif

@@ -621,7 +621,7 @@ namespace environs
 		}
 		catch ( Exception ^ ex )
 		{
-			CErr ( "Environs: " + ex->Message );
+            CErr ( "Environs: " + ( ex != nill ? ex->Message : "" ) );
 		}
 	}
 
@@ -659,7 +659,7 @@ namespace environs
 		}
 		catch ( Exception ^ ex )
 		{
-			CErr ( "Environs: " + ex->Message );
+			CErr ( "Environs: " + ( ex != nill ? ex->Message : "" ) );
 		}
 	}
 
@@ -673,6 +673,197 @@ namespace environs
 	void Environs::SetUseStream ( bool enable )
 	{
 		SetUseH264 ( enable );
+	}
+
+
+	cli::array < environs::WifiEntry ^ > ^ BuildWifiList ( IntPtr ^ pData )
+	{
+		if ( pData == nill || pData == IntPtr::Zero )
+			return nill;
+
+		cli::array < environs::WifiEntry ^ > ^ data = nill;
+
+		const unsigned int wifiItemSize = 16;
+
+		unsigned char * pBytes = ( unsigned char * ) pData->ToPointer ();
+
+		unsigned int count = *( ( unsigned int * ) pBytes );
+		if ( count <= 0 )
+			return nill;
+		if ( count > 256 )
+			count = 256;
+		pBytes += 4;
+
+		unsigned int remainSize = *( ( unsigned int * ) pBytes );
+		if ( remainSize < wifiItemSize )
+			return nill;
+		pBytes += 4;
+
+		data = gcnew cli::array < environs::WifiEntry ^ > ( count );
+		if ( data == nill )
+			return nill;
+
+		unsigned int i = 0;
+
+		for ( ; i < count; i++ )
+		{
+			if ( remainSize < wifiItemSize )
+				break;
+
+			environs::WifiEntry ^ entry = gcnew environs::WifiEntry ();
+			if ( entry == nill )
+				break;
+			
+			entry->bssid		= *( ( unsigned long long * ) pBytes ); pBytes += 8;
+			entry->rssi			= *( ( short * ) pBytes ); pBytes += 2;
+			entry->signal		= *( ( short * ) pBytes ); pBytes += 2;
+			entry->channel		= *( ( char * ) pBytes ); pBytes++;
+			entry->encrypt		= *( ( char * ) pBytes ); pBytes++;
+			entry->isConnected	= (*( ( char * ) pBytes ) != 0); pBytes++;
+			entry->sizeOfssid	= ( short ) *( ( char * ) pBytes ); pBytes++;
+
+			remainSize -= wifiItemSize;
+
+			unsigned int ssidSize = ( unsigned int ) entry->sizeOfssid;
+
+			if ( ssidSize > 0 ) {
+				if ( ssidSize > 32 )
+					break;				
+
+				if ( remainSize < ssidSize )
+					break;
+
+				pBytes [ ssidSize - 1 ] = 0;
+
+				entry->ssid = CCharToString ( pBytes );
+				pBytes += ssidSize;
+
+				remainSize -= ssidSize;
+			}
+
+			data [ i ] = entry;
+		}
+
+		for ( ; i < count; i++ )
+		{
+			data [ i ] = nill;
+		}
+
+		return data;
+	}
+
+
+	/**
+	* Get a collection that holds all available wifi APs. This list is NOT updated dynamically.
+	*
+	* @return WifiList with WifiItem objects
+	*/
+	cli::array<WifiEntry ^> ^ Environs::GetWifis ()
+	{
+		void * pData = environs::API::GetWifisN ();
+		if ( pData == nill )
+			return nill;
+
+		array<WifiEntry ^> ^ wifis = BuildWifiList ( IntPtr ( pData ) );
+
+		free_plt ( pData );
+
+		return wifis;
+	}
+
+
+	cli::array < environs::BtEntry ^ > ^ BuildBtList ( IntPtr ^ pData )
+	{
+		if ( pData == nill || pData == IntPtr::Zero )
+			return nill;
+
+		cli::array < environs::BtEntry ^ > ^ data = nill;
+
+		const unsigned int btItemSize = 32;
+
+		unsigned char * pBytes = ( unsigned char * ) pData->ToPointer ();
+
+		unsigned int count = *( ( unsigned int * ) pBytes );
+		if ( count <= 0 )
+			return nill;
+		if ( count > 256 )
+			count = 256;
+		pBytes += 4;
+
+		unsigned int remainSize = *( ( unsigned int * ) pBytes );
+		if ( remainSize < btItemSize )
+			return nill;
+		pBytes += 4;
+
+		data = gcnew cli::array < environs::BtEntry ^ > ( count );
+		if ( data == nill )
+			return nill;
+
+		unsigned int i = 0;
+
+		for ( ; i < count; i++ )
+		{
+			if ( remainSize < btItemSize )
+				break;
+
+			environs::BtEntry ^ entry = gcnew environs::BtEntry ();
+			if ( entry == nill )
+				break;
+
+			entry->bssid		= *( ( unsigned long long * ) pBytes ); pBytes += 8;
+			entry->rssi			= *( ( short * ) pBytes ); pBytes += 2;
+			entry->isConnected	= ( *( ( char * ) pBytes ) != 0 ); pBytes++;
+			entry->sizeOfssid	= ( short ) *( ( char * ) pBytes ); pBytes++;
+			entry->uuid1		= *( ( unsigned long long * ) pBytes ); pBytes += 8;
+			entry->uuid2		= *( ( unsigned long long * ) pBytes ); pBytes += 8;
+
+			remainSize -= btItemSize;
+
+			unsigned int ssidSize = ( unsigned int ) entry->sizeOfssid;
+
+			if ( ssidSize > 0 ) {
+				if ( ssidSize > 32 )
+					break;
+
+				if ( remainSize < ssidSize )
+					break;
+
+				pBytes [ ssidSize - 1 ] = 0;
+
+				entry->ssid = CCharToString ( pBytes );
+				pBytes += ssidSize;
+
+				remainSize -= ssidSize;
+			}
+
+			data [ i ] = entry;
+		}
+
+		for ( ; i < count; i++ )
+		{
+			data [ i ] = nill;
+		}
+
+		return data;
+	}
+
+
+	/**
+	* Get a collection that holds all available Bluetooth devices. This list is NOT updated dynamically.
+	*
+	* @return BtList with BtItem objects
+	*/
+	cli::array<BtEntry ^> ^ Environs::GetBts ()
+	{
+		void * pData = environs::API::GetBtsN ();
+		if ( pData == nill )
+			return nill;
+
+		array<BtEntry ^> ^ bts = BuildBtList ( IntPtr ( pData ) );
+
+		free_plt ( pData );
+
+		return bts;
 	}
 
 

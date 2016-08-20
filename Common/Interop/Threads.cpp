@@ -296,10 +296,10 @@ namespace environs
 #if !defined(USE_ENVIRONS_POSIX_THREADS)
 
 #ifdef USE_CRIT_SEC_MUTEX
+	
+	_When_ ( return == 0, _Acquires_nonreentrant_lock_ ( *lock ) )
+		_Requires_lock_not_held_ ( *lock )
 
-#if _MSC_VER >= 1800
-	_When_ ( return == 0, _Acquires_lock_ ( lock ) )
-#endif
 	INLINEFUNC int pthread_mutex_lock ( pthread_mutex_t * lock )
 	{
 		EnterCriticalSection ( lock );
@@ -307,18 +307,18 @@ namespace environs
 	}
 
 
-#if _MSC_VER >= 1800
-	_When_ ( return == 0, _Acquires_lock_ ( *lock ) )
-#endif
+	_When_ ( return == 0, _Acquires_nonreentrant_lock_ ( *lock ) )
+		_Requires_lock_not_held_ ( *lock )
+
 	INLINEFUNC int pthread_mutex_trylock ( pthread_mutex_t * lock )
 	{
-		return !TryEnterCriticalSection ( lock );
+		return ( TryEnterCriticalSection ( lock ) ? 0 : 1 );
 	}
 
 
-#if _MSC_VER >= 1800
-	_When_ ( return == 0, _Releases_lock_ ( *lock ) )
-#endif
+	_When_ ( return == 0, _Releases_nonreentrant_lock_ ( *lock ) )
+		_Requires_lock_held_ ( *lock )
+
 	INLINEFUNC int pthread_mutex_unlock ( pthread_mutex_t * lock )
 	{
 		LeaveCriticalSection ( lock );
@@ -424,7 +424,8 @@ namespace environs
             return;
         
         if ( lock ) {
-            LockAcquire ( lock, "DetachThread" );
+			if ( !LockAcquire ( lock, "DetachThread" ) )
+				lock = nill;
         }
 
         if ( pthread_valid ( thread ) ) {
@@ -499,7 +500,8 @@ namespace environs
 		CLogsArg ( 2, "JoinThread: Waiting for %s ...", threadName );
 
         if ( lock ) {
-            LockAcquire ( lock, "JoinThread" );
+			if ( !LockAcquire ( lock, "JoinThread" ) )
+				lock = nill;
         }
 #if defined(USE_ENVIRONS_POSIX_THREADS)
 		pthread_join ( thread, NULL );
@@ -519,7 +521,7 @@ namespace environs
 		Zeroh ( thread );
 
         if ( lock ) {
-            LockRelease ( lock, "JoinThread" );
+            LockReleaseV ( lock, "JoinThread" );
         }
 		CLogsArg ( 3, "JoinThread: Waiting for %s done.", threadName );
 	}
@@ -687,7 +689,7 @@ namespace environs
 #else
 	void MutexErrorLog ( const char * operation )
 	{
-		CErrArg ( "MutexErrorLog: Failed to %s ", operation );
+		CErrArg ( "MutexErrorLog: Failed to [ %s ]", operation );
 	}
 #endif
 
@@ -699,6 +701,9 @@ namespace environs
 	*	Release lock on mutex.
 	*
 	*/
+	_When_ ( mtx != 0, _Acquires_nonreentrant_lock_ ( *mtx ) )
+		_Requires_lock_not_held_ ( *mtx )
+
 #ifdef USE_LOCK_LOG
 	void LockAcquireVoid ( pthread_mutex_t * mtx, const char * mutexName, const char * className, const char * funcName )
 	{
@@ -742,6 +747,9 @@ namespace environs
 	*	Acquire lock on mutex.
 	*
 	*/
+	_When_ ( mtx != 0, _Releases_nonreentrant_lock_ ( *mtx ) )
+		_Requires_lock_held_ ( *mtx )
+
 #ifdef USE_LOCK_LOG
 	void LockReleaseVoid ( pthread_mutex_t * mtx, const char * mutexName, const char * className, const char * funcName )
 	{
@@ -765,6 +773,9 @@ namespace environs
 	*
 	*	@return success
 	*/
+	_When_ ( return == true, _Acquires_nonreentrant_lock_ ( *mtx ) )
+		_Requires_lock_not_held_ ( *mtx )
+
 #ifdef USE_LOCK_LOG
 	bool LockAcquireBool ( pthread_mutex_t * mtx, const char * mutexName, const char * className, const char * funcName )
 	{
@@ -810,6 +821,9 @@ namespace environs
 	*
 	*	@return success
 	*/
+	_When_ ( return == true, _Releases_nonreentrant_lock_ ( *mtx ) )
+		_Requires_lock_held_ ( *mtx )
+
 #ifdef USE_LOCK_LOG
 	bool LockReleaseBool ( pthread_mutex_t * mtx, const char * mutexName, const char * className, const char * funcName )
 	{
@@ -1025,7 +1039,9 @@ namespace environs
         }
     }
     
-    
+
+	//_When_ ( return == true, _Acquires_lock_ ( this->lockObj ) )
+
     bool EnvLock::Lock ( CString_ptr func )
     {
         CThreadVerbArg ( "Lock: [ %s ]", owner );
@@ -1052,7 +1068,9 @@ namespace environs
         return true;
     }
     
-    
+	
+	//_When_ ( return == true, _Releases_lock_ ( this->lockObj ) ) _Requires_lock_held_ ( this->lockObj )
+
     bool EnvLock::Unlock ( CString_ptr func )
     {
         CThreadVerbArg ( "Unlock: [ %s ]", owner );

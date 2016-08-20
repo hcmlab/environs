@@ -99,13 +99,13 @@ namespace environs
     
     DeviceInstanceNode::DeviceInstanceNode ( ) : next ( 0 ), prev ( 0 )
     {
-        TraceDeviceInstanceNodesAdd ( this );
-
         Zero ( info );
 
-        TraceDeviceInstanceNodeAdd ();
+        CLIENTEXP ( info.objID = __sync_add_and_fetch ( &deviceInstanceObjIDs, 1 ); )
 
-		CLIENTEXP ( info.objID = __sync_add_and_fetch ( &deviceInstanceObjIDs, 1 ); )
+        TraceDeviceInstanceNodesAdd ( this );
+
+        TraceDeviceInstanceNodeAdd ();
 
 		CLIENTEXP ( hEnvirons = 0; )
 
@@ -2057,7 +2057,7 @@ namespace environs
             sendLen = ( int ) broadcastMessageLen;
         }
         
-        CVerbArg ( "SendBroadcast: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
+        CVerbVerbArg ( "SendBroadcast: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
         
         struct 	sockaddr_in		broadcastAddr;
         Zero ( broadcastAddr );
@@ -2106,6 +2106,7 @@ namespace environs
         return success;
     }
     
+
     bool Mediator::SendBroadcastWithSocket ( bool enforce, bool sendStatus, bool sendToAny, int sock )
     {
         CVerbVerb ( "SendBroadcastWithSocket" );
@@ -2136,7 +2137,7 @@ namespace environs
             sendLen = ( int ) broadcastMessageLen;
         }
         
-        CVerbArg ( "SendBroadcastWithSocket: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
+        CVerbVerbArg ( "SendBroadcastWithSocket: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
         
         struct 	sockaddr_in		broadcastAddr;
         Zero ( broadcastAddr );
@@ -2218,7 +2219,7 @@ namespace environs
             sendLen = ( int ) broadcastMessageLen;
         }
         
-        CVerbArg ( "SendBroadcast: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
+        CVerbVerbArg ( "SendBroadcast: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
 
         if ( enforceEnqueue )
             success = PushSendBC ( true, msg, sendLen, INADDR_BROADCAST, GET_MEDIATOR_BASE_PORT );
@@ -2282,7 +2283,7 @@ namespace environs
             sendLen = ( int ) broadcastMessageLen;
         }
         
-        CVerbArg ( "SendBroadcastWithSocket: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
+        CVerbVerbArg ( "SendBroadcastWithSocket: Broadcasting %smessage [ %s ] ( %d )...", sendStatus ? "device status " : "", msg + 4, sendLen );
         
         struct 	sockaddr_in		broadcastAddr;
         
@@ -2356,7 +2357,7 @@ namespace environs
 	{
 		bool ret = false;
 
-		CVerb ( "IsLocalIP" );
+		CVerbVerbArg ( "IsLocalIP" );
 
 		if ( !LockAcquireA ( localNetsLock, "IsLocalIP" ) )
 			return false;
@@ -2463,6 +2464,7 @@ namespace environs
 #ifndef MEDIATORDAEMON
                 // Is it connected?
                 sp ( DeviceController) deviceSP = device->deviceSP.lock ();
+
                 if ( deviceSP && deviceSP->deviceStatus == DeviceStatus::Connected )
                 {
                     device = device->next;
@@ -2485,9 +2487,19 @@ namespace environs
 
                 // Remove device and relink the list
                 CLogArg ( "VanishedDeviceWatcher: Removing [ 0x%X ] Area [ %s ] App [ %s ]", device->info.deviceID, device->info.areaName, device->info.appName );
-				RemoveDevice ( vanished, false );
 
-				device = *listRoot;
+                // Note: RemoveDevice will unlock devicesLock in order to prevent acquiring subsequent locks from creating deadlocks
+                // This behavior is only required for MediatorClient (for now)
+                RemoveDevice ( vanished, false, true );
+
+#ifdef USE_WRITE_LOCKS1
+                //if ( !appDevices->LockWrite ( "VanishedDeviceWatcher" ) )
+                //    return;
+#else
+                if ( !LockAcquire ( mutex, "VanishedDeviceWatcher" ) )
+                    return;
+#endif
+                device = *listRoot;
 				continue;
 			}
             
@@ -2945,7 +2957,9 @@ namespace environs
 
 		while ( device )
 		{
-			CVerbVerbArg ( "UpdateDevices: Comparing [0x%X / 0x%X] Area [%s / %s] App [%s / %s]", device->info.deviceID, value, device->info.areaName, areaName, device->info.appName, appName );
+			CVerbVerbArg ( "UpdateDevices: Comparing [ 0x%X / 0x%X ] Area [ %s / %s ] App [ %s / %s ]", device->info.deviceID, value, 
+				device->info.areaName, areaName ? areaName : "Invalid", 
+				device->info.appName, appName ? appName : "Invalid" );
 
 			if ( device->info.deviceID == value
 #ifndef MEDIATORDAEMON
@@ -2991,7 +3005,9 @@ namespace environs
 				CErr ( "UpdateDevices: Failed to allocate memory for new device!" );
 				device = 0;
 				break;
-			}
+            }
+
+            CVerbVerbArg ( "UpdateDevices: Assigning [ 0x%X ] Area [ %s ] App [ %s ]", dev->info.deviceID, dev->info.areaName, dev->info.appName );
             dev->baseSP = deviceSP;
 
 			dev->info.deviceID = value;
@@ -3120,17 +3136,17 @@ namespace environs
 			//}
 
 			if ( changed ) {
-				CVerbArg ( "UpdateDevices: Device      = [0x%X / %s / %s]", device->info.deviceID, device->info.deviceName, device->info.broadcastFound ? "on same network" : "by mediator" );
+				CVerbArg ( "UpdateDevices: Device          = [ 0x%X / %s / %s ]", device->info.deviceID, device->info.deviceName, device->info.broadcastFound ? "on same network" : "by mediator" );
 				if ( device->info.ip != device->info.ipe ) {
-					CVerbArg ( "UpdateDevices: Device IPe != IP  [%s]", inet_ntoa ( *( ( struct in_addr * ) &device->info.ip ) ) );
-					CVerbArg ( "UpdateDevices: Device IP  != IPe [%s]", inet_ntoa ( *( ( struct in_addr * ) &device->info.ipe ) ) );
+					CVerbArg ( "UpdateDevices: Device IPe != IP  [ %s ]", inet_ntoa ( *( ( struct in_addr * ) &device->info.ip ) ) );
+					CVerbArg ( "UpdateDevices: Device IP  != IPe [ %s ]", inet_ntoa ( *( ( struct in_addr * ) &device->info.ipe ) ) );
 				}
 				else {
-					CListLogArg ( "UpdateDevices: Device IPe [%s]", inet_ntoa ( *( ( struct in_addr * ) &device->info.ipe ) ) );
+					CListLogArg ( "UpdateDevices: Device IPe   = [ %s ]", inet_ntoa ( *( ( struct in_addr * ) &device->info.ipe ) ) );
 				}
 
-				CListLogArg ( "UpdateDevices: Area/App = [%s / %s]", device->info.areaName, device->info.appName );
-				CListLogArg ( "UpdateDevices: Device  IPe = [%s (from socket), tcp [%d], udp [%d]]", inet_ntoa ( *( ( struct in_addr * ) &ip ) ), device->info.tcpPort, device->info.udpPort );
+				CListLogArg ( "UpdateDevices: Area/App     = [ %s / %s ]", device->info.areaName, device->info.appName );
+				CListLogArg ( "UpdateDevices: Device  IPe  = [ %s (from socket), tcp [%d], udp [%d] ]", inet_ntoa ( *( ( struct in_addr * ) &ip ) ), device->info.tcpPort, device->info.udpPort );
 			}
 		}
 
@@ -3450,7 +3466,7 @@ namespace environs
 					// No more instances
 					ReleaseMediator ( src );
 
-                    ZeroStruct ( *t, MediatorInstance );
+					ZeroStructStd ( *t, MediatorInstance );
 
 					/*MediatorInstance *tmp = new MediatorInstance ( );
 					if ( tmp ) {

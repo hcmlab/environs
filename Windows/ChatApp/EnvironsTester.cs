@@ -285,6 +285,8 @@ namespace environs.Apps
 
             try
             {
+                WifiEntry[] wifis = env.GetWifis();
+
                 DeviceInstance[] devices = devList.GetDevices().ToArray();
                 if (devices == null)
                     return;

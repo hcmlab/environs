@@ -35,7 +35,7 @@ namespace environs.Apps
     /// <summary>
     /// Interactionlogic for ChatAppWindow.xaml
     /// </summary>
-    public partial class ChatAppWindow : Window
+    public partial class ChatAppWindow : Window, IDisposable
     {
         private const String className = "ChatAppWindow. . . . . .";
 
@@ -303,6 +303,35 @@ namespace environs.Apps
                 chatsToInit.Clear();
             }
         }
+        #endregion
+
+        
+        #region Disposing
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (initThreadEvent != null)
+                {
+                    initThreadEvent.Dispose();
+                    initThreadEvent = null;
+                }
+
+                if (statusThreadEvent != null)
+                {
+                    statusThreadEvent.Dispose();
+                    statusThreadEvent = null;
+                }
+            }
+        }
+
         #endregion
 
 

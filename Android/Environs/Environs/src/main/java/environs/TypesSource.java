@@ -2237,25 +2237,35 @@ public class TypesSource {
 	 * Environs SENSOR_TYPES
 	 * Type: int
 	 */
-	public static final int ENVIRONS_SENSOR_TYPE_ACCELEROMETER		= 0;
-	public static final int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD		= 1;
-	public static final int ENVIRONS_SENSOR_TYPE_GYROSCOPE			= 2;
-	public static final int ENVIRONS_SENSOR_TYPE_ORIENTATION		= 3;
-	public static final int ENVIRONS_SENSOR_TYPE_LIGHT				= 4;
-	public static final int ENVIRONS_SENSOR_TYPE_LOCATION			= 5;
-	public static final int ENVIRONS_SENSOR_TYPE_HEADING			= 6;
-	public static final int ENVIRONS_SENSOR_TYPE_ALTIMETER			= 7;
-	public static final int ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION		= 8;
-	public static final int ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION	= 9;
-	public static final int ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD			= 10;
-	public static final int ENVIRONS_SENSOR_TYPE_HEARTRATE			= 11;
-	public static final int ENVIRONS_SENSOR_TYPE_PROXIMITY			= 12;
-	public static final int ENVIRONS_SENSOR_TYPE_VOC				= 13;
-	public static final int ENVIRONS_SENSOR_TYPE_CO2				= 14;
-	public static final int ENVIRONS_SENSOR_TYPE_HUMIDITY			= 15;
-	public static final int ENVIRONS_SENSOR_TYPE_TEMPERATURE		= 16;
-	public static final int ENVIRONS_SENSOR_TYPE_CUSTOM				= 17;
-	public static final int ENVIRONS_SENSOR_TYPE_MAX				= 18;
+	public static final int ENVIRONS_SENSOR_TYPE_ACCELEROMETER			= 0;
+	public static final int ENVIRONS_SENSOR_TYPE_ACCELERATION 			= 1;
+	public static final int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD			= 2;
+	public static final int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION	= 3;
+	public static final int ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB 	= 4;
+	public static final int ENVIRONS_SENSOR_TYPE_GYROSCOPE				= 5;
+	public static final int ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB		= 6;
+	public static final int ENVIRONS_SENSOR_TYPE_ORIENTATION			= 7;
+	public static final int ENVIRONS_SENSOR_TYPE_LIGHT					= 8;
+	public static final int ENVIRONS_SENSOR_TYPE_LOCATION				= 9;
+	public static final int ENVIRONS_SENSOR_TYPE_HEADING				= 10;
+	public static final int ENVIRONS_SENSOR_TYPE_TEMPERATURE			= 11;
+	public static final int ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT		= 12;
+	public static final int ENVIRONS_SENSOR_TYPE_PRESSURE				= 13;
+	public static final int ENVIRONS_SENSOR_TYPE_ATTITUDE				= 14;
+	public static final int ENVIRONS_SENSOR_TYPE_ROTATION				= 15;
+	public static final int ENVIRONS_SENSOR_TYPE_ROTATION_GAME 			= 16;
+	public static final int ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC 	= 17;
+	public static final int ENVIRONS_SENSOR_TYPE_GRAVITY				= 18;
+	public static final int ENVIRONS_SENSOR_TYPE_STEPPER				= 10;
+	public static final int ENVIRONS_SENSOR_TYPE_STEPS					= 20;
+	public static final int ENVIRONS_SENSOR_TYPE_TILT 					= 21;
+	public static final int ENVIRONS_SENSOR_TYPE_HEARTRATE				= 22;
+	public static final int ENVIRONS_SENSOR_TYPE_PROXIMITY				= 23;
+	public static final int ENVIRONS_SENSOR_TYPE_VOC					= 24;
+	public static final int ENVIRONS_SENSOR_TYPE_CO2					= 25;
+	public static final int ENVIRONS_SENSOR_TYPE_HUMIDITY				= 26;
+	public static final int ENVIRONS_SENSOR_TYPE_CUSTOM					= 27;
+	public static final int ENVIRONS_SENSOR_TYPE_MAX					= 28;
 
 	/**
 	 * Sensor type enumeration.
@@ -2263,22 +2273,32 @@ public class TypesSource {
 	private static enum SensorType {
 		All					(-1),
 		Accelerometer		(ENVIRONS_SENSOR_TYPE_ACCELEROMETER),
+		Acceleration		(ENVIRONS_SENSOR_TYPE_ACCELERATION),
 		MagneticField		(ENVIRONS_SENSOR_TYPE_MAGNETICFIELD),
+		MagneticFieldMotion	(ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_MOTION),
+		MagneticFieldUncalib (ENVIRONS_SENSOR_TYPE_MAGNETICFIELD_UNCALIB),
 		Gyroscope			(ENVIRONS_SENSOR_TYPE_GYROSCOPE),
+		GyroscopeUncalib	(ENVIRONS_SENSOR_TYPE_GYROSCOPE_UNCALIB),
 		Orientation			(ENVIRONS_SENSOR_TYPE_ORIENTATION),
 		Light				(ENVIRONS_SENSOR_TYPE_LIGHT),
 		Location			(ENVIRONS_SENSOR_TYPE_LOCATION),
 		Heading				(ENVIRONS_SENSOR_TYPE_HEADING),
-		Altimeter			(ENVIRONS_SENSOR_TYPE_ALTIMETER),
-		MotionAttitudeRotation		(ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION),
-		MotionGravityAcceleration	(ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION),
-		MotionMagneticField			(ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD),
+		Temperature			(ENVIRONS_SENSOR_TYPE_TEMPERATURE),
+		MotionSignificant	(ENVIRONS_SENSOR_TYPE_MOTION_SIGNIFICANT),
+		Pressure			(ENVIRONS_SENSOR_TYPE_PRESSURE),
+		Attitude			(ENVIRONS_SENSOR_TYPE_ATTITUDE),
+		Rotation			(ENVIRONS_SENSOR_TYPE_ROTATION),
+		RotationGame		(ENVIRONS_SENSOR_TYPE_ROTATION_GAME),
+		RotationGeomagnetic	(ENVIRONS_SENSOR_TYPE_ROTATION_GEOMAGNETIC),
+		Gravity				(ENVIRONS_SENSOR_TYPE_GRAVITY),
+		Stepper				(ENVIRONS_SENSOR_TYPE_STEPPER),
+		Steps				(ENVIRONS_SENSOR_TYPE_STEPS),
+		Tilt				(ENVIRONS_SENSOR_TYPE_TILT),
 		Heartrate			(ENVIRONS_SENSOR_TYPE_HEARTRATE),
 		Proximity			(ENVIRONS_SENSOR_TYPE_PROXIMITY),
 		VOC					(ENVIRONS_SENSOR_TYPE_VOC),
 		CO2					(ENVIRONS_SENSOR_TYPE_CO2),
 		Humidity			(ENVIRONS_SENSOR_TYPE_HUMIDITY),
-		Temperature			(ENVIRONS_SENSOR_TYPE_TEMPERATURE),
 		Custom				(ENVIRONS_SENSOR_TYPE_CUSTOM),
 		Max					(ENVIRONS_SENSOR_TYPE_MAX);
 
@@ -2287,77 +2307,157 @@ public class TypesSource {
 		public int value() { return value; }
 	}
 
-	public static final String sensorFlagDescriptions [] = { // DEBUG
+	public static final String sensorFlagDescriptions [] = { 
 			"Accelerometer",
+			"Acceleration",
 			"MagneticField",
+			"MagneticFieldMotion",
+			"MagneticFieldUncalib",
 			"Gyroscope",
+			"GyroscopeUncalib",
 			"Orientation",
 			"Light",
 			"Location",
 			"Heading",
-			"Altimeter/Pressure",
-			"MotionAttitudeRotation",
-			"MotionGravityAcceleration",
-			"MotionMagneticField",
+			"Temperature",
+			"MotionSignificant",
+			"Pressure",
+			"Attitude",
+			"Rotation",
+			"RotationGame",
+			"RotationGeomagnetic",
+			"Gravity",
+			"Stepper",
+			"Steps",
+			"Tilt",
 			"Heartrate",
 			"Proximity",
 			"VOC",
 			"CO2",
 			"Humidity",
-			"Temperature",
 			"Custom",
 			"Invalid",
 	};
 
-	public static final int ENVIRONS_SENSOR_PACK_TYPE_EXT			= 0x1000000;
+	/** Ignore: for Resolver */
+	public static final int ENVIRONS_SENSOR_PACK_TYPE_EXT			= 0x40000000;
+	/** Ignore: for Resolver */
+	public static final int ENVIRONS_SENSOR_PACK_TYPE_DOUBLES		= 0x80000000;
 
-	public static final int ENVIRONS_SENSOR_FLAG_ACCELEROMETER		= 0x1;
-	public static final int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD		= 0x2;
-	public static final int ENVIRONS_SENSOR_FLAG_GYROSCOPE			= 0x4;
-	public static final int ENVIRONS_SENSOR_FLAG_ORIENTATION		= 0x8;
-	public static final int ENVIRONS_SENSOR_FLAG_LIGHT				= 0x10;
-	public static final int ENVIRONS_SENSOR_FLAG_LOCATION			= 0x20;
-	public static final int ENVIRONS_SENSOR_FLAG_HEADING			= 0x40;
-	public static final int ENVIRONS_SENSOR_FLAG_ALTIMETER			= 0x80;
-	public static final int ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION		= 0x100;
-	public static final int ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION	= 0x200;
-	public static final int ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD			= 0x400;
-	public static final int ENVIRONS_SENSOR_FLAG_HEARTRATE			= 0x800;
-	public static final int ENVIRONS_SENSOR_FLAG_PROXIMITY			= 0x1000;
-	public static final int ENVIRONS_SENSOR_FLAG_VOC				= 0x2000;
-	public static final int ENVIRONS_SENSOR_FLAG_CO2				= 0x4000;
-	public static final int ENVIRONS_SENSOR_FLAG_HUMIDITY			= 0x8000;
-	public static final int ENVIRONS_SENSOR_FLAG_TEMPERATURE		= 0x10000;
-	public static final int ENVIRONS_SENSOR_FLAG_CUSTOM				= 0x800000;
 
-	public static final int MAX_ENVIRONS_SENSOR_TYPE_VALUE			= ENVIRONS_SENSOR_FLAG_CUSTOM;
+	/**
+	 * Sensor type bit field declarations.
+	 * If number of sensor flags exceed the 32 Bitfield, then another complete FLAG2 type has to be used.
+	 *
+	 * */
+	public static final int ENVIRONS_SENSOR_FLAG_ACCELEROMETER			= 0x1;
+	public static final int ENVIRONS_SENSOR_FLAG_ACCELERATION			= 0x2;
+	public static final int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD			= 0x4;
+	public static final int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION	= 0x8;
+	public static final int ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB	= 0x10;
+	public static final int ENVIRONS_SENSOR_FLAG_GYROSCOPE				= 0x20;
+	public static final int ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB		= 0x40;
+	public static final int ENVIRONS_SENSOR_FLAG_ORIENTATION			= 0x80;
+	public static final int ENVIRONS_SENSOR_FLAG_LIGHT					= 0x100;
+	public static final int ENVIRONS_SENSOR_FLAG_LOCATION				= 0x200;
+	public static final int ENVIRONS_SENSOR_FLAG_HEADING				= 0x400;
+	public static final int ENVIRONS_SENSOR_FLAG_TEMPERATURE			= 0x800;
+	public static final int ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT		= 0x1000;
+	public static final int ENVIRONS_SENSOR_FLAG_PRESSURE				= 0x2000;
+	public static final int ENVIRONS_SENSOR_FLAG_ATTITUDE				= 0x4000;
+	public static final int ENVIRONS_SENSOR_FLAG_ROTATION				= 0x8000;
+	public static final int ENVIRONS_SENSOR_FLAG_ROTATION_GAME			= 0x10000;
+	public static final int ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC	= 0x20000;
+	public static final int ENVIRONS_SENSOR_FLAG_GRAVITY				= 0x40000;
+	public static final int ENVIRONS_SENSOR_FLAG_STEPPER				= 0x80000;
+	public static final int ENVIRONS_SENSOR_FLAG_STEPS					= 0x100000;
+	public static final int ENVIRONS_SENSOR_FLAG_TILT					= 0x200000;
+	public static final int ENVIRONS_SENSOR_FLAG_HEARTRATE				= 0x400000;
+	public static final int ENVIRONS_SENSOR_FLAG_PROXIMITY				= 0x800000;
+	public static final int ENVIRONS_SENSOR_FLAG_VOC					= 0x1000000;
+	public static final int ENVIRONS_SENSOR_FLAG_CO2					= 0x2000000;
+	public static final int ENVIRONS_SENSOR_FLAG_HUMIDITY				= 0x4000000;
+	public static final int ENVIRONS_SENSOR_FLAG_CUSTOM					= 0x8000000;
+
+	public static final int MAX_ENVIRONS_SENSOR_TYPE_VALUE				= ENVIRONS_SENSOR_FLAG_CUSTOM;
 
 	public static final int sensorFlags [] = { // +CLI
 			ENVIRONS_SENSOR_FLAG_ACCELEROMETER,
+			ENVIRONS_SENSOR_FLAG_ACCELERATION,
 			ENVIRONS_SENSOR_FLAG_MAGNETICFIELD,
+			ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION,
+			ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB,
 			ENVIRONS_SENSOR_FLAG_GYROSCOPE,
+			ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB,
 			ENVIRONS_SENSOR_FLAG_ORIENTATION,
 			ENVIRONS_SENSOR_FLAG_LIGHT,
 			ENVIRONS_SENSOR_FLAG_LOCATION,
 			ENVIRONS_SENSOR_FLAG_HEADING,
-			ENVIRONS_SENSOR_FLAG_ALTIMETER,
-			ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION,
-			ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION,
-			ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD,
+			ENVIRONS_SENSOR_FLAG_TEMPERATURE,
+			ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT,
+			ENVIRONS_SENSOR_FLAG_PRESSURE,
+			ENVIRONS_SENSOR_FLAG_ATTITUDE,
+			ENVIRONS_SENSOR_FLAG_ROTATION,
+			ENVIRONS_SENSOR_FLAG_ROTATION_GAME,
+			ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC,
+			ENVIRONS_SENSOR_FLAG_GRAVITY,
+			ENVIRONS_SENSOR_FLAG_STEPPER,
+			ENVIRONS_SENSOR_FLAG_STEPS,
+			ENVIRONS_SENSOR_FLAG_TILT,
 			ENVIRONS_SENSOR_FLAG_HEARTRATE,
 			ENVIRONS_SENSOR_FLAG_PROXIMITY,
 			ENVIRONS_SENSOR_FLAG_VOC,
 			ENVIRONS_SENSOR_FLAG_CO2,
 			ENVIRONS_SENSOR_FLAG_HUMIDITY,
-			ENVIRONS_SENSOR_FLAG_TEMPERATURE,
 			ENVIRONS_SENSOR_FLAG_CUSTOM,
 			MAX_ENVIRONS_SENSOR_TYPE_VALUE,
 	};
 
+
+	public static final boolean sensorChannelTcpDefault [ ] = {
+			false, // ENVIRONS_SENSOR_FLAG_ACCELEROMETER,
+			false, // ENVIRONS_SENSOR_FLAG_ACCELERATION,
+			false, // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD,
+			false, // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION,
+			false, // ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_UNCALIB,
+			false, // ENVIRONS_SENSOR_FLAG_GYROSCOPE,
+			false, // ENVIRONS_SENSOR_FLAG_GYROSCOPE_UNCALIB,
+			false, // ENVIRONS_SENSOR_FLAG_ORIENTATION,
+			false, // ENVIRONS_SENSOR_FLAG_LIGHT,
+			true,  // ENVIRONS_SENSOR_FLAG_LOCATION,
+			false, // ENVIRONS_SENSOR_FLAG_HEADING,
+			false, // ENVIRONS_SENSOR_FLAG_TEMPERATURE,
+			false, // ENVIRONS_SENSOR_FLAG_MOTION_SIGNIFICANT,
+			false, // ENVIRONS_SENSOR_FLAG_PRESSURE,
+			false, // ENVIRONS_SENSOR_FLAG_ATTITUDE,
+			false, // ENVIRONS_SENSOR_FLAG_ROTATION,
+			false, // ENVIRONS_SENSOR_FLAG_ROTATION_GAME,
+			false, // ENVIRONS_SENSOR_FLAG_ROTATION_GEOMAGNETIC,
+			false, // ENVIRONS_SENSOR_FLAG_GRAVITY,
+			true, // ENVIRONS_SENSOR_FLAG_STEPPER,
+			true, // ENVIRONS_SENSOR_FLAG_STEPS,
+			false, // ENVIRONS_SENSOR_FLAG_TILT,
+			true,  // ENVIRONS_SENSOR_FLAG_HEARTRATE,
+			false, // ENVIRONS_SENSOR_FLAG_PROXIMITY,
+			false, // ENVIRONS_SENSOR_FLAG_VOC,
+			false, // ENVIRONS_SENSOR_FLAG_CO2,
+			false, // ENVIRONS_SENSOR_FLAG_HUMIDITY,
+			true, // ENVIRONS_SENSOR_FLAG_CUSTOM,
+			false, // MAX_ENVIRONS_SENSOR_TYPE_VALUE,
+	};
+
+
 	public static final int ENVIRONS_WIFI_OBSERVER_INTERVAL_MIN					= 30000;
 	public static final int ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN			= 2000;
-	public static final int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN			= 5000;
-	public static final int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN	= 1000;
+	public static final int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_MIN			= 20000;
+	public static final int ENVIRONS_WIFI_OBSERVER_INTERVAL_MOBILE_CHECK_MIN	= 2000;
+
+
+	public static final int ENVIRONS_BT_OBSERVER_INTERVAL_MIN					= 30000;
+	public static final int ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN				= 10000;
+	public static final int ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_MIN			= 20000;
+	public static final int ENVIRONS_BT_OBSERVER_INTERVAL_MOBILE_CHECK_MIN		= 10000;
+
 
 	/** Ignore: for CLI all the remaining content*/
 

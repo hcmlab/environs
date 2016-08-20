@@ -393,7 +393,7 @@ namespace environs
         queue<NotifyQueueContext *>             notifyQueue;
         
 		void									RemoveDevice ( unsigned int ip, char * msg );
-        void									RemoveDevice ( DeviceInstanceNode * device, bool useLock = true );
+        void									RemoveDevice ( DeviceInstanceNode * device, bool useLock = true, bool forceUnlock = false );
         void									RemoveDeviceUnlock ( ApplicationDevices * appDevs, DeviceInstanceNode * device );
 		void									RemoveDevice ( int deviceID, const char * areaName, const char * appName );
 

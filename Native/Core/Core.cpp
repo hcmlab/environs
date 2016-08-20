@@ -1103,9 +1103,10 @@ namespace environs
 		
 #ifndef NDEBUG
 		}
-		catch ( char * ex )
+		catch ( char * )
 		{
-			printf ( "TcpHandler: Exception !!!\n" );
+            printf ( "TcpHandler: Exception !!!\n" );
+			_EnvDebugBreak ( "TcpHandler" );
 		}
 #endif
 		return 0;
@@ -1219,7 +1220,12 @@ namespace environs
 #endif        
         CLog ( "Listener: bye bye ..." );
     }
-    
+
+#ifdef DISPLAYDEVICE
+#   define MAX_TCP_HANDLERS    200
+#else
+#   define MAX_TCP_HANDLERS    50
+#endif
     
     bool Core::TcpAcceptor ()
     {
@@ -1256,10 +1262,10 @@ namespace environs
 					context->sock	= sock;
 					context->myself = context;
 
-					__sync_add_and_fetch ( &tcpHandlers, 1 );
+					LONGSYNC count = __sync_add_and_fetch ( &tcpHandlers, 1 );
 
 					// Create the connect thread
-					if ( context->thread.Run ( pthread_make_routine ( &TcpHandler ), ( void * ) context.get (), "TcpAcceptor" ) ) {
+					if ( count < MAX_TCP_HANDLERS && context->thread.Run ( pthread_make_routine ( &TcpHandler ), ( void * ) context.get (), "TcpAcceptor" ) ) {
 						return true;
 					}
 					else {

@@ -34,12 +34,14 @@
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
+#import <NetworkExtension/NetworkExtension.h>
 
 #ifdef ENABLE_IOS_HEALTHKIT_SUPPORT
 #   import <HealthKit/HealthKit.h>
 #endif
 
 #include "Environs.Obj.h"
+#include "Wifi.Observer.h"
 using namespace environs;
 
 #include "Environs.Lib.h"
@@ -123,7 +125,20 @@ namespace environs
                 {
                     NSDictionary * infos = CFBridgingRelease ( CNCopyCurrentNetworkInfo ( (__bridge CFStringRef) name ) );
                     
-                    if (infos && infos.count > 0) {
+                    if ( infos && infos.count > 0 )
+                    {
+                        @autoreleasepool {
+                            NSString * bssid = infos[@"BSSID"];
+                            if ( bssid )
+                            {
+                                const char * _bssid = [bssid UTF8String];
+                                if ( _bssid )
+                                {
+                                    MediatorClient::wifiCurrentBSSID = environs::GetBSSIDFromColonMac ( _bssid );
+                                }
+                            }
+                        }
+
                         return [[NSString alloc ] initWithString:infos[@"SSID"]];
                     }
                 }
@@ -252,7 +267,7 @@ namespace environs
         {
             if ( !native.coresStarted )
                 return;
-            
+
             if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_MAGNETICFIELD )
                 PushSensorDataN ( ENVIRONS_SENSOR_TYPE_MAGNETICFIELD, sensorData.x, sensorData.y, sensorData.z ); // x, y, z
         }
@@ -263,7 +278,7 @@ namespace environs
         {
             if ( !native.coresStarted )
                 return;
-            
+
             if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_GYROSCOPE )
                 PushSensorDataN ( ENVIRONS_SENSOR_TYPE_GYROSCOPE, sensorData.x, sensorData.y, sensorData.z ); // x, y, z
         }
@@ -274,9 +289,9 @@ namespace environs
         {
             if ( !native.coresStarted )
                 return;
-            
-            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_ALTIMETER )
-                PushSensorDataN ( ENVIRONS_SENSOR_TYPE_ALTIMETER, sensorData.pressure.doubleValue, sensorData.relativeAltitude.doubleValue, 0); // x, y, z
+
+            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_PRESSURE )
+                PushSensorDataN ( ENVIRONS_SENSOR_FLAG_PRESSURE, sensorData.pressure.doubleValue, sensorData.relativeAltitude.doubleValue, 0); // x, y, z
         }
         
         
@@ -285,15 +300,21 @@ namespace environs
         {
             if ( !native.coresStarted )
                 return;
+
+            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_ATTITUDE )
+                PushSensorDataDoublesN ( ENVIRONS_SENSOR_FLAG_ATTITUDE, sensorData.attitude.roll, sensorData.attitude.pitch, sensorData.attitude.yaw );
+
+            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_GRAVITY )
+                PushSensorDataDoublesN ( ENVIRONS_SENSOR_FLAG_GRAVITY, sensorData.gravity.x, sensorData.gravity.y, sensorData.gravity.z );
+
+            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_ROTATION )
+                PushSensorDataExtN ( ENVIRONS_SENSOR_FLAG_ROTATION, 0, 0, 0, sensorData.rotationRate.x, sensorData.rotationRate.y, sensorData.rotationRate.z );
             
-            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_MOTION_ATTITUTDE_ROTATION )
-                PushSensorDataExtN ( false, ENVIRONS_SENSOR_TYPE_MOTION_ATTITUTDE_ROTATION, sensorData.attitude.roll, sensorData.attitude.pitch, sensorData.attitude.yaw, sensorData.rotationRate.x, sensorData.rotationRate.y, sensorData.rotationRate.z );
+            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_ACCELERATION )
+                PushSensorDataDoublesN ( ENVIRONS_SENSOR_FLAG_ACCELERATION, sensorData.userAcceleration.x, sensorData.userAcceleration.y, sensorData.userAcceleration.z );
             
-            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_MOTION_GRAVITY_ACCELERATION )
-                PushSensorDataExtN ( false, ENVIRONS_SENSOR_TYPE_MOTION_GRAVITY_ACCELERATION, sensorData.gravity.x, sensorData.gravity.y, sensorData.gravity.z, sensorData.userAcceleration.x, sensorData.userAcceleration.y, sensorData.userAcceleration.z );
-            
-            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_MOTION_MAGNETICFIELD )
-                PushSensorDataN ( ENVIRONS_SENSOR_TYPE_MOTION_MAGNETICFIELD, sensorData.magneticField.field.x, sensorData.magneticField.field.y, sensorData.magneticField.field.z );
+            if ( sensorRegistered & ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION )
+                PushSensorDataN ( ENVIRONS_SENSOR_FLAG_MAGNETICFIELD_MOTION, sensorData.magneticField.field.x, sensorData.magneticField.field.y, sensorData.magneticField.field.z );
         }
         
         
@@ -323,8 +344,8 @@ namespace environs
                 
                 lastHorizontalAccuracy  = sensorData.horizontalAccuracy;
                 lastVerticalAccuracy    = sensorData.verticalAccuracy;
-                
-                PushSensorDataExtN ( true, ENVIRONS_SENSOR_TYPE_LOCATION, lastLatitude, lastLongitude, lastAltitude, lastHorizontalAccuracy, lastVerticalAccuracy, lastSpeed );
+
+                PushSensorDataExtN ( ENVIRONS_SENSOR_TYPE_LOCATION, lastLatitude, lastLongitude, lastAltitude, lastHorizontalAccuracy, lastVerticalAccuracy, lastSpeed );
             }
         }
         
@@ -364,17 +385,19 @@ namespace environs
                     
                     available = motionManager.gyroAvailable;
                     break;
-                    
-                case SensorType::MotionAttitudeRotation :
-                case SensorType::MotionGravityAcceleration :
-                case SensorType::MotionMagneticField :
+
+                case SensorType::Attitude :
+                case SensorType::Rotation :
+                case SensorType::Gravity :
+                case SensorType::Acceleration :
+                case SensorType::MagneticFieldMotion :
                     if ( !CreateMotionManager () )
                         break;
                     
                     available = motionManager.deviceMotionAvailable;
                     break;
                     
-                case SensorType::Altimeter :
+                case SensorType::Pressure :
                     available = [CMAltimeter isRelativeAltitudeAvailable];
                     break;
                     
@@ -402,9 +425,9 @@ namespace environs
          * @param sensorType A value of type environs::SensorType_t.
          *
          */
-        bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+        bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
         {
-            CVerbArg ( "StartSensorListeningImpl: type [ %i ]", sensorType );
+            CVerbArg ( "StartSensorListeningImpl:\tType [ %i : %s ]", sensorType, sensorName );
             
             bool registered = false;
             
@@ -443,9 +466,11 @@ namespace environs
                     registered = true;
                     break;
                     
-                case SensorType::MotionAttitudeRotation :
-                case SensorType::MotionGravityAcceleration :
-                case SensorType::MotionMagneticField :
+                case SensorType::Attitude :
+                case SensorType::Rotation :
+                case SensorType::Gravity :
+                case SensorType::Acceleration :
+                case SensorType::MagneticFieldMotion :
                     if ( !CreateMotionManager () )
                         break;
                     
@@ -457,7 +482,7 @@ namespace environs
                     registered = true;
                     break;
                     
-                case SensorType::Altimeter :
+                case SensorType::Pressure :
                     if ( !CreateAltimeter () )
                         break;
                     
@@ -533,9 +558,9 @@ namespace environs
          * @param sensorType A value of type environs::SensorType_t.
          *
          */
-        void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+        void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
         {
-            CVerbArg ( "StopSensorListeningImpl: type [ %i ]", sensorType );
+            CVerbArg ( "StopSensorListeningImpl:\tType [ %i : %s ]", sensorType, sensorName );
             
             if ( sensorType == -1 ) {
                 sensorRegistered = 0;
@@ -558,7 +583,9 @@ namespace environs
 
                 return;
             }
-            
+
+            int sumFlags;
+
             switch ( sensorType )
             {
                 case SensorType::Accelerometer:
@@ -576,20 +603,42 @@ namespace environs
                         [motionManager stopGyroUpdates];
                     break;
                     
-                case SensorType::MotionAttitudeRotation :
-                    if ( sensorRegistered & sensorFlags [ SensorType::MotionGravityAcceleration ] || sensorRegistered & sensorFlags [ SensorType::MotionMagneticField ] ) {
+                case SensorType::Attitude :
+                    sumFlags = SensorType::Rotation | SensorType::Gravity | SensorType::Acceleration | SensorType::MagneticFieldMotion;
+
+                    if ( sensorRegistered & sumFlags ) {
+                        break;
+                    }
+                    goto DisableDeviceMotion;
+
+                case SensorType::Rotation :
+                    sumFlags = SensorType::Attitude | SensorType::Gravity | SensorType::Acceleration | SensorType::MagneticFieldMotion;
+
+                    if ( sensorRegistered & sumFlags ) {
                         break;
                     }
                     goto DisableDeviceMotion;
                     
-                case SensorType::MotionGravityAcceleration :
-                    if ( sensorRegistered & sensorFlags [ SensorType::MotionAttitudeRotation ] || sensorRegistered & sensorFlags [ SensorType::MotionMagneticField ] ) {
+                case SensorType::Gravity :
+                    sumFlags = SensorType::Attitude | SensorType::Rotation | SensorType::Acceleration | SensorType::MagneticFieldMotion;
+
+                    if ( sensorRegistered & sumFlags ) {
+                        break;
+                    }
+                    goto DisableDeviceMotion;
+
+                case SensorType::Acceleration :
+                    sumFlags = SensorType::Attitude | SensorType::Rotation | SensorType::Gravity | SensorType::MagneticFieldMotion;
+
+                    if ( sensorRegistered & sumFlags ) {
                         break;
                     }
                     goto DisableDeviceMotion;
                     
-                case SensorType::MotionMagneticField :
-                    if ( sensorRegistered & sensorFlags [ SensorType::MotionAttitudeRotation ] || sensorRegistered & sensorFlags [ SensorType::MotionGravityAcceleration ] ) {
+                case SensorType::MagneticFieldMotion :
+                    sumFlags = SensorType::Attitude | SensorType::Rotation | SensorType::Gravity | SensorType::Acceleration;
+
+                    if ( sensorRegistered & sumFlags ) {
                         break;
                     }
                 DisableDeviceMotion:
@@ -597,7 +646,7 @@ namespace environs
                         [motionManager stopDeviceMotionUpdates];
                     break;
                     
-                case SensorType::Altimeter :
+                case SensorType::Pressure :
                     if ( altimeter )
                         [altimeter stopRelativeAltitudeUpdates];
                     break;

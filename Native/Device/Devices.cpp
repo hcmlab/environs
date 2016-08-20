@@ -154,6 +154,10 @@ namespace environs
     }
     
 
+#ifndef NDEBUG
+	extern void _EnvPushPanicMessage ( const char * msg );
+#endif
+
     /*
 	* Note: using const & to deviceSP somehow modifies the use_count and leads to inconsistent checks
 	*/
@@ -169,7 +173,8 @@ namespace environs
 
 		CVerbsID ( 10, "DisposeDevice" );
 
-		DisposeSensorSender ( 0, device );
+        if ( device->env )
+            DisposeSensorSender ( device->env->hEnvirons, device );
 
 		/// Try releasing and then wait if neccessary
 		device->DisposePlatform ();
@@ -185,6 +190,8 @@ namespace environs
 			// Acquire a reference lock
 			__sync_add_and_fetch ( &device->accessLocks, 1 );
 
+			int waitCycles = 0;
+
 			while ( ___sync_val_compare_and_swap ( &device->accessLocks, OBJECTSTATE_DELETEABLE_2, OBJECTSTATE_DELETED ) != OBJECTSTATE_DELETEABLE_2 )
 			{
 				if ( device->accessLocks < OBJECTSTATE_DELETEABLE_2 ) {
@@ -194,6 +201,16 @@ namespace environs
 
 				if ( !(count % 50) ) {
 					CWarnArgID ( "DisposeDevice: Device is being accessed [ %u times ] somewhere ...", ( unsigned int ) device->accessLocks );
+					
+					waitCycles++;
+					if ( waitCycles > 100 ) {
+						// If we have waited for so long, then we assume that an exception caused the unbalanced counter
+						// As we're still counting, we assume that an exception handler at application layers has "solved" the "problem"
+#ifndef NDEBUG
+						_EnvPushPanicMessage ( "Devices.DisposeDevice: waited > 100." );
+#endif
+						break;
+					}
 				}
 				count++;
 

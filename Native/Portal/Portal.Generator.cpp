@@ -119,7 +119,10 @@ namespace environs
 		for ( int i=0; i < MAX_PORTAL_CONTEXT_WORKERS; ++i )
 			workerThreadsID [ i ] = ENVIRONS_THREAD_NO_THREAD;
 		
-		ZeroStructArray ( renderContexts, RenderContext );
+		//ZeroStructArray ( renderContexts, RenderContext );
+		// Zero is fine as rendercontexts have no floats and semaphores of any type will be explicitly initialized by the generator
+		Zero ( renderContexts );
+
 		Zero ( renderOverlays );
 		ZeroStruct ( portalInfosCache, PortalInfoBase );
 

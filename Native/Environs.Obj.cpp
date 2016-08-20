@@ -519,7 +519,7 @@ namespace environs
         useBtObserver           = true;
 		useBtInterval			= 10000;
         useWifiObserver         = true;
-		useWifiInterval			= NATIVE_WIFI_OBSERVER_INTERVAL_MIN * 2;
+		useWifiInterval			= ENVIRONS_WIFI_OBSERVER_INTERVAL_MIN * 2;
 
         useStdout               = true;
         useLogFile              = false;
@@ -685,7 +685,7 @@ namespace environs
 	
 	void EnvSignalAbnormalHandler(int signal)
 	{
-		throw "Abnormal exception!";
+        _EnvDebugBreak ( "EnvSignalAbnormalHandler" );
 	}
 #endif
 
@@ -706,7 +706,8 @@ namespace environs
 		// Exception settings of visual studio, c++ Enable Exceptions from /EHsc to .. with SEH
 		typedef void (*pEnvSignalAbnormalHandler)(int);
 
-		pEnvSignalAbnormalHandler pHandler = signal ( SIGSEGV , EnvSignalAbnormalHandler );
+        //pEnvSignalAbnormalHandler pHandler =
+        signal ( SIGSEGV , EnvSignalAbnormalHandler );
 #endif
 
         instances = ( Instance ** ) calloc ( 1, sizeof ( Instance * ) * ENVIRONS_MAX_ENVIRONS_INSTANCES );
@@ -733,6 +734,11 @@ namespace environs
 #ifdef NATIVE_WIFI_OBSERVER
         if ( !wifiObserver.Init () )
             return false;
+#endif
+
+#ifdef NATIVE_BT_OBSERVER
+		if ( !btObserver.Init () )
+			return false;
 #endif
 		InitTracer ();
 

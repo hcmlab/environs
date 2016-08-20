@@ -222,6 +222,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\Bt.Observer.h" />
     <ClInclude Include="..\..\Common\Environs.Commit.h" />
     <ClInclude Include="..\..\Common\Environs.Platform.Decls.h" />
     <ClInclude Include="..\..\Common\Device.Info.h" />
@@ -252,6 +253,7 @@
     <ClInclude Include="..\..\Common\Environs.Utils.h" />
     <ClInclude Include="..\..\Common\File.Instance.h" />
     <ClInclude Include="..\..\Common\Interfaces\IArray.List.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IBt.List.h" />
     <ClInclude Include="..\..\Common\Interfaces\IDevice.Instance.List.h" />
     <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Base.h" />
     <ClInclude Include="..\..\Common\Interfaces\IEnvirons.Dispose.h" />
@@ -276,6 +278,7 @@
       <ExcludedFromBuild>false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\Common\Interfaces\ISensor.h" />
+    <ClInclude Include="..\..\Common\Interfaces\IWifi.List.h" />
     <ClInclude Include="..\..\Common\Interop.h" />
     <ClInclude Include="..\..\Common\Interop\Smart.Pointer.h" />
     <ClInclude Include="..\..\Common\Log.h" />
@@ -299,6 +302,7 @@
     <ClInclude Include="..\..\Native\Codec\Media.Stream.Source.h" />
     <ClInclude Include="..\..\Native\Core\Array.List.h" />
     <ClInclude Include="..\..\Native\Core\Async.Worker.h" />
+    <ClInclude Include="..\..\Native\Core\Bt.List.h" />
     <ClInclude Include="..\..\Native\Core\Byte.Buffer.h" />
     <ClInclude Include="..\..\Native\Core\Callbacks.h" />
     <ClInclude Include="..\..\Native\Core\Core.h" />
@@ -311,6 +315,7 @@
     <ClInclude Include="..\..\Native\Core\Notifications.h" />
     <ClInclude Include="..\..\Native\Core\Performance.Count.h" />
     <ClInclude Include="..\..\Native\Core\Touch.Source.h" />
+    <ClInclude Include="..\..\Native\Core\Wifi.List.h" />
     <ClInclude Include="..\..\Native\Decoder\Decoder.Android.h" />
     <ClInclude Include="..\..\Native\Device\Device.Android.h" />
     <ClInclude Include="..\..\Native\Device\Device.Display.h" />
@@ -402,48 +407,75 @@
     <ClCompile Include="..\..\Native\Codec\Media.Stream.Source.cpp" />
     <ClCompile Include="..\..\Native\Core\Array.List.cpp" />
     <ClCompile Include="..\..\Native\Core\Async.Worker.cpp" />
+    <ClCompile Include="..\..\Native\Core\Bt.List.cpp" />
+    <ClCompile Include="..\..\Native\Core\Bt.Observer.cpp" />
     <ClCompile Include="..\..\Native\Core\Byte.Buffer.cpp" />
     <ClCompile Include="..\..\Native\Core\Callbacks.cpp" />
     <ClCompile Include="..\..\Native\Core\Core.cpp" />
     <ClCompile Include="..\..\Native\Core\Input.Handler.cpp" />
     <ClCompile Include="..\..\Native\Core\File.Instance.cpp" />
     <ClCompile Include="..\..\Native\Core\Kernel.cpp" />
-    <ClCompile Include="..\..\Native\Core\Kernel.Display.Linux.cpp" />
-    <ClCompile Include="..\..\Native\Core\Kernel.Display.OSX.cpp" />
-    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.cpp" />
-    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.Platform.cpp" />
+    <ClCompile Include="..\..\Native\Core\Kernel.Display.Linux.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Display.OSX.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Core\Kernel.Mobile.Platform.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Core\Kernel.Windows.cpp" />
     <ClCompile Include="..\..\Native\Core\Message.Instance.cpp" />
     <ClCompile Include="..\..\Native\Core\Notifications.cpp" />
     <ClCompile Include="..\..\Native\Core\Queue.List.cpp" />
     <ClCompile Include="..\..\Common\Queue.Vector.cpp" />
     <ClCompile Include="..\..\Native\Core\Touch.Source.cpp" />
+    <ClCompile Include="..\..\Native\Core\Wifi.List.cpp" />
     <ClCompile Include="..\..\Native\Core\Wifi.Observer.cpp" />
-    <ClCompile Include="..\..\Native\Decoder\Decoder.Android.cpp" />
+    <ClCompile Include="..\..\Native\Decoder\Decoder.Android.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Decoder\Decoder.Base.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\Native\Device\Device.Android.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Android.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Device\Device.Display.cpp" />
     <ClCompile Include="..\..\Native\Device\Device.Display.Win.cpp" />
     <ClCompile Include="..\..\Native\Device\Device.Instance.cpp" />
-    <ClCompile Include="..\..\Native\Device\Device.iOS.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.iOS.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Device\Device.List.cpp" />
-    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp" />
-    <ClCompile Include="..\..\Native\Device\Device.OSX.cpp" />
+    <ClCompile Include="..\..\Native\Device\Device.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Device\Device.OSX.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Device\Devices.cpp" />
     <ClCompile Include="..\..\Native\DynLib\Dyn.Direct3D.11.cpp" />
     <ClCompile Include="..\..\Native\DynLib\Dyn.OpenCL.cpp" />
     <ClCompile Include="..\..\Native\DynLib\Dyn.WlanAPI.cpp" />
-    <ClCompile Include="..\..\Native\Encoder\Encoder.And.cpp" />
+    <ClCompile Include="..\..\Native\Encoder\Encoder.And.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Encoder\Encoder.Base.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Native\Encoder\Encoder.GDI.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Android.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Android.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Environs.cpp" />
     <ClCompile Include="..\..\Native\Environs.Cpp.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Linux.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Linux.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Environs.Obj.cpp" />
     <ClCompile Include="..\..\Native\Environs.Display.cpp" />
     <ClCompile Include="..\..\Native\Environs.Lib.cpp" />
@@ -462,16 +494,26 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\Common\Interfaces\IPortal.Renderer.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Lib.Mobile.cpp" />
-    <ClCompile Include="..\..\Native\Environs.Mobile.cpp" />
-    <ClCompile Include="..\..\Native\Environs.OSX.cpp" />
+    <ClCompile Include="..\..\Native\Environs.Lib.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\Native\Environs.OSX.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Environs.Sensors.cpp" />
     <ClCompile Include="..\..\Native\Environs.Windows.cpp" />
     <ClCompile Include="..\..\Native\Portal\Portal.Device.cpp" />
-    <ClCompile Include="..\..\Native\Portal\Portal.Generator.Mobile.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Generator.Mobile.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Portal\Portal.Info.cpp" />
     <ClCompile Include="..\..\Native\Portal\Portal.Instance.cpp" />
-    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.Android.cpp" />
+    <ClCompile Include="..\..\Native\Portal\Portal.Receiver.Android.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\Native\Portal\Portal.Receiver.cpp" />
     <ClCompile Include="..\..\Native\Portal\Portal.Receiver.Windows.cpp" />
     <ClCompile Include="..\..\Native\Portal\Portal.Generator.cpp" />
@@ -519,8 +561,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md" />
-    <None Include="..\..\iOSX\Environs\Environs.iOS.mm" />
-    <None Include="..\..\Native\Portal\Portal.Receiver.iOS.mm" />
+    <None Include="..\..\iOSX\Environs\Environs.iOS.mm">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\Native\Portal\Portal.Receiver.iOS.mm">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </None>
     <None Include="..\..\ReadMe.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

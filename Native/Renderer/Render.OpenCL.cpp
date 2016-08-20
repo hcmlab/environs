@@ -393,6 +393,9 @@ namespace environs
 		//
 		CL_ERR_return ( "LoadEnvironsKernels: Failed to get number of devices in the program." );
 
+		if ( binDevices <= 0 ) {
+			CErr ( "LoadEnvironsKernels: No devices." ); return false;
+		}
 
 		binSizes = ( size_t * ) malloc ( sizeof ( size_t )* binDevices );
 		//
@@ -414,7 +417,7 @@ namespace environs
 		{
 			binaries [ i ] = ( char * ) malloc ( sizeof ( char )* ( binSizes [ i ] ) );
 			if ( !binaries [ i ] ) {
-				CErrArg ( "LoadEnvironsKernels: Failed to allocate memory for binary [%i].", i );
+				CErrArg ( "LoadEnvironsKernels: Failed to allocate memory for binary [ %i ].", i );
 				goto Finish;
 			}
 		}
@@ -1177,7 +1180,6 @@ namespace environs
 			//
 			COMPARE_CACHE ( equal );
 #endif
-			error = 0;
 
 			//float theta = (float) (((orientation - 90) * PI) / 180);
 			//float theta = 0;
@@ -1191,9 +1193,10 @@ namespace environs
 			float theta = ( float ) ( 0 - ( dims->orientation - 90 ) * PI ) / 180;
 
 			float cosTheta = cos ( theta );
-			float sinTheta = sin ( theta );
-			error |= dclSetKernelArg ( ocl_kernel_rotate, 6, sizeof ( float ), &sinTheta );
-			error |= dclSetKernelArg ( ocl_kernel_rotate, 7, sizeof ( float ), &cosTheta );
+            float sinTheta = sin ( theta );
+            //error = 0;
+			/*error |=*/ dclSetKernelArg ( ocl_kernel_rotate, 6, sizeof ( float ), &sinTheta );
+			/*error |=*/ dclSetKernelArg ( ocl_kernel_rotate, 7, sizeof ( float ), &cosTheta );
 
 			// Launching rotate kernel
 			error = dclEnqueueNDRangeKernel ( ocl_queue, ocl_kernel_rotate, 2, NULL, ocl_square_rotate_global_ws, ocl_local_ws_16_32, 0, NULL, 0 );

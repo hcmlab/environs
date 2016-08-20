@@ -33,7 +33,7 @@ namespace environs.Apps
     /// <summary>
     /// Interactionlogic for ChatAppWindow.xaml
     /// </summary>
-    public partial class ChatAppWindow : Window
+    public partial class ChatAppWindow : Window, IDisposable
     {
 
         #region Initialization

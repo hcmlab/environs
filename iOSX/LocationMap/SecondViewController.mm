@@ -34,6 +34,10 @@ SecondViewController * secondView = nil;
     self.latitudeAccValue.text = [NSString stringWithFormat:@"%lf", lastLatitudeAcc];
 
     self.longitudeAccValue.text = [NSString stringWithFormat:@"%lf", lastLongitudeAcc];
+
+    self.ssidValue.text = [appDelegate->env GetSSID];
+    
+    self.macValue.text = [NSString stringWithFormat:@"%12llX", [appDelegate->env GetBSSID]];
 }
 
 
@@ -59,6 +63,10 @@ SecondViewController * secondView = nil;
             self.longitudeValue.text = [NSString stringWithFormat:@"%.16lf", sensorFrame->frame.doubles.d2];
 
             self.altitudeValue.text = [NSString stringWithFormat:@"%.16lf", sensorFrame->frame.doubles.d3];
+
+            self.ssidValue.text = [appDelegate->env GetSSID];
+
+            self.macValue.text = [NSString stringWithFormat:@"%12llX", [appDelegate->env GetBSSID]];
         });
     }
 }

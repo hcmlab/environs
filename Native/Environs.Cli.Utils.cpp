@@ -1127,10 +1127,15 @@ namespace environs
 			device->unavailable = *( pDevice + DEVICEINFO_UNAVAILABLE_START ) == 1 ? true : false;
 
             device->isConnected = *( pDevice + DEVICEINFO_ISCONNECTED_START ) == 1 ? true : false;
-            device->hasAppEnv = (char) *( pDevice + DEVICEINFO_HASAPPAREA_START );
+			device->hasAppEnv = ( char ) *( pDevice + DEVICEINFO_HASAPPAREA_START );
 
+			*( pDevice + DEVICEINFO_DEVICENAME_START + MAX_LENGTH_DEVICE_NAME - 1 ) = 0;
 			device->deviceName = CCharToString ( pDevice + DEVICEINFO_DEVICENAME_START );
+
+			*( pDevice + DEVICEINFO_AREANAME_START + MAX_LENGTH_AREA_NAME - 1 ) = 0;
 			device->areaName = CCharToString ( pDevice + DEVICEINFO_AREANAME_START );
+
+			*( pDevice + DEVICEINFO_APPNAME_START + MAX_LENGTH_APP_NAME - 1 ) = 0;
 			device->appName = CCharToString ( pDevice + DEVICEINFO_APPNAME_START );
 
 			device->flags = *( ( unsigned short* ) ( pDevice + DEVICEINFO_FLAGS_START ) );
@@ -1238,8 +1243,8 @@ namespace environs
 			InputPack ^ pack = gcnew InputPack ();
 			if ( pack != nullptr )
 			{
-				char* bytes = (char*)data.ToPointer();
-				int* pIntStart = (int*)bytes;
+				char* bytes = ( char* ) data.ToPointer ();
+				int* pIntStart = ( int* ) bytes;
 
 				pack->id = *pIntStart; pIntStart += 3;
 
@@ -1247,16 +1252,16 @@ namespace environs
 				pack->y = *pIntStart; pIntStart++;
 				pack->value = *pIntStart; pIntStart++;
 
-				float* pFloat = (float*)pIntStart;
+				float* pFloat = ( float* ) pIntStart;
 				pack->angle = *pFloat; pFloat++;
 				pack->size = *pFloat; pFloat++;
 				pack->axisx = *pFloat; pFloat++;
 				pack->axisy = *pFloat; pFloat++;
 
-				short* pShort = (short*)(bytes + 8);
+				short* pShort = ( short* ) ( bytes + 8 );
 				pack->state = *pShort;
 
-				pack->type = (char)*(bytes + 10);
+				pack->type = ( char )*( bytes + 10 );
 			}
 			return pack;
 		}
@@ -1285,6 +1290,15 @@ namespace environs
 					pack->f1 = *pFloat; pFloat++;
 					pack->f2 = *pFloat; pFloat++;
 					pack->f3 = *pFloat; pFloat++;
+
+					double* pDouble = ( double* ) pFloat;
+					pack->x = *pDouble; pDouble++;
+					pack->y = *pDouble; pDouble++;
+					pack->z = *pDouble;
+				}
+				else if ( ( type & ENVIRONS_SENSOR_PACK_TYPE_DOUBLES ) != 0 )
+				{
+					pack->type = ( environs::SensorType ) ( type & ( ~ENVIRONS_SENSOR_PACK_TYPE_DOUBLES ) );
 
 					double* pDouble = ( double* ) pFloat;
 					pack->x = *pDouble; pDouble++;

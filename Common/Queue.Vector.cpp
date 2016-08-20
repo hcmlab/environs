@@ -161,7 +161,7 @@ namespace environs
 
 		bool QueueVector::push ( void * item )
 		{
-			CVerbArg ( "push: Elements in the queue [ %i ].", size_ );
+			CVerbVerbArg ( "push: Elements in the queue [ %i ].", size_ );
 
 			if ( items == 0 ) {
 				items = ( void ** ) calloc ( 1, GROW_SIZE * sizeof ( void * ) );
@@ -270,7 +270,7 @@ namespace environs
         template <class T>
         bool QueueVectorSP<T>::push ( const T & item )
         {
-            CVerbArg ( "push: Elements in the queue [ %i ].", size_ );
+            CVerbVerbArg ( "push: Elements in the queue [ %i ].", size_ );
             
             if ( items == 0 ) {
                 items = ( QueueVectorSPProxy<T> ** ) calloc ( 1, GROW_SIZE * sizeof ( QueueVectorSPProxy<T> * ) );

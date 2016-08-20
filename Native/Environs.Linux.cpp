@@ -45,8 +45,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include <uuid/uuid.h>
-// ("uuid-dev is required! e.g. sudo apt-get install uuid-dev")
+#include "DynLib/Dyn.Lib.UUID.h"
 
 using namespace environs;
 using namespace environs::API;
@@ -81,14 +80,21 @@ namespace environs
         uuid_t newUID;
         char uuidStr [ 40 ];
 
-        uuid_generate ( newUID );
-        if ( uuid_is_null ( newUID ) == 1 )
-            return false;
+        if ( InitLibUUID ( 0 ) )
+        {
+            duuid_generate ( newUID );
+            if ( duuid_is_null ( newUID ) == 1 )
+                return false;
 
-        uuid_unparse_upper ( newUID, uuidStr );
+            duuid_unparse_upper ( newUID, uuidStr );
 
-        if ( !*uuidStr )
+            ReleaseLibUUID ();
+        }
+
+        if ( !*uuidStr ){
+            CErr ( "CreateAppID: Failed to init uuid!" );
             return false;
+        }
 
         size_t len = strlen ( uuidStr );
         if ( len >= bufSize )
@@ -100,7 +106,7 @@ namespace environs
 	}
 
 
-	void DetermineAndInitWorkDir ()
+    bool DetermineAndInitWorkDir ()
     {
         CVerb ( "DetermineAndInitWorkDir" );
 
@@ -109,7 +115,7 @@ namespace environs
             char workingDirectory [ PATH_MAX ];
             if ( !getcwd ( workingDirectory, sizeof(workingDirectory) ) ) {
                 CErr ( "DetermineAndInitWorkDir: Failed to get working directory." );
-                return;
+                return false;
             }
 
             CVerbVerbArg ( "DetermineAndInitWorkDir: [ %s ]", workingDirectory );
@@ -129,6 +135,7 @@ namespace environs
 
             InitStorageN ( workingDirectory );
         }
+        return true;
 	}
 
 
@@ -322,14 +329,14 @@ namespace environs
 
         if ( doScan ) {
             doScan = false;
-            int rc = system ( "sudo /sbin/wpa_cli -iwlan0 scan" );
+            int rc = system ( "sudo -n /sbin/wpa_cli -iwlan0 scan" );
             if ( rc < 0 ) {
                 CWarn ( "Scan: wpa_client failed!" );
                 return -1;
             }
         }
 
-        fp = popen ( "sudo /sbin/wpa_cli -iwlan0 scan_results", "r");
+        fp = popen ( "sudo -n /sbin/wpa_cli -iwlan0 scan_results", "r");
         if ( !fp ) {
             CWarn ( "Scan: wpa_client failed!" );
             return -1;
@@ -391,8 +398,8 @@ namespace environs
                 unsigned int now = GetEnvironsTickCount32 ();
                 unsigned int diff = now - lastCheck;
 
-                if ( diff < NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
-                    waitTime = ( NATIVE_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+                if ( diff < ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN ) {
+                    waitTime = ( ENVIRONS_WIFI_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
                     goto WaitLoop;
                 }
 
@@ -404,6 +411,51 @@ namespace environs
         CLog ( "WifiObserver: bye bye ..." );
         return 0;
     }
+#endif
+
+
+
+#ifdef NATIVE_BT_OBSERVER
+
+	void * Thread_BtObserver ()
+	{
+		CLog ( "BtObserver: Created ..." );
+
+		BtObserver *	bt			= &native.btObserver;
+		bool			doScan		= true;
+		unsigned int	lastCheck	= 0;
+
+
+		while ( bt->threadRun )
+		{
+
+			lastCheck = GetEnvironsTickCount32 ();
+
+			unsigned int waitTime = native.useBtInterval;
+
+		WaitLoop:
+			if ( bt->threadRun ) {
+				bt->thread.WaitOne ( "BtObserver", waitTime );
+
+				unsigned int now = GetEnvironsTickCount32 ();
+				unsigned int diff = now - lastCheck;
+
+				if ( diff < ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN ) {
+					waitTime = ( ENVIRONS_BT_OBSERVER_INTERVAL_CHECK_MIN + 30 ) - diff;
+					goto WaitLoop;
+				}
+
+				if ( ( now - lastScan ) > ( unsigned ) native.useBtInterval )
+					doScan = true;
+			}
+		}
+
+
+		CLog ( "BtObserver: bye bye ..." );
+		return 0;
+	}
+
+
 #endif
 
     namespace lib
@@ -520,7 +572,7 @@ namespace environs
          * @param sensorType A value of type environs::SensorType.
          *
          */
-		bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+		bool StartSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
 		{
             return false;
 		}
@@ -534,7 +586,7 @@ namespace environs
          * @param sensorType A value of type environs::SensorType.
          *
          */
-		void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType )
+		void StopSensorListeningImpl ( int hInst, environs::SensorType_t sensorType, const char * sensorName )
         {
             if ( sensorType == -1 ) {
                 sensorRegistered = 0;

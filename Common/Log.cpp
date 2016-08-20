@@ -428,10 +428,11 @@ namespace environs
         if ( native.useLogFile ) {
             if ( environsLogFileHandle || OpenLog ())
             {
+				if ( environsLogFileHandle )
 #if ( !defined(ANDROID) && defined(LOG_TIMESTRING) )
-                fwrite ( timeString, 1, timeLen, environsLogFileHandle );
+					fwrite ( timeString, 1, timeLen, environsLogFileHandle );
 #endif
-                fwrite ( LOG_OUT_BUFFER_NAME, 1, LOG_OUT_BUFFER_NAME_LENGTH, environsLogFileHandle );
+					fwrite ( LOG_OUT_BUFFER_NAME, 1, LOG_OUT_BUFFER_NAME_LENGTH, environsLogFileHandle );
             }
         }
         

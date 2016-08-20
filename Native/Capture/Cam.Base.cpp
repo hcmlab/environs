@@ -128,18 +128,18 @@ namespace environs
 	bool CamBase::PerformBase ( const char * payload, unsigned int payloadSize )
 	{
 		if ( !data || !dataSize ) {
-			CLogArgID ( "PerformBase: Allocating buffers of size [%u].", payloadSize );
+			CLogArgID ( "PerformBase: Allocating buffers of size [ %u ].", payloadSize );
 
 			ReleaseSwapBuffers ();
 
 			dataSize = payloadSize;
 
 			if ( !AllocateSwapBuffers () ) {
-				CErrArgID ( "PerformBase: Failed to allocate [%u] bytes for capture buffers.", payloadSize );
+				CErrArgID ( "PerformBase: Failed to allocate [ %u ] bytes for capture buffers.", payloadSize );
 				return false;
 			}
 		}
-		if ( dataSize != payloadSize )
+		if ( dataSize != payloadSize || !data )
 			return false;
 
 		if ( ___sync_val_compare_and_swap ( &dataAccessed, 2, 2 ) == 2 ) {
@@ -157,17 +157,17 @@ namespace environs
 
 		if ( portalWorkerEvent && portalWorkerEventLock ) {
 			CVerbVerbID ( "PerformBase: Triggering..." );
-			
-			if ( pthread_cond_mutex_lock ( (pthread_mutex_t *) portalWorkerEventLock ) ) {
+
+			if ( pthread_cond_mutex_lock ( ( pthread_mutex_t * ) portalWorkerEventLock ) ) {
 				CErr ( "PerformBase: Failed to lock portalWorkerEventLock." );
 				return false;
 			}
 
-			if ( pthread_cond_signal ( (pthread_cond_t *) portalWorkerEvent ) ) {
+			if ( pthread_cond_signal ( ( pthread_cond_t * ) portalWorkerEvent ) ) {
 				CErr ( "PerformBase: Failed to signal portalWorkerEvent." );
 			}
 
-			if ( pthread_cond_mutex_unlock ( (pthread_mutex_t *) portalWorkerEventLock ) ) {
+			if ( pthread_cond_mutex_unlock ( ( pthread_mutex_t * ) portalWorkerEventLock ) ) {
 				CErr ( "PerformBase: Failed to unlock portalWorkerEventLock." );
 			}
 		}
@@ -178,39 +178,39 @@ namespace environs
     bool CamBase::PerformIOSX ( void * cvSampleBuffer )
     {
         bool success = false;
-        
-        if ( ___sync_val_compare_and_swap ( &dataAccessed, 2, 2 ) == 2 ) {
-            CVerbVerbID ( "PerformIOSX: Taking over capture data." );
 
-            data = (char *) cvSampleBuffer;
-            
-            // dataAccessed = 0
-            __sync_sub_and_fetch ( &dataAccessed, 1 );
-            __sync_sub_and_fetch ( &dataAccessed, 1 );
-            
-            success = true;
-        }
-        else {
-            CVerbID ( "PerformIOSX: Buffer full." );
-        }
-        
-        
-        if ( portalWorkerEvent && portalWorkerEventLock ) {
-            CVerbVerbID ( "PerformIOSX: Triggering..." );
-            
-            if ( pthread_cond_mutex_lock ( (pthread_mutex_t *) portalWorkerEventLock ) ) {
-                CErr ( "PerformIOSX: Failed to lock portalWorkerEventLock." );
-                return false;
-            }
-            
-            if ( pthread_cond_signal ( (pthread_cond_t *) portalWorkerEvent ) ) {
-                CErr ( "PerformIOSX: Failed to signal portalWorkerEvent." );
-            }
-            
-            if ( pthread_cond_mutex_unlock ( (pthread_mutex_t *) portalWorkerEventLock ) ) {
-                CErr ( "PerformIOSX: Failed to unlock portalWorkerEventLock." );
-            }
-        }
+		if ( ___sync_val_compare_and_swap ( &dataAccessed, 2, 2 ) == 2 ) {
+			CVerbVerbID ( "PerformIOSX: Taking over capture data." );
+
+			data = ( char * ) cvSampleBuffer;
+
+			// dataAccessed = 0
+			__sync_sub_and_fetch ( &dataAccessed, 1 );
+			__sync_sub_and_fetch ( &dataAccessed, 1 );
+
+			success = true;
+		}
+		else {
+			CVerbID ( "PerformIOSX: Buffer full." );
+		}
+
+
+		if ( portalWorkerEvent && portalWorkerEventLock ) {
+			CVerbVerbID ( "PerformIOSX: Triggering..." );
+
+			if ( pthread_cond_mutex_lock ( ( pthread_mutex_t * ) portalWorkerEventLock ) ) {
+				CErr ( "PerformIOSX: Failed to lock portalWorkerEventLock." );
+				return false;
+			}
+
+			if ( pthread_cond_signal ( ( pthread_cond_t * ) portalWorkerEvent ) ) {
+				CErr ( "PerformIOSX: Failed to signal portalWorkerEvent." );
+			}
+
+			if ( pthread_cond_mutex_unlock ( ( pthread_mutex_t * ) portalWorkerEventLock ) ) {
+				CErr ( "PerformIOSX: Failed to unlock portalWorkerEventLock." );
+			}
+		}
         return success;
     }
     

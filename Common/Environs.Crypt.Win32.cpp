@@ -608,7 +608,8 @@ namespace environs
     
 	bool dDecryptMessage ( char * key, unsigned int keySize, char * msg, unsigned int msgLen, char ** decrypted, unsigned int * decryptedSize )
 	{
-		if ( !key || !msg || !msgLen || !decrypted || !decryptedSize ) {
+		// Code analysis seem to allow size_t to be negative
+		if ( !key || !msg || msgLen <= 0 || !decrypted || !decryptedSize ) {
 			CErr ( "DecryptMessage: Called with at least one null argument." );
 			return false;
         }
@@ -632,50 +633,50 @@ namespace environs
 #endif
 		do
 		{
-			if ( !CryptAcquireContext ( &hCSP, NULL, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT ) ) 
+			if ( !CryptAcquireContext ( &hCSP, NULL, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT ) )
 			{
 				CErr ( "DecryptMessage: CryptAcquireContext failed." ); break;
 			}
-			
-			if ( !CryptImportKey ( hCSP, (BYTE *) key, keySize, NULL, 0, &hKey ) )
+
+			if ( !CryptImportKey ( hCSP, ( BYTE * ) key, keySize, NULL, 0, &hKey ) )
 			{
 				CErr ( "DecryptMessage: CryptImportKey failed." ); break;
 			}
 
-			plainText = (char *) malloc ( msgLen + 2 );
+			plainText = ( char * ) malloc ( msgLen + 2 );
 			if ( !plainText ) {
 				CErrArg ( "DecryptMessage: Memory allocation [%i bytes] failed.", msgLen ); break;
 			}
 
 			for ( unsigned int i = 0; i < msgLen; i++ )
-				plainText [i] = msg [msgLen - 1 - i];
-            
+				plainText [ i ] = msg [ msgLen - 1 - i ];
+
 			plainSize = msgLen;
-			if ( CryptDecrypt ( hKey, NULL, TRUE, CRYPT_OAEP, (BYTE *) plainText, &plainSize ) && plainSize )
+			if ( CryptDecrypt ( hKey, NULL, TRUE, CRYPT_OAEP, ( BYTE * ) plainText, &plainSize ) && plainSize )
 				success = true;
 			else
 			{
 				CVerb ( "DecryptMessage: CryptDecrypt failed with OAEP padding." );
 
 				plainSize = msgLen;
-				if ( CryptDecrypt ( hKey, NULL, TRUE, 0, (BYTE *) plainText, &plainSize ) && plainSize )
+				if ( CryptDecrypt ( hKey, NULL, TRUE, 0, ( BYTE * ) plainText, &plainSize ) && plainSize )
 					success = true;
 				else
 				{
 					CVerb ( "DecryptMessage: CryptDecrypt failed without specific padding flags." );
 
 					plainSize = msgLen;
-					if ( CryptDecrypt ( hKey, NULL, TRUE, CRYPT_DECRYPT_RSA_NO_PADDING_CHECK, (BYTE *) plainText, &plainSize ) && plainSize )
+					if ( CryptDecrypt ( hKey, NULL, TRUE, CRYPT_DECRYPT_RSA_NO_PADDING_CHECK, ( BYTE * ) plainText, &plainSize ) && plainSize )
 						success = true;
 					else {
 						CErr ( "DecryptMessage: CryptDecrypt failed with no padding check." ); break;
 					}
 				}
 			}
-			
+
 			if ( success ) {
 				*decryptedSize = plainSize;
-				plainText [plainSize] = 0;
+				plainText [ plainSize ] = 0;
 				CVerbVerbArg ( "DecryptMessage: size [ %u ] ", plainSize );
 
 				*decrypted = plainText;
@@ -685,7 +686,7 @@ namespace environs
 		while ( 0 );
 
 		if ( !success ) {
-			CErrArg ( "DecryptMessage: Last error [ 0x%08x ]", GetLastError ( ) );
+			CErrArg ( "DecryptMessage: Last error [ 0x%08x ]", GetLastError () );
 		}
 
 		if ( plainText )	free ( plainText );
@@ -704,7 +705,8 @@ namespace environs
 
 	bool dDecryptMessageWithKeyHandles ( HCRYPTKEY hKey, char * msg, unsigned int msgLen, char ** decrypted, unsigned int * decryptedSize )
 	{
-		if ( !hKey || !msg || !msgLen || !decrypted || !decryptedSize ) {
+		// Code analysis seem to allow size_t to be negative
+		if ( !hKey || !msg || msgLen <= 0 || !decrypted || !decryptedSize ) {
 			CErr ( "DecryptMessageWithKeyHandles: Called with at least one null argument." );
 			return false;
 		}

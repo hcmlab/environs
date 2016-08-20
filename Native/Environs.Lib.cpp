@@ -1137,6 +1137,17 @@ namespace environs
 #ifndef DISPLAYDEVICE
             opt ( 0, APPENV_SETTING_GL_USE_WIFI_OBSERVER, enable );
 #endif
+
+#if !defined(ENVIRONS_IOS) && !defined(ANDROID)
+            sp ( Instance ) inst = GetStartedInstanceSP ( 1 );
+            if ( !inst )
+                return;
+
+            if ( enable )
+                native.wifiObserver.Start ();
+            else
+                native.wifiObserver.Stop ();
+#endif
         }
 
         /**
@@ -1157,8 +1168,8 @@ namespace environs
 		*/
 		ENVIRONSAPI void EnvironsFunc ( SetUseWifiIntervalN, int interval )
 		{
-			if ( interval < NATIVE_WIFI_OBSERVER_INTERVAL_MIN )
-				interval = NATIVE_WIFI_OBSERVER_INTERVAL_MIN;
+			if ( interval < ENVIRONS_WIFI_OBSERVER_INTERVAL_MIN )
+				interval = ENVIRONS_WIFI_OBSERVER_INTERVAL_MIN;
 
 			native.useWifiInterval = interval;
 
@@ -1189,6 +1200,17 @@ namespace environs
 
 #ifndef DISPLAYDEVICE
             opt ( 0, APPENV_SETTING_GL_USE_BT_OBSERVER, enable );
+#endif
+            
+#if !defined(ANDROID)
+            sp ( Instance ) inst = GetStartedInstanceSP ( 1 );
+            if ( !inst )
+                return;
+
+            if ( enable )
+                native.btObserver.Start ();
+            else
+                native.btObserver.Stop ();
 #endif
         }
 
@@ -2232,7 +2254,7 @@ namespace environs
         
         jvoidArray EnvironsFunc ( GetFileN, DeviceBase * device, jint fileID, jvoidArray buffer, jintp capacity )
         {
-			CVerb ( "GetFileN" );
+			CVerb ( "GetFileN: with device" );
             
             jvoidArray	retBuffer = 0;
             
@@ -2244,7 +2266,7 @@ namespace environs
             if ( !capacity )
                 goto Finish;
             
-            if ( !device->LoadFromStorage ( fileID, (char *)buffer, capacity ) )
+            if ( !device->LoadFromStorage ( fileID, ( char * ) buffer, capacity ) )
                 goto Finish;
             
             retBuffer = buffer;
@@ -2255,11 +2277,13 @@ namespace environs
             if ( !device->LoadFromStorage ( fileID, 0, &capacity_ ) || !capacity_ )
                 goto Finish;
             
-			buffer_ = (char *) malloc ( capacity_ );
-            if ( !buffer_ )
+			buffer_ = ( char * ) malloc ( capacity_ );
+            if ( !buffer_ ) {
+                CErrArg ( "GetFileN: malloc failed. [ %u bytes ]", capacity_ );
                 goto Finish;
+            }
             
-            if ( !device->LoadFromStorage ( fileID, (char *) buffer_, &capacity_ ) || !capacity_ ) {
+            if ( !device->LoadFromStorage ( fileID, ( char * ) buffer_, &capacity_ ) || !capacity_ ) {
                 free ( buffer_ );
                 goto Finish;
             }
@@ -2267,9 +2291,14 @@ namespace environs
 #ifdef ANDROID
             jbArray = jenv->NewByteArray ( capacity_ );
             if ( jbArray ) {
-                jenv->SetByteArrayRegion ( jbArray, 0, capacity_, (jbyte*) buffer_ );
+                jenv->SetByteArrayRegion ( jbArray, 0, capacity_, ( jbyte * ) buffer_ );
                 retBuffer = jbArray;
             }
+            else {
+                CErrArg ( "GetFileN: NewByteArray failed. [ %u bytes ]", capacity_ );
+            }
+
+            free ( buffer_ );
 #else
             if ( capacity )
                 *capacity = capacity_;
@@ -2314,18 +2343,22 @@ namespace environs
          */
 		ENVIRONSAPI jvoidArray EnvironsFunc ( GetFileN, jint hInst, jint deviceID, jstring areaName, jstring appName, jint fileID, jvoidArray buffer, jintp capacity )
 		{
-			CVerb ( "GetFileN" );
+			CVerb ( "GetFileN: with deviceID" );
 
 			INIT_PCHAR ( szAreaName, areaName );
 			INIT_PCHAR ( szAppName, appName );
 
-			DeviceBase * device = environs::GetDevice ( instances[hInst], deviceID, szAreaName, szAppName );
+			CVerbArg ( "GetFileN: Device [ 0x%X : %s : %s ]", deviceID, szAreaName ? szAreaName : "EnvNULL", szAppName ? szAppName : "EnvNULL" );
+
+			DeviceBase * device = environs::GetDevice ( instances [ hInst ], deviceID, szAreaName, szAppName );
 
 			RELEASE_PCHAR ( szAreaName, areaName );
 			RELEASE_PCHAR ( szAppName, appName );
 
-			if ( !device )
+			if ( !device ) {
+				CVerbArg ( "GetFileN: Device [ 0x%X  ] not found!", deviceID );
 				return 0;
+			}
             
             jvoidArray	retBuffer = EnvironsCallArg ( GetFileN, device, fileID, buffer, capacity );
 
@@ -2481,7 +2514,7 @@ namespace environs
 		*/
 		ENVIRONSAPI void EnvironsFunc ( SetNetworkStatusN, jint netStat )
 		{
-			CInfoArg ( "SetNetworkStatusN: [%i]", netStat );
+			CInfoArg ( "SetNetworkStatusN: [ %i ]", netStat );
 
             if ( native.networkStatus == netStat )
                 return;
@@ -2733,7 +2766,7 @@ namespace environs
 		*/
 		ENVIRONSAPI EBOOL EnvironsFunc ( SetPortalViewDimsN, jint hInst, jint portalID, jint left, jint top, jint right, jint bottom )
 		{
-			CVerbArg ( "SetPortalViewDimsN: portalID [0x%X] l/t/r/b [%i / %i / %i / %i]", portalID, left, top, right, bottom );
+			CLogArg ( "SetPortalViewDimsN: portalID [ 0x%X ] l/t/r/b [ %i / %i / %i / %i ]", portalID, left, top, right, bottom );
 
 			if ( left == 0 && top == 0 && right == 0 && bottom == 0 ) {
 				CWarn ( "SetPortalViewDimsN: called with 0 valued arguments" );
@@ -2747,33 +2780,36 @@ namespace environs
 
 			EBOOL success = 0;
 
-#ifndef DISPLAYDEVICE            
+#ifndef DISPLAYDEVICE
 			PortalDevice * portal = GetLockedPortalDevice ( portalID );
 			if ( !portal ) {
 				CErr ( "SetPortalViewDimsN: No portal resource found." );
 				return 0;
 			}
 
-			int width = right - left;
-			int height = bottom - top;
+			int width	= right - left;
+			int height	= bottom - top;
 
-			if (!portal->receiver || !portal->receiver->touchSource) {
-				CErrArg ( "SetPortalViewDimsN: No portal receiver or touchsource available for portalID [0x%X].", portalID );
+			if ( !portal->receiver || !portal->receiver->touchSource ) {
+				CErrArg ( "SetPortalViewDimsN: No portal receiver or touchsource available for portalID [ 0x%X ].", portalID );
 				goto Finish;
 			}
-			
+
 			if ( native.display.width == width && native.display.height == height ) {
-				CVerbArg ( "SetPortalViewDimsN: width [%i] height [%i] are the same as the display sizes.", width, height );
+				CLogArg ( "SetPortalViewDimsN: width [ %i ] height [ %i ] are the same as the display sizes.", width, height );
 
 				portal->receiver->touchSource->viewAdapt	= false;
 				goto Finish;
 			}
-			CVerbArg ( "SetPortalViewDimsN: width [%i] height [%i]", width, height );
+			CLogArg ( "SetPortalViewDimsN: width [ %i ] height [ %i ]", width, height );
 
-			portal->receiver->touchSource->xScale = (float) ((double) native.display.width / (double) width);
-			portal->receiver->touchSource->yScale = (float) ((double) native.display.height / (double) height);
+			portal->receiver->touchSource->xScale = ( float ) ( ( double ) native.display.width / ( double ) width );
+			portal->receiver->touchSource->yScale = ( float ) ( ( double ) native.display.height / ( double ) height );
 
-			CVerbArg ( "SetPortalViewDimsN: xScale [%f] yScale [%f]", portal->receiver->touchSource->xScale, portal->receiver->touchSource->yScale );
+			portal->receiver->touchSource->xOffset = -left;
+			portal->receiver->touchSource->yOffset = -top;
+
+			CLogArg ( "SetPortalViewDimsN: xScale [ %f ] yScale [ %f ]", portal->receiver->touchSource->xScale, portal->receiver->touchSource->yScale );
 
 			portal->receiver->touchSource->viewAdapt	= true;
 
@@ -2927,11 +2963,13 @@ namespace environs
 			char * buffer = 0;
 			int deviceCount;
 
-			if ( fromType == MEDIATOR_DEVICE_CLASS_ALL ) {
+			if ( fromType == MEDIATOR_DEVICE_CLASS_ALL ) 
+			{
 				CVerb ( "GetDevicesN: Available" );
-				deviceCount = mediator->GetDevicesAvailableCached ( buffer );
 
-				if ( deviceCount <= 0 || !buffer )
+				return mediator->GetDevicesAvailableCached ( jenv );
+
+				/*if ( deviceCount <= 0 || !buffer )
 					return 0;
 #ifdef ANDROID
 				int bufferSize = (deviceCount * DEVICE_PACKET_SIZE) + (2 * DEVICES_HEADER_SIZE);
@@ -2949,7 +2987,7 @@ namespace environs
 					return byteBuffer;
 				}
 #endif
-				return (jobject) buffer;
+				return (jobject) buffer;*/
 			}
 
 			/// The other types
@@ -2995,7 +3033,45 @@ namespace environs
 			// IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
 		}
 
-        
+
+		/*
+		* Method:    GetWifisN
+		* IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
+		* Signature: (I)Ljava/nio/ByteBuffer;
+		*/
+		ENVIRONSAPI jobject EnvironsProc ( GetWifisN )
+		{
+#ifndef ENVIRONS_IOS
+			DUMBJENV ();
+
+			jobject byteBuffer = native.wifiObserver.BuildNetData ( jenv );
+
+			// IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
+			return byteBuffer;
+            // IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
+#else
+            return 0;
+#endif
+		}
+
+
+		/*
+		* Method:    GetBtN
+		* IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
+		* Signature: (I)Ljava/nio/ByteBuffer;
+		*/
+		ENVIRONSAPI jobject EnvironsProc ( GetBtsN )
+		{
+			DUMBJENV ();
+
+			jobject byteBuffer = native.btObserver.BuildNetData ( jenv );
+
+			// IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
+			return byteBuffer;
+			// IMPORTANT!!! On NON-ANDROID -> the requestor has to free the memory!!!
+		}
+
+		
         /**
          * Query a DeviceInfo object for the active portal identified by the portalID.
          *

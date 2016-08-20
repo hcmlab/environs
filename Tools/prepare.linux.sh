@@ -14,8 +14,8 @@ source "${TOOLSDIR}"/platform.detect.sh
 function prepareLinux
 {
 	if [[ "${ISDEBIAN}" == "1" ]]; then
-		#sudo apt-get install uuid-dev ncurses-dev curl openssl libssl-dev
-		sudo apt-get install uuid-dev openssl libssl-dev
+		#sudo apt-get install ncurses-dev curl openssl libssl-dev
+		sudo apt-get install openssl libssl-dev
 		#opencl-headers
 		return 0
 	elif [[ "${ISRASPBERYY}" == "1" ]]; then
@@ -39,9 +39,9 @@ function prepareLinux
 		#	echo "Found." 
 		#fi
 		
-		echo "Installing uuid-dev ${GCOMP} ncurses-dev curl libcurl4-openssl-dev openssl libssl-dev ..."
+		echo "Installing ${GCOMP} ncurses-dev curl libcurl4-openssl-dev openssl libssl-dev ..."
 		
-		sudo apt-get install uuid-dev ${GCOMP} ncurses-dev curl libcurl4-openssl-dev openssl libssl-dev
+		sudo apt-get install ${GCOMP} ncurses-dev curl libcurl4-openssl-dev openssl libssl-dev
 		# opencl-headers 
 		[[ $? != 0 ]] && echo "Error: installing dependencies." && exit 1		
 	fi

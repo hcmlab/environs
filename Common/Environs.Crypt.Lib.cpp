@@ -96,8 +96,9 @@ namespace environs
     
     void CryptDynLockLock ( int mode, struct CRYPTO_dynlock_value * lock, const char *file, int line )
     {
+#ifdef DEBUGVERBVerbCrypt
         CVerbVerbArg ( "CryptDynLockLock: mode [%i] lock [%b] line [%i] file [%s]", mode, lock, line, file );
-        
+#endif
         if ( mode & CRYPTO_LOCK ) {
             pthread_mutex_lock ( &lock->lock );
         } else {
@@ -113,8 +114,9 @@ namespace environs
      */
     void CryptLock ( int mode, int n, const char * file, int line )
     {
+#ifdef DEBUGVERBVerbCrypt
         CVerbVerbArg ( "CryptLock: mode [%i] n [%i] line [%i] file [%s]", mode, n, line, file );
-        
+#endif
         if ( mode & CRYPTO_LOCK ) {
             pthread_mutex_lock ( &cryptLocks[n] );
         } else {

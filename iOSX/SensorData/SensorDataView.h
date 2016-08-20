@@ -37,8 +37,10 @@ extern bool enableSensorLight;
 
 extern bool enableSensorHeading;
 extern bool enableSensorAltimeter;
-extern bool enableSensorMotionAttRot;
-extern bool enableSensorMotionGravAcc;
+extern bool enableSensorMotionAtt;
+extern bool enableSensorMotionRot;
+extern bool enableSensorMotionGrav;
+extern bool enableSensorMotionAcc;
 extern bool enableSensorMotionMagnetic;
 
 extern SensorDataView         *   sensorDataView;

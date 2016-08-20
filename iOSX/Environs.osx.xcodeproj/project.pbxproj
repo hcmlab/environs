@@ -164,6 +164,17 @@
 		7E689FFE1C2B4790000C6916 /* Environs.Platform.Decls.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E689FFD1C2B4790000C6916 /* Environs.Platform.Decls.h */; };
 		7E7FF9311BF5DDF20007E953 /* Environs.Cli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7FF92F1BF5DDF20007E953 /* Environs.Cli.cpp */; };
 		7E7FF9321BF5DDF20007E953 /* Environs.Cli.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7FF9301BF5DDF20007E953 /* Environs.Cli.h */; };
+		7E8DEF9A1D417731006B0A4B /* IWifi.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8DEF991D417731006B0A4B /* IWifi.List.h */; };
+		7E8DEF9D1D4179F1006B0A4B /* Wifi.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DEF9B1D4179F1006B0A4B /* Wifi.List.cpp */; };
+		7E8DEF9E1D4179F1006B0A4B /* Wifi.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8DEF9C1D4179F1006B0A4B /* Wifi.List.h */; };
+		7E8DEFA51D4293B5006B0A4B /* IBt.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8DEFA41D4293B5006B0A4B /* IBt.List.h */; };
+		7E8DEFA81D4293DB006B0A4B /* Bt.Observer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8DEFA71D4293DB006B0A4B /* Bt.Observer.h */; };
+		7E8DEFAC1D4293EA006B0A4B /* Bt.List.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E8DEFA91D4293EA006B0A4B /* Bt.List.h */; };
+		7E8DEFAD1D4293EA006B0A4B /* Bt.Observer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DEFAA1D4293EA006B0A4B /* Bt.Observer.cpp */; };
+		7E8DEFAE1D4293EA006B0A4B /* Bt.List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E8DEFAB1D4293EA006B0A4B /* Bt.List.cpp */; };
+		7E8DEFB51D42C412006B0A4B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E8DEFB41D42C412006B0A4B /* CoreBluetooth.framework */; };
+		7E8DEFB81D42C8F2006B0A4B /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E8DEFB61D42C8F2006B0A4B /* IOBluetooth.framework */; };
+		7E8DEFB91D42C8F2006B0A4B /* IOBluetoothUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E8DEFB71D42C8F2006B0A4B /* IOBluetoothUI.framework */; };
 		7EB29AD51BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AD41BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h */; };
 		7EB29AD71BDBF0A600B6B304 /* Device.Instance.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29AD61BDBF0A500B6B304 /* Device.Instance.iOSX.IAPI.h */; };
 		7EB29ADE1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EB29ADD1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h */; };
@@ -453,6 +464,17 @@
 		7E7FF92F1BF5DDF20007E953 /* Environs.Cli.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environs.Cli.cpp; path = ../Native/Environs.Cli.cpp; sourceTree = "<group>"; };
 		7E7FF9301BF5DDF20007E953 /* Environs.Cli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Environs.Cli.h; path = ../Native/Environs.Cli.h; sourceTree = "<group>"; };
 		7E81512B1AF56D59008FB6DB /* Environs.iOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Environs.iOSX.mm; path = Environs/Environs.iOSX.mm; sourceTree = "<group>"; };
+		7E8DEF991D417731006B0A4B /* IWifi.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWifi.List.h; sourceTree = "<group>"; };
+		7E8DEF9B1D4179F1006B0A4B /* Wifi.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Wifi.List.cpp; path = ../Native/Core/Wifi.List.cpp; sourceTree = "<group>"; };
+		7E8DEF9C1D4179F1006B0A4B /* Wifi.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Wifi.List.h; path = ../Native/Core/Wifi.List.h; sourceTree = "<group>"; };
+		7E8DEFA41D4293B5006B0A4B /* IBt.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBt.List.h; sourceTree = "<group>"; };
+		7E8DEFA71D4293DB006B0A4B /* Bt.Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bt.Observer.h; path = ../Common/Bt.Observer.h; sourceTree = "<group>"; };
+		7E8DEFA91D4293EA006B0A4B /* Bt.List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bt.List.h; path = ../Native/Core/Bt.List.h; sourceTree = "<group>"; };
+		7E8DEFAA1D4293EA006B0A4B /* Bt.Observer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bt.Observer.cpp; path = ../Native/Core/Bt.Observer.cpp; sourceTree = "<group>"; };
+		7E8DEFAB1D4293EA006B0A4B /* Bt.List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bt.List.cpp; path = ../Native/Core/Bt.List.cpp; sourceTree = "<group>"; };
+		7E8DEFB41D42C412006B0A4B /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		7E8DEFB61D42C8F2006B0A4B /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
+		7E8DEFB71D42C8F2006B0A4B /* IOBluetoothUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetoothUI.framework; path = System/Library/Frameworks/IOBluetoothUI.framework; sourceTree = SDKROOT; };
 		7EB29AD41BDBE3BE00B6B304 /* Device.List.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.List.iOSX.IAPI.h; path = ../Native/Device/Device.List.iOSX.IAPI.h; sourceTree = "<group>"; };
 		7EB29AD61BDBF0A500B6B304 /* Device.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.Instance.iOSX.IAPI.h; path = ../Native/Device/Device.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
 		7EB29ADD1BDC20A700B6B304 /* Portal.Instance.iOSX.IAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Portal.Instance.iOSX.IAPI.h; path = ../Native/Portal/Portal.Instance.iOSX.IAPI.h; sourceTree = "<group>"; };
@@ -599,6 +621,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E8DEFB81D42C8F2006B0A4B /* IOBluetooth.framework in Frameworks */,
+				7E8DEFB91D42C8F2006B0A4B /* IOBluetoothUI.framework in Frameworks */,
+				7E8DEFB51D42C412006B0A4B /* CoreBluetooth.framework in Frameworks */,
 				7EB871D11B35947100E21206 /* CoreMedia.framework in Frameworks */,
 				7EB871CF1B35944A00E21206 /* CoreVideo.framework in Frameworks */,
 				7ED0D30F1AFC2A1500342B64 /* CoreGraphics.framework in Frameworks */,
@@ -663,6 +688,10 @@
 				7E13D30A1BD80C3100759757 /* Array.List.h */,
 				7ED0D3601AFD7BC300342B64 /* Async.Worker.cpp */,
 				7ED0D3611AFD7BC300342B64 /* Async.Worker.h */,
+				7E8DEFAB1D4293EA006B0A4B /* Bt.List.cpp */,
+				7E8DEFA91D4293EA006B0A4B /* Bt.List.h */,
+				7E8DEFAA1D4293EA006B0A4B /* Bt.Observer.cpp */,
+				7E8DEFA71D4293DB006B0A4B /* Bt.Observer.h */,
 				7ED0D3621AFD7BC300342B64 /* Byte.Buffer.cpp */,
 				7ED0D3631AFD7BC300342B64 /* Byte.Buffer.h */,
 				7E194A681966062400C09FFF /* Callbacks.cpp */,
@@ -718,6 +747,8 @@
 				7E33A7821CF86E420018AA0E /* Tracer.cpp */,
 				7E33A7811CF86E420018AA0E /* Tracer.h */,
 				7E194A781966062400C09FFF /* Utils.cpp */,
+				7E8DEF9B1D4179F1006B0A4B /* Wifi.List.cpp */,
+				7E8DEF9C1D4179F1006B0A4B /* Wifi.List.h */,
 				7EE7BBE41D24A6CF00F2A70B /* Wifi.Observer.cpp */,
 				7EE7BBE21D24A6A400F2A70B /* Wifi.Observer.h */,
 			);
@@ -745,6 +776,7 @@
 			isa = PBXGroup;
 			children = (
 				7E13D3051BD7829C00759757 /* IArray.List.h */,
+				7E8DEFA41D4293B5006B0A4B /* IBt.List.h */,
 				7E6335C41BD173390025C9D3 /* IDevice.Instance.h */,
 				7E13D3171BD847E100759757 /* IDevice.Instance.List.h */,
 				7E6335BE1BD16E250025C9D3 /* IDevice.List.h */,
@@ -769,6 +801,7 @@
 				7EF15B391B27A34E0054A122 /* IPortal.Renderer.cpp */,
 				7EF15B3A1B27A34E0054A122 /* IPortal.Renderer.h */,
 				7EF15B3D1B27A34E0054A122 /* ITracker.h */,
+				7E8DEF991D417731006B0A4B /* IWifi.List.h */,
 			);
 			name = Interfaces;
 			path = ../Common/Interfaces;
@@ -946,6 +979,9 @@
 		7EBB3CC81870F96200BE8012 = {
 			isa = PBXGroup;
 			children = (
+				7E8DEFB61D42C8F2006B0A4B /* IOBluetooth.framework */,
+				7E8DEFB71D42C8F2006B0A4B /* IOBluetoothUI.framework */,
+				7E8DEFB41D42C412006B0A4B /* CoreBluetooth.framework */,
 				7EAB29D518AD878000D59776 /* Capture */,
 				7EC2FCC71AF550C800C1E992 /* CHANGELOG.md */,
 				7EAB2A4418AD87FD00D59776 /* Codec */,
@@ -1076,6 +1112,7 @@
 				7EEF66591B3C9BCB00501FB1 /* Device.Instance.iOSX.h in Headers */,
 				7EB872031B3599C400E21206 /* Portal.Receiver.Android.h in Headers */,
 				7EB6153E1BD84B1300545C81 /* IFile.List.h in Headers */,
+				7E8DEF9E1D4179F1006B0A4B /* Wifi.List.h in Headers */,
 				7ED0D3EF1B026D8100342B64 /* Gesture.Three.Finger.h in Headers */,
 				7E6335801BCCD3970025C9D3 /* Message.Instance.h in Headers */,
 				7E6335C11BD16E250025C9D3 /* IPortal.Info.h in Headers */,
@@ -1091,6 +1128,7 @@
 				7ED0D4491B067D7200342B64 /* Kernel.Windows.h in Headers */,
 				7E2220A01B517500003E2D9C /* Environs.iOS.h in Headers */,
 				7E2220AC1B517500003E2D9C /* Environs.Windows.h in Headers */,
+				7E8DEFAC1D4293EA006B0A4B /* Bt.List.h in Headers */,
 				7E2220A71B517500003E2D9C /* Environs.Modules.h in Headers */,
 				7E194A951966063F00C09FFF /* Device.Display.h in Headers */,
 				7E2DEF4D1C0E440A00D8B290 /* Input.Handler.h in Headers */,
@@ -1107,6 +1145,7 @@
 				7E6335811BCCD3970025C9D3 /* File.Instance.h in Headers */,
 				7ED0D4531B07A60F00342B64 /* Touch.Source.h in Headers */,
 				7E33A7831CF86E420018AA0E /* Tracer.h in Headers */,
+				7E8DEFA51D4293B5006B0A4B /* IBt.List.h in Headers */,
 				7E3D029F1B546C52007BD163 /* Message.Instance.iOSX.h in Headers */,
 				7ED0D34B1AFD77F400342B64 /* Device.Base.h in Headers */,
 				7E6335B31BD14A6F0025C9D3 /* Environs.Loader.h in Headers */,
@@ -1133,6 +1172,7 @@
 				7ED0D4371B05D7E400342B64 /* Human.Input.Decl.h in Headers */,
 				7E13D3081BD7836800759757 /* IEnvirons.Dispose.h in Headers */,
 				7EB29AE61BDD204000B6B304 /* Environs.iOSX.Imp.h in Headers */,
+				7E8DEF9A1D417731006B0A4B /* IWifi.List.h in Headers */,
 				7EB29AE01BDC2AC700B6B304 /* Message.Instance.iOSX.IAPI.h in Headers */,
 				7E3B0B201C54693C0064C4FB /* Location.Decl.h in Headers */,
 				7EB871FC1B3599C400E21206 /* Portal.Generator.iOS.h in Headers */,
@@ -1181,6 +1221,7 @@
 				7ECE04E01BB47AEE002740B5 /* Environs.Linux.h in Headers */,
 				7E194A4A196605C900C09FFF /* Environs.Obj.h in Headers */,
 				7EB871E91B3599A000E21206 /* Portal.Receiver.h in Headers */,
+				7E8DEFA81D4293DB006B0A4B /* Bt.Observer.h in Headers */,
 				7E194AEB1966071500C09FFF /* Render.Context.h in Headers */,
 				7ED0D36F1AFD7BD100342B64 /* Performance.Count.h in Headers */,
 				7E63358B1BCD79080025C9D3 /* Portal.Instance.h in Headers */,
@@ -1351,6 +1392,7 @@
 				7EF15B481B27A34E0054A122 /* IPortal.Renderer.cpp in Sources */,
 				7ED0D4081B026E0200342B64 /* Device.Mobile.cpp in Sources */,
 				7EE7BBE51D24A6CF00F2A70B /* Wifi.Observer.cpp in Sources */,
+				7E8DEFAE1D4293EA006B0A4B /* Bt.List.cpp in Sources */,
 				7E194A49196605C900C09FFF /* Environs.Obj.cpp in Sources */,
 				7E318F401BF67C6200A75EC0 /* Environs.Cli.Surfaces.cpp in Sources */,
 				7EB871EE1B3599AD00E21206 /* Portal.Receiver.Windows.cpp in Sources */,
@@ -1361,6 +1403,7 @@
 				7E194A921966063F00C09FFF /* Device.Base.cpp in Sources */,
 				7E194AE41966070000C09FFF /* Portal.Generator.cpp in Sources */,
 				7E6335B11BD06A280025C9D3 /* Environs.cpp in Sources */,
+				7E8DEFAD1D4293EA006B0A4B /* Bt.Observer.cpp in Sources */,
 				7EF778D31B504377005D2DB0 /* Capture.Win.GDI.cpp in Sources */,
 				7E194A811966062400C09FFF /* Mediator.Client.cpp in Sources */,
 				7E2220A51B517500003E2D9C /* Environs.Mobile.cpp in Sources */,
@@ -1383,6 +1426,7 @@
 				7EEF663C1B3A13E200501FB1 /* Device.OSX.cpp in Sources */,
 				7E194A941966063F00C09FFF /* Device.Display.cpp in Sources */,
 				7EB871FA1B3599C400E21206 /* Portal.Generator.Android.cpp in Sources */,
+				7E8DEF9D1D4179F1006B0A4B /* Wifi.List.cpp in Sources */,
 				7E2220A91B517500003E2D9C /* Environs.OSX.cpp in Sources */,
 				7E2811F81BFE4D9D008B5950 /* Environs.Cli.TouchDevice.cpp in Sources */,
 				7EDCA85D1B22653800A3B726 /* Encoder.GDI.cpp in Sources */,

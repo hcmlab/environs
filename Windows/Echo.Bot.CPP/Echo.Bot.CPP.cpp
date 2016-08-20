@@ -86,6 +86,20 @@ void * EchoBot::TestListerThread ( void * arg )
         {
             g_echo->PrintDevices ( 0 );
 
+			sp ( WifiList ) list = g_echo->envSP->GetWifis ();
+            list.reset ();
+            
+            sp ( BtList ) list1 = g_echo->envSP->GetBts ();
+            if ( list1 ) {
+                BtList * l = list1.get ();
+                for ( size_t i = 0; i < l->size(); i++ )
+                {
+                    BtEntry * e = l->item(i);
+                    printf ( "BT: [ %llX ] [ %s ] ", e->item->bssid, e->ssid ? e->ssid : "Unknown" );
+                }
+            }
+            list1.reset ();
+            
             thread->WaitOne( "" );
             thread->ResetSync("");
         }
@@ -738,7 +752,9 @@ int EchoBot::GetFirstIntArg ( char * &line )
     *argEnd = 0;
 
     int arg = 0;
-    sscanf ( argLine, "%i", &arg );
+	if ( sscanf ( argLine, "%i", &arg ) != 1 ) {
+		printf ( "Invalid arguments." );
+	}
 
     *argEnd = ' ';
 

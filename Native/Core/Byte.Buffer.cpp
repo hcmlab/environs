@@ -94,7 +94,7 @@ namespace environs
 
 	ByteBuffer * allocBuffer ( unsigned int capacity )
 	{
-		CVerbArg ( "allocBuffer: allocate capacity of %i", capacity );
+		CVerbVerbArg ( "allocBuffer: allocate capacity of %i", capacity );
 
 		ByteBuffer * buffer = 0;
 
@@ -164,7 +164,7 @@ namespace environs
 		}
 #endif
 
-		CVerbArg ( "allocBuffer: done (%s)", buffer == 0 ? "failed" : "success" );
+		CVerbVerbArg ( "allocBuffer: done (%s)", buffer == 0 ? "failed" : "success" );
 		return buffer;
 	}
 
@@ -176,7 +176,7 @@ namespace environs
 			return false;
 		}
 
-		CVerb ( "disposeBuffer: disposing buffer" );
+		CVerbVerb ( "disposeBuffer: disposing buffer" );
 #ifdef ANDROID
 		return disposeJBuffer ( ( void * ) buffer->managed.reference );
 #else
@@ -189,7 +189,7 @@ namespace environs
 #ifdef ANDROID
 	bool disposeJBuffer ( void * buffer )
 	{
-		CVerb ( "disposeBuffer" );
+		CVerbVerb ( "disposeBuffer" );
 
 		int status;
 		JNIEnv *env;
@@ -230,7 +230,7 @@ namespace environs
 		if ( isAttached )
 			g_JavaVM->DetachCurrentThread ();
 
-		CVerbArg ( "disposeBuffer: done with status %i", status );
+		CVerbVerbArg ( "disposeBuffer: done with status %i", status );
 		return status;
 	}
 #endif
@@ -238,7 +238,7 @@ namespace environs
 
 	ByteBuffer * relocateBuffer ( ByteBuffer * buffer, bool dispose, unsigned int capacity )
 	{
-		CVerb ( "relocateBuffer" );
+		CVerbVerb ( "relocateBuffer" );
 
 		if ( buffer && buffer->capacity >= capacity )
 			return buffer;
@@ -256,7 +256,7 @@ namespace environs
 
 	jobject allocJByteBuffer ( JNIEnv * jenv, unsigned int capacity, char * &buffer )
 	{
-		CVerbArg ( "allocJByteBuffer: allocate capacity of %i", capacity );
+		CVerbVerbArg ( "allocJByteBuffer: allocate capacity of %i", capacity );
 
 		jobject jByteBuffer;
 #ifdef ANDROID
@@ -273,7 +273,7 @@ namespace environs
 		jByteBuffer = buffer;
 #endif
 
-		CVerbArg ( "allocJByteBuffer: done (%s)", buffer == 0 ? "failed" : "success" );
+		CVerbVerbArg ( "allocJByteBuffer: done (%s)", buffer == 0 ? "failed" : "success" );
 		return jByteBuffer;
 	}
 

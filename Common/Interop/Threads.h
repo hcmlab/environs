@@ -1,5 +1,5 @@
 /**
- *	Platform interop definitions
+ *	Platform Interop Definitions
  * ------------------------------------------------------------------
  * Copyright (c) Chi-Tai Dang
  *
@@ -319,22 +319,19 @@ namespace environs
 #				define pthread_cond_wait(e,m)		LeaveCriticalSection(m); WaitForSingleObject ( *e, INFINITE ); EnterCriticalSection (m);
 #			endif
 
-#if _MSC_VER >= 1800
-			_When_(return == 0, _Acquires_lock_(lock))
-#endif
+			_When_ ( return == 0, _Acquires_nonreentrant_lock_ ( *lock ) )
+				_Requires_lock_not_held_ ( *lock )
 			extern INLINEFUNC int pthread_mutex_lock (		pthread_mutex_t OBJ_ptr lock );
 
 #	define	pthread_mutex_lock_n(m)			EnterCriticalSection (m);
 #	define	pthread_mutex_unlock_n(m)		LeaveCriticalSection (m);
 
-#if _MSC_VER >= 1800
-			_When_(return == 0, _Acquires_lock_(*lock))
-#endif
+			_When_ ( return == 0, _Acquires_nonreentrant_lock_ ( *lock ) )
+				_Requires_lock_not_held_ ( *lock )
 			extern INLINEFUNC int pthread_mutex_trylock (	pthread_mutex_t OBJ_ptr lock );
 
-#if _MSC_VER >= 1800
-			_When_(return == 0, _Releases_lock_(*lock))
-#endif
+			_When_ ( return == 0, _Releases_nonreentrant_lock_ ( *lock ) )
+				_Requires_lock_held_ ( *lock )
 			extern INLINEFUNC int pthread_mutex_unlock (	pthread_mutex_t OBJ_ptr lock );
 
 #		endif
@@ -593,10 +590,18 @@ namespace environs
 
 #	define LockAcquire(m,f)			environs::LockAcquireBool(m,#m,CLASS_NAME,f)
 #	define LockAcquireA(m,f)		environs::LockAcquireBool(&m,#m,CLASS_NAME,f)
+
+	_When_ ( return == true, _Acquires_nonreentrant_lock_ ( *mtx ) )
+		_Requires_lock_not_held_ ( *mtx )
+
 	extern bool LockAcquireBool ( pthread_mutex_t OBJ_ptr mtx, const char * mutexName, const char * className, const char * funcName );
 
 #	define LockRelease(m,f)			environs::LockReleaseBool(m,#m,CLASS_NAME,f)
 #	define LockReleaseA(m,f)		environs::LockReleaseBool(&m,#m,CLASS_NAME,f)
+
+	_When_ ( return == true, _Releases_nonreentrant_lock_ ( *mtx ) )
+		_Requires_lock_held_ ( *mtx )
+
 	extern bool LockReleaseBool ( pthread_mutex_t OBJ_ptr mtx, const char * mutexName, const char * className, const char * funcName );
 
 

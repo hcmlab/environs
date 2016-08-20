@@ -98,7 +98,7 @@ namespace environs
 		virtual DeviceInstance *        RefreshItemRetained ( DeviceInstance * source, DeviceObserver * observer ) = 0;
 
 		/**
-		* Get a collection that holds all available devices. This list ist updated dynamically by Environs.
+		* Get a collection that holds all available devices. This list is updated dynamically by Environs.
 		*
 		* @return ArrayList with DeviceInstance objects
 		*/

@@ -1457,6 +1457,8 @@ namespace environs
 				success = false;
 			}
         }
+
+        DEBUG_CHECK_MEASURE ( "SaveDeviceMappings" );
         
         // Build devcie mappings
         msp ( string, DeviceMapping )::iterator end = cache.end ();
@@ -1468,8 +1470,6 @@ namespace environs
                 plainstream << it->first << " " << item->deviceID << " " << item->authLevel << " " << item->authToken << endl;
             }
         }
-        
-        DEBUG_CHECK_MEASURE ( "SaveDeviceMappings" );
         
 		if ( success ) {
 			/// Encrypt plaintext
@@ -2477,7 +2477,7 @@ namespace environs
     }
     
     
-    void MediatorDaemon::RemoveDevice ( DeviceInstanceNode * device, bool useLock )
+    void MediatorDaemon::RemoveDevice ( DeviceInstanceNode * device, bool useLock, bool forceUnlock )
 	{
 		CVerbVerb ( "RemoveDevice" );
 
@@ -2545,7 +2545,7 @@ namespace environs
 		}
 		appDevs->deviceCacheDirty = true;
 
-        if ( useLock )
+        if ( useLock ) // || forceUnlock )
             appDevs->UnlockWrite ( "RemoveDevice" );
 
 		NotifyClients ( NOTIFY_MEDIATOR_SRV_DEVICE_REMOVED, device->baseSP );

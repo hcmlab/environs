@@ -25,7 +25,10 @@
 #include <direntw.h>
 #include <io.h>
 #include <string.h>
-#include <stdlib.h>
+
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
+#	include <stdlib.h>
+#endif
 
 #ifdef CLI_CPP
 using namespace System::IO;

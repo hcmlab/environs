@@ -214,7 +214,12 @@ namespace environs.Apps
                 if (initThread == null)
                     Utils.LogE("StartInitThread: Failed to create initThread!!!");
                 else
+                {
+#if DEBUG
+                    initThread.Name = "ChatAppWindow.InitThread";
+#endif
                     initThread.Start();
+                }
             }
         }
 
@@ -374,7 +379,12 @@ namespace environs.Apps
                 if (statusThread == null)
                     Utils.LogE("StartStatusThread: Failed to create initThread!!!");
                 else
+                {
+#if DEBUG
+                    statusThread.Name = "ChatAppWindow.UpdateEnvironsStatusThread";
+#endif
                     statusThread.Start();
+                }
             }
         }
         

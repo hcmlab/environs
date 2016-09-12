@@ -310,9 +310,8 @@ const char * NALUTypeNames[] =
     if ( outputRGBA )
         return true;
     
-    if ( !LockAcquireA ( mutex, "SetRenderSurface" ) ) {
+    if ( !LockAcquireA ( mutex, "SetRenderSurface" ) )
         return false;
-    }
     
     AVSampleBufferDisplayLayer  * prevLayer = displayLayer;
     

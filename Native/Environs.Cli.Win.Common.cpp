@@ -399,6 +399,8 @@ namespace environs
 			if ( env == nullptr )
 				return;
 
+			pthread_setname_current_envthread ( "Environs.CloseInstanceDispatcher" );
+
 			env->SetAppShutdown ( true );
 			env->async = Call::Wait;
 			env->disposeOnClose = false;
@@ -458,6 +460,8 @@ namespace environs
 
 		if ( waitEvent == nullptr )
 			return;
+
+		pthread_setname_current_envthread ( "Environs.WaitUIFinished" );
 
 		waitEvent->Reset ();
 

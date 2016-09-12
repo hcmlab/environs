@@ -96,6 +96,7 @@ namespace environs
 #ifndef NDEBUG
 		int							nativeIDTrace;
 #endif
+        OBJIDType                   objID;
         
         sp ( DeviceInstanceNode )   deviceNode;
         
@@ -146,7 +147,6 @@ namespace environs
         unsigned int                sensorSender;
 
 	protected:
-        bool                        disposed;
         sp ( Instance )             envSP;
 
 		unsigned int				activityStatus;
@@ -177,8 +177,12 @@ namespace environs
 
 		int							udpSocket;
 		int							udpSocketForClose;
-        ThreadSync                  udpThread;		
         
+	public:
+        ThreadSync                  udpThread;
+        bool                        disposed;
+
+	protected:        
         MessageHandler              msgHandlers [ MSG_TYPE_MAX_COUNT ];
 
         FILE                    *   lastFile;
@@ -270,7 +274,9 @@ namespace environs
 		
 		void						SetDirectContactStatus ( bool hasContact );
 		virtual bool				GetDirectContactStatus ( );
-        
+
+        sp ( DeviceInstanceNode )   GetDeviceNodeSP ();
+
         /**
          * Get the status, whether the device (id) has established an active portal
          *
@@ -451,6 +457,8 @@ namespace environs
 		void 						CloseConnectorThread ();
 		
 		void                        CloseListeners ( bool wait = true );
+
+	public:
 		void 						CloseUdpListener ( bool wait = true );
 		//void 						CloseComDatListener ( bool wait = true );
 		//void 						CloseInteractListener ( bool wait = true );
@@ -515,7 +523,8 @@ namespace environs
         static bool                 BuildDevices ( DeviceBase ** &fdDevices, FDTYPE * &fds, int &size, int &capacity );
         static bool                 AddSignalSocket ( FDTYPE * fds, int &size );
 #endif        
-		void 		* 				UdpListener ( );
+        bool        *               udpPanic;
+		void 		* 				UdpListener ( bool * panic );
 		static void *				UdpListenerStarter ( void * arg );
 
 		bool 						HandleComDatChannel ( int sock, struct sockaddr_in * addr );

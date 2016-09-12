@@ -498,7 +498,12 @@ namespace environs.Apps
                 if (updateEnvironsStatusThread == null)
                     Utils.LogE("updateEnvironsStatus: Failed to create updateEnvironsStatusThread!!!");
                 else
+                {
+#if DEBUG
+                    updateEnvironsStatusThread.Name = "MainWindow.updateEnvironsStatusThreaded";
+#endif
                     updateEnvironsStatusThread.Start();
+                }
             }
         }
 
@@ -570,7 +575,12 @@ namespace environs.Apps
                 if (updateDevicesThread == null)
                     Utils.LogE("updateDevices: Failed to create updateDevicesThread!!!");
                 else
+                {
+#if DEBUG
+                    updateDevicesThread.Name = "MainWindow.updateDevicesThreaded";
+#endif
                     updateDevicesThread.Start();
+                }
             }
         }
 

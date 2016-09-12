@@ -28,7 +28,10 @@
 
 #include "Environs.Crypt.h"
 
-#include <stdlib.h>
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
+#   include <stdlib.h>
+#endif
+
 #include <stdio.h>
 #include <stdarg.h>
 

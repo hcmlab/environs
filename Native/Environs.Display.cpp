@@ -221,6 +221,9 @@ namespace environs
 
 			conffile << "useBtInterval: " << native.useBtInterval << endl;
 
+#if defined(_WIN32) && !defined(NDEBUG)
+			conffile << "useDebugHeap: " << native.useDebugHeap << endl;
+#endif
 			conffileOld.open ( path );
 			if ( conffileOld.good () )
 			{
@@ -488,26 +491,32 @@ Finish:
 					else if ( str [ 1 ] == 's' && str [ 2 ] == 'e' )
 					{
 						switch ( str [ 3 ] )
-                        {
-                            case 'B': // useBtInterval
-								if ( str [ 5 ] == 'I' )
-									getInt ( native.useBtInterval, line );
-								else // useBtObserver
-                                      //valid =
-									getBool ( native.useBtObserver, line );
-                                break;
+						{
+						case 'B': // useBtInterval
+							if ( str [ 5 ] == 'I' )
+								getInt ( native.useBtInterval, line );
+							else // useBtObserver
+								 //valid =
+								getBool ( native.useBtObserver, line );
+							break;
 
+#if defined(_WIN32) && !defined(NDEBUG)
+						case 'D': // useDebugHeap
+							if ( str [ 5 ] == 'b' )
+								getInt ( native.useDebugHeap, line );
+							break;
+#endif
 						case 'L': // useLogFile
-							//valid =
-                                getBool ( native.useLogFile, line );
-                                
-                            if ( native.useLogFile ) {
-                                LogBuildCommit ();
-                            }
+								  //valid =
+							getBool ( native.useLogFile, line );
+
+							if ( native.useLogFile ) {
+								LogBuildCommit ();
+							}
 							break;
 
 						case 'N':
-							switch ( str [ 4 ] ) 
+							switch ( str [ 4 ] )
 							{
 							case 'o':
 								//valid =
@@ -523,7 +532,7 @@ Finish:
 								 //valid =
 								getBool ( native.useWifiObserver, line );
 							break;
-                        }
+						}
 					}
 				}
 			}
@@ -673,6 +682,22 @@ Finish:
 		if ( env->appAreaID < 0 )
 			env->appAreaID = native.UpdateEnvID ( env->appName, env->areaName, -1 );
 
+#ifdef DEBUG_EXT_HEAP_CHECK
+		if ( native.useDebugHeap > 0 )
+		{
+			int flags = _CrtSetDbgFlag ( _CRTDBG_REPORT_FLAG );
+
+			//flags |= _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_LEAK_CHECK_DF;
+			// _CRTDBG_DELAY_FREE_MEM_DF lags heavily under vs2010
+
+			//flags |= _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_CHECK_CRT_DF | _CRTDBG_CHECK_EVERY_16_DF;
+			flags |= _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_CHECK_CRT_DF;
+
+			flags |= native.useDebugHeap << 16; // 0x00010000; // check heap after every call to heap functions
+
+			_CrtSetDbgFlag ( flags );
+		}
+#endif
 		return success;
 	}
 

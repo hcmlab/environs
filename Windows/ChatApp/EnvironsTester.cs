@@ -19,6 +19,7 @@ namespace environs.Apps
         bool enableThread = false;
         Thread testThread = null;
         bool waiting = false;
+        ManualResetEvent stopEvent = new ManualResetEvent(false);
 
         EnvironsTester()
         {
@@ -29,6 +30,8 @@ namespace environs.Apps
         private void CloserThread()
         {
             Utils.Log(1, className, "CloserThread");
+
+            stopEvent.Set();
 
             Thread thread = testThread;
             if (thread != null)
@@ -61,6 +64,7 @@ namespace environs.Apps
         {
             env = null;
             enableThread = false;
+            stopEvent.Set();
 
             if (testThread != null)
             {
@@ -72,7 +76,12 @@ namespace environs.Apps
                 if (closer == null)
                     Utils.LogE("OnClosing: Failed to create closer thread!!!");
                 else
+                {
+#if DEBUG
+                    closer.Name = "EnvironsTester.CloserThread";
+#endif
                     closer.Start();
+                }
             }
         }
 
@@ -129,7 +138,12 @@ namespace environs.Apps
             if (testThread == null)
                 Utils.LogE("EnvironsTester.Start: Failed to create test thread!!!");
             else
+            {
+#if DEBUG
+                testThread.Name = "EnvironsTester.StartStopThread";
+#endif
                 testThread.Start();
+            }
         }
 
 
@@ -189,7 +203,12 @@ namespace environs.Apps
             if (testThread == null)
                 Utils.LogE("EnvironsTester.TestStartStopConnect: Failed to create test thread!!!");
             else
+            {
+#if DEBUG
+                testThread.Name = "EnvironsTester.StartStopConnectThread";
+#endif
                 testThread.Start();
+            }
         }
 
 
@@ -323,9 +342,15 @@ namespace environs.Apps
             if (testThread == null)
                 Utils.LogE("EnvironsTester.StartStopConnectSendThread: Failed to create test thread!!!");
             else
+            {
+#if DEBUG
+                testThread.Name = "EnvironsTester.StartStopConnectSendThread";
+#endif
                 testThread.Start();
+            }
         }
 
+        public static int testCount = 0;
 
         private void StartStopConnectSendThread()
         {
@@ -346,10 +371,21 @@ namespace environs.Apps
                         max = 2000;
 
                         ChatUser.DisposeChatUsers();
+
+                        testCount++;
                     }
                     else if (env.status == Status.Stopped)
                     {
                         env.ClearStorage();
+
+                        //if (testCount == 30)
+                        //{
+                        //    testCount = 0;
+
+                        //    // Wait 60 seconds before we start the next cycle
+                        //    if (stopEvent.WaitOne(60000))
+                        //        break;
+                        //}
 
                         env.Start();
                         min = 20000;

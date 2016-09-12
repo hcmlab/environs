@@ -201,6 +201,27 @@ namespace environs
 
 				if ( !(count % 50) ) {
 					CWarnArgID ( "DisposeDevice: Device is being accessed [ %u times ] somewhere ...", ( unsigned int ) device->accessLocks );
+
+                    // Note: Sometimes the device connects successfully after the dispose run has finished.
+                    //		 For this case, we repeat disposal here.
+                    if ( device->deviceStatus != DeviceStatus::Deleteable ) {
+                        device->disposed = false;
+
+                        if ( device->env )
+                            DisposeSensorSender ( device->env->hEnvirons, device );
+
+                        /// Try releasing and then wait if neccessary
+                        device->DisposePlatform ();
+                        
+                        device->Dispose ();
+                    }
+                    else {
+                        // Note: Sometimes the udp listener fails to close.
+                        //		 (Dispose and PreDispose seems to have no effect)
+                        //		 For this case, we do it here.
+                        if ( device->udpThread.isRunning () )
+                            device->CloseUdpListener ( true );
+                    }
 					
 					waitCycles++;
 					if ( waitCycles > 100 ) {
@@ -208,6 +229,9 @@ namespace environs
 						// As we're still counting, we assume that an exception handler at application layers has "solved" the "problem"
 #ifndef NDEBUG
 						_EnvPushPanicMessage ( "Devices.DisposeDevice: waited > 100." );
+#   ifdef _WIN32
+                        MessageBoxA ( NULL, "Devices.DisposeDevice: waited > 100. This is the chance to attach a debugger.", "Environs Invalid State!!!", MB_OKCANCEL );
+#   endif
 #endif
 						break;
 					}

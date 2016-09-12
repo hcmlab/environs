@@ -82,27 +82,33 @@ void * EchoBot::TestListerThread ( void * arg )
 
     try
     {
-        while (testListerRun)
-        {
-            g_echo->PrintDevices ( 0 );
+		sp ( environs::Environs ) sp = g_echo->envSP;
 
-			sp ( WifiList ) list = g_echo->envSP->GetWifis ();
-            list.reset ();
-            
-            sp ( BtList ) list1 = g_echo->envSP->GetBts ();
-            if ( list1 ) {
-                BtList * l = list1.get ();
-                for ( size_t i = 0; i < l->size(); i++ )
-                {
-                    BtEntry * e = l->item(i);
-                    printf ( "BT: [ %llX ] [ %s ] ", e->item->bssid, e->ssid ? e->ssid : "Unknown" );
-                }
-            }
-            list1.reset ();
-            
-            thread->WaitOne( "" );
-            thread->ResetSync("");
-        }
+		while ( testListerRun )
+		{
+			g_echo->PrintDevices ( 0 );
+
+			if ( sp )
+			{
+				sp ( WifiList ) list = sp->GetWifis ();
+				list.reset ();
+
+				sp ( BtList ) list1 = sp->GetBts ();
+				if ( list1 ) {
+					BtList * l = list1.get ();
+					for ( size_t i = 0; i < l->size (); i++ )
+					{
+						BtEntry * e = l->item ( i );
+						printf ( "BT: [ %llX ] [ %s ] ", e->item->bssid, e->ssid ? e->ssid : "Unknown" );
+					}
+				}
+
+				list1.reset ();
+			}
+
+			thread->WaitOne ( "" );
+			thread->ResetSync ( "" );
+		}
     }
     catch (...)
     {

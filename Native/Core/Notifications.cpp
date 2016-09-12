@@ -26,7 +26,7 @@
 //#   define DEBUGTYPES
 #endif
 
-#ifndef WINDOWS_PHONE
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <string.h>
 #	include <stdio.h>
 #	include <stdarg.h>

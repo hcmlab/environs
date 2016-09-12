@@ -8,8 +8,10 @@
 #include <windows.h>
 
 // C RunTime header files
-#include <stdlib.h>
-#include <malloc.h>
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
+#	include <stdlib.h>
+#	include <malloc.h>
+#endif
 #include <memory.h>
 #include <tchar.h>
 

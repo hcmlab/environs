@@ -142,6 +142,8 @@ namespace environs
 	{
 		CLog ( "SafeExitThreaded" );
 
+		pthread_setname_current_envthread ( "Environs.SafeExitThreaded" );
+
 		//Dispose(true);
 #if defined(WFORMS)
 		if ( appWindow != nullptr )
@@ -171,6 +173,8 @@ namespace environs
 	void Environs::SafeExitThreaded ()
 	{
 		CLog ( "SafeExitThreaded" );
+
+		pthread_setname_current_envthread ( "Environs.SafeExitThreaded1" );
 
 		Environs::SafeExitThreadedAction ();
 	}
@@ -672,6 +676,8 @@ namespace environs
 		void LogThread ()
 		{
 			CLog ( "LogThread" );
+
+			pthread_setname_current_envthread ( "Environs.LogThread" );
 
 			while ( logAlive ) {
 				logEvent->WaitOne ();

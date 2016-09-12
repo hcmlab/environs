@@ -73,6 +73,7 @@ namespace environs
 			if ( disposed )
 				LockDisposeA ( lock );
 #endif
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
 		}
 
 
@@ -236,6 +237,8 @@ namespace environs
 			while ( al != nill )
 			{
 				al->listType = "IDeviceInstanceList";
+
+                ENVIRONS_OUTPUT_INITB_OBJLOCK ( al );
 
 				if ( !al->Retain () )
 				{
@@ -409,6 +412,8 @@ namespace environs
 			al = new ArrayList;
             if ( al == nill )
                 goto Finish;
+
+            ENVIRONS_OUTPUT_INITG_OBJLOCK ( al );
             
 			al->listType = "IMessageList";
 
@@ -468,6 +473,8 @@ namespace environs
             al = new ArrayList;
             if ( al == nill )
                 goto Finish;
+
+            ENVIRONS_OUTPUT_INITG_OBJLOCK ( al );
             
             al->listType = "IMessageList";
             
@@ -529,6 +536,8 @@ namespace environs
 			al = new ArrayList;
             if ( al == nill )
                 goto Finish;
+
+            ENVIRONS_OUTPUT_INITG_OBJLOCK ( al );
             
 			al->listType = "IFileList";
 

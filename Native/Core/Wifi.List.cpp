@@ -65,6 +65,8 @@ namespace environs
 
             if ( data != nill )
                 free ( data );
+
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
 		}
 
 
@@ -163,6 +165,8 @@ namespace environs
             WifiListInstance * wl = new WifiListInstance;
             if ( wl )
             {
+                ENVIRONS_OUTPUT_INITD_OBJLOCK ( wl );
+                
                 WifiEntry * entries = new WifiEntry [ count ];
                 while ( entries )
                 {

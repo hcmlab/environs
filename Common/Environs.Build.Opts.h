@@ -263,6 +263,17 @@
 #   define ENVIRONS_NAMESP
 #endif
 
+#if (defined(_WIN32) && !defined(NDEBUG)) && !defined(ENVIRONS_NO_DEBUG_HEAP)
+#	define DEBUG_EXT_HEAP_CHECK
+#	define DEBUG_EXT_HEAP_CHECK_UDP_CHECK
+#   define _CRTDBG_MAP_ALLOC
+#endif
+
+#if (defined(DEBUG_EXT_HEAP_CHECK))
+#	include <stdlib.h>
+#   include <crtdbg.h>
+#endif
+
 #ifndef DISABLE_MEM_CHECKS
 #	if ( defined(_WIN32) && !defined(NDEBUG) )
 #		ifdef MEDIATORDAEMON

@@ -46,6 +46,8 @@ using namespace environs;
 #define SEND_THREADS_DEFAULT	2
 #define CLIENT_THREADS_DEFAULT	3
 
+#define CLIENT_SENDQUEUE_MAX    6000
+
 int debugID = 0x14;
 //#define DEBUG_DEVICE_ID
 #define ENABLE_SEND_THREAD_TRYLOCK
@@ -11068,6 +11070,9 @@ namespace environs
     
     bool MediatorDaemon::PushSend ( ThreadInstance * client, const sp ( SendLoad ) &dataSP, unsigned int size )
     {
+        if ( client->sendQueue.size_ > CLIENT_SENDQUEUE_MAX )
+            return false;
+
         bool success = false;
         
         SendContext * ctx = new SendContext ();
@@ -11108,6 +11113,9 @@ namespace environs
     
     bool MediatorDaemon::PushSend ( ThreadInstance * client, void * buffer, unsigned int size, bool copy, unsigned int seqNr )
     {
+        if ( client->sendQueue.size_ > CLIENT_SENDQUEUE_MAX )
+            return false;
+
 		bool success = false;
 
         SendContext * ctx = new SendContext ();
@@ -11165,7 +11173,10 @@ namespace environs
     
 #ifdef PUSH_PARTIAL_SENDS
 	bool MediatorDaemon::PushSend ( ThreadInstance * client, char * toSend, unsigned int toSendSize, unsigned int toSendCurrent, bool copy, unsigned int seqNr )
-	{
+    {
+        if ( client->sendQueue.size_ > CLIENT_SENDQUEUE_MAX )
+            return false;
+
 		bool success = false;
 
 		SendContext * ctx = new SendContext ();
@@ -11233,7 +11244,10 @@ namespace environs
 
 
 	bool MediatorDaemon::PushSend ( ThreadInstance * client, const sp ( SendLoad ) &dataSP, char * toSend, unsigned int toSendSize, unsigned int toSendCurrent )
-	{
+    {
+        if ( client->sendQueue.size_ > CLIENT_SENDQUEUE_MAX )
+            return false;
+
 		bool success = false;
 
 		SendContext * ctx = new SendContext ();
@@ -11285,6 +11299,9 @@ namespace environs
 #ifdef USE_NOTIFY_TMP_VECTORS
     bool MediatorDaemon::PushSendTry ( ThreadInstance * client, const sp ( SendLoad ) &dataSP, unsigned int size )
     {
+        if ( client->sendQueue.size_ > CLIENT_SENDQUEUE_MAX )
+            return false;
+
         if ( pthread_mutex_trylock ( &client->sendQueueLock ) )
             return false;
 

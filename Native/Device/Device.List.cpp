@@ -132,6 +132,7 @@ namespace environs
                 listCached = nill;
             }
 #endif
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
         }
         
         
@@ -1360,6 +1361,8 @@ namespace environs
         void c_OBJ_ptr DeviceList::CommandThread ( pthread_param_t obj )
         {
             CVerbVerb ( "CommandThread" );
+            
+			pthread_setname_current_envthread ( "DeviceList.CommandThread" );
             
             environs::lib::EnvironsPtr                      envObj  = ( environs::lib::EnvironsPtr ) obj;
             

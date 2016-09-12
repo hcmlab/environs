@@ -39,9 +39,12 @@
 #include "Environs.Build.Lnk.h"
 #include "Environs.Native.h"
 
-#	include <stdio.h>
-#	include <stdarg.h>
+#include <stdio.h>
+#include <stdarg.h>
+
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
+#endif
 
 
 #define CLASS_NAME	"Environs.Cli . . . . . ."
@@ -633,6 +636,8 @@ namespace environs
 	void Environs::InitThread ()
 	{
 		CVerb ( "Threaded initialization started ..." );
+
+		pthread_setname_current_envthread ( "Environs.InitThread" );
 
 		try
 		{

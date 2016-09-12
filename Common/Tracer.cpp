@@ -62,12 +62,144 @@
 #   include <unistd.h>
 #endif
 
+//using namespace std;
+
+
 #define CLASS_NAME	"Tracer . . . . . . . . ."
 
 //#define BREAK_INTO_LEAKS
 
 namespace environs
 {
+
+    class string
+    {
+    public:
+
+        char *  str;
+        int     length;
+        int     capacity;
+
+        string () : str ( 0 ), length ( 0 ), capacity ( 0 ) {
+        }
+
+        string ( const char * msg ) : str ( 0 ), length ( 0 ), capacity ( 0 ) {
+            append ( msg );
+        }
+
+        ~string () {
+            free_m ( str );
+        }
+
+
+        char * c_str () { return str; }
+
+
+        string & operator= ( const string & src ) // Copy
+        {
+            if ( this != &src )
+            {
+                if ( src.length > capacity )
+                {
+                    free_m ( str ); capacity = 0; length = 0;
+
+                    str = ( char * ) malloc ( src.capacity );
+                    if ( str ) {
+                        capacity = src.capacity;
+                    }
+                }
+
+                if ( capacity > 0 ) {
+                    length = src.length;
+
+                    memcpy ( str, src.str, length );
+
+                    str [ length ] = 0;
+                }
+            }
+            return *this;
+        }
+
+
+        string & operator= ( string && src ) // Move
+        {
+            if ( this != &src )
+            {
+                free_m ( str );
+
+                str = src.str; src.str = 0;
+
+                capacity = src.capacity; src.capacity = 0;
+                length = src.length; src.length = 0;
+            }
+
+            return *this;
+        }
+
+
+        string & operator+= ( const string & src )
+        {
+            return append ( src.str );
+        }
+
+
+        string & append ( const char * msg )
+        {
+            if ( msg ) {
+                int size = (int) strlen ( msg );
+
+                if ( size > 0 )
+                {
+                    int buffSize = size + 1; // Add 0 term char.
+
+                    if ( capacity <= 0 ) {
+                        buffSize += 128;
+                    }
+                    else {
+                        int remain = capacity - length;
+
+                        if ( remain <= buffSize ) {
+                            buffSize += capacity + 128;
+                        }
+                        else
+                            buffSize = 0;
+                    }
+
+                    if ( buffSize > 0 ) {
+                        char * tmp = ( char * ) malloc ( buffSize );
+                        if ( !tmp )
+                            size = 0;
+                        else {
+                            if ( str ) {
+                                if ( length )
+                                    memcpy ( tmp, str, length );
+
+                                free ( str );
+                            }
+
+                            str = tmp;
+
+                            tmp [ length ] = 0;
+
+                            capacity = buffSize;
+                        }
+                    }
+                    
+                    if ( size > 0 ) {
+                        memcpy ( str + length, msg, size );
+                        
+                        length += size;
+                        
+                        str [ length ] = 0;
+                    }
+                }
+            }
+            
+            return *this;
+        }
+    };
+
+
     pthread_mutex_t                 tracerLock;
 
     /*
@@ -101,9 +233,9 @@ namespace environs
      *
      */
 #ifdef DEBUG_TRACK_SOCKET
-    std::map<int, std::string>  *   socketsLeaked     = 0;
-    std::map<int, std::string>  *   socketsLog        = 0;
-    std::map<int, std::string>  *   socketsHistory    = 0;
+    std::map<int, string>  *   socketsLeaked     = 0;
+    std::map<int, string>  *   socketsLog        = 0;
+    std::map<int, string>  *   socketsHistory    = 0;
     std::vector<int>			*	socketIDHistory	  = 0;
 #ifdef TRACE_ALIVE_THREAD_LOCK
     std::string                     lastAliveLocker;
@@ -374,7 +506,7 @@ namespace environs
 
 #ifdef DEBUG_TRACK_DEVICEBASE
 
-	void TraceDeviceBaseAdd ( DeviceBase  * ctx )
+	void TraceDeviceBaseAdd ( DeviceBase * ctx )
 	{
 		__sync_add_and_fetch ( &debugDeviceBaseCount, 1 );
 
@@ -388,32 +520,43 @@ namespace environs
 	}
 
 
-	void TraceDeviceBaseRemove ( DeviceBase  * ctx )
+	void TraceDeviceBaseRemove ( DeviceBase * ctx )
 	{
-		__sync_sub_and_fetch ( &debugDeviceBaseCount, 1 );
+        LockAcquireA ( tracerLock, "TraceDeviceBaseRemove" );
 
-		if ( ctx->nativeIDTrace > 0 && ctx->nativeIDTrace < MAX_CONNECTED_DEVICES )
-			devicesMapTrace [ ctx->nativeIDTrace ] = 0;
+        try {
+            if ( ctx->nativeIDTrace > 0 && ctx->nativeIDTrace < MAX_CONNECTED_DEVICES )
+                devicesMapTrace [ ctx->nativeIDTrace ] = 0;
 
-		LockAcquireA ( tracerLock, "TraceDeviceBaseRemove" );
+            std::map < DeviceBase *, DeviceBase * > ::iterator iter = devicesMapTraceObjects.find ( ctx );
 
-		std::map<DeviceBase *, DeviceBase *>::iterator iter = devicesMapTraceObjects.find ( ctx );
+            if ( iter != devicesMapTraceObjects.end () ) {
+                devicesMapTraceObjects.erase ( iter );
+            }
+            else {
+                // Double delete / dispose
+                _EnvDebugBreak ( "TraceDeviceBaseRemove" );
 
-		if ( iter != devicesMapTraceObjects.end () ) {
-			devicesMapTraceObjects.erase ( iter );
-		}
-		else {
-			// Double delete / dispose
-			_EnvDebugBreak ( "TraceDeviceBaseRemove" );
-		}
+                // Issue #195
+                // Called by RemoveAllDevices() during reseting the SP
+            }
+        } catch (...) {
+            CErr ( "TraceDeviceBaseRemove: Exception!" );
+        }
 
-		LockReleaseA ( tracerLock, "TraceDeviceBaseRemove" );
+        LockReleaseA ( tracerLock, "TraceDeviceBaseRemove" );
+
+        __sync_sub_and_fetch ( &debugDeviceBaseCount, 1 );
     }
 
 
-    void TraceDeviceBaseMapAdd ( DeviceBase  * device, int nativeID )
+    void TraceDeviceBaseMapAdd ( DeviceBase * device, int nativeID )
     {
+        LockAcquireA ( tracerLock, "TraceDeviceBaseMapAdd" );
+
         devicesMapTrace [ nativeID ] = device; device->nativeIDTrace = nativeID;
+
+        LockReleaseA ( tracerLock, "TraceDeviceBaseMapAdd" );
     }
 #endif
     
@@ -429,10 +572,8 @@ namespace environs
 
 #ifdef DEBUG_TRACK_SOCKET
 
-#ifndef ANDROID
-#ifdef LINUX
+#if !defined(ANDROID) && defined(LINUX)
 #	define ADD_TIMESTRING
-#endif
 #endif
 
 	void TraceCheckStatus ( bool noKernel )
@@ -441,7 +582,7 @@ namespace environs
 
 		if ( ( !noKernel && socketsLog->size () > 1 ) || ( noKernel && socketsLog->size () > 0 ) )
 		{
-			std::map<int, std::string>::iterator iter = socketsLog->begin ();
+			std::map<int, string>::iterator iter = socketsLog->begin ();
 
 			while ( iter != socketsLog->end () )
 			{
@@ -519,7 +660,7 @@ namespace environs
 #endif
 
 
-	void TracePrefixBuild ( std::string &log )
+	void TracePrefixBuild ( string &log )
 	{
 		static char timeString [ 256 ];
 
@@ -527,7 +668,7 @@ namespace environs
 		size_t timeLen = GetTimeString ( timeString, sizeof ( timeString ) );
 
 		if ( timeLen ) {
-			log += std::string ( timeString );
+			log.append ( timeString );
 		}
 #endif
 		*timeString = 0;
@@ -556,17 +697,28 @@ namespace environs
 		if ( IsValidFD ( sock ) )
 		{
 #ifdef ADD_TIMESTRING
-			std::string log;
+			string log;
 
 			TracePrefixBuild ( log );
 
 			log.append ( "> " ).append ( msg ? msg : "Unknown" );
 
-			( *socketsLog ) [ sock ] = log;
+			( *socketsLog ) [ sock ] = std::move(log);
 #else
-			std::string log = std::string ( "> " ).append ( msg ? msg : "Unknown" );
+            try {
+                string log ( "> " );
 
-			( *socketsLog ) [ sock ] = log;
+                log.append ( msg ? msg : "Unknown" );
+
+                if ( !log.c_str () )
+                    log = "ERROR";
+
+                if ( log.c_str () ) {
+                    ( *socketsLog ) [ sock ] = std::move(log);
+                }
+            } catch (...) {
+                CErr ( "TraceSocket: Exception!" );
+            }
 #endif
 		}
 		else {
@@ -584,38 +736,54 @@ namespace environs
 
 		LockAcquireA ( tracerLock, "TraceSocketUpdate" );
 
-		std::map<int, std::string>::iterator iter = socketsLog->find ( sock );
+		std::map<int, string>::iterator iter = socketsLog->find ( sock );
 
-		if ( iter != socketsLog->end () ) {
+		if ( iter != socketsLog->end () )
+        {
+            try {
+                if ( msg )
+                {
 #ifdef ADD_TIMESTRING
-			std::string log;
+                    string log;
 
-			TracePrefixBuild ( log );
+                    TracePrefixBuild ( log );
 
-			iter->second.append ( "\n" ).append ( log.c_str () ).append ( "> " ).append ( msg );
+                    iter->second.append ( "\n" ).append ( log.c_str () ).append ( "> " ).append ( msg );
 #else
-			iter->second.append ( "\n> " ).append ( msg );
+                    if ( iter->second.c_str () ) {
+                        iter->second.append ( "\n> " ).append ( msg );
+                    }
+                    else
+                        iter->second = msg;
 #endif
+                }
+            } catch (...) {
+                CErr ( "TraceSocketUpdate: Exception!" );
+            }
 		}
 		else {
+            try {
 #ifdef ADD_TIMESTRING
-			std::string log ( "" );
+                string log ( "" );
 
-			TracePrefixBuild ( log );
+                TracePrefixBuild ( log );
 #endif
-			const char * src = "NOT FOUND";
+                const char * src = "NOT FOUND";
 
-			std::map<int, std::string>::iterator iterHistory = socketsHistory->find ( sock );
+                std::map<int, string>::iterator iterHistory = socketsHistory->find ( sock );
 
-			if ( iterHistory != socketsHistory->end () ) {
-				src = iterHistory->second.c_str ();
-			}
+                if ( iterHistory != socketsHistory->end () ) {
+                    src = iterHistory->second.c_str ();
+                }
 
 #ifdef ADD_TIMESTRING
-			CErrArg ( "TraceSocketUpdate:\n%s> Socket to update [ %i ] not found!\nSource [ %s ]\nHistory [ %s ]", log.c_str (), sock, msg, src );
+                CErrArg ( "TraceSocketUpdate:\n%s> Socket to update [ %i ] not found!\nSource [ %s ]\nHistory [ %s ]", log.c_str (), sock, msg, src );
 #else
-			CErrArg ( "TraceSocketUpdate:\n> Socket to update [ %i ] not found!\nSource [ %s ]\nHistory [ %s ]", sock, msg, src );
+                CErrArg ( "TraceSocketUpdate:\n> Socket to update [ %i ] not found!\nSource [ %s ]\nHistory [ %s ]", sock, msg, src );
 #endif
+            } catch (...) {
+                CErr ( "TraceSocketUpdate: Exception!" );
+            }
 			//_EnvDebugBreak ();
 		}
 
@@ -629,74 +797,78 @@ namespace environs
 
 		if ( IsValidFD ( sock ) )
 		{
-			std::map<int, std::string>::iterator iter = socketsLog->find ( sock );
+            try {
+                std::map<int, string>::iterator iter = socketsLog->find ( sock );
 
-			if ( iter != socketsLog->end () ) {
+                if ( iter != socketsLog->end () ) {
 
-				std::string & tmp = iter->second;
+                    string & tmp = iter->second;
 
 #ifdef ADD_TIMESTRING
-				std::string log ( "" );
+                    string log ( "" );
 
-				TracePrefixBuild ( log );
+                    TracePrefixBuild ( log );
 
-				if ( msg1 )
-					tmp.append ( "\n" ).append ( log.c_str () ).append ( "> " ).append ( msg1 );
+                    if ( msg1 )
+                        tmp.append ( "\n" ).append ( log.c_str () ).append ( "> " ).append ( msg1 );
 
-				tmp.append ( "\n" ).append ( log.c_str () ).append ( "> Closed in " ).append ( msg );
+                    tmp.append ( "\n" ).append ( log.c_str () ).append ( "> Closed in " ).append ( msg );
 
-				( *socketsHistory ) [ sock ] = tmp;
+                    ( *socketsHistory ) [ sock ] = std::move ( tmp );
 #else
-				if ( msg1 )
-					tmp.append ( "\n> " ).append ( msg1 );
+                    if ( msg1 )
+                        tmp.append ( "\n> " ).append ( msg1 );
 
-				tmp.append ( "\n> Closed in " ).append ( msg );
+                    tmp.append ( "\n> Closed in " ).append ( msg );
 #endif
-				( *socketsHistory ) [ sock ] = tmp;
+                    ( *socketsHistory ) [ sock ] = std::move ( tmp );
 
-				socketIDHistory->push_back ( sock );
+                    socketIDHistory->push_back ( sock );
 
-				socketsLog->erase ( iter );
+                    socketsLog->erase ( iter );
 
-				if ( socketIDHistory->size () >= 130 )
-				{
-					while ( socketIDHistory->size () > 100 )
-					{
-						sock = socketIDHistory->at ( 0 );
+                    if ( socketIDHistory->size () >= 130 )
+                    {
+                        while ( socketIDHistory->size () > 100 )
+                        {
+                            sock = socketIDHistory->at ( 0 );
 
-						std::map<int, std::string>::iterator iterHistory = socketsHistory->find ( sock );
+                            std::map<int, string>::iterator iterHistory = socketsHistory->find ( sock );
 
-						if ( iterHistory != socketsHistory->end () ) {
-							socketsHistory->erase ( iterHistory );
-						}
+                            if ( iterHistory != socketsHistory->end () ) {
+                                socketsHistory->erase ( iterHistory );
+                            }
 
-						socketIDHistory->erase ( socketIDHistory->begin () );
-					}
-				}
-			}
-			else {
+                            socketIDHistory->erase ( socketIDHistory->begin () );
+                        }
+                    }
+                }
+                else {
 #ifdef ADD_TIMESTRING
-				std::string log ( "" );
-
-				TracePrefixBuild ( log );
+                    string log ( "" );
+                    
+                    TracePrefixBuild ( log );
 #endif
-				const char * src = "NOT FOUND";
-
-				std::map<int, std::string>::iterator iterHistory = socketsHistory->find ( sock );
-
-				if ( iterHistory != socketsHistory->end () ) {
-					src = iterHistory->second.c_str ();
-				}
-
+                    const char * src = "NOT FOUND";
+                    
+                    std::map<int, string>::iterator iterHistory = socketsHistory->find ( sock );
+                    
+                    if ( iterHistory != socketsHistory->end () ) {
+                        src = iterHistory->second.c_str ();
+                    }
+                    
 #ifdef ADD_TIMESTRING
-				CErrArg ( "TraceSocketRemove:\n%s> Socket to close [ %i ] not found!%s%s\nSource [ %s ]\nHistory [ %s ]", log.c_str (), sock, msg1 ? "\nOrigin: " : "", msg1 ? msg1 : "", msg, src );
+                    CErrArg ( "TraceSocketRemove:\n%s> Socket to close [ %i ] not found!%s%s\nSource [ %s ]\nHistory [ %s ]", log.c_str (), sock, msg1 ? "\nOrigin: " : "", msg1 ? msg1 : "", msg, src );
 #else
-				CErrArg ( "TraceSocketRemove:\n> Socket to close [ %i ] not found!%s%s\nSource [ %s ]\nHistory [ %s ]", sock, msg1 ? "\nOrigin: " : "", msg1 ? msg1 : "", msg, src );
+                    CErrArg ( "TraceSocketRemove:\n> Socket to close [ %i ] not found!%s%s\nSource [ %s ]\nHistory [ %s ]", sock, msg1 ? "\nOrigin: " : "", msg1 ? msg1 : "", msg, src );
 #endif
-				//_EnvDebugBreak ();
-
-				CErr ( "TraceSocketRemove: ErrorBreak" );
-			}
+                    //_EnvDebugBreak ();
+                    
+                    CErr ( "TraceSocketRemove: ErrorBreak" );
+                }
+            } catch (...) {
+                CErr ( "TraceSocketRemove: Exception!" );
+            }
 		}
 		else {
 			CErr ( "TraceSocketRemove: Invalid socket!" );
@@ -710,26 +882,45 @@ namespace environs
 	bool TraceSocketInit ()
 	{
 #ifdef DEBUG_TRACK_SOCKET
-		if ( socketsHistory )
-			return true;
+        bool success = (socketsHistory != 0);
 
-		socketsLog = new std::map<int, std::string> ();
-		if ( !socketsLog )
-			return false;
+        LockAcquireA ( tracerLock, "TraceSocketInit" );
 
-		socketsHistory = new std::map<int, std::string> ();
-		if ( !socketsHistory )
-			return false;
+		while ( !success )
+        {
+            if ( !socketsLog ) {
+                socketsLog = new std::map<int, string> ();
+                if ( !socketsLog )
+                    break;
+            }
 
-		socketIDHistory = new std::vector<int> ();
-		if ( !socketIDHistory )
-			return false;
+            if ( !socketIDHistory ) {
+                socketIDHistory = new std::vector<int> ();
+                if ( !socketIDHistory )
+                    break;
+            }
 
-		socketsLeaked = new std::map<int, std::string> ();
-		if ( !socketsLeaked )
-			return false;
+            if ( !socketsLeaked ) {
+                socketsLeaked = new std::map<int, string> ();
+                if ( !socketsLeaked )
+                    break;
+            }
+
+            if ( !socketsHistory ) {
+                socketsHistory = new std::map<int, string> ();
+                if ( !socketsHistory )
+                    break;
+            }
+
+            success = true;
+            break;
+        }
+        
+        LockReleaseA ( tracerLock, "TraceSocketInit" );
+        return success;
+#else
+        return true;
 #endif
-		return true;
     }
 
 
@@ -738,48 +929,48 @@ namespace environs
 #ifdef DEBUG_TRACK_SOCKET
         TraceCheckStatus ( true );
 
-        if ( !socketsHistory )
-            return;
-
-        if ( socketsLog ) {
-            delete socketsLog;
-            socketsLog = 0;
-        }
-
-        if ( socketsHistory ) {
-            delete socketsHistory;
-            socketsHistory = 0;
-        }
-
-        if ( socketIDHistory ) {
-            delete socketIDHistory;
-            socketIDHistory = 0;
-        }
-
         LockAcquireA ( tracerLock, "TraceSocketDispose" );
 
-        if ( socketsLeaked )
+        if ( socketsHistory )
         {
-            if ( socketsLeaked->size () > 0 )
-            {
-                std::map<int, std::string>::iterator iter = socketsLeaked->begin ();
+            if ( socketsLog ) {
+                delete socketsLog;
+                socketsLog = 0;
+            }
 
-                while ( iter != socketsLeaked->end () )
+            if ( socketsHistory ) {
+                delete socketsHistory;
+                socketsHistory = 0;
+            }
+
+            if ( socketIDHistory ) {
+                delete socketIDHistory;
+                socketIDHistory = 0;
+            }
+
+            if ( socketsLeaked )
+            {
+                if ( socketsLeaked->size () > 0 )
                 {
-                    CErrArg ( "\n~TraceSocketDispose: Socket [ %i ] leaked\n------------------------------------------------\n%s\n------------------------------------------------\n", iter->first, iter->second.c_str () );
+                    std::map<int, string>::iterator iter = socketsLeaked->begin ();
+
+                    while ( iter != socketsLeaked->end () )
+                    {
+                        CErrArg ( "\n~TraceSocketDispose: Socket [ %i ] leaked\n------------------------------------------------\n%s\n------------------------------------------------\n", iter->first, iter->second.c_str () );
 
 #ifdef MEDIATORDAEMON
-                    printf ( "\n~TraceSocketDispose: Socket [ %i ] leaked\n------------------------------------------------\n%s\n------------------------------------------------\n", iter->first, iter->second.c_str () );
+                        printf ( "\n~TraceSocketDispose: Socket [ %i ] leaked\n------------------------------------------------\n%s\n------------------------------------------------\n", iter->first, iter->second.c_str () );
 #endif
-                    ++iter;
-                }
-                
-                //_EnvDebugBreak ();
-            }
-            delete socketsLeaked;
-            socketsLeaked = 0;
-        }
+                        ++iter;
+                    }
 
+                    //_EnvDebugBreak ();
+                }
+                delete socketsLeaked;
+                socketsLeaked = 0;
+            }
+        }
+        
         LockReleaseA ( tracerLock, "TraceSocketDispose" );
 #endif
     }
@@ -1398,7 +1589,22 @@ namespace environs
         LockReleaseA ( threadInstanceMapLock, "ThreadInstance" );
     }
 #endif
-    
+
+
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+

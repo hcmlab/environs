@@ -26,18 +26,21 @@
 #include "Interop/Threads.h"
 
 
+
 namespace environs
 {
 
 #ifndef CLI_CPP
     
-    extern pthread_mutex_t objLock;
-
-    
 #define DERIVE_DISPOSABLE
 #define DERIVE_TYPES	
 //#define DISPOSER_ATOMIC_COUNTER
+//#define USE_INSTANCE_OBJ_LOCK
 
+#if !defined(USE_INSTANCE_OBJ_LOCK)
+    extern pthread_mutex_t objLock;
+#endif
+    
 	namespace lib
 	{
 		/**
@@ -84,6 +87,10 @@ namespace environs
 			*
 			*/
 			virtual void ReleaseLocked () { };
+
+#ifdef USE_INSTANCE_OBJ_LOCK
+            pthread_mutex_t     objLock;    bool objLockInit;
+#endif
 		};
 	}
 
@@ -98,6 +105,23 @@ namespace environs
 #endif
 }
 
+
+#if defined(USE_INSTANCE_OBJ_LOCK) && !defined(CLI_CPP)
+#   define ENVIRONS_OUTPUT_INIT_OBJLOCK()       if ( !objLockInit ) { if ( LockInitA ( objLock ) ) objLockInit = true; else return false; }
+#   define ENVIRONS_OUTPUT_INITR_OBJLOCK(l,r)   if ( !l->objLockInit ) { if ( LockInitA ( l->objLock ) )  l->objLockInit = true; else return r; }
+#   define ENVIRONS_OUTPUT_INITB_OBJLOCK(l)     if ( !l->objLockInit ) { if ( LockInitA ( l->objLock ) )  l->objLockInit = true; else break; } 
+#   define ENVIRONS_OUTPUT_INITG_OBJLOCK(l)     if ( !l->objLockInit ) { if ( LockInitA ( l->objLock ) )  l->objLockInit = true; else goto Finish; }
+#   define ENVIRONS_OUTPUT_DISPOSE_OBJLOCK()    if ( objLockInit ) { LockDisposeA ( objLock ); objLockInit = false; }
+#   define ENVIRONS_OUTPUT_INITD_OBJLOCK(l)     if ( !l->objLockInit ) { if ( LockInitA ( l->objLock ) )  l->objLockInit = true; else { delete l; return nill; }; }
+#else
+#   define ENVIRONS_OUTPUT_INIT_OBJLOCK()
+#   define ENVIRONS_OUTPUT_INITV_OBJLOCK()
+#   define ENVIRONS_OUTPUT_INITR_OBJLOCK(l,r)
+#   define ENVIRONS_OUTPUT_INITB_OBJLOCK(l)
+#   define ENVIRONS_OUTPUT_INITG_OBJLOCK(l)
+#   define ENVIRONS_OUTPUT_INITD_OBJLOCK(l)
+#   define ENVIRONS_OUTPUT_DISPOSE_OBJLOCK()
+#endif
 
 #ifndef CLI_CPP
 
@@ -120,8 +144,15 @@ namespace environs
                                                 LONGSYNC				refCountSP; \
                                                 LONGSYNC                objID_;
 
-#define ENVIRONS_OUTPUT_ALLOC_INIT()		refCountSP = 0; platformRef = 0; objID_ = __sync_add_and_fetch ( &objectIdentifiers, 1 );
-#define ENVIRONS_OUTPUT_ALLOC_INIT_WSP()	ENVIRONS_OUTPUT_ALLOC_INIT() checkSP = true;
+#if defined(USE_INSTANCE_OBJ_LOCK)
+#   define ENVIRONS_OUTPUT_ALLOC_INIT()		refCountSP = 0; platformRef = 0; objID_ = __sync_add_and_fetch ( &objectIdentifiers, 1 ); \
+											objLockInit = false; if ( LockInitA ( objLock ) ) objLockInit = true;
+#   define ENVIRONS_OUTPUT_ALLOC_INIT_WSP()	ENVIRONS_OUTPUT_ALLOC_INIT() checkSP = true;
+#else
+#   define ENVIRONS_OUTPUT_ALLOC_INIT()		refCountSP = 0; platformRef = 0; objID_ = __sync_add_and_fetch ( &objectIdentifiers, 1 );
+#   define ENVIRONS_OUTPUT_ALLOC_INIT_WSP()	ENVIRONS_OUTPUT_ALLOC_INIT() checkSP = true;
+#endif
+
 
 
 #define ENVIRONS_OUTPUT_ALLOC(type)				extern LONGSYNC objectIdentifiers; \

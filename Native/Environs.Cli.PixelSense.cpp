@@ -33,9 +33,12 @@
 #include "Environs.h"
 #include "Environs.Cli.TouchDevice.h"
 
-#	include <stdio.h>
-#	include <stdarg.h>
+#include <stdio.h>
+#include <stdarg.h>
+
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
+#endif
 
 using namespace System;
 using namespace System::Diagnostics;

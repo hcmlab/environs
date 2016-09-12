@@ -55,7 +55,7 @@
 #endif
 #include <fcntl.h>
 
-#ifndef WINDOWS_PHONE
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
 #endif
 
@@ -5630,14 +5630,15 @@ namespace environs
 		}
 
                 std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator it     = devicesMapAvailable->begin ();
-        const   std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator &end   = devicesMapAvailable->end ();
+        //const   std::map<APPAREATYPE *, DeviceInstanceNode *, compare_char_key>::iterator &end   = devicesMapAvailable->end ();
 
-        while ( it != end ) {
+        //while ( it != end ) {
+        while ( it != devicesMapAvailable->end () ) {
             if ( it->second->info.objID == objID ) {
                 deviceSP = it->second->mapSP;
                 break;
             }
-            ++it;
+            ++it; // Crash here (Issue #194)
         }
 
         if ( pthread_mutex_unlock ( &devicesMapLock ) ) {
@@ -6811,7 +6812,15 @@ namespace environs
                     if ( deviceSP ) {
                         DeviceBase * deviceBase     = ( DeviceBase * ) deviceSP.get();
 
-                        deviceBase->deviceNode      = nearbyDevice->baseSP;
+                        if ( LockAcquireA ( deviceBase->spLock, "DeviceChange" ) )
+                        {
+                            deviceBase->deviceNode      = nearbyDevice->baseSP;
+
+                            if ( deviceBase->deviceNode )
+                                deviceBase->objID       = deviceBase->deviceNode->info.objID;
+
+                            LockReleaseVA ( deviceBase->spLock, "DeviceChange" );
+                        }
 
                         nearbyDevice->deviceSP      = deviceSP;
 

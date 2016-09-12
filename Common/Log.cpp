@@ -28,7 +28,7 @@
 
 #	ifdef _WIN32
 #		ifndef WINDOWS_PHONE
-#			include <stdlib.h>
+//#			include <stdlib.h>
 #			include "windows.h"
 #		endif
 #		include <time.h>

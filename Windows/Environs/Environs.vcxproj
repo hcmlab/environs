@@ -108,6 +108,9 @@
       <CompileAs>Default</CompileAs>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +119,8 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
       <CLRSupportLastError>Enabled</CLRSupportLastError>
+      <GenerateMapFile>false</GenerateMapFile>
+      <AssemblyDebug>true</AssemblyDebug>
     </Link>
     <PostBuildEvent>
       <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir)</Command>
@@ -137,6 +142,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderOutputFile>$(OutDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <ExceptionHandling>Async</ExceptionHandling>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +152,7 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
       <CLRSupportLastError>Enabled</CLRSupportLastError>
+      <AssemblyDebug>true</AssemblyDebug>
     </Link>
     <PostBuildEvent>
       <Command>$(ProjectDir)post.bat $(PlatformToolset) $(PlatformArchitecture) "$(TargetDir)" "$(TargetName)" $(SolutionDir)</Command>

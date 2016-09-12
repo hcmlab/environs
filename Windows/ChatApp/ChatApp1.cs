@@ -18,7 +18,7 @@
 */
 //#define REFRESH_LIST_IN_CALLABCK
 #define RELEASE_CHAT_IN_LIST_CALLABCK
-//#define USE_ENV_OBSERVERCOLLECTION
+#define USE_ENV_OBSERVERCOLLECTION
 
 using System;
 using System.Windows;
@@ -193,7 +193,12 @@ namespace environs.Apps
                 if (updaterThread == null)
                     Utils.LogE("StartUpdaterThread: Failed to create updaterThread!!!");
                 else
+                {
+#if DEBUG
+                    updaterThread.Name = "ChatApp1.SynchronizeDeviceListThread";
+#endif
                     updaterThread.Start();
+                }
             }
         }
 

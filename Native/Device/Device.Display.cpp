@@ -101,7 +101,6 @@ namespace environs
 #ifdef ENABLE_RECOGNIZERS_OBJECT_USAGE
         touchRecognizers	= 0;
 #endif
-        
         allocated			= false;
         
         frameNumber			= 0;
@@ -174,7 +173,6 @@ namespace environs
         if ( behindNAT )
             return;
 #endif
-        
         // Tune send buffer for native resolution portal (on sending devices)
         int value = PORTAL_SOCKET_BUFFER_SIZE_NORMAL;
         if ( env->useNativeResolution )
@@ -514,15 +512,13 @@ namespace environs
         portalGenerators [portalIndex] = new PortalGenerator ();
 		portalGenerators [ portalIndex ]->env = env;
     }
-
     
     
     void DevicePlatform::CreatePortalReceiverPlatform ( int portalIndex )
     {
         CVerbID ( "CreatePortalReceiverPlatform: Not implemented." );
     }
-    
-    
+        
     
     void DevicePlatform::HandleOptionsMessage ( unsigned short payloadType, char * payload )
     {

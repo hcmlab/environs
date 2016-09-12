@@ -375,9 +375,8 @@ namespace environs
             if ( !isOnoing ) {
                 CErrArg ( "[ %s ].HandleIncomingRequest: Failed to query STUNT registration for [ %s ]", getChannel ( ), key );
             }
-            else {
-                CVerbsArg ( CONCURRENT_STUNT_LOGLEVEL, "[ %s ].HandleIncomingRequest: STUNT is ongoing for [ %s ]", getChannel ( ), key );
-            }
+			ElseCVerbsArg ( CONCURRENT_STUNT_LOGLEVEL, "[ %s ].HandleIncomingRequest: STUNT is ongoing for [ %s ]", getChannel (), key );
+
             return;
         }
         
@@ -415,9 +414,10 @@ namespace environs
 
         
         char			channel     = request->channel;
-        
-        sp ( DeviceController ) deviceSP;
-        DeviceBase  *           device;
+
+        sp ( DeviceInstanceNode )   nodeSP;
+        sp ( DeviceController )     deviceSP;
+        DeviceBase  *               device;
         
         const sp ( MediatorClient ) &mediator = request->mediator;
         if ( !mediator )
@@ -488,8 +488,14 @@ namespace environs
                 //device->deviceNode.reset ();
 				goto Finish;
             }
-            
-            device->deviceNode->deviceSP    = deviceSP;
+
+            nodeSP = device->GetDeviceNodeSP ();
+            if ( !nodeSP )
+            {
+                goto Finish;
+            }
+
+            nodeSP->deviceSP    = deviceSP;
             
             // Get a lock on the device for this thread
             IncLockDevice ( device );
@@ -908,9 +914,7 @@ namespace environs
                     goto Failed;
                 }
             }
-            else {
-                CVerbsArgID ( 3, "[ %s ].Establish: Timeout [ %d ]", getChannel (), msPassed );
-            }
+			ElseCVerbsArgID ( 3, "[ %s ].Establish: Timeout [ %d ]", getChannel (), msPassed );
             
             msPassed = (GetEnvironsTickCount32 () - start);
             
@@ -1043,7 +1047,7 @@ namespace environs
             ShutdownCloseSocket ( socketNew, true, "Establish stunt" );
         }
         
-            CloseThreads ( false );
+        CloseThreads ( false );
 
 #ifndef NDEBUG
         }
@@ -1997,7 +2001,11 @@ namespace environs
         
         request->myself = 0;
         
-            request->thread.Unlock ( "StunRequest.EstablishStarter" );
+        request->thread.Unlock ( "StunRequest.EstablishStarter" );
+
+#ifndef NDEBUG
+        requestSP.reset ();
+#endif
 
 #ifndef NDEBUG
         }

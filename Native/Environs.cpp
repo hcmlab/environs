@@ -71,7 +71,7 @@ using namespace environs::API;
 
 namespace environs
 {
-#ifndef CLI_CPP
+#if !defined(CLI_CPP) && !defined(USE_INSTANCE_OBJ_LOCK)
     pthread_mutex_t objLock;
 #endif
   
@@ -111,9 +111,10 @@ namespace environs
 				return false;
 
 			if ( !PortalInstance::GlobalsInit () )
-				return false;
-#ifndef CLI_CPP
-            if ( !LockInitA ( objLock ) )
+                return false;
+
+#if !defined(CLI_CPP) && !defined(USE_INSTANCE_OBJ_LOCK)
+            if ( !LockInitA ( environs::objLock ) )
                 return false;
 #endif
 			objetAPIInit = true;
@@ -128,8 +129,9 @@ namespace environs
 
 			if ( !objetAPIInit )
                 return;
-#ifndef CLI_CPP
-            LockDisposeA ( objLock );
+            
+#if !defined(CLI_CPP) && !defined(USE_INSTANCE_OBJ_LOCK)
+            LockDisposeA ( environs::objLock );
 #endif
 			PortalInstance::GlobalsDispose ();
 
@@ -161,6 +163,8 @@ namespace environs
 		void * CreatePortalRequestThread ( void * pack )
 		{
 			CVerbVerb ( "CreatePortalRequestThread" );
+
+			pthread_setname_current_envthread ( "Environs.CreatePortalRequestThread" );
 
 			PortalRequestContext * ctx = ( PortalRequestContext * ) pack;
 
@@ -988,7 +992,9 @@ namespace environs
             
             LockDisposeA ( contextAll.lock );
             LockDisposeA ( contextNearby.lock );
-            LockDisposeA ( contextMediator.lock );            
+            LockDisposeA ( contextMediator.lock );
+
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
         }
         
         
@@ -1256,7 +1262,9 @@ namespace environs
                     return false;
                 if ( !LockInitA ( listCommandThreadLock ) )
                     return false;
-                
+
+                ENVIRONS_OUTPUT_INIT_OBJLOCK ();
+
                 if ( !LockInitA ( contextAll.lock ) )
                     return false;
                 contextAll.type = DeviceClass::All;
@@ -2324,6 +2332,8 @@ namespace environs
         {
 			EnvironsPtr envObj = ( EnvironsPtr ) arg;
 
+			pthread_setname_current_envthread ( "Environs.EnvironsStart" );
+
             int hEnvirons = envObj->GetHandle ();
 
             envObj->startStopThread = getSelfThreadID ();
@@ -2443,6 +2453,8 @@ namespace environs
         {            
             CVerb ( "EnvironsStop" );
             CLog ( "Stop ---------------------------------------------------------" );
+
+			pthread_setname_current_envthread ( "Environs.EnvironsStop" );
             
 			EnvironsPtr envObj = ( EnvironsPtr ) arg;
             
@@ -3594,6 +3606,8 @@ namespace environs
         void c_OBJ_ptr Environs::DeviceListUpdateThreadStarter ( pthread_param_t pack )
         {
             CVerbVerb ( "DeviceListUpdateThreadStarter" );
+
+			pthread_setname_current_envthread ( "Environs.DeviceListUpdateThreadStarter" );
             
 			sp_assign ( ThreadPackListUpdate, thread, pack );
 
@@ -3606,6 +3620,8 @@ namespace environs
         void * Environs::DeviceListUpdateThread ( pthread_param_t pack )
         {
             CVerbVerb ( "DeviceListUpdateThread" );
+
+			pthread_setname_current_envthread ( "Environs.DeviceListUpdateThread" );
 
             ThreadPackListUpdate OBJ_ptr thread = (ThreadPackListUpdate OBJ_ptr ) pack;
             

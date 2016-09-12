@@ -1,3 +1,14 @@
+### v 0.9.9.3
+
+---------------------------
+
+* Updated: Debug exception handling
+* Added: Limit Mediator max sendqueue items to 6000
+* Updated: Disposal of DeviceBase.UdpListener
+* Fixed: Crash in native layer due to (race condition in) device management list item access through DeviceBase
+* Added: string class to Tracer for debugging
+
+
 ### v 0.9.9.2
 
 ---------------------------

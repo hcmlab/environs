@@ -30,7 +30,10 @@
 #include "Environs.Obj.h"
 #include "Wifi.Observer.h"
 #include "DynLib/Dyn.WlanAPI.h"
-#include <stdlib.h>
+
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
+#   include <stdlib.h>
+#endif
 
 #ifdef VS2010
 #	define strtoull(a,b,c)	_strtoui64 ( a, b, c )

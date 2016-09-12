@@ -256,6 +256,8 @@ namespace environs
                     delete tmp;
             }
 #endif
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
+
             CListLogArg1 ( "Destruct: done ", "objID", "i", objID_ );
         }
         
@@ -389,6 +391,8 @@ namespace environs
             
             if ( envObj == nill )
                 return false;
+
+            ENVIRONS_OUTPUT_INIT_OBJLOCK ();
             
             if ( !LockInitA ( devicePortalsLock ) )
                 return false;
@@ -605,6 +609,8 @@ namespace environs
         {
             CVerbVerb ( "NotifierThread" );
             
+			pthread_setname_current_envthread ( "DeviceInstance.NotifierThread" );
+
             EnvironsPtr                 envObj  = ( EnvironsPtr ) arg;
 
             DeviceNotifierContextPtr    ctx     = nill;
@@ -2655,6 +2661,8 @@ namespace environs
         {
 			CVerbVerb ( "FileParseThread" );
             
+			pthread_setname_current_envthread ( "DeviceInstance.FileParseThread" );
+            
             ThreadPackFileParsePtr thread = ( ThreadPackFileParsePtr ) pack;
             
             for ( size_t i=0; i < vp_size ( thread->devices ); i++ )
@@ -3644,6 +3652,8 @@ namespace environs
         void c_OBJ_ptr DeviceInstance::ClearMessagesThread ( pthread_param_t arg )
         {
             CVerb ( "ClearMessagesThread" );
+            
+			pthread_setname_current_envthread ( "DeviceInstance.ClearMessagesThread" );
 
 			DeviceInstancePtr argDev = ( DeviceInstancePtr ) arg;
 			if ( argDev != nill )
@@ -3749,6 +3759,8 @@ namespace environs
         void c_OBJ_ptr DeviceInstance::ClearStorageThread ( pthread_param_t arg )
         {
             CVerb ( "ClearStorageThread" );
+            
+			pthread_setname_current_envthread ( "DeviceInstance.ClearStorageThread" );
 
 			DeviceInstancePtr argDev = ( DeviceInstancePtr ) arg;
 			if ( argDev != nill )

@@ -164,7 +164,7 @@ namespace environs.Apps
             {
                 if (profileBitmapImage == null || processIncoming)
                 {
-                    String profile = msg.Substring(6);
+                    String profile = msg.Substring(6); // System.ExecutionEngineException (counter 1)
 
                     if (lastProfile == null || lastProfile.Length != profile.Length)
                     {
@@ -359,7 +359,12 @@ namespace environs.Apps
             {
                 chatUser.chatInitThread = new Thread(() => chatUser.Init1());
                 if (chatUser.chatInitThread != null)
+                {
+#if DEBUG
+                    chatUser.chatInitThread.Name = "ChatUser.Init1";
+#endif
                     chatUser.chatInitThread.Start();
+                }
             }
             return chatUser;
         }
@@ -692,6 +697,7 @@ namespace environs.Apps
                             if (msgInst.sent)
                                 continue;
 
+                            // System.ExecutionEngineException within next call (counter 1)
                             if (HandleChatCommand(msg, false))
                                 notify = true;
                         }

@@ -29,9 +29,12 @@
 #include "Environs.Native.h"
 #include "Environs.Lib.h"
 
-#	include <stdio.h>
-#	include <stdarg.h>
+#include <stdio.h>
+#include <stdarg.h>
+
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
+#endif
 
 #using <system.dll>
 #using <mscorlib.dll>

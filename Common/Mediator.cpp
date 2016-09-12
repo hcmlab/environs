@@ -44,7 +44,7 @@ int g_Debug = 0;
 #include <errno.h>
 #include <fcntl.h>
 
-#ifndef WINDOWS_PHONE
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
 #endif
 
@@ -2085,9 +2085,8 @@ namespace environs
 #endif
                 return true;
         
-        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) ) {
+        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) )
             return false;
-        }
         
         net = &localNets;
         while ( net ) {
@@ -2168,9 +2167,8 @@ namespace environs
 #endif
                 return true;
         
-        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) ) {
+        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) )
             return false;
-        }
         
         net = &localNets;
         while ( net ) {
@@ -2236,9 +2234,8 @@ namespace environs
 #endif
                 return true;
         
-        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) ) {
+        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) )
             return false;
-        }
         
         net = &localNets;
         while ( net ) {
@@ -2321,9 +2318,8 @@ namespace environs
 #endif
                 return true;
         
-        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) ) {
+        if ( !LockAcquireA ( localNetsLock, "SendBroadcast" ) )
             return false;
-        }
         
         net = &localNets;
         while ( net ) {

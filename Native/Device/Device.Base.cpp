@@ -40,7 +40,7 @@
 #	include <fcntl.h>
 #endif
 
-#ifndef WINDOWS_PHONE
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
 #endif
 
@@ -57,7 +57,10 @@ using namespace environs::API;
 /* Namespace: environs -> */
 namespace environs
 {
-    unsigned int DeviceBase::packetSize = UDP_DEVICEBASE_MAX_SIZE - 48;
+    unsigned int    DeviceBase::packetSize = UDP_DEVICEBASE_MAX_SIZE - 48;
+
+    pthread_mutex_t deviceBasePanicLock;
+
 
     bool IsFINMessage ( char * msg )
     {
@@ -82,6 +85,7 @@ namespace environs
 		env							= 0;
 		activityStatus				= 0;
 		hasPhysicalContact			= 0;
+        objID                       = 0;
 
 		comPort						= 0;
 		dataPort					= 0;
@@ -114,6 +118,7 @@ namespace environs
 
 		packetSequence				= 0;
 
+        udpPanic                    = 0;
         udpBuffer                   = 0;
 		interactSocket              = INVALID_FD;
 		interactSocketForClose      = INVALID_FD;
@@ -160,7 +165,7 @@ namespace environs
 		dataStorePathRemainingLen	= 0;
 
 		udpCoreConnected            = false;
-        disposed                    = false;        
+        disposed                    = false;
         
 		portalGeneratorsLastAssigned	= 0;
 		portalGeneratorsCount		= 0;
@@ -371,14 +376,27 @@ namespace environs
             CErrsID ( 2, "Init: Mediator layer unavailable." );
             return false;
         }
+
+        bool allowConnect = false;
+
+        if ( !LockAcquireA ( spLock, "Init" ) )
+            return false;
+
+        deviceNode = mediator->GetDeviceSP ( deviceID, areaName, appName );
+        if ( deviceNode ) {
+            objID = deviceNode->info.objID;
+
+            allowConnect = deviceNode->allowConnect;
+        }
         
-		deviceNode = mediator->GetDeviceSP ( deviceID, areaName, appName );
+        LockReleaseVA ( spLock, "Init" );
+
         if ( !deviceNode ) {
             CErrsID ( 2, "Init: Device not found at mediator layer." );
             return false;
         }
-        
-        if ( !deviceNode->allowConnect ) {
+
+        if ( !allowConnect ) {
             CErrsID ( 2, "Init: Contact with this device is disabled." );
             return false;
         }
@@ -409,6 +427,21 @@ namespace environs
 	void DeviceBase::HandleNullPortal ( int PortalID )
 	{
 	}
+
+
+    sp ( DeviceInstanceNode ) DeviceBase::GetDeviceNodeSP ()
+    {
+        sp ( DeviceInstanceNode ) nodeSP;
+
+        if ( !LockAcquireA ( spLock, "GetDeviceNodeSP" ) )
+            return 0;
+
+        nodeSP = deviceNode;
+
+        LockReleaseVA ( spLock, "GetDeviceNodeSP" );
+
+        return nodeSP;
+    }
 
     
 #ifdef ENABLE_DEVICEBASE_WP_STUNT
@@ -672,7 +705,6 @@ namespace environs
 
 			LockReleaseVA ( spLock, "CloseListeners" );
 #endif
-
             if ( req ) {
 				//req->ReleaseDeviceRequest ();
 				req->CloseThreads ();
@@ -807,7 +839,7 @@ namespace environs
         {
 			if ( portalReceivers [ i ] )
             {
-                objs [ i ] = (void *) portalReceivers [ i ];
+                objs [ i ] = ( void * ) portalReceivers [ i ];
                 portalReceivers [ i ] = 0;
             }
             else
@@ -1657,7 +1689,9 @@ namespace environs
 		}
 		else {
             CVerbID ( "GetDeviceForHandshake: Creating new device." );
-            
+
+            sp ( DeviceInstanceNode ) nodeSP;
+
             CSocketTraceUpdate ( sock, "DeviceBase assigned new device in GetDeviceForHandshake" );
 			sp ( DeviceController ) deviceSP = std::make_shared < DeviceController > ( deviceID, interactChannel, sock, addr );
             if ( !deviceSP ) {
@@ -1685,8 +1719,17 @@ namespace environs
 			int nativeID = AddDevice ( deviceSP, false );
 			if ( nativeID <= 0 )
 				goto Finish;
-            
-            device->deviceNode->deviceSP    = deviceSP;
+
+            nodeSP = device->GetDeviceNodeSP ();
+            if ( !nodeSP ) {
+                device->deviceStatus = DeviceStatus::Deleteable;
+
+                CErrID ( "GetDeviceForHandshake: Failed to retrieve deviceNode." );
+                goto Finish;
+            }
+
+            nodeSP->deviceSP    = deviceSP;
+            nodeSP.reset ();
             
 			CVerbID ( "GetDeviceForHandshake: increasing reference count on new device." );
 			IncLockDevice ( device );
@@ -2201,7 +2244,7 @@ namespace environs
 				// We haven't received ports during the handshake, so .. bye bye..
 				UpdateConnectStatus ( -20 );
 
-				onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_FAILED );
+				onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_FAILED );
 				return false;
 			}
 
@@ -2228,7 +2271,7 @@ namespace environs
             if ( update ) {
 				UpdateConnectStatus ( 20 );
 
-				onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_ACK );
+				onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_ACK );
 				OnConnectionEstablished ();
             }
             
@@ -2254,7 +2297,7 @@ namespace environs
 			if ( update ) {
 				UpdateConnectStatus ( 20 );
 
-				onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_ACK );
+				onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_ACK );
 				OnConnectionEstablished ();
 			}
             
@@ -2265,7 +2308,7 @@ namespace environs
 		if ( packetType == MSG_HANDSHAKE_CONNECTED ) {
 			CVerbID ( "HandleHeloMessage: Connection by device acknowledged." );
 
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_ESTABLISHED_ACK );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_ESTABLISHED_ACK );
 			return true;
         }
         
@@ -2468,9 +2511,8 @@ namespace environs
 				if ( !AllocateComDatSocket () )
 					return false;
 
-				if ( !LockAcquireA ( portalMutex, "EstablishComDatChannel" ) ) {
+				if ( !LockAcquireA ( portalMutex, "EstablishComDatChannel" ) )
 					return false;
-				}
 
 				// Connect to device
 				CVerbID ( "EstablishComDatChannel: Connecting ..." );
@@ -2488,7 +2530,7 @@ namespace environs
 			}
 			UpdateConnectStatus ( 10 );
 
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_COMDAT_NEW );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_COMDAT_NEW );
 
 			if ( env->useCLSForDevices ) {
 				int rc = SecureChannelEstablish ( env, deviceID, comDatSocket, &aes, aesBlob );
@@ -2555,7 +2597,7 @@ namespace environs
 #endif
 			UpdateConnectStatus ( 10 );
 
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_COMDAT_NEW );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_COMDAT_NEW );
 
 			if ( SendBuffer ( true, MSG_TYPE_HELO, 0, 0, MSG_HANDSHAKE_COMDAT_ACK, 0, 0 ) < 0 ) {
 				CErrID ( "EstablishComDatChannel: Failed to send ack message to device!" );
@@ -2641,7 +2683,7 @@ namespace environs
 					lastFilePart	= cHeader->part;
 
 					/// Push data to application
-					onEnvironsDataNotifier1 ( env, deviceNode->info.objID, nativeID, SOURCE_DEVICE, fileID, descriptor, descLen, 0 );
+					onEnvironsDataNotifier1 ( env, objID, nativeID, SOURCE_DEVICE, fileID, descriptor, descLen, 0 );
 				}
 			}
 			else {
@@ -2650,7 +2692,7 @@ namespace environs
 					lastFilePart	= cHeader->part;
 
 					if ( cHeader->parts )
-						onEnvironsNotifierContext1 ( env, deviceNode->info.objID, NOTIFY_FILE_RECEIVE_PROGRESS, fileID, 0, ( cHeader->part * 100 / cHeader->parts ) );
+						onEnvironsNotifierContext1 ( env, objID, NOTIFY_FILE_RECEIVE_PROGRESS, fileID, 0, ( cHeader->part * 100 / cHeader->parts ) );
 				}
 
 				if ( cHeader->part >= cHeader->parts ) {
@@ -2667,7 +2709,7 @@ namespace environs
 					/// Push data to application
 					int fileSize = ( ( cHeader->part - 1 ) * PARTITION_PART_SIZE ) + dataLength;
 
-					onEnvironsDataNotifier1 ( env, deviceNode->info.objID, nativeID, SOURCE_DEVICE, fileID, descriptor, descLen, fileSize );
+					onEnvironsDataNotifier1 ( env, objID, nativeID, SOURCE_DEVICE, fileID, descriptor, descLen, fileSize );
 				}
 			}
 		}
@@ -2717,7 +2759,7 @@ namespace environs
             }
 
 			/// Push data to application
-			onEnvironsDataNotifier1 ( env, deviceNode->info.objID, nativeID, SOURCE_DEVICE, fileID, descriptor, descLen, dataLength );
+			onEnvironsDataNotifier1 ( env, objID, nativeID, SOURCE_DEVICE, fileID, descriptor, descLen, dataLength );
 		}
 		return true;
 	}
@@ -2766,7 +2808,7 @@ namespace environs
 		if ( !EstablishComDatChannel () ) {
 			UpdateConnectStatus ( -20 );
 
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_COMDAT_FAILED );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_COMDAT_FAILED );
 			goto EndWithValue;
         }
 
@@ -2954,7 +2996,7 @@ namespace environs
 		// this call delays due to waiting for the UI-thread to consume this call..
 		UpdateConnectStatus ( -20 );
 
-		onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_COMDAT_CLOSED );
+		onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_COMDAT_CLOSED );
 
 		if ( byteBuffer ) {
 			disposeBuffer ( byteBuffer );
@@ -3421,7 +3463,7 @@ namespace environs
 			}
 
 			if ( parts )
-				onEnvironsNotifierContext1 ( env, deviceNode->info.objID, NOTIFY_FILE_SEND_PROGRESS, fileID, 0, ( part * 100 / parts ) );
+				onEnvironsNotifierContext1 ( env, objID, NOTIFY_FILE_SEND_PROGRESS, fileID, 0, ( part * 100 / parts ) );
 
 			if ( !payloadSize ) break;
 
@@ -4098,7 +4140,6 @@ namespace environs
 
 		if ( wait ) {
             sock = udpSocketForClose;
-            
             if ( IsValidFD ( sock ) ) {
                 Mediator::UnConnectUDP ( sock );
                 
@@ -4110,7 +4151,29 @@ namespace environs
                 shutdown ( sock, 2 );
 			}
 
-            udpThread.Join ( "UdpListener" );
+            // Note: UdpListener socket sometimes hangs and does not want to release the thread
+            //       In such a case, we push the udp panic button and take over releasing the resources
+            //
+            if ( udpThread.isRunning () && udpThread.WaitOne ( "UdpListener", 10000 ) < 1 )
+            {
+                bool doJoin = false;
+
+                if ( LockAcquireA ( deviceBasePanicLock, "CloseUdpListener" ) ) {
+                    if ( udpPanic )
+                        *udpPanic = true;
+                    else
+                        doJoin = true;
+                    LockReleaseA ( deviceBasePanicLock, "CloseUdpListener" );
+                }
+
+                if ( doJoin ) {
+                    udpThread.Join ( "UdpListener" );
+                }
+                else if ( udpThread.isRunning () && udpPanic )
+                    UnlockDevice ( this );
+            }
+            else
+                udpThread.Join ( "UdpListener" );
 		}
 	}
 
@@ -4157,7 +4220,7 @@ namespace environs
 
 			UpdateConnectStatus ( 10 );
             
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_NEW );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_NEW );
 
 			if ( !InitiateInteractChannel () ) {
 				if ( env->environsState >= environs::Status::Starting ) {
@@ -4198,7 +4261,7 @@ namespace environs
 
 			UpdateConnectStatus ( 10 );
 
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_NEW );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_NEW );
 
 			// We are the responder and were started by a socket created by a (yet anonymous request)
 
@@ -4294,7 +4357,7 @@ namespace environs
             {
                 UpdateConnectStatus ( -20 );
                 
-                onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_FAILED );
+                onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_FAILED );
                 goto EndWithValue;
             }
             
@@ -4497,7 +4560,7 @@ namespace environs
             
             UpdateConnectStatus ( -20 );
             
-            onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_CLOSED );
+            onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_MAIN_CLOSED );
             
             TriggerCleanUpDevices ();
         }
@@ -4512,27 +4575,60 @@ namespace environs
 
 	void * DeviceBase::UdpListenerStarter ( void * arg )
     {
-        DeviceBase * device = ( DeviceBase * ) arg;
+#ifndef NDEBUG
+        try
+        {
+#endif
+            bool panic = false;
 
-		if ( device->deviceStatus != DeviceStatus::Deleteable )
-			device->UdpListener ();
+            DeviceBase * device = ( DeviceBase * ) arg;
 
-        device->udpThread.Notify ( "UdpListenerStarter" );
-        
-        device->udpThread.Detach ( "UdpListenerStarter" );
+            device->udpPanic = &panic;
+            //device->udpThread.ResetSync ( "UdpListenerStarter" );
 
-		UnlockDevice ( device );
+            if ( device->deviceStatus != DeviceStatus::Deleteable )
+                device->UdpListener ( &panic );
+
+            if ( panic )
+                return 0;
+
+            if ( LockAcquireA ( deviceBasePanicLock, "UdpListenerStarter" ) ) {
+                if ( !panic )
+                    device->udpPanic = 0;
+
+                LockReleaseA ( deviceBasePanicLock, "UdpListenerStarter" );
+            }
+
+            if ( panic )
+                return 0;
+
+            device->udpThread.Notify ( "UdpListenerStarter" );
+            
+            device->udpThread.Detach ( "UdpListenerStarter" );
+            
+            UnlockDevice ( device );
+
+#ifndef NDEBUG
+        } catch ( ... ) {
+            printf ( "UdpListenerStarter: Exception !!!\n" );
+            _EnvDebugBreak ( "UdpListenerStarter" );
+        }
+#endif
         return 0;
 	}
 
 
-	void * DeviceBase::UdpListener ()
-	{
+	void * DeviceBase::UdpListener ( bool * panic )
+    {
+#ifndef NDEBUG
+        try
+        {
+#endif
 		CVerbID ( "UdpListener: Working thread started ..." );
 
         pthread_setname_current_envthread ( "DeviceBase::UdpListener" );
         
-		char * buffer = ( char * ) malloc ( UDP_DEVICEBASE_MAX_SIZE );
+		char * buffer = ( char * ) malloc ( UDP_DEVICEBASE_MAX_SIZE + 4 );
 		if ( !buffer ) {
 			CErrID ( "UdpListener: Failed to allocate receive buffer." );
 			return 0;
@@ -4563,12 +4659,30 @@ namespace environs
 		{
             if ( IsInvalidFD ( udpSocket ) )
                 break;
-            
+
+#ifdef DEBUG_EXT_HEAP_CHECK_UDP_CHECK
+			if ( native.useDebugHeap )
+			{
+				// Invoke check of heap access
+				try {
+					void * tmp = malloc ( 16 );
+					if ( tmp ) {
+						free ( tmp );
+					}
+				}
+				catch ( ... ) {
+					printf ( "UdpListener: Exception 1!!!\n" );
+					_EnvDebugBreak ( "UdpListener 1" );
+				}
+			}
+#endif
             int bytesReceived = ( int ) recvfrom ( udpSocket, buffer, UDP_DEVICEBASE_MAX_SIZE, 0, ( struct sockaddr* )&addr, &addrSize );
-            if ( bytesReceived <= 0 ) {
+
+            if ( bytesReceived <= 0 || *panic ) {
 				CVerbArgID ( "UdpListener: Socket [ %i ] has been closed.", bytesReceived ); //LogSocketError ( );
 				break;
 			}
+
 			CVerbVerbArg ( "UdpListener [ %s : %d : %i ]: Received [ %i ] bytes", inet_ntoa ( addr.sin_addr ), ntohs ( addr.sin_port ), deviceNode ? deviceNode->info.objID : 0, bytesReceived );
 
 			switch ( buffer [ 0 ] )
@@ -4593,10 +4707,7 @@ namespace environs
             case 'c':
                 if ( buffer [ 1 ] == 'd' && buffer [ 2 ] == ':' )
                 {
-                    sp ( DeviceInstanceNode ) node = deviceNode;
-                    if ( node ) {
-                        onEnvironsSensor ( env, node->info.objID, (environs::lib::SensorFrame *) buffer, bytesReceived );
-                    }
+                    onEnvironsSensor ( env, objID, (environs::lib::SensorFrame *) buffer, bytesReceived );
                 }
                 break;
 
@@ -4884,11 +4995,20 @@ namespace environs
 
 		free ( buffer );
 
-		UpdateConnectStatus ( -10 );
+        if ( !*panic ) {
+            UpdateConnectStatus ( -10 );
 
-		onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_DATA_CLOSED );
+            onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_DATA_CLOSED );
+        }
 
-		CVerbID ( "UdpListener: bye bye..." );
+        CVerbID ( "UdpListener: bye bye..." );
+
+#ifndef NDEBUG
+        } catch ( ... ) {
+            printf ( "UdpListener: Exception !!!\n" );
+            _EnvDebugBreak ( "UdpListener" );
+        }
+#endif
 		return 0;
     }
     
@@ -4906,15 +5026,11 @@ namespace environs
         lastSensorFrameSeqNr = frame->seqNumber;
         
         CVerbVerbArg ( "HandleSensorPacket: New packet [%i]", frame->type );
-        
-        sp ( DeviceInstanceNode ) node = deviceNode;
-        
-        if ( node ) {
-            CVerbVerbArg ( "HandleSensorPacket: ObjID [ 0x%X ] New packet [%i] x [%.2f] y [%.2f] z [%.2f]", node->info.objID, frame->type, frame->data.floats.f1, frame->data.floats.f2, frame->data.floats.f3 );
-            //			CLogArg ( "HandleSensorPacket: ObjID [ 0x%X ] New packet [%i] x [%.2f] y [%.2f] z [%.2f]", node->info.objID, frame->type, frame->data.floats.f1, frame->data.floats.f2, frame->data.floats.f3 );
-            
-            onEnvironsSensor ( env, node->info.objID, frame, length );
-        }
+
+        CVerbVerbArg ( "HandleSensorPacket: ObjID [ 0x%X ] New packet [%i] x [%.2f] y [%.2f] z [%.2f]", node->info.objID, frame->type, frame->data.floats.f1, frame->data.floats.f2, frame->data.floats.f3 );
+        //			CLogArg ( "HandleSensorPacket: ObjID [ 0x%X ] New packet [%i] x [%.2f] y [%.2f] z [%.2f]", node->info.objID, frame->type, frame->data.floats.f1, frame->data.floats.f2, frame->data.floats.f3 );
+
+        onEnvironsSensor ( env, objID, frame, length );
     }
 
 
@@ -4924,7 +5040,7 @@ namespace environs
 
 		UpdateConnectStatus ( 2, true );
 
-		onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_CLOSED );
+		onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_CLOSED );
 	}
 
 
@@ -4970,9 +5086,9 @@ namespace environs
             
             const char * devName = "Unknown";
             
-            sp ( DeviceInstanceNode ) node = deviceNode;
-            if ( node ) {
-                devName = node->info.deviceName;
+            sp ( DeviceInstanceNode ) nodeSP = GetDeviceNodeSP ();
+            if ( nodeSP ) {
+                devName = nodeSP->info.deviceName;
             }
             
             CLogArgID ( "OnConnectionEstablished: %s connected to [ %s : %s ] [ %s : %d : %s ]", (encrypt && aes.encCtx ? "Secure" : "Unsecure"), deviceAppName ? deviceAppName : env->appName, deviceAreaName ? deviceAreaName : env->areaName, inet_ntoa ( interactAddr.sin_addr ), ntohs ( interactAddr.sin_port ), devName );
@@ -4996,7 +5112,7 @@ namespace environs
         
 		UpdateConnectStatus ( 100, true );
 
-		onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_ESTABLISHED );
+		onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_ESTABLISHED );
         
 		SetEnvironsState ( env, environs::Status::Connected );
 
@@ -6150,7 +6266,7 @@ namespace environs
 
 					UpdateConnectStatus ( 20 );
 
-					onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_COMDAT_ACK );
+					onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_COMDAT_ACK );
 					OnConnectionEstablished ();
 				}
 				return true;
@@ -6162,7 +6278,7 @@ namespace environs
             else if ( header->MessageType.payloadType == MSG_HANDSHAKE_CONNECTED ) {
                 CVerbID ( "HandleHeloMessage: Connection by device acknowledged." );
                 
-                onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_ESTABLISHED_ACK );
+                onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_ESTABLISHED_ACK );
                 return true;
             }
 		}
@@ -6217,7 +6333,7 @@ namespace environs
 				CVerbArgID ( "HandleStringMessage: <--- [ %s ]", ( char * ) &header->payload );
 				SaveToStorageMessages ( "ic", ( const char * ) &header->payload, length );
 
-                onEnvironsMsgNotifier1 ( env, deviceNode->info.objID, SOURCE_DEVICE, ( char * ) &header->payload, length );
+                onEnvironsMsgNotifier1 ( env, objID, SOURCE_DEVICE, ( char * ) &header->payload, length );
 			}
 
 			pack [ header->length ] = o;
@@ -6225,7 +6341,7 @@ namespace environs
 		else if ( payloadType == NATIVE_FILE_TYPE_ACK )
 		{
 			/// Asynch send to the application
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NATIVE_FILE_TYPE_ACK );
+			onEnvironsNotifier1 ( env, objID, NATIVE_FILE_TYPE_ACK );
 		}
 
 		return true;
@@ -6251,16 +6367,12 @@ namespace environs
         //CVerbVerbArg ( "HandleSensorData: New packet [%i] x [%.2f] y [%.2f] z [%.2f]", frame->type, frame->data.floats.f1, frame->data.floats.f2, frame->data.floats.f3 );
         
 #ifdef DISPLAYDEVICE
-        sp ( DeviceInstanceNode ) node = deviceNode;
-        
-		if ( node ) {
-			/*environs::lib::SensorFrameExt * packExt = ( environs::lib::SensorFrameExt * )&header->payload;
+        /*environs::lib::SensorFrameExt * packExt = ( environs::lib::SensorFrameExt * )&header->payload;
 
-			CLogArg ( "SensorEventSender: d1 [%lf] d2 [%lf] d3 [%lf] f1 [%lf] f2 [%lf] f3 [%lf]", packExt->data.doubles.d1, packExt->data.doubles.d2, packExt->data.doubles.d3, 
+        CLogArg ( "SensorEventSender: d1 [%lf] d2 [%lf] d3 [%lf] f1 [%lf] f2 [%lf] f3 [%lf]", packExt->data.doubles.d1, packExt->data.doubles.d2, packExt->data.doubles.d3,
 				packExt->floats.f1, packExt->floats.f2, packExt->floats.f3 );*/
 
-			onEnvironsSensor ( env, node->info.objID, ( environs::lib::SensorFrame * ) &header->payload, header->length );
-		}
+        onEnvironsSensor ( env, objID, ( environs::lib::SensorFrame * ) &header->payload, header->length );
 #endif
         return true;
     }
@@ -6463,7 +6575,7 @@ namespace environs
 			}
 		}
 
-		onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_PROGRESS, newValue );
+		onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_PROGRESS, newValue );
 	}
 
 
@@ -6496,7 +6608,8 @@ namespace environs
             return 0;
         }
 
-        sp ( DeviceController ) deviceSP;
+        sp ( DeviceController )     deviceSP;
+        sp ( DeviceInstanceNode )   nodeSP;
         
 		DeviceBase *	device	= GetDevice ( env, deviceID, areaName, appName );
 		if ( device ) {
@@ -6530,8 +6643,17 @@ namespace environs
 			CErrID ( "ConnectToDevice: Failed to add new device." );
 			goto Finish;
         }
+
+        nodeSP = device->GetDeviceNodeSP ();
+        if ( !nodeSP ) {
+            device->deviceStatus = DeviceStatus::Deleteable;
+
+            CErrID ( "ConnectToDevice: Failed to retrieve deviceNode." );
+            goto Finish;
+        }
         
-        device->deviceNode->deviceSP    = deviceSP;
+        nodeSP->deviceSP    = deviceSP;
+        nodeSP.reset ();
 
 		// Create connector thread (if async is requested)
         if ( device->Connect ( Environs_CALL_ ) ) {
@@ -6541,6 +6663,7 @@ namespace environs
 
 		CErrID ( "ConnectToDevice: Failed to initiate connection to device." );
 		device->deviceStatus = DeviceStatus::Deleteable;
+
         device->CloseConnectorThread ();
 
     Finish:
@@ -6551,8 +6674,8 @@ namespace environs
 			//onEnvironsNotifier ( env, deviceID, areaName, appName, NOTIFY_CONNECTION_PROGRESS, 5 );
 
             if ( device ) {
-                if ( device->deviceNode )
-                    onEnvironsNotifier1 ( env, device->deviceNode->info.objID, NOTIFY_CONNECTION_MAIN_FAILED );
+                if ( device->objID > 0 )
+                    onEnvironsNotifier1 ( env, device->objID, NOTIFY_CONNECTION_MAIN_FAILED );
                 else
                     onEnvironsNotifier1 ( env, deviceID, areaName, appName, NOTIFY_CONNECTION_MAIN_FAILED, SOURCE_NATIVE );                
             }
@@ -7003,12 +7126,12 @@ namespace environs
 				break;
             }
             
-            sp ( DeviceInstanceNode ) node = deviceNode;
-            if ( node ) {
-                unsigned int ip = node->info.broadcastFound != DEVICEINFO_DEVICE_MEDIATOR ? node->info.ip : node->info.ipe;
+            sp ( DeviceInstanceNode ) nodeSP = GetDeviceNodeSP ();
+            if ( nodeSP ) {
+                unsigned int ip = nodeSP->info.broadcastFound != DEVICEINFO_DEVICE_MEDIATOR ? nodeSP->info.ip : nodeSP->info.ipe;
                 
-                CLogArgID ( "Connect: to [ %s : %s ] ...", node->info.deviceName, inet_ntoa ( *( ( struct in_addr * ) &ip ) ) );
-                node.reset ();
+                CLogArgID ( "Connect: to [ %s : %s ] ...", nodeSP->info.deviceName, inet_ntoa ( *( ( struct in_addr * ) &ip ) ) );
+                nodeSP.reset ();
             }
             
             unsigned int ip     = 0;
@@ -7158,7 +7281,7 @@ namespace environs
 			activityStatus |= DEVICE_ACTIVITY_UDP_CONNECTED;
 			UpdateConnectStatus ( 10 );
 
-			onEnvironsNotifier1 ( env, deviceNode->info.objID, NOTIFY_CONNECTION_DATA_ACK );
+			onEnvironsNotifier1 ( env, objID, NOTIFY_CONNECTION_DATA_ACK );
 		}
 
 		OnConnectionEstablished ();

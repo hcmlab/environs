@@ -166,6 +166,9 @@ namespace environs
 			CVerbArg1 ( "Destruct", "", "i", objID_ );
 
 			DisposeInstance ( true );
+
+
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
 		}
 
 
@@ -681,7 +684,9 @@ namespace environs
 			CVerb ( "InitInstance" );
 
 			if ( device == nill )
-				return false;
+                return false;
+
+            ENVIRONS_OUTPUT_INIT_OBJLOCK ();
 
 			outgoing_ = ( ( Environs_PORTAL_DIR_ & PORTAL_DIR_OUTGOING ) == PORTAL_DIR_OUTGOING );
 			portalType_ = ( PortalType_t ) type;
@@ -793,7 +798,9 @@ namespace environs
 
 
 		void c_OBJ_ptr PortalInstance::Destroyer ( pthread_param_t _targets )
-		{
+		{            
+			pthread_setname_current_envthread ( "PortalInstance.Destroyer" );
+
 			NLayerVecTypeObj ( PortalInstance ) OBJ_ptr targets = ( NLayerVecTypeObj ( PortalInstance ) OBJ_ptr ) _targets;
 //			vector < sp ( PortalInstance ) > * targets = ( vector < sp ( PortalInstance ) > * ) _targets;
 
@@ -1136,6 +1143,8 @@ namespace environs
 
 		void c_OBJ_ptr PortalInstance::PortalPresenterThread ( pthread_param_t pack )
 		{
+			pthread_setname_current_envthread ( "PortalInstance.PortalPresenterThread" );
+
 			ThreadPackPortalPresenterPtr thread = ( ThreadPackPortalPresenterPtr ) pack;
 
 			PortalInstancePtr portal = sp_get ( thread->portal );

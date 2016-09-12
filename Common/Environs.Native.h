@@ -41,21 +41,24 @@
  */
 #include "Environs.Types.h"
 
-/**
- * Log macros and forwards
- *
- **/
-#include "Log.h"
-
 #ifdef ANDROID
 #	include <android/log.h>
 #else
 // Logging/Tracing/Debug defines for Windows/Linux/iOS devices
 #	ifndef WINDOWS_PHONE
 #		include <stdlib.h>
+#       ifdef DEBUG_EXT_HEAP_CHECK
+#           include <crtdbg.h>
+#       endif
 #		include <string.h>
 #	endif
 #endif
+
+/**
+ * Log macros and forwards
+ *
+ **/
+#include "Log.h"
 
 #ifndef INCLUDE_HCM_ENVIRONS_NATIVE_COMMON_H
 #define INCLUDE_HCM_ENVIRONS_NATIVE_COMMON_H
@@ -64,6 +67,15 @@
 /// Fake 42 test device entries for device information retrieval through the mediator
 //#define FAKE42
 
+/*
+#if !defined(NDEBUG)
+#   if defined(_WIN32)
+#       define free_d(p) _free_dbg(p, _NORMAL_BLOCK); *(int*)&p = 0x1234;
+#   else
+#       define free_d(p) free(p); *(int*)&p = 0x1234;
+#   endif
+#endif
+ */
 
 #ifdef __cplusplus
 
@@ -385,6 +397,7 @@ namespace environs
 
 #define CVerbArg(msg,...)							ENVIRONS_VERBRG_CMD  ( ENVIRONS_MAKE_BODY	( ENVIRONS_VERB_PREFIX,	msg), __VA_ARGS__ )
 #define CVerbsArg(level,msg,...)					CVerbArg ( msg, __VA_ARGS__ )
+#define ElseCVerbsArg(level,msg,...)				else { CVerbArg ( msg, __VA_ARGS__ ); }
 
 #define CVerbArgN(msg,...)							ENVIRONS_VERBRG_NCMD ( ENVIRONS_MAKE_BODY	( ENVIRONS_VERB_PREFIX,	msg), __VA_ARGS__ )
 
@@ -440,7 +453,9 @@ namespace environs
 	->Append(name2)->Append(": [ ")->Append(arg2)->Append(" ]") ) )
 
 #	define CVerbsArg2(level,msg,name1,type1,arg1,name2,type2,arg2)	CVerbArg2(msg,name1,type1,arg1,name2,type2,arg2);
+#	define ElseCVerbsArg2(level,msg,name1,type1,arg1,name2,type2,arg2)	else { CVerbArg2(msg,name1,type1,arg1,name2,type2,arg2); }
 #	define CVerbsArg1(level,msg,name1,type1,arg1)					CVerbArg1(msg,name1,type1,arg1);
+#	define ElseCVerbsArg1(level,msg,name1,type1,arg1)				else { CVerbArg1(msg,name1,type1,arg1); }
 #else
 #	define CVerbArg1(msg,name1,type1,arg1)			ENVIRONS_VERBRG_CMD ( ENVIRONS_MAKE_BODY	( ENVIRONS_VERB_PREFIX,	msg " " name1 ": [ %" type1 " ]" ), arg1 )
 
@@ -449,10 +464,14 @@ namespace environs
 
 #	ifdef __APPLE__
 #		define CVerbsArg2(level,...)				DLEVEL ( level ) { CLogArg2(__VA_ARGS__); }
+#		define ElseCVerbsArg2(level,...)			else { DLEVEL ( level ) { CLogArg2(__VA_ARGS__); } }
 #		define CVerbsArg1(level,...)				DLEVEL ( level ) { CLogArg1(__VA_ARGS__); }
+#		define ElseCVerbsArg1(level,...)			else { DLEVEL ( level ) { CLogArg1(__VA_ARGS__); } }
 #	else
 #		define CVerbsArg2(level,msg,name1,type1,arg1,name2,type2,arg2)	DLEVEL ( level ) { CVerbArg2(msg,name1,type1,arg1,name2,type2,arg2); }
+#		define ElseCVerbsArg2(level,msg,name1,type1,arg1,name2,type2,arg2)	else { DLEVEL ( level ) { CVerbArg2(msg,name1,type1,arg1,name2,type2,arg2); } }
 #		define CVerbsArg1(level,msg,name1,type1,arg1)					DLEVEL ( level ) { CVerbArg1(msg,name1,type1,arg1); }
+#		define ElseCVerbsArg1(level,msg,name1,type1,arg1)				else { DLEVEL ( level ) { CVerbArg1(msg,name1,type1,arg1); } }
 #	endif
 #endif
 
@@ -516,6 +535,7 @@ namespace environs
 
 #define CVerbArgID(msg,...)							ENVIRONS_VERBRG_CMD ( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_VERB_PREFIX,	msg), deviceID, __VA_ARGS__ )
 #define CVerbsArgID(level,msg,...)					CVerbArgID ( msg, __VA_ARGS__ )
+#define ElseCVerbsArgID(level,msg,...)				else { CVerbArgID ( msg, __VA_ARGS__ ); }
 
 #define CVerbVerbArgID(msg,...)						ENVIRONS_VERBRG_CMD ( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_VERB_PREFIX,	msg), deviceID, __VA_ARGS__ )
 #define CVerbsVerbArgID(level,msg,...)				CVerbVerbArgID ( msg, __VA_ARGS__ )
@@ -529,6 +549,7 @@ namespace environs
 #define CWarnsArgID(level,msg,...)					DLEVEL ( level ) { CWarnArgID ( msg, __VA_ARGS__); }
 
 #define CErrArgID(msg,...)							ENVIRONS_ERRARG_CMD ( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_ERR_PREFIX,	msg), deviceID, __VA_ARGS__ )
+#define ElseCErrArgID(msg,...)						else { CErrArgID ( msg, __VA_ARGS__); }
 #define CErrsArgID(level,msg,...)					DLEVEL ( level ) { CErrArgID ( msg, __VA_ARGS__); }
 
 #define CVerbArgIDN(msg,...)						ENVIRONS_VERBRG_CMD ( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_VERB_PREFIX,	msg), nativeID, __VA_ARGS__ )
@@ -537,6 +558,7 @@ namespace environs
 #define CInfoArgIDN(msg,...)						ENVIRONS_INFOARG_CMD( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_INFO_PREFIX,	msg), nativeID, __VA_ARGS__ )
 #define CWarnArgIDN(msg,...)						ENVIRONS_WARNARG_CMD( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_WARN_PREFIX,	msg), nativeID, __VA_ARGS__ )
 #define CErrArgIDN(msg,...)							ENVIRONS_ERRARG_CMD ( ENVIRONS_MAKE_BODY_ID	( ENVIRONS_ERR_PREFIX,	msg), nativeID, __VA_ARGS__ )
+#define ElseCErrArgIDN(msg,...)						else { CErrArgIDN ( msg, __VA_ARGS__); }
 
 #define CVerbLock(msg)								ENVIRONS_INFO_CMD	( ENVIRONS_MAKE_BODY	( ENVIRONS_LOCK_PREFIX,	msg ) )
 #define CVerbLockArg(msg,...)						ENVIRONS_VERBRG_CMD  ( ENVIRONS_MAKE_BODY	( ENVIRONS_VERB_PREFIX,	msg), __VA_ARGS__ )
@@ -561,6 +583,7 @@ namespace environs
 #   undef	CVerbs
 #   undef	CVerbArg
 #   undef	CVerbsArg
+#   undef	ElseCVerbsArg
 #   undef	CVerbArg1
 #   undef	CVerbArg2
 #   undef	CVerbArgN
@@ -569,6 +592,7 @@ namespace environs
 #   undef	CVerbIDN
 #   undef	CVerbArgID
 #   undef	CVerbsArgID
+#   undef	ElseCVerbsArgID
 #   undef	CVerbArgIDN
 
 #   if defined(NDEBUG)
@@ -577,6 +601,7 @@ namespace environs
 #       define  CVerbs(level,msg)
 #       define  CVerbArg(msg,...)
 #       define  CVerbsArg(level,msg,...)
+#       define  ElseCVerbsArg(level,msg,...)
 #       define  CVerbArg1(msg,...)
 #       define  CVerbArg2(msg,...)
 #       define  CVerbArgN(msg,...)
@@ -585,6 +610,7 @@ namespace environs
 #       define  CVerbIDN(msg)
 #       define  CVerbArgID(msg,...)
 #       define  CVerbsArgID(level,msg,...)
+#       define  ElseCVerbsArgID(level,msg,...)
 #       define  CVerbArgIDN(msg,...)
 #   else
 #       define  CVerbN(msg)
@@ -592,6 +618,7 @@ namespace environs
 #       define  CVerbs(level,msg)                           DLEVEL ( level ) { CLog ( msg ); }
 #       define  CVerbArg(msg,...)
 #       define  CVerbsArg(level,msg,...)                    DLEVEL ( level ) { CLogArg ( msg, __VA_ARGS__ ); }
+#       define  ElseCVerbsArg(level,msg,...)                else { DLEVEL ( level ) { CLogArg ( msg, __VA_ARGS__ ); } }
 #       define  CVerbArg1(msg,...)
 #       define  CVerbArg2(msg,...)
 #       define  CVerbArgN(msg,...)
@@ -600,6 +627,7 @@ namespace environs
 #       define  CVerbIDN(msg)
 #       define  CVerbArgID(msg,...)
 #       define  CVerbsArgID(level,msg,...)					DLEVEL ( level ) { CLogArgID ( msg, __VA_ARGS__ ); }
+#       define  ElseCVerbsArgID(level,msg,...)				else { DLEVEL ( level ) { CLogArgID ( msg, __VA_ARGS__ ); } }
 #       define  CVerbArgIDN(msg,...)
 #   endif
 #endif
@@ -756,6 +784,8 @@ namespace environs
 #	define  CErrArg(msg,...)
 #	undef	CErrArgID
 #	define  CErrArgID(msg,...)
+#	undef	ElseCErrArgID
+#	define  ElseCErrArgID(msg,...)
 #	undef	CListLog
 #	define  CListLog(msg,...)
 #	undef	CErrN
@@ -766,6 +796,8 @@ namespace environs
 #	define  CErrArgN(msg,...)
 #	undef	CErrArgIDN
 #	define  CErrArgIDN(msg,...)
+#	undef	ElseCErrArgIDN
+#	define  ElseCErrArgIDN(msg,...)
 #	undef	CListLogN
 #	define  CListLogN(msg,...)
 

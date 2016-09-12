@@ -173,7 +173,15 @@ namespace environs
 #		define pthread_wait_fail(val)				(val != WAIT_OBJECT_0)
 #		define pthread_equal(val,arg)				(val == GetThreadId(arg))
 #		define PTHREAD_THREAD_INITIALIZER			nill
-#		define pthread_setname_current_envthread(name)
+
+#		ifdef CLI_CPP
+#			define pthread_setname_current_envthread(_t_name_) { \
+				try { Thread ^_lt = Thread::CurrentThread; if ( _lt != nill && _lt->Name == nill ) { _lt->Name = _t_name_; } \
+				} catch (...) {} \
+			}
+#		else
+#			define pthread_setname_current_envthread(name)
+#		endif
 		//#define pthread_self()					GetCurrentThreadId()
 
 #		ifdef WINDOWS_PHONE
@@ -628,6 +636,14 @@ namespace environs
 
 #ifndef _WIN32
 #    define	GetCurrentThreadId()	pthread_self ( )
+#endif
+
+	
+#ifdef NDEBUG
+#	ifdef pthread_setname_current_envthread
+#		undef pthread_setname_current_envthread
+#	endif
+#		define pthread_setname_current_envthread(name)
 #endif
 
 #ifdef __cplusplus

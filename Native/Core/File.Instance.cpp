@@ -84,6 +84,8 @@ namespace environs
 		{
 			CVerbVerb ( "Destruct" );
 
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
+
             device_ = nill;            
 		}
 
@@ -131,6 +133,8 @@ namespace environs
 			FileInstanceESP inst = sp_make ( EPSPACE FileInstance );
 			if ( inst == nill )
 				return nill;
+
+            ENVIRONS_OUTPUT_INITR_OBJLOCK ( inst, nill );
 
 			C_Only ( inst->myself = inst );
 

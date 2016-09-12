@@ -311,14 +311,8 @@ namespace environs
             if ( !device )
                 return;
             
-            int objID       = 0;
+            int objID       = device->objID;
             int nativeID    = device->nativeID;
-            
-            sp ( DeviceInstanceNode ) instanceNode = device->deviceNode;
-            if ( instanceNode ) {
-                objID = instanceNode->info.objID;
-                instanceNode = 0;
-            }
             
             FAKEJNI ();
 
@@ -866,8 +860,8 @@ namespace environs
 
 					if ( dev ) {
 						// Check whether the device is a zombie without being in the device management anymore
-						sp ( DeviceInstanceNode ) node = dev->deviceNode;
-						if ( !node ) {
+						sp ( DeviceInstanceNode ) nodeSP = dev->GetDeviceNodeSP ();
+						if ( !nodeSP ) {
 							RemoveDeviceFromReceivers ( dev );
 
 							i--;
@@ -876,7 +870,7 @@ namespace environs
 							continue;
 						}
 
-						if ( node->info.objID == objID ) {
+						if ( dev->objID == objID ) {
 							device = dev;
 							found = i;
 							break;

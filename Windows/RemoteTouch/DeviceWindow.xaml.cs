@@ -84,7 +84,12 @@ namespace environs.Apps
                 if (closer == null)
                     Utils.LogE(className, "[ERROR] -- E -->:OnClosing: Failed to create closer thread!!!");
                 else
-                    closer.Start(); 
+                {
+#if DEBUG
+                    closer.Name = "DeviceWindow.CloserThread";
+#endif
+                    closer.Start();
+                }
                 return;
             }
             portal.Stop();

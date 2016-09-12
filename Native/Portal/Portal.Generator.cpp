@@ -607,7 +607,7 @@ namespace environs
         
         int streamTypeNotifier = streamOptions->useStream ? NOTIFY_PORTAL_PROVIDE_STREAM_ACK : NOTIFY_PORTAL_PROVIDE_IMAGES_ACK;
         
-        onEnvironsNotifier1 ( env, parentDevice->deviceNode->info.objID, streamTypeNotifier, portalID );
+        onEnvironsNotifier1 ( env, parentDevice->objID, streamTypeNotifier, portalID );
 
         status = PortalSourceStatus::Initialized;
         

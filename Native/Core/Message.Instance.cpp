@@ -85,6 +85,8 @@ namespace environs
             
             free_m ( text_ );
 
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
+
             CVerbVerb ( "Destruct: done" );
 		}
 
@@ -151,7 +153,9 @@ namespace environs
 
 			MessageInstanceESP msg = sp_make ( EPSPACE MessageInstance );
 			if ( msg == nill )
-				return nill;
+                return nill;
+
+            ENVIRONS_OUTPUT_INITR_OBJLOCK ( msg, nill );
 
 			C_Only ( msg->myself = msg );
 

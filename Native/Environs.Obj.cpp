@@ -40,7 +40,7 @@
 #   include "Device.List.h"
 #   include "Portal.Instance.h"
 #else
-#	ifndef WINDOWS_PHONE
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #		include <stdlib.h>
 #	endif
 #endif
@@ -76,6 +76,7 @@ namespace environs
 #endif
 
 	extern pthread_mutex_t	devicesAccessMutex;
+    extern pthread_mutex_t  deviceBasePanicLock;
 
     const char          *	DefAppName              = ENVIRONS_DEFAULT_APP_NAME;
     const char          *	DefAreaName             = ENVIRONS_DEFAULT_AREA_NAME;
@@ -554,6 +555,9 @@ namespace environs
 		cOutLog					= environs::COutLog;
 		cOutArgLog				= environs::COutArgLog;
 
+#if defined(_WIN32) && !defined(NDEBUG)
+		useDebugHeap			= 0;
+#endif
         if ( !AllocNative () ) {
             CErr ( "Contruct: Failed to allocate native layer!" );
         }
@@ -589,6 +593,7 @@ namespace environs
         LockDisposeA ( appEnvLock );
 
         LockDisposeA ( transitionLock );
+        LockDisposeA ( deviceBasePanicLock );
 
         if ( libDir && libDir != workDir ) {
             free ( libDir );
@@ -602,7 +607,6 @@ namespace environs
 #ifdef _WIN32
 		Kernel::DisposeWinSock ();
 #endif
-
         free_m ( instances );
 
         DisposeTracerAll ();
@@ -726,6 +730,9 @@ namespace environs
             return false;
 
         if ( !LockInitA ( appEnvLock ) )
+            return false;
+
+        if ( !LockInitA ( deviceBasePanicLock ) )
             return false;
 
         if ( !gcThread.Init ( ) )

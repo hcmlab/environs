@@ -141,6 +141,10 @@ namespace environs
         bool                        useHeadless;
         bool                        useNotifyDebugMessage;
 
+#if defined(_WIN32) && !defined(NDEBUG)
+		int							useDebugHeap;
+#endif
+
 #ifdef __cplusplus
 #   ifdef ENABLE_INSTANCE_WEAK_REFERENCE
         wp ( Instance )				instancesSP [ ENVIRONS_MAX_ENVIRONS_INSTANCES ];

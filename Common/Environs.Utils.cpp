@@ -27,7 +27,11 @@
 #endif
 
 #include <stdio.h>
-#include <stdlib.h>
+
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
+#   include <stdlib.h>
+#endif
+
 #include <stdarg.h>
 
 #ifndef MEDIATORDAEMON

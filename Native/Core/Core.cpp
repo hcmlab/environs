@@ -37,7 +37,7 @@
 #include "Tracer.h"
 #include <errno.h>
 
-#ifndef WINDOWS_PHONE
+#if !defined(WINDOWS_PHONE) && !defined(_WIN32)
 #	include <stdlib.h>
 #endif
 
@@ -473,6 +473,10 @@ namespace environs
 		if ( unlock ) {
 			LockReleaseVA ( appStatusMutex, "AppStatusUpdater" );
 		}
+
+#ifndef NDEBUG
+        mediator.reset ();
+#endif
 	}
 
 
@@ -1220,6 +1224,7 @@ namespace environs
 #endif        
         CLog ( "Listener: bye bye ..." );
     }
+
 
 #ifdef DISPLAYDEVICE
 #   define MAX_TCP_HANDLERS    200

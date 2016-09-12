@@ -65,6 +65,8 @@ namespace environs
 
             if ( data != nill )
                 free ( data );
+
+            ENVIRONS_OUTPUT_DISPOSE_OBJLOCK ();
 		}
 
 
@@ -165,6 +167,8 @@ namespace environs
 			BtListInstance * wl = new BtListInstance;
             if ( wl )
             {
+                ENVIRONS_OUTPUT_INITD_OBJLOCK ( wl );
+
                 BtEntry * entries = new BtEntry [ count ];
                 while ( entries )
                 {

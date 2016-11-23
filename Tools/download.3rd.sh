@@ -383,7 +383,7 @@ item="${tmpDir}/$tName.zip"
 if [[ ! -f "$item" ]]; then
     echo "Download $tName from googlecode ..."
     
-    curl -o "$item" "https://msinttypes.googlecode.com/files/msinttypes-r26.zip"
+    curl -o "$item" "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/msinttypes/msinttypes-r26.zip"
     [[ $? != 0 ]] && echo "Error $tName" && exit 1    
     
     echo "Done."
